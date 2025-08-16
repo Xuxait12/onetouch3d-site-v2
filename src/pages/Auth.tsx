@@ -7,7 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Chrome } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import googleLogo from '@/assets/google-logo.png';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -161,7 +162,7 @@ const Auth = () => {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">
-            ONE<span className="text-accent">TOUCH</span>
+            OneTouch<span className="text-accent">3D</span>
           </CardTitle>
           <CardDescription>
             Entre na sua conta ou crie uma nova
@@ -181,7 +182,7 @@ const Auth = () => {
                 className="w-full"
                 disabled={loading}
               >
-                <Chrome className="w-4 h-4 mr-2" />
+                <img src={googleLogo} alt="Google" className="w-4 h-4 mr-2" />
                 Continuar com Google
               </Button>
               
@@ -222,6 +223,14 @@ const Auth = () => {
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Entrando..." : "Entrar"}
                 </Button>
+                <div className="text-center">
+                  <Link 
+                    to="/recuperar-senha" 
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Esqueci minha senha?
+                  </Link>
+                </div>
               </form>
             </TabsContent>
             
@@ -232,7 +241,7 @@ const Auth = () => {
                 className="w-full"
                 disabled={loading}
               >
-                <Chrome className="w-4 h-4 mr-2" />
+                <img src={googleLogo} alt="Google" className="w-4 h-4 mr-2" />
                 Cadastrar com Google
               </Button>
               
