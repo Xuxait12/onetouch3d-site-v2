@@ -4,7 +4,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { User, LogOut, ShoppingBag } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import oneTouchLogo from "@/assets/onetouch-logo.png";
 
 const Header = () => {
   const { user, signOut } = useAuth();
@@ -32,11 +31,9 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo à esquerda */}
         <div className="flex items-center">
-          <img 
-            src={oneTouchLogo} 
-            alt="OneTouch Logo" 
-            className="h-8 w-auto"
-          />
+          <div className="text-2xl font-bold text-foreground">
+            ONE<span className="text-accent">TOUCH</span>
+          </div>
         </div>
         
         {/* Link para Home no centro */}
