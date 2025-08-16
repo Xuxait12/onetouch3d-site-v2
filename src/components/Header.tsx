@@ -31,9 +31,11 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo à esquerda */}
         <div className="flex items-center">
-          <div className="text-2xl font-bold text-foreground">
-            ONE<span className="text-accent">TOUCH</span>
-          </div>
+          <img 
+            src="/lovable-uploads/f0e453eb-2729-482a-b652-2b1b7ac3b81c.png" 
+            alt="OneTouch3D Logo" 
+            className="h-8 w-auto"
+          />
         </div>
         
         {/* Link para Home no centro */}
@@ -78,7 +80,7 @@ const Header = () => {
           ) : (
             <Button 
               variant="outline" 
-              className="bg-background text-foreground border-border hover:bg-muted"
+              className="bg-black text-white border-black hover:bg-gray-800"
               onClick={() => navigate('/auth')}
             >
               Login
