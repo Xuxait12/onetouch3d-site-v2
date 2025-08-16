@@ -1,7 +1,58 @@
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import heroRunnerWide from "@/assets/hero-runner-wide.jpg";
 
 const HeroSection = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleCreateOrder = async () => {
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
+
+    try {
+      const orderData = {
+        user_id: user.id,
+        product_name: "Quadro Personalizado de Corrida",
+        product_description: "Quadro personalizado que conta a história da sua conquista, quilômetro por quilômetro.",
+        total_amount: 149.90,
+        status: 'pending'
+      };
+
+      const { data, error } = await supabase
+        .from('orders')
+        .insert(orderData)
+        .select()
+        .single();
+
+      if (error) {
+        toast({
+          title: "Erro",
+          description: "Não foi possível criar o pedido. Tente novamente.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Pedido criado!",
+          description: "Seu pedido foi criado com sucesso.",
+        });
+        navigate(`/meus-pedidos/${data.id}`);
+      }
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro inesperado. Tente novamente.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <section className="relative w-full h-[100vh] overflow-hidden">
       {/* Background Image */}
@@ -27,6 +78,7 @@ const HeroSection = () => {
             size="xl" 
             className="animate-fade-up bg-primary text-white hover:bg-primary/90 text-lg px-8 py-4" 
             style={{ animationDelay: "0.2s" }}
+            onClick={handleCreateOrder}
           >
             Criar Meu Quadro Agora
           </Button>
