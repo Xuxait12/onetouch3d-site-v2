@@ -1,3 +1,4 @@
+import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import ProblemSection from "@/components/ProblemSection";
 import SolutionSection from "@/components/SolutionSection";
@@ -10,16 +11,24 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
+      {/* Background gradient similar to OneTouch3D home */}
+      <div className="fixed inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-100 -z-10"></div>
+      
+      <Header />
       <HeroSection />
-      <ProblemSection />
-      <SolutionSection />
-      <BenefitsSection />
-      <GallerySection />
-      <TestimonialsSection />
-      <HowItWorksSection />
-      <CtaSection />
-      <Footer />
+      
+      {/* Content sections with background */}
+      <div className="bg-background">
+        <ProblemSection />
+        <SolutionSection />
+        <BenefitsSection />
+        <GallerySection />
+        <TestimonialsSection />
+        <HowItWorksSection />
+        <CtaSection />
+        <Footer />
+      </div>
     </div>
   );
 };
