@@ -3,23 +3,23 @@ import { MousePointer2, Upload, CheckCircle, Package } from "lucide-react";
 const steps = [
   {
     icon: MousePointer2,
-    title: "Escolha o modelo",
-    description: "Selecione o design que mais combina com você"
+    title: "Escolha modelo e tamanho",
+    description: "Escolha o tamanho e design que mais lhe agrada"
   },
   {
     icon: Upload,
-    title: "Envie seus dados",
-    description: "Compartilhe os detalhes da sua corrida"
+    title: "Envie seus dados pelo Whatsapp",
+    description: "Compartilhe os dados da sua corrida, fotos, dados da prova, nome completo"
   },
   {
     icon: CheckCircle,
     title: "Aprove a arte",
-    description: "Revise e aprove o design personalizado"
+    description: "Revise e aprove o design personalizado conosco"
   },
   {
     icon: Package,
     title: "Receba seu quadro",
-    description: "Receba pronto para pendurar na parede"
+    description: "Seu quadro será enviado entre 5 a 7 dias úteis"
   }
 ];
 
