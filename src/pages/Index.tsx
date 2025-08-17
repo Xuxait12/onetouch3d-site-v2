@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import ProblemSection from "@/components/ProblemSection";
 import SolutionSection from "@/components/SolutionSection";
+import { Logos3 } from "@/components/ui/logos3";
 import BenefitsSection from "@/components/BenefitsSection";
 import GallerySection from "@/components/GallerySection";
 import TestimonialsSection from "@/components/TestimonialsSection";
@@ -22,6 +23,7 @@ const Index = () => {
       <div className="bg-background">
         <ProblemSection />
         <SolutionSection />
+        <Logos3 />
         <BenefitsSection />
         <GallerySection />
         <TestimonialsSection />
