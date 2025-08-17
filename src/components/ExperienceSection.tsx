@@ -1,27 +1,27 @@
-import framedMedal from "@/assets/framed-medal.jpg";
+import galleryMarathon from "@/assets/gallery-marathon.jpg";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
-const SolutionSection = () => {
+const ExperienceSection = () => {
   return (
     <ContainerScroll
       titleComponent={
         <div className="text-center">
           <h2 className="section-text mb-6">
-            Eternize sua corrida com arte
+            Reviva cada momento
           </h2>
           <p className="body-large text-muted-foreground max-w-xl mx-auto">
-            Personalizamos quadros 3D que exibem sua medalha, mapa do percurso e detalhes da conquista, com a sofisticação que você merece.
+            Transforme suas memórias de corrida em uma obra de arte que conta sua história de superação e conquista.
           </p>
         </div>
       }
     >
       <img 
-        src={framedMedal} 
-        alt="Quadro 3D elegante com medalha e mapa do percurso na parede" 
+        src={galleryMarathon} 
+        alt="Momento de vitória na linha de chegada" 
         className="w-full h-full object-cover rounded-2xl"
       />
     </ContainerScroll>
   );
 };
 
-export default SolutionSection;
+export default ExperienceSection;

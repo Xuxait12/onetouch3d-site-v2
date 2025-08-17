@@ -1,27 +1,27 @@
-import framedMedal from "@/assets/framed-medal.jpg";
+import heroRunner from "@/assets/hero-runner.jpg";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
-const SolutionSection = () => {
+const QualitySection = () => {
   return (
     <ContainerScroll
       titleComponent={
         <div className="text-center">
           <h2 className="section-text mb-6">
-            Eternize sua corrida com arte
+            Qualidade que impressiona
           </h2>
           <p className="body-large text-muted-foreground max-w-xl mx-auto">
-            Personalizamos quadros 3D que exibem sua medalha, mapa do percurso e detalhes da conquista, com a sofisticação que você merece.
+            Cada quadro é produzido com materiais premium e atenção aos mínimos detalhes para garantir durabilidade e beleza.
           </p>
         </div>
       }
     >
       <img 
-        src={framedMedal} 
-        alt="Quadro 3D elegante com medalha e mapa do percurso na parede" 
+        src={heroRunner} 
+        alt="Corredor em ação durante competição" 
         className="w-full h-full object-cover rounded-2xl"
       />
     </ContainerScroll>
   );
 };
 
-export default SolutionSection;
+export default QualitySection;
