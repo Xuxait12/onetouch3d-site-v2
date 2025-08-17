@@ -66,6 +66,12 @@ const Logos3 = ({
         <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-background to-transparent"></div>
         <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background to-transparent"></div>
       </div>
+      
+      <div className="max-w-4xl mx-auto px-6 mt-12 text-center">
+        <p className="body-large text-muted-foreground">
+          Cada conquista é única. Se a sua prova não está aqui, nós a eternizamos para você.
+        </p>
+      </div>
     </section>
   );
 };
