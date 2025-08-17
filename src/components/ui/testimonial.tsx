@@ -80,7 +80,7 @@ const AnimatedTestimonials = ({
   const randomRotate = () => `${Math.floor(Math.random() * 16) - 8}deg`;
 
   return (
-    <div className="mx-auto max-w-sm px-4 py-20 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
+    <div className="mx-auto max-w-sm px-4 py-8 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
       <div className="relative grid grid-cols-1 gap-y-12 md:grid-cols-2 md:gap-x-20">
         {/* Image Section */}
         <div className="flex items-center justify-center">
@@ -179,7 +179,7 @@ function AnimatedTestimonialsDemo() {
 // This is the root of our application.
 export function Component() {
   return (
-    <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-slate-50 dark:bg-slate-950">
+    <div className="relative flex w-full items-center justify-center overflow-hidden bg-slate-50 dark:bg-slate-950 py-8">
         {/* Animated grid background with 10% opacity */}
         <style>
             {`
