@@ -59,9 +59,9 @@ export const Component = () => {
         }
       `}</style>
       
-      <div className="w-full bg-black relative overflow-hidden flex items-center justify-center py-12">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black z-0" />
+      <div className="w-full bg-background relative overflow-hidden flex items-center justify-center py-12">
+        {/* Background gradient overlay for better contrast */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/90 to-background/95 z-0" />
         
         {/* Scrolling images container */}
         <div className="relative z-10 w-full flex items-center justify-center">
@@ -85,7 +85,7 @@ export const Component = () => {
         </div>
         
         {/* Bottom gradient overlay */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black to-transparent z-20" />
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent z-20" />
       </div>
     </>
   );
