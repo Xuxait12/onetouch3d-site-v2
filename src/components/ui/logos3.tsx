@@ -10,7 +10,7 @@ import {
 
 interface Logo {
   id: string;
-  description: string;
+  description?: string;
   image: string;
   className?: string;
 }
@@ -24,54 +24,14 @@ interface Logos3Props {
 const Logos3 = ({
   heading = "Provas do Brasil e do Mundo",
   logos = [
-    {
-      id: "logo-1",
-      description: "Logo 1",
-      image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/astro-wordmark.svg",
-      className: "h-7 w-auto",
-    },
-    {
-      id: "logo-2",
-      description: "Logo 2",
-      image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/figma-wordmark.svg",
-      className: "h-7 w-auto",
-    },
-    {
-      id: "logo-3",
-      description: "Logo 3",
-      image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/nextjs-wordmark.svg",
-      className: "h-7 w-auto",
-    },
-    {
-      id: "logo-4",
-      description: "Logo 4",
-      image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/react-wordmark.svg",
-      className: "h-7 w-auto",
-    },
-    {
-      id: "logo-5",
-      description: "Logo 5",
-      image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcn-ui-wordmark.svg",
-      className: "h-7 w-auto",
-    },
-    {
-      id: "logo-6",
-      description: "Logo 6",
-      image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/supabase-wordmark.svg",
-      className: "h-7 w-auto",
-    },
-    {
-      id: "logo-7",
-      description: "Logo 7",
-      image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/tailwind-wordmark.svg",
-      className: "h-4 w-auto",
-    },
-    {
-      id: "logo-8",
-      description: "Logo 8",
-      image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/vercel-wordmark.svg",
-      className: "h-7 w-auto",
-    },
+    { id: "logo-1", image: "/logos/berlim.png", className: "h-8 md:h-10 w-auto" },
+    { id: "logo-2", image: "/logos/boston.png", className: "h-8 md:h-10 w-auto" },
+    { id: "logo-3", image: "/logos/chicago.png", className: "h-8 md:h-10 w-auto" },
+    { id: "logo-4", image: "/logos/floripa.png", className: "h-8 md:h-10 w-auto" },
+    { id: "logo-5", image: "/logos/ny.png", className: "h-8 md:h-10 w-auto" },
+    { id: "logo-6", image: "/logos/poa.png", className: "h-8 md:h-10 w-auto" },
+    { id: "logo-7", image: "/logos/rio.png", className: "h-8 md:h-10 w-auto" },
+    { id: "logo-8", image: "/logos/sp-city.png", className: "h-8 md:h-10 w-auto" },
   ],
 }: Logos3Props) => {
   return (
@@ -94,7 +54,7 @@ const Logos3 = ({
                   <div>
                     <img
                       src={logo.image}
-                      alt={logo.description}
+                      alt={logo.description || `Logo ${logo.id}`}
                       className={logo.className}
                     />
                   </div>
