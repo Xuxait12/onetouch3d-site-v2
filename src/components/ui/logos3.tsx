@@ -24,14 +24,14 @@ interface Logos3Props {
 const Logos3 = ({
   heading = "Provas do Brasil e do Mundo",
   logos = [
-    { id: "logo-1", image: "/lovable-uploads/55384af6-f74b-4f22-a6e9-bbe2e65dc526.png", className: "h-8 md:h-10 w-auto" },
-    { id: "logo-2", image: "/lovable-uploads/3ae15162-cde4-4abb-9f06-08b7dac7c00c.png", className: "h-8 md:h-10 w-auto" },
-    { id: "logo-3", image: "/lovable-uploads/e1042b3e-604b-41bf-b9c5-687ade9efe1d.png", className: "h-8 md:h-10 w-auto" },
-    { id: "logo-4", image: "/lovable-uploads/e8e41613-7cf8-4473-ad6e-4d1228ed4a6d.png", className: "h-8 md:h-10 w-auto" },
-    { id: "logo-5", image: "/lovable-uploads/d55d8ea9-accd-4cf7-b18a-3ee10d894610.png", className: "h-8 md:h-10 w-auto" },
-    { id: "logo-6", image: "/lovable-uploads/f2097e19-9020-45e8-b409-cbe0df9e7f6f.png", className: "h-8 md:h-10 w-auto" },
-    { id: "logo-7", image: "/lovable-uploads/b7f40157-cc57-48c0-9075-c22060083f48.png", className: "h-8 md:h-10 w-auto" },
-    { id: "logo-8", image: "/lovable-uploads/1e90facf-c2ee-43d6-9fd6-35f1aff72989.png", className: "h-8 md:h-10 w-auto" },
+    { id: "logo-1", image: "/lovable-uploads/55384af6-f74b-4f22-a6e9-bbe2e65dc526.png", className: "h-12 md:h-16 w-auto" },
+    { id: "logo-2", image: "/lovable-uploads/3ae15162-cde4-4abb-9f06-08b7dac7c00c.png", className: "h-12 md:h-16 w-auto" },
+    { id: "logo-3", image: "/lovable-uploads/e1042b3e-604b-41bf-b9c5-687ade9efe1d.png", className: "h-12 md:h-16 w-auto" },
+    { id: "logo-4", image: "/lovable-uploads/e8e41613-7cf8-4473-ad6e-4d1228ed4a6d.png", className: "h-12 md:h-16 w-auto" },
+    { id: "logo-5", image: "/lovable-uploads/d55d8ea9-accd-4cf7-b18a-3ee10d894610.png", className: "h-12 md:h-16 w-auto" },
+    { id: "logo-6", image: "/lovable-uploads/f2097e19-9020-45e8-b409-cbe0df9e7f6f.png", className: "h-12 md:h-16 w-auto" },
+    { id: "logo-7", image: "/lovable-uploads/b7f40157-cc57-48c0-9075-c22060083f48.png", className: "h-12 md:h-16 w-auto" },
+    { id: "logo-8", image: "/lovable-uploads/1e90facf-c2ee-43d6-9fd6-35f1aff72989.png", className: "h-12 md:h-16 w-auto" },
   ],
 }: Logos3Props) => {
   return (
