@@ -10,7 +10,7 @@ const FeatureSection = ({ title, description, imageSrc, imageAlt, imageOnLeft = 
   return (
     <section className="py-8 max-w-7xl mx-auto px-6">
       <div className="grid lg:grid-cols-2 gap-12 items-center">
-        <div className={`${imageOnLeft ? 'order-1 lg:order-1' : 'order-2 lg:order-1'} animate-fade-up`}>
+        <div className={`${imageOnLeft ? 'order-1 lg:order-1' : 'order-2 lg:order-2'} animate-fade-up`}>
           <img 
             src={imageSrc} 
             alt={imageAlt}
@@ -18,7 +18,7 @@ const FeatureSection = ({ title, description, imageSrc, imageAlt, imageOnLeft = 
           />
         </div>
         
-        <div className={`${imageOnLeft ? 'order-2 lg:order-2' : 'order-1 lg:order-2'} text-center lg:text-left animate-fade-up`} style={{ animationDelay: "0.2s" }}>
+        <div className={`${imageOnLeft ? 'order-2 lg:order-2' : 'order-1 lg:order-1'} text-center lg:text-left animate-fade-up`} style={{ animationDelay: "0.2s" }}>
           <h2 className="section-text mb-6">
             {title}
           </h2>
