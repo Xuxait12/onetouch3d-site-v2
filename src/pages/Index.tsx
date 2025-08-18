@@ -89,9 +89,9 @@ const Index = () => {
         />
         
         <Logos3 />
-        <GallerySection />
-        <TestimonialsSection />
         <HowItWorksSection />
+        <TestimonialsSection />
+        <GallerySection />
         <CtaSection />
         <Footer />
       </div>
