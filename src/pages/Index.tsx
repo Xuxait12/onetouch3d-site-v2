@@ -30,14 +30,11 @@ const Index = () => {
       
       {/* Content sections with background */}
       <div className="bg-background">
-        <ProblemSection />
-        <SolutionSection />
-        
         {/* Highlighted phrase */}
         <section className="py-8 text-center">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="section-text animate-fade-up">
-              Porque escolher nossos quadros
+              Por que escolher nossos quadros?
             </h2>
           </div>
         </section>
@@ -48,7 +45,7 @@ const Index = () => {
           description="Utilizamos molduras minimalistas pretas e brancas, com acabamento premium que valoriza sua conquista com sofisticação e elegância."
           imageSrc={premiumFrame}
           imageAlt="Moldura premium preta e branca minimalista"
-          imageOnLeft={false}
+          imageOnLeft={true}
         />
         
         <FeatureSection
@@ -56,7 +53,7 @@ const Index = () => {
           description="Tecnologia de impressão 3D cria um mapa em relevo do seu trajeto, tornando cada quadro único e diferenciado."
           imageSrc={routeMap}
           imageAlt="Mapa 3D impresso em relevo mostrando percurso de corrida"
-          imageOnLeft={true}
+          imageOnLeft={false}
         />
         
         <FeatureSection
@@ -64,7 +61,7 @@ const Index = () => {
           description="Criamos um layout personalizado estilo scrapbook que valoriza suas melhores fotos da maratona de forma artística."
           imageSrc={marathonPhotos}
           imageAlt="Collage de fotos de maratonistas estilo scrapbook"
-          imageOnLeft={false}
+          imageOnLeft={true}
         />
         
         <FeatureSection
@@ -72,7 +69,7 @@ const Index = () => {
           description="Cada quadro é pensado para se integrar perfeitamente ao seu ambiente, criando um ponto focal elegante na decoração."
           imageSrc={modernDisplay}
           imageAlt="Quadro personalizado exibido em parede moderna"
-          imageOnLeft={true}
+          imageOnLeft={false}
         />
         
         <FeatureSection
@@ -80,7 +77,7 @@ const Index = () => {
           description="Incluímos dados precisos como tempo, pace, distância e outros detalhes importantes da sua conquista."
           imageSrc={raceDetails}
           imageAlt="Ícones representando tempo, pace e distância"
-          imageOnLeft={false}
+          imageOnLeft={true}
         />
         
         <FeatureSection
@@ -88,11 +85,10 @@ const Index = () => {
           description="Embalagem especial resistente garante que seu quadro chegue em perfeitas condições, com total segurança."
           imageSrc={securePackaging}
           imageAlt="Embalagem resistente para proteção do quadro"
-          imageOnLeft={true}
+          imageOnLeft={false}
         />
         
         <Logos3 />
-        <BenefitsSection />
         <GallerySection />
         <TestimonialsSection />
         <HowItWorksSection />
