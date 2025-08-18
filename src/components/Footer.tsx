@@ -1,38 +1,31 @@
-import { Phone, MessageCircle, Lock, Shield, Facebook, Instagram, Youtube } from "lucide-react";
-import { FaTiktok, FaCcVisa, FaCcMastercard, FaCcAmex, FaCcDinersClub } from "react-icons/fa";
-import { SiPix } from "react-icons/si";
+import { Phone, MessageCircle, Lock, Shield, Facebook, Instagram } from "lucide-react";
+import { FaTiktok } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
   const paymentIcons = [
-    { icon: <FaCcVisa className="h-8 w-12" />, name: "Visa" },
-    { icon: <div className="h-8 w-12 bg-yellow-500 rounded flex items-center justify-center text-white text-xs font-bold">ELO</div>, name: "Elo" },
-    { icon: <div className="h-8 w-12 bg-orange-500 rounded flex items-center justify-center text-white text-xs font-bold">AURA</div>, name: "Aura" },
-    { icon: <div className="h-8 w-12 bg-red-600 rounded flex items-center justify-center text-white text-xs font-bold">HIPER</div>, name: "Hipercard" },
-    { icon: <FaCcMastercard className="h-8 w-12" />, name: "MasterCard" },
-    { icon: <FaCcAmex className="h-8 w-12" />, name: "Amex" },
-    { icon: <FaCcDinersClub className="h-8 w-12" />, name: "Diners Club" },
-    { icon: <div className="h-8 w-12 bg-blue-800 rounded flex items-center justify-center text-white text-xs font-bold">CABAL</div>, name: "Cabal" },
-    { icon: <div className="h-8 w-12 bg-yellow-500 rounded flex items-center justify-center text-white text-xs font-bold">HIPER</div>, name: "Hiper" },
-    { icon: <SiPix className="h-8 w-12" />, name: "Pix" },
-    { icon: <div className="h-8 w-12 bg-blue-600 rounded flex items-center justify-center text-white text-xs font-bold">BOLETO</div>, name: "Boleto" },
+    { icon: <img src="/lovable-uploads/3464ebac-aac6-4717-9a02-b115a8101572.png" alt="Visa" className="h-8 w-auto" />, name: "Visa" },
+    { icon: <img src="/lovable-uploads/6a270166-64e8-4b35-8d09-f4de936afa13.png" alt="Elo" className="h-8 w-auto" />, name: "Elo" },
+    { icon: <img src="/lovable-uploads/c72f4dfc-d485-4fbc-bd01-ed2197e708a5.png" alt="Hipercard" className="h-8 w-auto" />, name: "Hipercard" },
+    { icon: <img src="/lovable-uploads/16b71467-5b29-4af9-88c3-cae66d330127.png" alt="MasterCard" className="h-8 w-auto" />, name: "MasterCard" },
+    { icon: <img src="/lovable-uploads/beed93f3-6221-4bf1-a938-8005c4378e0a.png" alt="Pix" className="h-8 w-auto" />, name: "Pix" },
+    { icon: <img src="/lovable-uploads/223d12ae-cb67-454f-b598-4d5618f8c3e1.png" alt="Boleto" className="h-8 w-auto" />, name: "Boleto" },
   ];
 
   const socialLinks = [
     { icon: <Facebook className="h-6 w-6" />, href: "https://facebook.com", name: "Facebook" },
     { icon: <Instagram className="h-6 w-6" />, href: "https://instagram.com", name: "Instagram" },
-    { icon: <Youtube className="h-6 w-6" />, href: "https://youtube.com", name: "YouTube" },
     { icon: <FaTiktok className="h-6 w-6" />, href: "https://tiktok.com", name: "TikTok" },
   ];
 
   return (
     <footer className="bg-muted/30 py-16 border-t">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Coluna 1 - Atendimento */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-foreground">Atendimento</h3>
-            <p className="text-sm text-muted-foreground">Segunda a sexta 09:00 às 20:00</p>
+            <p className="text-sm text-muted-foreground">Segunda a sexta 08:00 às 18:00hrs</p>
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-primary" />
@@ -61,18 +54,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Coluna 3 - Meus Pedidos */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-foreground">Meus Pedidos</h3>
-            <div className="space-y-2">
-              <Link to="/meus-pedidos" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                Acompanhe seus pedidos
-              </Link>
-              <Link to="/perfil" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                Editar cadastro
-              </Link>
-            </div>
-          </div>
 
           {/* Coluna 4 - Formas de Pagamento */}
           <div className="space-y-4">
@@ -91,8 +72,7 @@ const Footer = () => {
             <h3 className="text-lg font-semibold text-foreground">Site Seguro</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-2 p-2 border rounded">
-                <Lock className="h-5 w-5 text-green-600" />
-                <span className="text-sm font-medium">SITE SEGURO</span>
+                <img src="/lovable-uploads/81170d74-5013-4a0c-a94e-4c6dd8a97815.png" alt="Site Seguro" className="h-8 w-auto" />
               </div>
               <div className="flex items-center gap-2 p-2 bg-green-100 border border-green-300 rounded">
                 <Shield className="h-5 w-5 text-green-600" />
@@ -111,7 +91,7 @@ const Footer = () => {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center w-10 h-10 bg-primary text-primary-foreground rounded-full hover:bg-primary/80 transition-colors"
+                  className="flex items-center justify-center w-10 h-10 bg-gray-500 text-white rounded-full hover:bg-gray-400 transition-colors"
                   aria-label={social.name}
                 >
                   {social.icon}
@@ -124,7 +104,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className="mt-12 pt-8 border-t text-center">
           <p className="text-sm text-muted-foreground">
-            © 2024 OneTouch Frames. Todos os direitos reservados.
+            © 2025 Onetouch3d. Todos os direitos reservados.
           </p>
         </div>
       </div>
