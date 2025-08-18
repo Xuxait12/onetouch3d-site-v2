@@ -70,14 +70,8 @@ const Footer = () => {
           {/* Coluna 5 - Site Seguro */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-foreground">Site Seguro</h3>
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 p-2 border rounded">
-                <img src="/lovable-uploads/81170d74-5013-4a0c-a94e-4c6dd8a97815.png" alt="Site Seguro" className="h-8 w-auto" />
-              </div>
-              <div className="flex items-center gap-2 p-2 bg-green-100 border border-green-300 rounded">
-                <Shield className="h-5 w-5 text-green-600" />
-                <span className="text-sm font-medium text-green-700">SSL CERTIFICADO</span>
-              </div>
+            <div className="flex items-center justify-center">
+              <img src="/lovable-uploads/81170d74-5013-4a0c-a94e-4c6dd8a97815.png" alt="Site Seguro" className="h-12 w-auto" />
             </div>
           </div>
 

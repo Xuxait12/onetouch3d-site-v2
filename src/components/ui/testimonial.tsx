@@ -27,20 +27,6 @@ const testimonials = [
     designation: "Client Success Manager at Horizon",
     src: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
-  {
-    quote:
-      "I'm impressed by the constant stream of updates and new features. The development team is clearly passionate and listens to user feedback.",
-    name: "Kenji Tanaka",
-    designation: "Software Engineer at CodeCrafters",
-    src: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%D%3D",
-  },
-  {
-    quote:
-      "The ROI was almost immediate. It streamlined our workflows so effectively that we cut project delivery times by nearly 30%.",
-    name: "Fatima Al-Jamil",
-    designation: "CFO at Apex Financial",
-    src: "https://images.unsplash.com/photo-1557053910-d9eadeed1c58?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%D%3D",
-  },
 ];
 
 type Testimonial = {
