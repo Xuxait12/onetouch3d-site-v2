@@ -19,35 +19,35 @@ const PoliticaDevolucao = () => {
           </h1>
           
           <div className="space-y-6 text-muted-foreground">
+            <h2 className="text-2xl font-semibold text-foreground mt-8">Troca por Defeito</h2>
             <p>
-              Na OneTouch Frames, queremos que você fique completamente satisfeito com sua compra. 
-              Por isso, oferecemos uma política de devolução e troca clara e transparente.
+              Em caso de problema com o produto, o cliente terá até 7 dias úteis após o recebimento, 
+              para avaliar o produto e solicitar a troca junto à empresa. Para isso, primeiramente o 
+              cliente deverá enviar um e-mail, informando o defeito encontrado. Esse e-mail será 
+              respondido em até 2 dias úteis e, se necessário, será enviado por e-mail a liberação 
+              para envio gratuito pelos Correios. A One Touch 3D avaliará o defeito e providenciará 
+              a troca do produto.
             </p>
             
-            <h2 className="text-2xl font-semibold text-foreground mt-8">Prazo para Devolução</h2>
+            <h2 className="text-2xl font-semibold text-foreground mt-8">Troca ou devolução por desistência/arrependimento</h2>
             <p>
-              Você tem até 7 (sete) dias corridos, contados a partir do recebimento do produto, 
-              para solicitar a devolução ou troca, conforme previsto no Código de Defesa do Consumidor.
+              Em caso de troca por desistência/arrependimento, o cliente terá até 7 dias úteis após 
+              o recebimento, para avaliar o produto e solicitar a troca ou devolução junto à One Touch 3D.
             </p>
-            
-            <h2 className="text-2xl font-semibold text-foreground mt-8">Condições para Devolução</h2>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>O produto deve estar em perfeitas condições, sem sinais de uso</li>
-              <li>Embalagem original preservada</li>
-              <li>Acompanhado de todos os acessórios e documentos</li>
-              <li>Nota fiscal ou comprovante de compra</li>
-            </ul>
-            
-            <h2 className="text-2xl font-semibold text-foreground mt-8">Como Solicitar</h2>
             <p>
-              Para solicitar uma devolução ou troca, entre em contato conosco através do WhatsApp 
-              (54) 9992-1515 ou através da área "Meus Pedidos" em nossa plataforma.
+              Para isso, primeiramente o cliente deverá enviar um e-mail, informando o motivo da devolução.
             </p>
-            
-            <h2 className="text-2xl font-semibold text-foreground mt-8">Reembolso</h2>
             <p>
-              O reembolso será processado em até 10 (dez) dias úteis após a confirmação da devolução, 
-              no mesmo meio de pagamento utilizado na compra original.
+              O cliente deverá enviar o produto e arcando com as custas envio para o nosso endereço.
+            </p>
+            <p>
+              O produto será avaliado pela equipe da One Touch 3D. Ele deverá estar em perfeitas 
+              condições e sem avarias. Caso esteja dentro das normas, será disponibilizado o valor 
+              da compra para um novo pedido ou ressarcido o valor do produto ao cliente.
+            </p>
+            <p>
+              Em qualquer um dos casos acima, a One Touch 3D se compromete a resolver o problema em 
+              até 30 dias, conforme previsto no Código de Defesa do Consumidor (CDC), Lei 8.078/1990.
             </p>
           </div>
         </div>

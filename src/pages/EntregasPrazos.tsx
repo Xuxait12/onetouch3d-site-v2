@@ -19,48 +19,39 @@ const EntregasPrazos = () => {
           </h1>
           
           <div className="space-y-6 text-muted-foreground">
+            <h2 className="text-2xl font-semibold text-foreground mt-8">ENTREGA</h2>
             <p>
-              Na OneTouch Frames, trabalhamos com prazos realistas para garantir a qualidade 
-              e o cuidado que suas medalhas merecem durante o processo de emolduramento.
+              Entregamos em todo Brasil através dos Correios. O prazo de Produção do seu pedido é de 
+              5 até 7 dias úteis após a confirmação do pagamento. Após isso terá mais o prazo de 
+              entrega que será considerado o prazo dos Correios.
             </p>
             
-            <h2 className="text-2xl font-semibold text-foreground mt-8">Prazos de Produção</h2>
-            <ul className="list-disc pl-6 space-y-2">
-              <li><strong>Moldura Simples:</strong> 5 a 7 dias úteis</li>
-              <li><strong>Moldura Premium:</strong> 7 a 10 dias úteis</li>
-              <li><strong>Moldura Personalizada:</strong> 10 a 15 dias úteis</li>
-              <li><strong>Projetos Especiais:</strong> Prazo a combinar</li>
-            </ul>
+            <h2 className="text-2xl font-semibold text-foreground mt-8">FORMAS DE ENVIO</h2>
             
-            <h2 className="text-2xl font-semibold text-foreground mt-8">Entregas</h2>
+            <h3 className="text-xl font-semibold text-foreground mt-6">PAC</h3>
             <p>
-              Realizamos entregas em toda região de Caxias do Sul e região. 
-              Para outras localidades, consulte disponibilidade e custos através do nosso atendimento.
+              A encomenda PAC é a entrega econômica disponibilizada pelos Correios para o envio de 
+              produtos. Os prazos de entrega variam de acordo com as localidades de origem e destino. 
+              Entregas feitas de segunda à sábado.
             </p>
             
-            <h3 className="text-xl font-semibold text-foreground mt-6">Modalidades de Entrega</h3>
-            <ul className="list-disc pl-6 space-y-2">
-              <li><strong>Entrega Standard:</strong> 2 a 3 dias úteis após produção</li>
-              <li><strong>Entrega Expressa:</strong> 1 dia útil após produção</li>
-              <li><strong>Retirada na Loja:</strong> Disponível após confirmação</li>
-            </ul>
-            
-            <h2 className="text-2xl font-semibold text-foreground mt-8">Acompanhamento</h2>
+            <h3 className="text-xl font-semibold text-foreground mt-6">SEDEX</h3>
             <p>
-              Você receberá atualizações em tempo real sobre o status do seu pedido através 
-              de WhatsApp e pode acompanhar pela área "Meus Pedidos" em nossa plataforma.
+              A encomenda SEDEX é a entrega expressa disponibilizada pelos Correios para o envio de 
+              produtos. Os prazos de entrega variam de acordo com as localidades de origem de destino 
+              e normalmente são mais rápidas do que o PAC. Entregas feitas de segunda à sábado.
             </p>
             
-            <h2 className="text-2xl font-semibold text-foreground mt-8">Cuidados na Entrega</h2>
+            <h2 className="text-2xl font-semibold text-foreground mt-8">*IMPORTANTE*</h2>
             <p>
-              Todos os produtos são cuidadosamente embalados com proteção especial para 
-              garantir que cheguen em perfeitas condições até você.
+              Caso não haja ninguém no endereço indicado para entrega, o entregador dos Correios 
+              tentará realizar a entrega da mercadoria por mais 2 vezes, em dias diferentes. Caso a 
+              mercadoria não seja recebida em nenhuma das tentativas, ela retornará ao endereço de 
+              origem indicado na etiqueta de postagem ou ficará em uma agência dos Correios mais 
+              próxima do destinatário, dependendo da situação.
             </p>
-            
-            <h2 className="text-2xl font-semibold text-foreground mt-8">Dúvidas</h2>
             <p>
-              Para informações específicas sobre seu pedido, entre em contato pelo 
-              WhatsApp (54) 9992-1515 ou consulte a área "Meus Pedidos".
+              Caso a mercadoria volte ao destinatário, será cobrado um novo envio do clientes.
             </p>
           </div>
         </div>
