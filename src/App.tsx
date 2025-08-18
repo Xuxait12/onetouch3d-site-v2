@@ -11,6 +11,9 @@ import MyOrders from "./pages/MyOrders";
 import OrderDetails from "./pages/OrderDetails";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import PoliticaDevolucao from "./pages/PoliticaDevolucao";
+import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
+import EntregasPrazos from "./pages/EntregasPrazos";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +33,9 @@ const App = () => (
             <Route path="/meus-pedidos/:id" element={<OrderDetails />} />
             <Route path="/recuperar-senha" element={<ForgotPassword />} />
             <Route path="/redefinir-senha" element={<ResetPassword />} />
+            <Route path="/politica-devolucao" element={<PoliticaDevolucao />} />
+            <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
+            <Route path="/entregas-prazos" element={<EntregasPrazos />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
