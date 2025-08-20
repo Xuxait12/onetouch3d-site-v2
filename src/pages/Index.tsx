@@ -42,10 +42,10 @@ const Index = () => {
         
         {/* Feature sections */}
         <FeatureSection
-          title="Moldura premium de alta qualidade"
-          description="Utilizamos molduras minimalistas pretas e brancas, com acabamento premium que valoriza sua conquista com sofisticação e elegância."
-          imageSrc={premiumFrame}
-          imageAlt="Moldura premium preta e branca minimalista"
+          title="Moldura premium"
+          description=""
+          imageSrc="/lovable-uploads/fbb302ec-8047-4938-a245-2c8090d00b9a.png"
+          imageAlt="Quadro personalizado com moldura premium"
           imageOnLeft={true}
         />
         
