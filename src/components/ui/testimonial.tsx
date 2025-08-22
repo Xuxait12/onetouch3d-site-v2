@@ -4,28 +4,28 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 // --- Helper Components & Data ---
 
-// All text data and images are the updated versions.
+// Testimonials data with customer reviews and images
 const testimonials = [
   {
     quote:
-      "This platform revolutionized our data analysis process. The speed and accuracy are unparalleled. A must-have for any data-driven team.",
-    name: "Priya Sharma",
-    designation: "Data Scientist at QuantumLeap",
-    src: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "Corro há 10 anos e sempre quis eternizar minhas provas. Encontrei a Onetouch3d com um atendimento personalizado e com muita qualidade, tornando esses momentos memoráveis.",
+    name: "Joel Pistore",
+    designation: "Maratona Rio",
+    src: "/lovable-uploads/e21d216e-e0f1-4ea6-91dd-d3799b85aee3.png",
   },
   {
     quote:
-      "The user interface is incredibly intuitive, which made the onboarding process for my team a breeze. We were up and running in hours, not days.",
-    name: "Marcus Johnson",
-    designation: "Head of Operations at Synergy Corp",
-    src: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "Uma experiência maravilhosa porque foi um complemento de uma grande conquista pessoal. A Onetouch3D fez parte desse sonho!",
+    name: "Verinaldo Chicuta",
+    designation: "Maratona de Chicago",
+    src: "/lovable-uploads/d5e84784-9d28-408e-8efa-08cd6e04b5be.png",
   },
   {
     quote:
-      "Customer support is top-notch. They are responsive, knowledgeable, and genuinely invested in our success. It feels like a true partnership.",
-    name: "Isabella Rossi",
-    designation: "Client Success Manager at Horizon",
-    src: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "Sou atleta há 30 anos e para mim que corro há muito tempo ter o meu primeiro quadro em especial da Onetouch3D foi uma tremenda satisfação, pela qualidade e os mínimos detalhes que foram colocados neste quadro onde demonstra a minha maior conquista dentro da corrida que foram os 82KM Shogun da Serra do Rio do Rastro em Santa Catarina. Agradeço pelo belo trabalho que fizeram para que eu pudesse guardar a minha conquista. Grande abraço.",
+    name: "Rodrigo Nicoloso",
+    designation: "Uphill Desafio Shogun",
+    src: "/lovable-uploads/1735774f-bf8e-4abb-b8b1-8445189e6a26.png",
   },
 ];
 
