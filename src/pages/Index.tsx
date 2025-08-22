@@ -17,7 +17,7 @@ import premiumFrame from "@/assets/premium-frame.jpg";
 import routeMap from "@/assets/3d-route-map.jpg";
 import marathonPhotos from "@/assets/marathon-photos.jpg";
 import modernDisplay from "@/assets/modern-display.jpg";
-import raceDetails from "@/assets/race-details.jpg";
+const raceDetails = "/lovable-uploads/f1423d5c-9eb9-4029-b2a3-800b2dfe6ed0.png";
 import securePackaging from "@/assets/secure-packaging.jpg";
 
 const Index = () => {
