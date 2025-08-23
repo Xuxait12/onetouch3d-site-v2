@@ -18,7 +18,7 @@ const FeatureSection = ({ title, description, imageSrc, imageAlt, imageOnLeft = 
           />
         </div>
         
-        <div className={`order-2 ${imageOnLeft ? 'lg:order-2' : 'lg:order-1'} text-center lg:text-left animate-fade-up`} style={{ animationDelay: "0.2s" }}>
+        <div className={`order-2 ${imageOnLeft ? 'lg:order-2' : 'lg:order-1'} text-center md:text-center lg:text-left animate-fade-up`} style={{ animationDelay: "0.2s" }}>
           <h2 className="section-text mb-6">
             {title}
           </h2>
