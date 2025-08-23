@@ -44,7 +44,7 @@ const ProductSection = () => {
                 {/* Imagem do Produto */}
                 <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center group cursor-pointer">
                   <img 
-                    src="/lovable-uploads/3464ebac-aac6-4717-9a02-b115a8101572.png"
+                    src="/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png"
                     alt="Quadro Caixa Alta"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
@@ -58,35 +58,31 @@ const ProductSection = () => {
                     <div className="space-y-3 text-sm text-muted-foreground">
                       <div className="flex items-start gap-2">
                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p><strong>Externo elegante:</strong> Feito de madeira com revestimento pet texturizado em preto (material reciclado), proporcionando sofisticação.</p>
+                        <p><strong>Acabamento sofisticado:</strong> Madeira com revestimento PET texturizado em preto e interno liso branco.</p>
                       </div>
                       <div className="flex items-start gap-2">
                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p><strong>Interno refinado:</strong> Também em madeira, com revestimento pet liso em branco, adicionando um toque de classe.</p>
+                        <p><strong>Dimensões:</strong> Espessura 5,2cm (distância da parede) e largura 3,1cm (frontal).</p>
                       </div>
                       <div className="flex items-start gap-2">
                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p><strong>Dimensões ideais:</strong> Espessura de 5,2cm (distância da parede) e largura de 3,1cm (parte frontal da moldura), garantindo destaque à sua arte.</p>
+                        <p><strong>Materiais de qualidade:</strong> Madeira + fundo em MDF 3mm.</p>
                       </div>
                       <div className="flex items-start gap-2">
                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p><strong>Materiais de qualidade:</strong> Moldura de madeira e fundo de MDF 3mm, garantindo durabilidade.</p>
+                        <p><strong>Design moderno:</strong> Combinação preta externa e branca interna.</p>
                       </div>
                       <div className="flex items-start gap-2">
                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p><strong>Cores modernas:</strong> Moldura externa preta e moldura interna branca para uma combinação contemporânea.</p>
+                        <p><strong>Proteção:</strong> Vidro 3mm no tamanho da moldura.</p>
                       </div>
                       <div className="flex items-start gap-2">
                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p><strong>Proteção completa:</strong> Vidro de 3mm do tamanho da moldura para preservar sua obra com estilo.</p>
+                        <p><strong>Envio seguro:</strong> Embalagem reforçada com papelão e isopor.</p>
                       </div>
                       <div className="flex items-start gap-2">
                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p><strong>Embalagem segura:</strong> Enviada em uma caixa de papelão reforçado com isolamento de isopor em todos os lados, garantindo a chegada intacta.</p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p><strong>Kit completo:</strong> Acompanha pendurador, parafuso, bucha e pedaços de fita dupla face 3M para facilitar a instalação.</p>
+                        <p><strong>Kit instalação:</strong> Pendurador, parafuso, bucha e fita 3M.</p>
                       </div>
                     </div>
                   </div>
