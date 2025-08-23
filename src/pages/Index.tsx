@@ -6,6 +6,7 @@ import FeatureSection from "@/components/FeatureSection";
 import { Logos3 } from "@/components/ui/logos3";
 import BenefitsSection from "@/components/BenefitsSection";
 import GallerySection from "@/components/GallerySection";
+import ProductSection from "@/components/ProductSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import CtaSection from "@/components/CtaSection";
@@ -93,6 +94,7 @@ const Index = () => {
         <HowItWorksSection />
         <TestimonialsSection />
         <GallerySection />
+        <ProductSection />
         <CtaSection />
         <FAQSection />
         <Footer />
