@@ -12,7 +12,14 @@ const ProductSection = () => {
   const [cep, setCep] = useState("");
   const [showValidation, setShowValidation] = useState(false);
 
-  const colorOptions = ["Preta", "Branca"];
+  const getColorOptions = () => {
+    if (selectedType === "Caixa Alta") {
+      return ["Preta/branca", "Preta"];
+    }
+    return ["Preta", "Branca"];
+  };
+
+  const colorOptions = getColorOptions();
   const typeOptions = ["Caixa Alta", "Caixa Baixa"];
   const sizeOptions = [
     "33x33cm",
