@@ -22,7 +22,7 @@ const FeatureSection = ({ title, description, imageSrc, imageAlt, imageOnLeft = 
           <h2 className="section-text mb-6">
             {title}
           </h2>
-          <p className="body-large text-muted-foreground max-w-xl">
+          <p className="body-large text-muted-foreground max-w-xl mx-auto md:mx-auto lg:mx-0">
             {description}
           </p>
         </div>

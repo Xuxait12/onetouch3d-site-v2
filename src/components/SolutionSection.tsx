@@ -4,11 +4,11 @@ const SolutionSection = () => {
   return (
     <section className="section-spacing max-w-7xl mx-auto px-6">
       <div className="grid lg:grid-cols-2 gap-12 items-center">
-        <div className="text-center lg:text-left animate-fade-up">
+        <div className="text-center md:text-center lg:text-left animate-fade-up">
           <h2 className="section-text mb-6">
             Eternize sua corrida com arte
           </h2>
-          <p className="body-large text-muted-foreground max-w-xl">
+          <p className="body-large text-muted-foreground max-w-xl mx-auto md:mx-auto lg:mx-0">
             Personalizamos quadros 3D que exibem sua medalha, mapa do percurso e detalhes da conquista, com a sofisticação que você merece.
           </p>
         </div>
