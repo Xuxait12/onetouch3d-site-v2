@@ -6,33 +6,59 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 
 const ProductSection = () => {
-  const [selectedColor, setSelectedColor] = useState("Preta");
+  const [selectedColor, setSelectedColor] = useState("");
   const [selectedType, setSelectedType] = useState("Caixa Alta");
-  const [selectedSize, setSelectedSize] = useState("30x40cm");
+  const [selectedSize, setSelectedSize] = useState("");
   const [cep, setCep] = useState("");
+  const [showValidation, setShowValidation] = useState(false);
 
   const colorOptions = ["Preta", "Branca"];
   const typeOptions = ["Caixa Alta", "Caixa Baixa"];
   const sizeOptions = [
-    "20x30cm",
-    "30x40cm", 
-    "40x50cm",
-    "50x70cm",
-    "60x80cm",
-    "70x100cm"
+    "33x33cm",
+    "33x43cm", 
+    "37x48cm",
+    "43x43cm",
+    "43x53cm",
+    "43x63cm",
+    "53x53cm"
   ];
+
+  const productData = {
+    "Caixa Alta": {
+      name: "Quadro Caixa Alta",
+      subtitle: "COM percurso em alto relevo (3D)",
+      image: "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png"
+    },
+    "Caixa Baixa": {
+      name: "Quadro Caixa Baixa", 
+      subtitle: "SEM percurso em alto relevo (3D)",
+      image: "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png"
+    }
+  };
+
+  const currentProduct = productData[selectedType];
 
   const pixPrice = 499.00;
   const installmentPrice = 49.90;
   const installments = 12;
 
+  const handlePurchase = () => {
+    if (!selectedColor || !selectedSize) {
+      setShowValidation(true);
+      return;
+    }
+    setShowValidation(false);
+    // Proceed with purchase logic
+  };
+
   return (
     <section className="section-spacing bg-gradient-to-b from-background to-muted/30">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16 animate-fade-up">
-          <h2 className="section-text mb-4">Produto em Destaque</h2>
+          <h2 className="section-text mb-4">Nossa Loja</h2>
           <p className="body-large text-muted-foreground">
-            Descubra nossa criação mais especial
+            Momentos especiais merecem ser eternizados
           </p>
         </div>
 
@@ -42,14 +68,14 @@ const ProductSection = () => {
               {/* Área da Imagem e Descrição do Produto */}
               <div className="relative overflow-hidden">
                 {/* Imagem do Produto */}
-                <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center group cursor-pointer">
-                  <img 
-                    src="/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png"
-                    alt="Quadro Caixa Alta"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
-                </div>
+                 <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center group cursor-pointer">
+                   <img 
+                     src={currentProduct.image}
+                     alt={currentProduct.name}
+                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                   />
+                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
+                 </div>
                 
                 {/* Área de Descrição do Produto */}
                 <div className="p-6 bg-white border-t border-gray-100">
@@ -91,75 +117,89 @@ const ProductSection = () => {
 
               {/* Informações do Produto */}
               <div className="p-8 lg:p-12 space-y-8">
-                {/* Título */}
-                <div>
-                  <h3 className="text-3xl lg:text-4xl font-bold tracking-tight text-foreground mb-2">
-                    Quadro Caixa Alta
-                  </h3>
-                  <p className="text-muted-foreground">
-                    Design premium com tecnologia de impressão 3D
-                  </p>
-                </div>
+                 {/* Título */}
+                 <div>
+                   <h3 className="text-3xl lg:text-4xl font-bold tracking-tight text-foreground mb-2">
+                     {currentProduct.name}
+                   </h3>
+                   <p className="text-muted-foreground">
+                     {currentProduct.subtitle}
+                   </p>
+                 </div>
 
-                {/* Seleção de Cor */}
-                <div className="space-y-3">
-                  <Label className="text-sm font-semibold text-foreground">Cor da Moldura</Label>
-                  <div className="flex gap-3">
-                    {colorOptions.map((color) => (
-                      <button
-                        key={color}
-                        onClick={() => setSelectedColor(color)}
-                        className={`px-4 py-2 rounded-lg border-2 transition-all duration-200 ${
-                          selectedColor === color
-                            ? "border-primary bg-primary text-primary-foreground"
-                            : "border-border hover:border-primary/50 bg-background"
-                        }`}
-                      >
-                        {color}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                 {/* Seleção de Tipo */}
+                 <div className="space-y-3">
+                   <Label className="text-sm font-semibold text-foreground">Tipo da Moldura</Label>
+                   <div className="flex gap-3">
+                     {typeOptions.map((type) => (
+                       <button
+                         key={type}
+                         onClick={() => {
+                           setSelectedType(type);
+                           setSelectedColor("");
+                           setSelectedSize("");
+                         }}
+                         className={`px-4 py-2 rounded-lg border-2 transition-all duration-200 ${
+                           selectedType === type
+                             ? "border-primary bg-primary text-primary-foreground"
+                             : "border-border hover:border-primary/50 bg-background"
+                         }`}
+                       >
+                         {type}
+                       </button>
+                     ))}
+                   </div>
+                 </div>
 
-                {/* Seleção de Tipo */}
-                <div className="space-y-3">
-                  <Label className="text-sm font-semibold text-foreground">Tipo da Moldura</Label>
-                  <div className="flex gap-3">
-                    {typeOptions.map((type) => (
-                      <button
-                        key={type}
-                        onClick={() => setSelectedType(type)}
-                        className={`px-4 py-2 rounded-lg border-2 transition-all duration-200 ${
-                          selectedType === type
-                            ? "border-primary bg-primary text-primary-foreground"
-                            : "border-border hover:border-primary/50 bg-background"
-                        }`}
-                      >
-                        {type}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                 {/* Seleção de Cor */}
+                 <div className="space-y-3">
+                   <Label className="text-sm font-semibold text-foreground">
+                     Cor da Moldura {!selectedColor && showValidation && <span className="text-red-500">*</span>}
+                   </Label>
+                   <div className="flex gap-3">
+                     {colorOptions.map((color) => (
+                       <button
+                         key={color}
+                         onClick={() => setSelectedColor(color)}
+                         className={`px-4 py-2 rounded-lg border-2 transition-all duration-200 ${
+                           selectedColor === color
+                             ? "border-primary bg-primary text-primary-foreground"
+                             : "border-border hover:border-primary/50 bg-background"
+                         }`}
+                       >
+                         {color}
+                       </button>
+                     ))}
+                   </div>
+                   {!selectedColor && showValidation && (
+                     <p className="text-red-500 text-sm">Por favor, selecione uma cor para prosseguir.</p>
+                   )}
+                 </div>
 
-                {/* Seleção de Tamanho */}
-                <div className="space-y-3">
-                  <Label className="text-sm font-semibold text-foreground">Tamanho</Label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {sizeOptions.map((size) => (
-                      <button
-                        key={size}
-                        onClick={() => setSelectedSize(size)}
-                        className={`px-3 py-2 text-sm rounded-lg border-2 transition-all duration-200 ${
-                          selectedSize === size
-                            ? "border-primary bg-primary text-primary-foreground"
-                            : "border-border hover:border-primary/50 bg-background"
-                        }`}
-                      >
-                        {size}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                 {/* Seleção de Tamanho */}
+                 <div className="space-y-3">
+                   <Label className="text-sm font-semibold text-foreground">
+                     Tamanho {!selectedSize && showValidation && <span className="text-red-500">*</span>}
+                   </Label>
+                   <div className="grid grid-cols-3 gap-2">
+                     {sizeOptions.map((size) => (
+                       <button
+                         key={size}
+                         onClick={() => setSelectedSize(size)}
+                         className={`px-3 py-2 text-sm rounded-lg border-2 transition-all duration-200 ${
+                           selectedSize === size
+                             ? "border-primary bg-primary text-primary-foreground"
+                             : "border-border hover:border-primary/50 bg-background"
+                         }`}
+                       >
+                         {size}
+                       </button>
+                     ))}
+                   </div>
+                   {!selectedSize && showValidation && (
+                     <p className="text-red-500 text-sm">Por favor, selecione um tamanho para prosseguir.</p>
+                   )}
+                 </div>
 
                 {/* Preços */}
                 <div className="space-y-4 py-4 border-t border-border">
@@ -178,13 +218,14 @@ const ProductSection = () => {
                   </div>
                 </div>
 
-                {/* Botão CTA */}
-                <Button 
-                  size="lg" 
-                  className="w-full h-14 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
-                >
-                  Comprar Agora
-                </Button>
+                 {/* Botão CTA */}
+                 <Button 
+                   size="lg" 
+                   onClick={handlePurchase}
+                   className="w-full h-14 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                 >
+                   Comprar Agora
+                 </Button>
 
                 {/* Consultar CEP */}
                 <div className="space-y-3 pt-4 border-t border-border">
