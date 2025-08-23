@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,8 +39,9 @@ const ProductSection = () => {
         <Card className="max-w-4xl mx-auto bg-white/80 backdrop-blur-sm shadow-2xl border-0 rounded-3xl overflow-hidden">
           <CardContent className="p-0">
             <div className="grid lg:grid-cols-2 gap-0">
-              {/* Imagem do Produto */}
+              {/* Área da Imagem e Descrição do Produto */}
               <div className="relative overflow-hidden">
+                {/* Imagem do Produto */}
                 <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center group cursor-pointer">
                   <img 
                     src="/lovable-uploads/3464ebac-aac6-4717-9a02-b115a8101572.png"
@@ -47,6 +49,35 @@ const ProductSection = () => {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
+                </div>
+                
+                {/* Área de Descrição do Produto */}
+                <div className="p-6 bg-white border-t border-gray-100">
+                  <div className="space-y-4">
+                    <h4 className="text-lg font-semibold text-foreground">Sobre o Produto</h4>
+                    <div className="space-y-3 text-sm text-muted-foreground">
+                      <div className="flex items-start gap-2">
+                        <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                        <p>Moldura premium com acabamento sofisticado em MDF de alta qualidade</p>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                        <p>Impressão 3D do percurso da sua corrida em relevo</p>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                        <p>Layout personalizado com suas melhores fotos da prova</p>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                        <p>Dados completos da corrida: tempo, pace, distância e classificação</p>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                        <p>Espaço especial para exibir sua medalha conquistada</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
