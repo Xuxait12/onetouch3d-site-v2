@@ -54,27 +54,39 @@ const ProductSection = () => {
                 {/* Área de Descrição do Produto */}
                 <div className="p-6 bg-white border-t border-gray-100">
                   <div className="space-y-4">
-                    <h4 className="text-lg font-semibold text-foreground">Sobre o Produto</h4>
+                    <h4 className="text-lg font-semibold text-foreground">Características da Moldura</h4>
                     <div className="space-y-3 text-sm text-muted-foreground">
                       <div className="flex items-start gap-2">
                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p>Moldura premium com acabamento sofisticado em MDF de alta qualidade</p>
+                        <p><strong>Externo elegante:</strong> Feito de madeira com revestimento pet texturizado em preto (material reciclado), proporcionando sofisticação.</p>
                       </div>
                       <div className="flex items-start gap-2">
                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p>Impressão 3D do percurso da sua corrida em relevo</p>
+                        <p><strong>Interno refinado:</strong> Também em madeira, com revestimento pet liso em branco, adicionando um toque de classe.</p>
                       </div>
                       <div className="flex items-start gap-2">
                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p>Layout personalizado com suas melhores fotos da prova</p>
+                        <p><strong>Dimensões ideais:</strong> Espessura de 5,2cm (distância da parede) e largura de 3,1cm (parte frontal da moldura), garantindo destaque à sua arte.</p>
                       </div>
                       <div className="flex items-start gap-2">
                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p>Dados completos da corrida: tempo, pace, distância e classificação</p>
+                        <p><strong>Materiais de qualidade:</strong> Moldura de madeira e fundo de MDF 3mm, garantindo durabilidade.</p>
                       </div>
                       <div className="flex items-start gap-2">
                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p>Espaço especial para exibir sua medalha conquistada</p>
+                        <p><strong>Cores modernas:</strong> Moldura externa preta e moldura interna branca para uma combinação contemporânea.</p>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                        <p><strong>Proteção completa:</strong> Vidro de 3mm do tamanho da moldura para preservar sua obra com estilo.</p>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                        <p><strong>Embalagem segura:</strong> Enviada em uma caixa de papelão reforçado com isolamento de isopor em todos os lados, garantindo a chegada intacta.</p>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                        <p><strong>Kit completo:</strong> Acompanha pendurador, parafuso, bucha e pedaços de fita dupla face 3M para facilitar a instalação.</p>
                       </div>
                     </div>
                   </div>
