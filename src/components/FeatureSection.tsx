@@ -11,11 +11,13 @@ const FeatureSection = ({ title, description, imageSrc, imageAlt, imageOnLeft = 
     <section className="py-8 max-w-7xl mx-auto px-6">
       <div className="grid lg:grid-cols-2 gap-12 items-center">
         <div className={`order-1 ${imageOnLeft ? 'lg:order-1' : 'lg:order-2'} animate-fade-up`}>
-          <img 
-            src={imageSrc} 
-            alt={imageAlt}
-            className="w-full h-auto rounded-2xl shadow-soft"
-          />
+          <div className="w-full aspect-[592/394] overflow-hidden rounded-2xl shadow-soft">
+            <img 
+              src={imageSrc} 
+              alt={imageAlt}
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
         
         <div className={`order-2 ${imageOnLeft ? 'lg:order-2' : 'lg:order-1'} text-center md:text-center lg:text-left animate-fade-up`} style={{ animationDelay: "0.2s" }}>
