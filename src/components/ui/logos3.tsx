@@ -74,7 +74,7 @@ const Logos3 = ({
       </div>
       
       <div className="max-w-4xl mx-auto px-6 mt-12 text-center">
-        <p className="body-large text-muted-foreground text-center">Cada conquista é única.  
+        <p className="body-large text-muted-foreground text-center">Cada conquista é única. 
 Se a sua prova não está aqui, nos envie dados da sua prova que nós a eternizamos para você.</p>
       </div>
     </section>;
