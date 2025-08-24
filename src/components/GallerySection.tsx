@@ -11,6 +11,13 @@ const GallerySection = () => {
       </div>
       
       <ImageAutoSlider />
+      
+      {/* Instruction text */}
+      <div className="text-center mt-6 animate-fade-up">
+        <p className="text-sm text-muted-foreground">
+          Clique para ampliar
+        </p>
+      </div>
     </section>
   );
 };

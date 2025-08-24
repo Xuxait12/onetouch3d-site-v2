@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 export const Component = () => {
+  const [isPaused, setIsPaused] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   // Images for the infinite scroll - using Unsplash URLs
   const images = [
     "/lovable-uploads/7129c4f6-9713-4009-8fce-57e7929aab10.png",
@@ -16,6 +20,14 @@ export const Component = () => {
   // Duplicate images for seamless loop
   const duplicatedImages = [...images, ...images];
 
+  const handleImageClick = () => {
+    setIsPaused(!isPaused);
+  };
+
+  const handleImageDoubleClick = (image: string) => {
+    setSelectedImage(image);
+  };
+
   return (
     <>
       <style>{`
@@ -29,7 +41,11 @@ export const Component = () => {
         }
 
         .infinite-scroll {
-          animation: scroll-right 20s linear infinite;
+          animation: scroll-right 40s linear infinite;
+        }
+
+        .infinite-scroll.paused {
+          animation-play-state: paused;
         }
 
         .scroll-container {
@@ -66,11 +82,13 @@ export const Component = () => {
         {/* Scrolling images container */}
         <div className="relative z-10 w-full flex items-center justify-center">
           <div className="scroll-container w-full max-w-6xl">
-            <div className="infinite-scroll flex gap-6 w-max">
+            <div className={`infinite-scroll flex gap-6 w-max ${isPaused ? 'paused' : ''}`}>
               {duplicatedImages.map((image, index) => (
                 <div
                   key={index}
-                  className="image-item flex-shrink-0 w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-xl overflow-hidden shadow-2xl"
+                  className="image-item flex-shrink-0 w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-xl overflow-hidden shadow-2xl cursor-pointer"
+                  onClick={handleImageClick}
+                  onDoubleClick={() => handleImageDoubleClick(images[index % images.length])}
                 >
                   <img
                     src={image}
@@ -87,6 +105,19 @@ export const Component = () => {
         {/* Bottom gradient overlay */}
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent z-20" />
       </div>
+
+      {/* Modal for enlarged image */}
+      <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
+        <DialogContent className="max-w-4xl max-h-[90vh] p-0 bg-background/95 backdrop-blur-sm">
+          {selectedImage && (
+            <img
+              src={selectedImage}
+              alt="Enlarged gallery image"
+              className="w-full h-full object-contain rounded-lg"
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
