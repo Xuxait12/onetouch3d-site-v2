@@ -108,10 +108,10 @@ export const Component = () => {
 
       {/* Modal for enlarged image */}
       <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
-        <DialogContent className="max-w-4xl max-h-[90vh] p-0 bg-background/95 backdrop-blur-sm">
+        <DialogContent className="p-0 bg-background/95 backdrop-blur-sm border-0" style={{ width: '894px', height: '894px', maxWidth: '894px', maxHeight: '894px' }}>
           {selectedImage && (
             <img
-              src={selectedImage}
+              src="/lovable-uploads/fa9da708-116b-405c-a52e-0a18f48df56e.png"
               alt="Enlarged gallery image"
               className="w-full h-full object-contain rounded-lg"
             />

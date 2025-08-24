@@ -13,9 +13,9 @@ const GallerySection = () => {
       <ImageAutoSlider />
       
       {/* Instruction text */}
-      <div className="text-center mt-6 animate-fade-up">
-        <p className="text-sm text-muted-foreground">
-          Clique para ampliar
+      <div className="text-center mt-3 animate-fade-up">
+        <p className="text-base font-medium text-muted-foreground">
+          Duplo clique amplia
         </p>
       </div>
     </section>

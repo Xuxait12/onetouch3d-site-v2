@@ -22,7 +22,7 @@ const testimonials = [
   },
   {
     quote:
-      "Sou atleta há 30 anos e para mim que corro há muito tempo ter o meu primeiro quadro em especial da Onetouch3D foi uma tremenda satisfação, pela qualidade e os mínimos detalhes que foram colocados neste quadro onde demonstra a minha maior conquista dentro da corrida que foram os 82KM Shogun da Serra do Rio do Rastro em Santa Catarina. Agradeço pelo belo trabalho que fizeram para que eu pudesse guardar a minha conquista. Grande abraço.",
+      "A OneTouch3D transformou meus 82KM no Rio do Rastro em uma lembrança inesquecível. Foi uma satisfação enorme eternizar minha maior conquista com um quadro de muita qualidade e cheio de detalhes.",
     name: "Rodrigo Nicoloso",
     designation: "Uphill Desafio Shogun",
     src: "/lovable-uploads/e062d32b-d2bd-4a30-9716-980aa7576edf.png",
