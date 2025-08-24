@@ -84,10 +84,13 @@ const ProductSection = () => {
                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
                  </div>
                 
-                {/* Área de Descrição do Produto */}
-                <div className="p-6 bg-white border-t border-gray-100">
-                  <div className="space-y-4">
-                    <h4 className="text-lg font-semibold text-foreground">Características da Moldura</h4>
+                 {/* Área de Descrição do Produto */}
+                 <div className="p-6 bg-white border-t border-gray-100">
+                   <div className="space-y-4">
+                     <h4 className="text-lg font-semibold text-foreground">Características da Moldura</h4>
+                     <p className="text-lg font-bold text-gray-900 mb-4">
+                       NÃO NECESSITA ENVIO DA MEDALHA
+                     </p>
                     <div className="space-y-3 text-sm text-muted-foreground">
                       <div className="flex items-start gap-2">
                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>

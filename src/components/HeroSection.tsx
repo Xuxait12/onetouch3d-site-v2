@@ -3,7 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import heroRunnerWide from "@/assets/hero-runner-wide.jpg";
+import heroRunnerNew from "@/assets/hero-runner-new.jpg";
 import { ElegantShape } from "@/components/ui/shape-landing-hero";
 
 const HeroSection = () => {
@@ -95,7 +95,7 @@ const HeroSection = () => {
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroRunnerWide})` }}
+        style={{ backgroundImage: `url(${heroRunnerNew})` }}
       >
         {/* Overlay para melhorar legibilidade */}
         <div className="absolute inset-0 bg-black/40"></div>

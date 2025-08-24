@@ -2,6 +2,33 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
+// Testimonial Quote Component with expandable text
+const TestimonialQuote = ({ quote }: { quote: string }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const maxLength = 180;
+  const shouldTruncate = quote.length > maxLength;
+  
+  const displayText = shouldTruncate && !isExpanded 
+    ? quote.substring(0, maxLength) + '...' 
+    : quote;
+  
+  return (
+    <div className="mt-8">
+      <motion.p className="text-lg text-slate-700 dark:text-slate-300">
+        "{displayText}"
+      </motion.p>
+      {shouldTruncate && (
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="mt-2 text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors"
+        >
+          {isExpanded ? 'Ver menos' : 'Ver mais'}
+        </button>
+      )}
+    </div>
+  );
+};
+
 // --- Helper Components & Data ---
 
 // Testimonials data with customer reviews and images
@@ -108,7 +135,7 @@ const AnimatedTestimonials = ({
         </div>
 
         {/* Text and Controls Section */}
-        <div className="flex flex-col justify-center py-4">
+        <div className="flex flex-col justify-center py-4 h-[400px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
@@ -117,18 +144,16 @@ const AnimatedTestimonials = ({
               exit={{ opacity: 0, y: -20 }}
               // Animation properties reverted to the previous version.
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="flex flex-col justify-between"
+              className="flex flex-col justify-between h-full"
             >
-                <div>
+                <div className="flex-1">
                     <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
                         {testimonials[active].name}
                     </h3>
                     <p className="text-sm text-slate-600 dark:text-slate-400">
                         {testimonials[active].designation}
                     </p>
-                    <motion.p className="mt-8 text-lg text-slate-700 dark:text-slate-300">
-                        "{testimonials[active].quote}"
-                    </motion.p>
+                    <TestimonialQuote quote={testimonials[active].quote} />
                 </div>
             </motion.div>
           </AnimatePresence>

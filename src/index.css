@@ -54,6 +54,9 @@ All colors MUST be HSL.
     --text-large: 1.25rem;
     --text-body: 1rem;
     
+    /* Brand colors */
+    --brand-red: 0 91% 55%;
+    
     /* Apple-like spacing */
     --spacing-hero: 8rem;
     --spacing-section: 6rem;
