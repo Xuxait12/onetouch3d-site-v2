@@ -91,7 +91,7 @@ const Index = () => {
         />
         
         <Logos3 />
-        <div className="pt-4">
+        <div className="pt-2">
           <HowItWorksSection />
         </div>
         <TestimonialsSection />
