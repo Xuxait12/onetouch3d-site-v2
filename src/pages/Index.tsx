@@ -52,7 +52,7 @@ const Index = () => {
         
         <FeatureSection
           title="Impressão 3D exclusiva do percurso"
-          description="Tecnologia de impressão 3D cria um mapa em relevo do seu trajeto, tornando cada quadro único e diferenciado."
+          description="Tecnologia de impressão 3D cria o percurso da sua prova em alto relevo, tornando cada quadro único e diferenciado."
           imageSrc={routeMap}
           imageAlt="Mapa 3D impresso em relevo mostrando percurso de corrida"
           imageOnLeft={false}
