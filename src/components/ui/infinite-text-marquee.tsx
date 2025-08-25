@@ -48,8 +48,6 @@ export const InfiniteTextMarquee: React.FC<InfiniteTextMarqueeProps> = ({
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [showTooltip]);
  
-  const repeatedText = Array(10).fill(text).join(" - ") + " -";
- 
   return (
     <>
       {showTooltip && (
@@ -67,24 +65,24 @@ export const InfiniteTextMarquee: React.FC<InfiniteTextMarqueeProps> = ({
           <p>{tooltipText}</p>
         </div>
       )}
- 
-      <main className="relative w-full overflow-hidden">
+
+      <div className="w-full flex justify-center overflow-hidden py-4">
         <motion.div
-          className="whitespace-nowrap"
+          className="inline-block"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           animate={{
-            x: [0, -1000],
+            x: [-20, 20, -20],
             transition: {
               repeat: Infinity,
-              duration: speed,
-              ease: "linear",
+              duration: speed / 10,
+              ease: "easeInOut",
             },
           }}
         >
           <Link to={link}>
             <span
-              className={`cursor-pointer font-bold tracking-tight py-10 m-0 transition-all ${
+              className={`cursor-pointer font-bold tracking-tight transition-all inline-block ${
                 textColor ? "" : "text-foreground"
               }`}
               style={{
@@ -92,7 +90,7 @@ export const InfiniteTextMarquee: React.FC<InfiniteTextMarqueeProps> = ({
                 color: textColor || undefined,
               }}
             >
-              <span className="hoverable-text">{repeatedText}</span>
+              <span className="hoverable-text">{text}</span>
               <style>{`
                 .hoverable-text:hover {
                   color: ${hoverColor || "hsl(var(--primary))"};
@@ -101,7 +99,7 @@ export const InfiniteTextMarquee: React.FC<InfiniteTextMarqueeProps> = ({
             </span>
           </Link>
         </motion.div>
-      </main>
+      </div>
     </>
   );
 };
