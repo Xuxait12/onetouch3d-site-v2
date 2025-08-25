@@ -9,42 +9,42 @@ const GalleryCarousel = () => {
   const galleryImages = [
     {
       gallery: "/lovable-uploads/bbf261b6-ad4d-41f6-a971-c8ea629ef76d.png",
-      popup: "/lovable-uploads/bbf261b6-ad4d-41f6-a971-c8ea629ef76d.png",
+      popup: "/lovable-uploads/7c09a0d0-d367-4316-a691-53b47fdaae2e.png",
       alt: "Moldura Caixa Baixa - Galeria 1"
     },
     {
       gallery: "/lovable-uploads/e9162ee9-87c9-4072-afeb-1de7423ffb9f.png",
-      popup: "/lovable-uploads/e9162ee9-87c9-4072-afeb-1de7423ffb9f.png",
+      popup: "/lovable-uploads/91af6451-0cf5-4f69-9008-2584611dafa2.png",
       alt: "Moldura Caixa Alta - Galeria 2"
     },
     {
       gallery: "/lovable-uploads/88578ea2-c2e0-4357-8952-44ff4a4f749c.png",
-      popup: "/lovable-uploads/88578ea2-c2e0-4357-8952-44ff4a4f749c.png",
+      popup: "/lovable-uploads/31dcb058-af24-4025-b0ff-23aadbdc4b2e.png",
       alt: "Moldura Caixa Alta - Galeria 3"
     },
     {
       gallery: "/lovable-uploads/1fcf6d0a-d71f-4fdc-8b49-7627ae928de0.png",
-      popup: "/lovable-uploads/1fcf6d0a-d71f-4fdc-8b49-7627ae928de0.png",
+      popup: "/lovable-uploads/712dbb01-624d-4e7a-b20d-65ce28eedba9.png",
       alt: "Moldura Caixa Alta - Galeria 4"
     },
     {
       gallery: "/lovable-uploads/a518bfaa-f6b6-40bc-8793-bc08b65a7bf1.png",
-      popup: "/lovable-uploads/a518bfaa-f6b6-40bc-8793-bc08b65a7bf1.png",
+      popup: "/lovable-uploads/7c8d5c4c-a799-439e-aaf9-8f79bafe351a.png",
       alt: "Moldura Caixa Alta - Galeria 5"
     },
     {
       gallery: "/lovable-uploads/c313acd8-b46f-496c-b294-8863680892b2.png",
-      popup: "/lovable-uploads/c313acd8-b46f-496c-b294-8863680892b2.png",
+      popup: "/lovable-uploads/130c5e63-61d1-4d26-a820-9d24bd55abc5.png",
       alt: "Moldura Caixa Alta - Galeria 6"
     },
     {
       gallery: "/lovable-uploads/25680a65-988b-462e-80d6-175971903021.png",
-      popup: "/lovable-uploads/25680a65-988b-462e-80d6-175971903021.png",
+      popup: "/lovable-uploads/ee44b493-c143-4327-ab94-dcfa0c5f6622.png",
       alt: "Moldura Caixa Alta - Galeria 7"
     },
     {
       gallery: "/lovable-uploads/fd7af026-40a0-4160-bd66-cea2f8269693.png",
-      popup: "/lovable-uploads/fd7af026-40a0-4160-bd66-cea2f8269693.png",
+      popup: "/lovable-uploads/e13877bb-10e1-487c-a167-f3298ef7cd71.png",
       alt: "Moldura Caixa Baixa - Galeria 8"
     }
   ];
