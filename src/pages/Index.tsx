@@ -43,10 +43,10 @@ const Index = () => {
         
         {/* Feature sections */}
         <FeatureSection
-          title="Moldura premium de alta qualidade"
-          description="Utilizamos molduras minimalistas pretas e brancas, com acabamento premium que valoriza sua conquista com sofisticação e elegância."
+          title="Sua conquista merece ser eternizada com elegância"
+          description="Molduras minimalistas em madeira de reflorestamento e acabamento premium, que unem sofisticação e respeito ao meio ambiente."
           imageSrc={premiumFrame}
-          imageAlt="Moldura premium preta e branca minimalista"
+          imageAlt="Moldura premium em madeira de reflorestamento com acabamento elegante"
           imageOnLeft={true}
         />
         
