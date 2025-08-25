@@ -91,10 +91,14 @@ const Index = () => {
         />
         
         <Logos3 />
-        <HowItWorksSection />
+        <div className="pt-4">
+          <HowItWorksSection />
+        </div>
         <TestimonialsSection />
         <GallerySection />
-        <ProductSection />
+        <div className="pt-4">
+          <ProductSection />
+        </div>
         <CtaSection />
         <FAQSection />
         <Footer />

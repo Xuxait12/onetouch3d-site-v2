@@ -87,40 +87,40 @@ const ProductSection = () => {
                  {/* Área de Descrição do Produto */}
                  <div className="p-6 bg-white border-t border-gray-100">
                    <div className="space-y-4">
-                     <h4 className="text-lg font-semibold text-foreground">Características da Moldura</h4>
-                     <p className="text-lg font-bold text-gray-900 mb-4">
-                       NÃO NECESSITA ENVIO DA MEDALHA
+                      <h4 className="text-lg font-semibold text-foreground">Características da Moldura</h4>
+                     <div className="space-y-3 text-sm text-muted-foreground">
+                       <div className="flex items-start gap-2">
+                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                         <p><strong>Acabamento sofisticado:</strong> Madeira com revestimento PET texturizado em preto e interno liso branco.</p>
+                       </div>
+                       <div className="flex items-start gap-2">
+                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                         <p><strong>Dimensões:</strong> Espessura 5,2cm (distância da parede) e largura 3,1cm (frontal).</p>
+                       </div>
+                       <div className="flex items-start gap-2">
+                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                         <p><strong>Materiais de qualidade:</strong> Madeira + fundo em MDF 3mm.</p>
+                       </div>
+                       <div className="flex items-start gap-2">
+                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                         <p><strong>Design moderno:</strong> Combinação preta externa e branca interna.</p>
+                       </div>
+                       <div className="flex items-start gap-2">
+                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                         <p><strong>Proteção:</strong> Vidro 3mm no tamanho da moldura.</p>
+                       </div>
+                       <div className="flex items-start gap-2">
+                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                         <p><strong>Envio seguro:</strong> Embalagem reforçada com papelão e isopor.</p>
+                       </div>
+                       <div className="flex items-start gap-2">
+                         <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                         <p><strong>Kit instalação:</strong> Pendurador, parafuso, bucha e fita 3M.</p>
+                       </div>
+                     </div>
+                     <p className="text-lg font-bold text-blue-600 mt-4">
+                        NÃO NECESSITA ENVIO DA MEDALHA
                      </p>
-                    <div className="space-y-3 text-sm text-muted-foreground">
-                      <div className="flex items-start gap-2">
-                        <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p><strong>Acabamento sofisticado:</strong> Madeira com revestimento PET texturizado em preto e interno liso branco.</p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p><strong>Dimensões:</strong> Espessura 5,2cm (distância da parede) e largura 3,1cm (frontal).</p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p><strong>Materiais de qualidade:</strong> Madeira + fundo em MDF 3mm.</p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p><strong>Design moderno:</strong> Combinação preta externa e branca interna.</p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p><strong>Proteção:</strong> Vidro 3mm no tamanho da moldura.</p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p><strong>Envio seguro:</strong> Embalagem reforçada com papelão e isopor.</p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                        <p><strong>Kit instalação:</strong> Pendurador, parafuso, bucha e fita 3M.</p>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
