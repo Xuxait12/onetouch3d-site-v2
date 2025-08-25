@@ -1,4 +1,4 @@
-import { Component as ImageAutoSlider } from "@/components/ui/image-auto-slider";
+import GalleryCarousel from "@/components/GalleryCarousel";
 
 const GallerySection = () => {
   return (
@@ -10,7 +10,7 @@ const GallerySection = () => {
         </p>
       </div>
       
-      <ImageAutoSlider />
+      <GalleryCarousel />
     </section>
   );
 };
