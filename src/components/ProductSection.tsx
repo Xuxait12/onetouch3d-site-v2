@@ -27,7 +27,7 @@ const ProductSection = () => {
     "Caixa Baixa": {
       name: "Quadro Caixa Baixa",
       subtitle: "SEM percurso em alto relevo (3D)",
-      image: "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png"
+      image: "/lovable-uploads/f410345d-8605-4ce2-bbb3-7d9ce37ae9c7.png"
     }
   };
   const currentProduct = productData[selectedType];

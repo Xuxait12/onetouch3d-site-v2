@@ -15,11 +15,11 @@ import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
 import premiumFrame from "@/assets/premium-frame.jpg";
-import routeMap from "@/assets/3d-route-map.jpg";
-import marathonPhotos from "@/assets/marathon-photos.jpg";
+const routeMap = "/lovable-uploads/68eacf6d-3bb9-4055-9393-0b6bb4e9f571.png";
+const marathonPhotos = "/lovable-uploads/841392b3-e15f-47b0-9e64c92091d104.png";
 const modernDisplay = "/lovable-uploads/5de0791a-3bf0-4f5d-b44a-3d290400fb08.png";
-const raceDetails = "/lovable-uploads/42861c01-25ae-4ebf-9d29-a9aff62cac79.png";
-import securePackaging from "@/assets/secure-packaging.jpg";
+const raceDetails = "/lovable-uploads/f834e5fc-0dbb-4e28-ba79-06b7d032635f.png";
+const securePackaging = "/lovable-uploads/def7cbeb-e713-4419-95fc-602df501de68.png";
 
 const Index = () => {
   return (

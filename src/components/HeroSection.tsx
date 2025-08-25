@@ -3,7 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import heroRunnerNew from "@/assets/hero-runner-new.jpg";
+const heroRunnerNew = "/lovable-uploads/07909345-9f7e-457b-8adc-d1690db44d2d.png";
 import { ElegantShape } from "@/components/ui/shape-landing-hero";
 
 const HeroSection = () => {

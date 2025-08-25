@@ -4,6 +4,7 @@ const GallerySection = () => {
       <div className="text-center mb-16 animate-fade-up max-w-7xl mx-auto px-6">
         <h2 className="section-text mb-4">Galeria de Inspiração</h2>
         <p className="body-large text-muted-foreground">Veja como outras conquistas ganharam vida.</p>
+        <p className="text-sm md:text-base text-muted-foreground/80 italic mt-2">clique sobre a imagem para ampliar</p>
       </div>
       
       <GalleryCarousel />
