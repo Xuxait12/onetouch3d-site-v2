@@ -73,7 +73,7 @@ const Logos3 = ({
         <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background to-transparent"></div>
       </div>
       
-      <div className="max-w-4xl mx-auto px-6 mt-12 text-center">
+      <div className="max-w-4xl mx-auto px-6 mt-12 mb-5 md:mb-6 text-center">
         <p className="text-xl font-bold text-center" style={{ color: 'hsl(var(--brand-red))' }}>Cada conquista é única. Se a sua prova não está aqui, nos envie dados da sua prova que nós a eternizamos para você.</p>
       </div>
     </section>;
