@@ -60,7 +60,7 @@ const Index = () => {
         
         <FeatureSection
           title="Suas fotos em destaque"
-          description="Criamos um layout personalizado estilo scrapbook que valoriza suas melhores fotos da maratona de forma artística."
+          description="Criamos um layout personalizado em estilo scrapbook, que valoriza suas melhores fotos da prova de forma única e artística."
           imageSrc={marathonPhotos}
           imageAlt="Collage de fotos de maratonistas estilo scrapbook"
           imageOnLeft={true}
