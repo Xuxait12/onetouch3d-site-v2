@@ -33,6 +33,10 @@ const Logos3 = ({
     image: "/lovable-uploads/e8e41613-7cf8-4473-ad6e-4d1228ed4a6d.png",
     className: "h-12 md:h-16 w-auto"
   }, {
+    id: "paraty",
+    image: "/lovable-uploads/b6ced35d-8230-4d4b-9cc5-adc7e83eea44.png",
+    className: "h-12 md:h-16 w-auto"
+  }, {
     id: "logo-5",
     image: "/lovable-uploads/d55d8ea9-accd-4cf7-b18a-3ee10d894610.png",
     className: "h-12 md:h-16 w-auto"
@@ -47,6 +51,10 @@ const Logos3 = ({
   }, {
     id: "logo-8",
     image: "/lovable-uploads/1e90facf-c2ee-43d6-9fd6-35f1aff72989.png",
+    className: "h-12 md:h-16 w-auto"
+  }, {
+    id: "la-mission",
+    image: "/lovable-uploads/841eb927-fe0e-4a98-8b32-8a9b15683046.png",
     className: "h-12 md:h-16 w-auto"
   }]
 }: Logos3Props) => {
