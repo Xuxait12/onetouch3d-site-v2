@@ -13,6 +13,7 @@ import CtaSection from "@/components/CtaSection";
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import { BlurIn } from "@/components/ui/blur-in";
 
 import premiumFrame from "@/assets/premium-frame.jpg";
 const routeMap = "/lovable-uploads/68eacf6d-3bb9-4055-9393-0b6bb4e9f571.png";
@@ -91,6 +92,15 @@ const Index = () => {
         />
         
         <Logos3 />
+        
+        <section className="section-spacing max-w-4xl mx-auto px-6 text-center">
+          <BlurIn
+            word="Se a sua prova não está aqui, nos envie dados da sua prova que nós a eternizamos para você."
+            className="text-lg md:text-xl font-bold text-brand-red"
+            duration={1.2}
+          />
+        </section>
+        
         <HowItWorksSection />
         <TestimonialsSection />
         <GallerySection />
