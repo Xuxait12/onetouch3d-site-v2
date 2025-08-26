@@ -42,7 +42,7 @@ const ProductSection = () => {
     setShowValidation(false);
     // Proceed with purchase logic
   };
-  return <section className="section-spacing bg-gradient-to-b from-background to-muted/30">
+  return <section className="pt-8 pb-12 bg-gradient-to-b from-background to-muted/30">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16 animate-fade-up">
           <h2 className="section-text mb-4">Nossa Loja</h2>
