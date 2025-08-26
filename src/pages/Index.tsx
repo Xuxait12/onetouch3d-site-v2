@@ -93,8 +93,8 @@ const Index = () => {
         
         <Logos3 />
         
-        <section className="section-spacing flex justify-center px-6">
-          <div className="inline-block bg-gradient-to-r from-blue-400 to-blue-700 rounded-2xl px-8 py-6 shadow-lg">
+        <section className="pt-8 flex justify-center px-6">
+          <div className="inline-block bg-gradient-to-r from-blue-400 via-blue-500 to-blue-700 bg-[length:200%_100%] animate-gradient-x rounded-2xl px-8 py-6 shadow-lg">
             <p className="text-white font-bold text-center uppercase text-lg md:text-xl leading-tight">
               SE A SUA PROVA NÃO ESTÁ AQUI,<br />
               NOS ENVIE DADOS DA SUA PROVA QUE NÓS A ETERNIZAMOS PARA VOCÊ.
