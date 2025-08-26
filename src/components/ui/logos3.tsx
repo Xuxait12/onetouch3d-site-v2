@@ -2,6 +2,7 @@
 
 import AutoScroll from "embla-carousel-auto-scroll";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { AnimatedText } from "@/components/ui/animated-underline-text-one";
 interface Logo {
   id: string;
   description?: string;
@@ -73,8 +74,15 @@ const Logos3 = ({
         <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background to-transparent"></div>
       </div>
       
-      <div className="max-w-4xl mx-auto px-6 mt-12 mb-5 md:mb-6 text-center">
-        <p className="text-xl font-bold text-center" style={{ color: 'hsl(var(--brand-red))' }}>Cada conquista é única. Se a sua prova não está aqui, nos envie dados da sua prova que nós a eternizamos para você.</p>
+      <div className="max-w-4xl mx-auto px-6 mt-12 mb-5 md:mb-6 flex justify-center">
+        <AnimatedText 
+          text="Cada conquista é única!" 
+          textClassName="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 text-brand-red"
+          underlinePath="M 0,10 Q 75,0 150,10 Q 225,20 300,10"
+          underlineHoverPath="M 0,10 Q 75,20 150,10 Q 225,0 300,10"
+          underlineDuration={1.5}
+          underlineClassName="text-brand-red"
+        />
       </div>
     </section>;
 };
