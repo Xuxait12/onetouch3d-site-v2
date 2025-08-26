@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import HeaderLanding from "@/components/HeaderLanding";
 import HeroSection from "@/components/HeroSection";
 import ProblemSection from "@/components/ProblemSection";
 import SolutionSection from "@/components/SolutionSection";
@@ -28,7 +28,7 @@ const Index = () => {
       {/* Background gradient similar to OneTouch3D home */}
       <div className="fixed inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-100 -z-10"></div>
       
-      <Header />
+      <HeaderLanding />
       <HeroSection />
       
       {/* Content sections with background */}
