@@ -69,7 +69,7 @@ const Index = () => {
         
         <FeatureSection
           title="Design moderno e sofisticado"
-          description="Cada quadro é pensado para se integrar perfeitamente ao seu ambiente, criando um ponto focal elegante na decoração."
+          description="Cada quadro é pensado para se integrar perfeitamente ao seu ambiente, criando um ponto focal elegante na decoração. Seu quadro pronto para você adicionar a sua medalha."
           imageSrc={modernDisplay}
           imageAlt="Quadro personalizado exibido em parede moderna"
           imageOnLeft={false}
