@@ -93,12 +93,13 @@ const Index = () => {
         
         <Logos3 />
         
-        <section className="section-spacing max-w-4xl mx-auto px-6 text-center">
-          <BlurIn
-            word="Se a sua prova não está aqui, nos envie dados da sua prova que nós a eternizamos para você."
-            className="text-lg md:text-xl font-bold text-brand-red"
-            duration={1.2}
-          />
+        <section className="section-spacing flex justify-center px-6">
+          <div className="inline-block bg-gradient-to-r from-blue-400 to-blue-700 rounded-2xl px-8 py-6 shadow-lg">
+            <p className="text-white font-bold text-center uppercase text-lg md:text-xl leading-tight">
+              SE A SUA PROVA NÃO ESTÁ AQUI,<br />
+              NOS ENVIE DADOS DA SUA PROVA QUE NÓS A ETERNIZAMOS PARA VOCÊ.
+            </p>
+          </div>
         </section>
         
         <HowItWorksSection />
