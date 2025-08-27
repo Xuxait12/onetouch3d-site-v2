@@ -103,10 +103,10 @@ const HeroSection = () => {
       </div>
       
       {/* Content */}
-      <div className="relative z-10 h-full flex items-center justify-center px-6">
+      <div className="relative z-10 h-full flex flex-col items-center justify-center px-6">
         <div className="text-center text-white max-w-4xl animate-fade-up">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            <span className="text-primary">Transforme</span> Sua Corrida em Uma Lembrança Eterna
+            <span className="text-blue-500">Transforme</span> Sua Corrida em Uma Lembrança Eterna
           </h1>
           <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
             Quadros personalizados que contam a história da sua conquista, quilômetro por quilômetro.
@@ -121,13 +121,13 @@ const HeroSection = () => {
             Criar Meu Quadro Agora
           </Button>
         </div>
-      </div>
-      
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
-        <div className="flex flex-col items-center text-white/80">
-          <Mouse size={24} className="mb-2" />
-          <div className="text-sm font-medium">Role para baixo</div>
+        
+        {/* Scroll Indicator */}
+        <div className="mt-16 animate-bounce">
+          <div className="flex flex-col items-center text-white/80">
+            <Mouse size={24} className="mb-2" />
+            <div className="text-sm font-medium">Role para baixo</div>
+          </div>
         </div>
       </div>
     </section>
