@@ -96,6 +96,29 @@ const Index = () => {
         <HowItWorksSection />
         <TestimonialsSection />
         <GallerySection />
+        
+        {/* Botão Compartilhar no WhatsApp */}
+        <div style={{ textAlign: 'center', margin: '50px 0' }}>
+          <a 
+            href="https://api.whatsapp.com/send?text=Olha%20esse%20quadro%20personalizado%20incr%C3%ADvel%20para%20medalhas%20de%20corrida%20que%20achei%20👉%20https://corrida.onetouch3d.com.br/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-block',
+              background: '#25D366',
+              color: 'white',
+              padding: '15px 30px',
+              fontSize: '18px',
+              borderRadius: '50px',
+              textDecoration: 'none',
+              fontWeight: 'bold',
+              transition: '0.3s'
+            }}
+          >
+            📤 Compartilhar no WhatsApp
+          </a>
+        </div>
+        
         <ProductSection />
         <CtaSection />
         <FAQSection />
