@@ -3,7 +3,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-const heroRunnerNew = "/lovable-uploads/07909345-9f7e-457b-8adc-d1690db44d2d.png";
+import { Mouse } from "lucide-react";
+import heroRunnerFinish from "@/assets/hero-runner-finish-resized.jpg";
 import { ElegantShape } from "@/components/ui/shape-landing-hero";
 
 const HeroSection = () => {
@@ -95,7 +96,7 @@ const HeroSection = () => {
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroRunnerNew})` }}
+        style={{ backgroundImage: `url(${heroRunnerFinish})` }}
       >
         {/* Overlay para melhorar legibilidade */}
         <div className="absolute inset-0 bg-black/40"></div>
@@ -119,6 +120,14 @@ const HeroSection = () => {
           >
             Criar Meu Quadro Agora
           </Button>
+        </div>
+      </div>
+      
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
+        <div className="flex flex-col items-center text-white/80">
+          <Mouse size={24} className="mb-2" />
+          <div className="text-sm font-medium">Role para baixo</div>
         </div>
       </div>
     </section>
