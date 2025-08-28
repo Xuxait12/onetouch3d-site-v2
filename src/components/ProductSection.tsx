@@ -35,7 +35,9 @@ const ProductSection = () => {
     if (selectedType && selectedColor && selectedSize && variacoes.length > 0) {
       const variacao = variacoes.find(v => {
         const produto = selectedType === "Caixa Alta" ? "Caixa Alta" : "Caixa Baixa";
-        return v.cor === selectedColor && v.tamanho === selectedSize && 
+        // Converter "Preta/branca" para "Preta/Branca" para coincidir com o banco
+        const colorToMatch = selectedColor === "Preta/branca" ? "Preta/Branca" : selectedColor;
+        return v.cor === colorToMatch && v.tamanho === selectedSize && 
                (produto === "Caixa Alta" ? v.produto_id === "5a270960-1e10-4367-9001-497727c6106b" : 
                 v.produto_id === "85b0c3fa-2eb2-420a-9e42-b24fd0f7784a");
       });
@@ -62,6 +64,7 @@ const ProductSection = () => {
       } else if (selectedColor === "Preta/branca") {
         return "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png";
       }
+      // Imagem padrão para Caixa Alta
       return "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png";
     } else {
       if (selectedColor === "Branca") {
@@ -69,10 +72,12 @@ const ProductSection = () => {
       } else if (selectedColor === "Preta") {
         return "/lovable-uploads/f410345d-8605-4ce2-bbb3-7d9ce37ae9c7.png";
       }
+      // Imagem padrão para Caixa Baixa
       return "/lovable-uploads/f410345d-8605-4ce2-bbb3-7d9ce37ae9c7.png";
     }
   };
 
+  // Garantir que o produto seja atualizado sempre que tipo ou cor mudarem
   const currentProduct = {
     name: selectedType === "Caixa Alta" ? "Quadro Caixa Alta" : "Quadro Caixa Baixa",
     subtitle: selectedType === "Caixa Alta" ? "COM percurso em alto relevo (3D)" : "SEM percurso em alto relevo (3D)",
@@ -100,7 +105,18 @@ const ProductSection = () => {
               <div className="relative overflow-hidden">
                 {/* Imagem do Produto */}
                  <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center group cursor-pointer">
-                   <img src={currentProduct.image} alt={currentProduct.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                   <img 
+                     src={currentProduct.image} 
+                     alt={`${currentProduct.name} - ${selectedColor || 'sem cor selecionada'}`} 
+                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                     key={`${selectedType}-${selectedColor}`}
+                     onError={(e) => {
+                       // Fallback para imagem padrão em caso de erro
+                       e.currentTarget.src = selectedType === "Caixa Alta" 
+                         ? "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png"
+                         : "/lovable-uploads/f410345d-8605-4ce2-bbb3-7d9ce37ae9c7.png";
+                     }}
+                   />
                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
                  </div>
                 
