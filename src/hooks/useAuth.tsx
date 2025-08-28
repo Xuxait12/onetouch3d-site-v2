@@ -79,6 +79,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setSession(session);
         setUser(session?.user ?? null);
         
+        if (event === 'SIGNED_IN' && session) {
+          // Redirecionar para finalizar pedido após login bem-sucedido
+          window.location.href = '/finalizar-pedido';
+          return;
+        }
+        
         if (session?.user) {
           // Buscar dados do usuário na tabela usuarios
           setTimeout(() => {

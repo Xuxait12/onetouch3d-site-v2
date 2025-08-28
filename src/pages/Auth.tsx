@@ -137,12 +137,12 @@ export default function Auth() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: 'https://preview--landing-corrida.lovable.app/finalizar-pedido'
+          redirectTo: window.location.origin
         }
       });
 
       if (error) {
-        console.error('Erro no login com Google:', error);
+        console.error('Erro no login com Google:', error.message);
         toast.error(error.message);
         setLoading(false);
         return;
