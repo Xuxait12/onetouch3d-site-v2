@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Mail, Lock, User } from 'lucide-react';
 import { toast } from 'sonner';
+import googleLogo from '@/assets/google-logo.png';
 
 export default function Auth() {
   const navigate = useNavigate();
@@ -95,6 +96,31 @@ export default function Auth() {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    
+    try {
+      const redirectUrl = `${window.location.origin}/checkout`;
+      
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: redirectUrl
+        }
+      });
+
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+    } catch (error) {
+      console.error('Erro no login com Google:', error);
+      toast.error('Erro ao fazer login com Google');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -159,6 +185,25 @@ export default function Auth() {
                 >
                   {loading ? 'Entrando...' : 'Entrar'}
                 </Button>
+                
+                <div className="relative my-4">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-muted-foreground/20" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">ou</span>
+                  </div>
+                </div>
+                
+                <Button 
+                  onClick={handleGoogleSignIn}
+                  variant="outline"
+                  className="w-full" 
+                  disabled={loading}
+                >
+                  <img src={googleLogo} alt="Google" className="w-4 h-4 mr-2" />
+                  Entrar com Google
+                </Button>
               </TabsContent>
               
               <TabsContent value="register" className="space-y-4">
@@ -213,6 +258,25 @@ export default function Auth() {
                   disabled={loading || !email || !password || !confirmPassword}
                 >
                   {loading ? 'Criando conta...' : 'Criar Conta'}
+                </Button>
+                
+                <div className="relative my-4">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-muted-foreground/20" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">ou</span>
+                  </div>
+                </div>
+                
+                <Button 
+                  onClick={handleGoogleSignIn}
+                  variant="outline"
+                  className="w-full" 
+                  disabled={loading}
+                >
+                  <img src={googleLogo} alt="Google" className="w-4 h-4 mr-2" />
+                  Cadastrar com Google
                 </Button>
               </TabsContent>
             </Tabs>
