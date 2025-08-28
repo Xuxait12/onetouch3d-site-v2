@@ -16,6 +16,7 @@ import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 import EntregasPrazos from "./pages/EntregasPrazos";
 import Produtos from "./pages/Produtos";
 import Checkout from "./pages/Checkout";
+import FinalizarPedido from "./pages/FinalizarPedido";
 import PedidoConfirmado from "./pages/PedidoConfirmado";
 import NotFound from "./pages/NotFound";
 
@@ -41,6 +42,7 @@ const App = () => (
             <Route path="/entregas-prazos" element={<EntregasPrazos />} />
             <Route path="/produtos" element={<Produtos />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/finalizar-pedido" element={<FinalizarPedido />} />
             <Route path="/pedido-confirmado" element={<PedidoConfirmado />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
