@@ -94,7 +94,28 @@ export default function Produtos() {
     v => v.cor === corSelecionada && v.tamanho === tamanhoSelecionado
   );
 
-  const imagemProduto = variacaoSelecionada?.imagem_url;
+  // Função para obter a imagem baseada no produto e cor selecionados (sincronizada com ProductSection)
+  const getProductImage = () => {
+    if (!produto || !corSelecionada) return null;
+    
+    if (produto.nome === 'caixa_alta' || produto.id === "5a270960-1e10-4367-9001-497727c6106b") {
+      if (corSelecionada === "Preta") {
+        return "/lovable-uploads/40be9b53-f271-490e-aaf6-e1fb313f84a6.png";
+      } else if (corSelecionada === "Preta/Branca" || corSelecionada === "Preta/branca") {
+        return "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png";
+      }
+      return "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png";
+    } else {
+      if (corSelecionada === "Branca") {
+        return "/lovable-uploads/79a5fadb-f906-4fd2-95b4-80ae0e7dff65.png";
+      } else if (corSelecionada === "Preta") {
+        return "/lovable-uploads/f410345d-8605-4ce2-bbb3-7d9ce37ae9c7.png";
+      }
+      return "/lovable-uploads/f410345d-8605-4ce2-bbb3-7d9ce37ae9c7.png";
+    }
+  };
+
+  const imagemProduto = getProductImage();
   const precoProduto = variacaoSelecionada?.preco || 0;
   const precoTotal = precoProduto * quantidade;
 
@@ -143,7 +164,7 @@ export default function Produtos() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Voltar para Home
           </Button>
-          <h1 className="text-3xl font-bold text-center mb-2">Nossa Loja</h1>
+          <h1 className="text-3xl font-bold text-center mb-2">COMPRANDO</h1>
           <p className="text-muted-foreground text-center">
             Escolha seu quadro personalizado para medalhas
           </p>
@@ -154,20 +175,27 @@ export default function Produtos() {
           <div className="space-y-4">
             <Card>
               <CardContent className="p-6">
-                <div className="aspect-square bg-muted rounded-lg flex items-center justify-center overflow-hidden">
-                  {imagemProduto ? (
-                    <img 
-                      src={`https://wzjfofufvrtzhmkismyh.supabase.co/storage/v1/object/public/produtos/${imagemProduto}`}
-                      alt={`${produto?.nome} - ${corSelecionada}`}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="text-center text-muted-foreground">
-                      <ShoppingCart className="w-16 h-16 mx-auto mb-2 opacity-30" />
-                      <p>Selecione as opções para ver a imagem</p>
-                    </div>
-                  )}
-                </div>
+                 <div className="aspect-square bg-muted rounded-lg flex items-center justify-center overflow-hidden">
+                   {imagemProduto ? (
+                     <img 
+                       src={imagemProduto}
+                       alt={`${produto?.nome === 'caixa_alta' ? 'Caixa Alta' : 'Caixa Baixa'} - ${corSelecionada}`}
+                       className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                       key={`${produto?.id}-${corSelecionada}`}
+                       onError={(e) => {
+                         // Fallback para imagem padrão em caso de erro
+                         e.currentTarget.src = produto?.nome === 'caixa_alta' 
+                           ? "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png"
+                           : "/lovable-uploads/f410345d-8605-4ce2-bbb3-7d9ce37ae9c7.png";
+                       }}
+                     />
+                   ) : (
+                     <div className="text-center text-muted-foreground">
+                       <ShoppingCart className="w-16 h-16 mx-auto mb-2 opacity-30" />
+                       <p>Selecione as opções para ver a imagem</p>
+                     </div>
+                   )}
+                 </div>
               </CardContent>
             </Card>
           </div>
