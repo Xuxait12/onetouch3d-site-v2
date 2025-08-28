@@ -19,11 +19,45 @@ export default function Auth() {
 
   useEffect(() => {
     // Check if user is already logged in
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        navigate('/checkout');
+        navigate('/finalizar-pedido');
+      }
+    };
+    
+    checkSession();
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        const user = session.user;
+
+        try {
+          // Save or update user data in the usuarios table
+          await supabase.from('usuarios').upsert({
+            user_id: user.id,
+            email: user.email,
+            nome: user.user_metadata.full_name || user.user_metadata.name || user.email?.split('@')[0] || 'Usuário',
+            cpf: '', // Will be filled later
+            rua: '', // Will be filled later
+            numero: '', // Will be filled later
+            bairro: '', // Will be filled later
+            cidade: '', // Will be filled later
+            estado: '', // Will be filled later
+            cep: '', // Will be filled later
+          });
+
+          // Redirect to finalizar-pedido
+          navigate('/finalizar-pedido');
+        } catch (error) {
+          console.error('Erro ao salvar dados do usuário:', error);
+          toast.error('Erro ao processar login');
+        }
       }
     });
+
+    return () => subscription.unsubscribe();
   }, [navigate]);
 
   const handleSignUp = async () => {
@@ -40,7 +74,7 @@ export default function Auth() {
     setLoading(true);
     
     try {
-      const redirectUrl = `${window.location.origin}/checkout`;
+      const redirectUrl = `${window.location.origin}/finalizar-pedido`;
       
       const { error } = await supabase.auth.signUp({
         email,
@@ -87,7 +121,7 @@ export default function Auth() {
       }
 
       toast.success('Login realizado com sucesso!');
-      navigate('/checkout');
+      navigate('/finalizar-pedido');
     } catch (error) {
       console.error('Erro no login:', error);
       toast.error('Erro ao fazer login');
@@ -100,23 +134,23 @@ export default function Auth() {
     setLoading(true);
     
     try {
-      const redirectUrl = `${window.location.origin}/checkout`;
-      
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: redirectUrl
+          redirectTo: `${window.location.origin}/finalizar-pedido`
         }
       });
 
       if (error) {
         toast.error(error.message);
+        setLoading(false);
         return;
       }
+      
+      // Don't set loading to false here as the user will be redirected
     } catch (error) {
       console.error('Erro no login com Google:', error);
       toast.error('Erro ao fazer login com Google');
-    } finally {
       setLoading(false);
     }
   };
