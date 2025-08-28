@@ -112,7 +112,8 @@ export default function Produtos() {
       preco: precoProduto,
       quantidade,
       total: precoTotal,
-      imagemUrl: imagemProduto
+      imagemUrl: imagemProduto,
+      variacaoId: variacaoSelecionada?.id
     };
 
     localStorage.setItem('dadosPedido', JSON.stringify(dadosPedido));

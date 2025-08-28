@@ -82,66 +82,48 @@ export type Database = {
       }
       pedidos: {
         Row: {
-          cor: string
           created_at: string
-          cupom: string | null
-          desconto: number | null
-          email: string
-          endereco: string
-          forma_pagamento: string | null
-          frete: number | null
           id: string
-          nome: string
-          preco: number
-          produto: string
           quantidade: number
           status: string
-          subtotal: number
-          tamanho: string
-          telefone: string
-          user_id: string | null
+          usuario_id: string
+          valor_total: number
+          variacao_id: string
         }
         Insert: {
-          cor: string
           created_at?: string
-          cupom?: string | null
-          desconto?: number | null
-          email: string
-          endereco: string
-          forma_pagamento?: string | null
-          frete?: number | null
           id?: string
-          nome: string
-          preco: number
-          produto: string
           quantidade?: number
           status?: string
-          subtotal: number
-          tamanho: string
-          telefone: string
-          user_id?: string | null
+          usuario_id: string
+          valor_total: number
+          variacao_id: string
         }
         Update: {
-          cor?: string
           created_at?: string
-          cupom?: string | null
-          desconto?: number | null
-          email?: string
-          endereco?: string
-          forma_pagamento?: string | null
-          frete?: number | null
           id?: string
-          nome?: string
-          preco?: number
-          produto?: string
           quantidade?: number
           status?: string
-          subtotal?: number
-          tamanho?: string
-          telefone?: string
-          user_id?: string | null
+          usuario_id?: string
+          valor_total?: number
+          variacao_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "pedidos_usuario_id_fkey"
+            columns: ["usuario_id"]
+            isOneToOne: false
+            referencedRelation: "usuarios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pedidos_variacao_id_fkey"
+            columns: ["variacao_id"]
+            isOneToOne: false
+            referencedRelation: "variacoes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       produtos: {
         Row: {
@@ -189,6 +171,60 @@ export type Database = {
           full_name?: string | null
           id?: string
           phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      usuarios: {
+        Row: {
+          bairro: string
+          cep: string
+          cidade: string
+          complemento: string | null
+          cpf: string
+          created_at: string
+          email: string
+          estado: string
+          id: string
+          nome: string
+          numero: string
+          rua: string
+          telefone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          bairro: string
+          cep: string
+          cidade: string
+          complemento?: string | null
+          cpf: string
+          created_at?: string
+          email: string
+          estado: string
+          id?: string
+          nome: string
+          numero: string
+          rua: string
+          telefone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          bairro?: string
+          cep?: string
+          cidade?: string
+          complemento?: string | null
+          cpf?: string
+          created_at?: string
+          email?: string
+          estado?: string
+          id?: string
+          nome?: string
+          numero?: string
+          rua?: string
+          telefone?: string | null
           updated_at?: string
           user_id?: string
         }

@@ -7,9 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { ArrowLeft, CreditCard, Smartphone, DollarSign, Package, Truck, Tag } from 'lucide-react';
+import { ArrowLeft, Package, User, MapPin, LogOut } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface DadosPedido {
@@ -21,29 +20,52 @@ interface DadosPedido {
   quantidade: number;
   total: number;
   imagemUrl: string;
+  variacaoId: string;
+}
+
+interface UserData {
+  nome: string;
+  email: string;
+  cpf: string;
+  telefone: string;
+  rua: string;
+  numero: string;
+  complemento: string;
+  bairro: string;
+  cidade: string;
+  estado: string;
+  cep: string;
 }
 
 export default function Checkout() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   
   const [dadosPedido, setDadosPedido] = useState<DadosPedido | null>(null);
-  const [cupom, setCupom] = useState('');
-  const [cupomAplicado, setCupomAplicado] = useState<any>(null);
-  const [cep, setCep] = useState('');
-  const [frete, setFrete] = useState(0);
   const [loading, setLoading] = useState(false);
   
-  // Dados pessoais
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [telefone, setTelefone] = useState('');
-  const [endereco, setEndereco] = useState('');
-  const [cidade, setCidade] = useState('');
-  const [estado, setEstado] = useState('');
-  const [formaPagamento, setFormaPagamento] = useState('');
+  // Dados do usuário
+  const [userData, setUserData] = useState<UserData>({
+    nome: '',
+    email: '',
+    cpf: '',
+    telefone: '',
+    rua: '',
+    numero: '',
+    complemento: '',
+    bairro: '',
+    cidade: '',
+    estado: '',
+    cep: ''
+  });
 
   useEffect(() => {
+    // Redirect to auth if not logged in
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
+
     const dados = localStorage.getItem('dadosPedido');
     if (!dados) {
       toast.error('Nenhum produto selecionado');
@@ -52,97 +74,143 @@ export default function Checkout() {
     }
     setDadosPedido(JSON.parse(dados));
 
-    // Preencher dados do usuário se logado
-    if (user?.email) {
-      setEmail(user.email);
-    }
+    // Load user data from database
+    loadUserData();
   }, [navigate, user]);
 
-  const aplicarCupom = async () => {
-    if (!cupom.trim()) return;
+  const loadUserData = async () => {
+    if (!user) return;
 
     try {
       const { data, error } = await supabase
-        .from('cupons')
+        .from('usuarios')
         .select('*')
-        .eq('codigo', cupom.toUpperCase())
-        .eq('ativo', true)
-        .single();
+        .eq('user_id', user.id)
+        .maybeSingle();
 
-      if (error || !data) {
-        toast.error('Cupom inválido ou expirado');
+      if (error && error.code !== 'PGRST116') {
+        console.error('Erro ao carregar dados do usuário:', error);
         return;
       }
 
-      // Verificar data de expiração
-      if (data.data_expiracao && new Date(data.data_expiracao) < new Date()) {
-        toast.error('Cupom expirado');
-        return;
+      if (data) {
+        setUserData({
+          nome: data.nome || '',
+          email: data.email || user.email || '',
+          cpf: data.cpf || '',
+          telefone: data.telefone || '',
+          rua: data.rua || '',
+          numero: data.numero || '',
+          complemento: data.complemento || '',
+          bairro: data.bairro || '',
+          cidade: data.cidade || '',
+          estado: data.estado || '',
+          cep: data.cep || ''
+        });
+      } else {
+        // Set email from auth if no user data exists
+        setUserData(prev => ({
+          ...prev,
+          email: user.email || ''
+        }));
       }
-
-      setCupomAplicado(data);
-      toast.success(`Cupom aplicado! Desconto de ${data.desconto_percentual || data.desconto_fixo}${data.desconto_percentual ? '%' : ' reais'}`);
     } catch (error) {
-      console.error('Erro ao aplicar cupom:', error);
-      toast.error('Erro ao verificar cupom');
+      console.error('Erro ao carregar dados:', error);
     }
   };
 
-  const calcularFrete = () => {
-    if (cep.length === 8) {
-      // Por enquanto, valor fixo para teste
-      setFrete(15.00);
-      toast.success('Frete calculado!');
-    } else {
-      toast.error('CEP deve ter 8 dígitos');
-    }
+  const formatCPF = (value: string) => {
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+      .replace(/(-\d{2})\d+?$/, '$1');
   };
 
-  const calcularDesconto = () => {
-    if (!cupomAplicado || !dadosPedido) return 0;
-    
-    if (cupomAplicado.desconto_percentual) {
-      return (dadosPedido.total * cupomAplicado.desconto_percentual) / 100;
-    }
-    
-    return cupomAplicado.desconto_fixo || 0;
+  const formatPhone = (value: string) => {
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{2})(\d)/, '($1) $2')
+      .replace(/(\d{5})(\d)/, '$1-$2')
+      .replace(/(-\d{4})\d+?$/, '$1');
   };
 
-  const desconto = calcularDesconto();
-  const subtotal = dadosPedido ? dadosPedido.total - desconto : 0;
-  const total = subtotal + frete;
+  const formatCEP = (value: string) => {
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{5})(\d)/, '$1-$2')
+      .replace(/(-\d{3})\d+?$/, '$1');
+  };
+
+  const updateUserData = (field: keyof UserData, value: string) => {
+    setUserData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
 
   const finalizarPedido = async () => {
-    if (!dadosPedido || !nome || !email || !telefone || !endereco || !formaPagamento) {
+    const { nome, email, cpf, rua, numero, bairro, cidade, estado, cep } = userData;
+    
+    if (!dadosPedido || !nome || !email || !cpf || !rua || !numero || !bairro || !cidade || !estado || !cep) {
       toast.error('Preencha todos os campos obrigatórios');
+      return;
+    }
+
+    if (!user) {
+      toast.error('Usuário não autenticado');
       return;
     }
 
     setLoading(true);
 
     try {
-      const { error } = await supabase
+      // First, save or update user data
+      const { data: existingUser } = await supabase
+        .from('usuarios')
+        .select('id')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      let usuarioId;
+
+      if (existingUser) {
+        // Update existing user
+        const { error: updateError } = await supabase
+          .from('usuarios')
+          .update(userData)
+          .eq('user_id', user.id);
+
+        if (updateError) throw updateError;
+        usuarioId = existingUser.id;
+      } else {
+        // Create new user record
+        const { data: newUser, error: insertError } = await supabase
+          .from('usuarios')
+          .insert({
+            user_id: user.id,
+            ...userData
+          })
+          .select('id')
+          .single();
+
+        if (insertError) throw insertError;
+        usuarioId = newUser.id;
+      }
+
+      // Create the order
+      const { error: orderError } = await supabase
         .from('pedidos')
         .insert({
-          user_id: user?.id || null,
-          produto: dadosPedido.produto,
-          cor: dadosPedido.cor,
-          tamanho: dadosPedido.tamanho,
-          preco: dadosPedido.preco,
+          usuario_id: usuarioId,
+          variacao_id: dadosPedido.variacaoId,
           quantidade: dadosPedido.quantidade,
-          cupom: cupomAplicado?.codigo || null,
-          desconto,
-          frete,
-          subtotal: total,
-          nome,
-          email,
-          telefone,
-          endereco: `${endereco}, ${cidade} - ${estado}`,
-          forma_pagamento: formaPagamento,
+          valor_total: dadosPedido.total,
           status: 'Pendente'
         });
 
-      if (error) throw error;
+      if (orderError) throw orderError;
 
       toast.success('Pedido realizado com sucesso!');
       localStorage.removeItem('dadosPedido');
@@ -152,6 +220,16 @@ export default function Checkout() {
       toast.error('Erro ao finalizar pedido');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      navigate('/auth');
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error);
+      toast.error('Erro ao fazer logout');
     }
   };
 
@@ -170,20 +248,202 @@ export default function Checkout() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate('/produtos')}
-            className="mb-4"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Voltar aos Produtos
-          </Button>
+          <div className="flex justify-between items-center mb-4">
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate('/produtos')}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Voltar aos Produtos
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={handleSignOut}
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Sair
+            </Button>
+          </div>
           <h1 className="text-3xl font-bold text-center mb-2">Finalizar Pedido</h1>
+          <p className="text-center text-muted-foreground">
+            Logado como: {user?.email}
+          </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          {/* Formulário de Dados */}
+          <div className="space-y-6">
+
+            {/* Dados Pessoais */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <User className="w-5 h-5 mr-2" />
+                  Dados Pessoais
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="nome">Nome Completo *</Label>
+                    <Input
+                      id="nome"
+                      value={userData.nome}
+                      onChange={(e) => updateUserData('nome', e.target.value)}
+                      placeholder="Seu nome completo"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="email">E-mail *</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={userData.email}
+                      onChange={(e) => updateUserData('email', e.target.value)}
+                      placeholder="seu@email.com"
+                      disabled
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="cpf">CPF *</Label>
+                    <Input
+                      id="cpf"
+                      value={userData.cpf}
+                      onChange={(e) => updateUserData('cpf', formatCPF(e.target.value))}
+                      placeholder="000.000.000-00"
+                      maxLength={14}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="telefone">Telefone</Label>
+                    <Input
+                      id="telefone"
+                      value={userData.telefone}
+                      onChange={(e) => updateUserData('telefone', formatPhone(e.target.value))}
+                      placeholder="(11) 99999-9999"
+                      maxLength={15}
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Endereço de Entrega */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <MapPin className="w-5 h-5 mr-2" />
+                  Endereço de Entrega
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="md:col-span-2">
+                    <Label htmlFor="rua">Rua *</Label>
+                    <Input
+                      id="rua"
+                      value={userData.rua}
+                      onChange={(e) => updateUserData('rua', e.target.value)}
+                      placeholder="Nome da rua"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="numero">Número *</Label>
+                    <Input
+                      id="numero"
+                      value={userData.numero}
+                      onChange={(e) => updateUserData('numero', e.target.value)}
+                      placeholder="123"
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="complemento">Complemento</Label>
+                    <Input
+                      id="complemento"
+                      value={userData.complemento}
+                      onChange={(e) => updateUserData('complemento', e.target.value)}
+                      placeholder="Apto, sala, casa..."
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="bairro">Bairro *</Label>
+                    <Input
+                      id="bairro"
+                      value={userData.bairro}
+                      onChange={(e) => updateUserData('bairro', e.target.value)}
+                      placeholder="Nome do bairro"
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <Label htmlFor="cidade">Cidade *</Label>
+                    <Input
+                      id="cidade"
+                      value={userData.cidade}
+                      onChange={(e) => updateUserData('cidade', e.target.value)}
+                      placeholder="Sua cidade"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="estado">Estado *</Label>
+                    <Select value={userData.estado} onValueChange={(value) => updateUserData('estado', value)}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="UF" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="AC">Acre</SelectItem>
+                        <SelectItem value="AL">Alagoas</SelectItem>
+                        <SelectItem value="AP">Amapá</SelectItem>
+                        <SelectItem value="AM">Amazonas</SelectItem>
+                        <SelectItem value="BA">Bahia</SelectItem>
+                        <SelectItem value="CE">Ceará</SelectItem>
+                        <SelectItem value="DF">Distrito Federal</SelectItem>
+                        <SelectItem value="ES">Espírito Santo</SelectItem>
+                        <SelectItem value="GO">Goiás</SelectItem>
+                        <SelectItem value="MA">Maranhão</SelectItem>
+                        <SelectItem value="MT">Mato Grosso</SelectItem>
+                        <SelectItem value="MS">Mato Grosso do Sul</SelectItem>
+                        <SelectItem value="MG">Minas Gerais</SelectItem>
+                        <SelectItem value="PA">Pará</SelectItem>
+                        <SelectItem value="PB">Paraíba</SelectItem>
+                        <SelectItem value="PR">Paraná</SelectItem>
+                        <SelectItem value="PE">Pernambuco</SelectItem>
+                        <SelectItem value="PI">Piauí</SelectItem>
+                        <SelectItem value="RJ">Rio de Janeiro</SelectItem>
+                        <SelectItem value="RN">Rio Grande do Norte</SelectItem>
+                        <SelectItem value="RS">Rio Grande do Sul</SelectItem>
+                        <SelectItem value="RO">Rondônia</SelectItem>
+                        <SelectItem value="RR">Roraima</SelectItem>
+                        <SelectItem value="SC">Santa Catarina</SelectItem>
+                        <SelectItem value="SP">São Paulo</SelectItem>
+                        <SelectItem value="SE">Sergipe</SelectItem>
+                        <SelectItem value="TO">Tocantins</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="cep">CEP *</Label>
+                    <Input
+                      id="cep"
+                      value={userData.cep}
+                      onChange={(e) => updateUserData('cep', formatCEP(e.target.value))}
+                      placeholder="00000-000"
+                      maxLength={9}
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+          </div>
+
           {/* Resumo do Pedido */}
-          <div className="lg:col-span-1 space-y-6">
+          <div className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
@@ -215,247 +475,23 @@ export default function Checkout() {
                 <Separator />
 
                 <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span>Subtotal:</span>
-                    <span>R$ {dadosPedido.total.toFixed(2)}</span>
-                  </div>
-                  
-                  {desconto > 0 && (
-                    <div className="flex justify-between text-green-600">
-                      <span>Desconto:</span>
-                      <span>-R$ {desconto.toFixed(2)}</span>
-                    </div>
-                  )}
-                  
-                  <div className="flex justify-between">
-                    <span>Frete:</span>
-                    <span>{frete > 0 ? `R$ ${frete.toFixed(2)}` : 'A calcular'}</span>
-                  </div>
-                  
-                  <Separator />
-                  
                   <div className="flex justify-between font-bold text-lg">
                     <span>Total:</span>
-                    <span>R$ {total.toFixed(2)}</span>
+                    <span>R$ {dadosPedido.total.toFixed(2)}</span>
                   </div>
                 </div>
+                
+                {/* Botão Finalizar */}
+                <Button 
+                  onClick={finalizarPedido}
+                  className="w-full" 
+                  size="lg"
+                  disabled={loading}
+                >
+                  {loading ? 'Processando...' : 'Finalizar Compra'}
+                </Button>
               </CardContent>
             </Card>
-
-            {/* Cupom de Desconto */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Tag className="w-5 h-5 mr-2" />
-                  Cupom de Desconto
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex space-x-2">
-                  <Input
-                    placeholder="Digite o cupom"
-                    value={cupom}
-                    onChange={(e) => setCupom(e.target.value.toUpperCase())}
-                    disabled={!!cupomAplicado}
-                  />
-                  <Button 
-                    onClick={aplicarCupom} 
-                    disabled={!!cupomAplicado}
-                    variant="outline"
-                  >
-                    Aplicar
-                  </Button>
-                </div>
-                {cupomAplicado && (
-                  <Badge variant="secondary" className="w-full justify-center">
-                    Cupom {cupomAplicado.codigo} aplicado!
-                  </Badge>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Calcular Frete */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Truck className="w-5 h-5 mr-2" />
-                  Calcular Frete
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex space-x-2">
-                  <Input
-                    placeholder="CEP (somente números)"
-                    value={cep}
-                    onChange={(e) => setCep(e.target.value.replace(/\D/g, '').slice(0, 8))}
-                    maxLength={8}
-                  />
-                  <Button onClick={calcularFrete} variant="outline">
-                    Calcular
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Formulário de Dados */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Dados Pessoais */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Dados Pessoais</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="nome">Nome Completo *</Label>
-                    <Input
-                      id="nome"
-                      value={nome}
-                      onChange={(e) => setNome(e.target.value)}
-                      placeholder="Seu nome completo"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="email">E-mail *</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="seu@email.com"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="telefone">Telefone *</Label>
-                    <Input
-                      id="telefone"
-                      value={telefone}
-                      onChange={(e) => setTelefone(e.target.value)}
-                      placeholder="(11) 99999-9999"
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Endereço de Entrega */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Endereço de Entrega</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="endereco">Endereço Completo *</Label>
-                  <Input
-                    id="endereco"
-                    value={endereco}
-                    onChange={(e) => setEndereco(e.target.value)}
-                    placeholder="Rua, número, complemento"
-                  />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="cidade">Cidade *</Label>
-                    <Input
-                      id="cidade"
-                      value={cidade}
-                      onChange={(e) => setCidade(e.target.value)}
-                      placeholder="Sua cidade"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="estado">Estado *</Label>
-                    <Select value={estado} onValueChange={setEstado}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecione o estado" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="SP">São Paulo</SelectItem>
-                        <SelectItem value="RJ">Rio de Janeiro</SelectItem>
-                        <SelectItem value="MG">Minas Gerais</SelectItem>
-                        <SelectItem value="RS">Rio Grande do Sul</SelectItem>
-                        <SelectItem value="PR">Paraná</SelectItem>
-                        <SelectItem value="SC">Santa Catarina</SelectItem>
-                        <SelectItem value="GO">Goiás</SelectItem>
-                        <SelectItem value="MT">Mato Grosso</SelectItem>
-                        <SelectItem value="MS">Mato Grosso do Sul</SelectItem>
-                        <SelectItem value="BA">Bahia</SelectItem>
-                        <SelectItem value="SE">Sergipe</SelectItem>
-                        <SelectItem value="PE">Pernambuco</SelectItem>
-                        <SelectItem value="AL">Alagoas</SelectItem>
-                        <SelectItem value="PB">Paraíba</SelectItem>
-                        <SelectItem value="RN">Rio Grande do Norte</SelectItem>
-                        <SelectItem value="CE">Ceará</SelectItem>
-                        <SelectItem value="PI">Piauí</SelectItem>
-                        <SelectItem value="MA">Maranhão</SelectItem>
-                        <SelectItem value="TO">Tocantins</SelectItem>
-                        <SelectItem value="PA">Pará</SelectItem>
-                        <SelectItem value="AP">Amapá</SelectItem>
-                        <SelectItem value="RR">Roraima</SelectItem>
-                        <SelectItem value="AM">Amazonas</SelectItem>
-                        <SelectItem value="AC">Acre</SelectItem>
-                        <SelectItem value="RO">Rondônia</SelectItem>
-                        <SelectItem value="DF">Distrito Federal</SelectItem>
-                        <SelectItem value="ES">Espírito Santo</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Forma de Pagamento */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Forma de Pagamento</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Button
-                    variant={formaPagamento === 'pix' ? 'default' : 'outline'}
-                    onClick={() => setFormaPagamento('pix')}
-                    className="h-20 flex-col space-y-2"
-                  >
-                    <Smartphone className="w-6 h-6" />
-                    <span>PIX</span>
-                  </Button>
-                  <Button
-                    variant={formaPagamento === 'debito' ? 'default' : 'outline'}
-                    onClick={() => setFormaPagamento('debito')}
-                    className="h-20 flex-col space-y-2"
-                  >
-                    <CreditCard className="w-6 h-6" />
-                    <span>Débito</span>
-                  </Button>
-                  <Button
-                    variant={formaPagamento === 'credito' ? 'default' : 'outline'}
-                    onClick={() => setFormaPagamento('credito')}
-                    className="h-20 flex-col space-y-2"
-                  >
-                    <DollarSign className="w-6 h-6" />
-                    <span>Crédito</span>
-                  </Button>
-                </div>
-                {formaPagamento && (
-                  <p className="text-sm text-muted-foreground mt-3">
-                    {formaPagamento === 'pix' && 'Pagamento instantâneo via PIX. Desconto de 5% no valor total.'}
-                    {formaPagamento === 'debito' && 'Pagamento à vista no cartão de débito.'}
-                    {formaPagamento === 'credito' && 'Parcelamento em até 12x sem juros no cartão de crédito.'}
-                  </p>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Botão Finalizar */}
-            <Button 
-              onClick={finalizarPedido}
-              className="w-full" 
-              size="lg"
-              disabled={loading}
-            >
-              {loading ? 'Processando...' : 'Finalizar Pedido'}
-            </Button>
           </div>
         </div>
       </div>
