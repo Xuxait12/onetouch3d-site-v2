@@ -39,6 +39,7 @@ export default function Auth() {
             user_id: user.id,
             email: user.email,
             nome: user.user_metadata.full_name || user.user_metadata.name || user.email?.split('@')[0] || 'Usuário',
+            provedor: 'google',
             cpf: '', // Will be filled later
             rua: '', // Will be filled later
             numero: '', // Will be filled later
