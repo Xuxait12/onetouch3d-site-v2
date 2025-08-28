@@ -5,8 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import produto44 from "@/assets/produto-44.png";
-import produto7 from "@/assets/produto-7.png";
 const ProductSection = () => {
   const navigate = useNavigate();
   const [selectedColor, setSelectedColor] = useState("");
@@ -60,14 +58,14 @@ const ProductSection = () => {
   const getProductImage = () => {
     if (selectedType === "Caixa Alta") {
       if (selectedColor === "Preta") {
-        return produto44;
+        return "/lovable-uploads/40be9b53-f271-490e-aaf6-e1fb313f84a6.png";
       } else if (selectedColor === "Preta/branca") {
         return "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png";
       }
       return "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png";
     } else {
       if (selectedColor === "Branca") {
-        return produto7;
+        return "/lovable-uploads/79a5fadb-f906-4fd2-95b4-80ae0e7dff65.png";
       } else if (selectedColor === "Preta") {
         return "/lovable-uploads/f410345d-8605-4ce2-bbb3-7d9ce37ae9c7.png";
       }
@@ -75,19 +73,11 @@ const ProductSection = () => {
     }
   };
 
-  const productData = {
-    "Caixa Alta": {
-      name: "Quadro Caixa Alta",
-      subtitle: "COM percurso em alto relevo (3D)",
-      image: getProductImage()
-    },
-    "Caixa Baixa": {
-      name: "Quadro Caixa Baixa",
-      subtitle: "SEM percurso em alto relevo (3D)",
-      image: getProductImage()
-    }
+  const currentProduct = {
+    name: selectedType === "Caixa Alta" ? "Quadro Caixa Alta" : "Quadro Caixa Baixa",
+    subtitle: selectedType === "Caixa Alta" ? "COM percurso em alto relevo (3D)" : "SEM percurso em alto relevo (3D)",
+    image: getProductImage()
   };
-  const currentProduct = productData[selectedType];
   
   // Usar preço dinâmico do backend ou preços padrão
   const pixPrice = currentPrice > 0 ? currentPrice : 499.00;
