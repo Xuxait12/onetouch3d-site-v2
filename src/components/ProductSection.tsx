@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
+import { supabase } from "@/integrations/supabase/client";
+import produto44 from "@/assets/produto-44.png";
+import produto7 from "@/assets/produto-7.png";
 const ProductSection = () => {
   const navigate = useNavigate();
   const [selectedColor, setSelectedColor] = useState("");
@@ -11,6 +14,39 @@ const ProductSection = () => {
   const [selectedSize, setSelectedSize] = useState("");
   const [cep, setCep] = useState("");
   const [showValidation, setShowValidation] = useState(false);
+  const [variacoes, setVariacoes] = useState([]);
+  const [currentPrice, setCurrentPrice] = useState(0);
+  
+  // Carregar variações do backend
+  useEffect(() => {
+    const loadVariacoes = async () => {
+      const { data, error } = await supabase
+        .from('variacoes')
+        .select('*');
+      
+      if (data && !error) {
+        setVariacoes(data);
+      }
+    };
+    
+    loadVariacoes();
+  }, []);
+  
+  // Atualizar preço quando tamanho, cor ou tipo mudarem
+  useEffect(() => {
+    if (selectedType && selectedColor && selectedSize && variacoes.length > 0) {
+      const variacao = variacoes.find(v => {
+        const produto = selectedType === "Caixa Alta" ? "Caixa Alta" : "Caixa Baixa";
+        return v.cor === selectedColor && v.tamanho === selectedSize && 
+               (produto === "Caixa Alta" ? v.produto_id === "5a270960-1e10-4367-9001-497727c6106b" : 
+                v.produto_id === "85b0c3fa-2eb2-420a-9e42-b24fd0f7784a");
+      });
+      
+      if (variacao) {
+        setCurrentPrice(parseFloat(variacao.preco));
+      }
+    }
+  }, [selectedType, selectedColor, selectedSize, variacoes]);
   const getColorOptions = () => {
     if (selectedType === "Caixa Alta") {
       return ["Preta/branca", "Preta"];
@@ -20,21 +56,42 @@ const ProductSection = () => {
   const colorOptions = getColorOptions();
   const typeOptions = ["Caixa Alta", "Caixa Baixa"];
   const sizeOptions = ["33x33cm", "33x43cm", "37x48cm", "43x43cm", "43x53cm", "43x63cm", "53x53cm"];
+  // Função para obter a imagem baseada no tipo e cor selecionados
+  const getProductImage = () => {
+    if (selectedType === "Caixa Alta") {
+      if (selectedColor === "Preta") {
+        return produto44;
+      } else if (selectedColor === "Preta/branca") {
+        return "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png";
+      }
+      return "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png";
+    } else {
+      if (selectedColor === "Branca") {
+        return produto7;
+      } else if (selectedColor === "Preta") {
+        return "/lovable-uploads/f410345d-8605-4ce2-bbb3-7d9ce37ae9c7.png";
+      }
+      return "/lovable-uploads/f410345d-8605-4ce2-bbb3-7d9ce37ae9c7.png";
+    }
+  };
+
   const productData = {
     "Caixa Alta": {
       name: "Quadro Caixa Alta",
       subtitle: "COM percurso em alto relevo (3D)",
-      image: "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png"
+      image: getProductImage()
     },
     "Caixa Baixa": {
       name: "Quadro Caixa Baixa",
       subtitle: "SEM percurso em alto relevo (3D)",
-      image: "/lovable-uploads/f410345d-8605-4ce2-bbb3-7d9ce37ae9c7.png"
+      image: getProductImage()
     }
   };
   const currentProduct = productData[selectedType];
-  const pixPrice = 499.00;
-  const installmentPrice = 49.90;
+  
+  // Usar preço dinâmico do backend ou preços padrão
+  const pixPrice = currentPrice > 0 ? currentPrice : 499.00;
+  const installmentPrice = currentPrice > 0 ? currentPrice / 12 : 49.90;
   const installments = 12;
   const handlePurchase = () => {
     navigate('/produtos');
