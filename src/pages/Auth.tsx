@@ -137,11 +137,12 @@ export default function Auth() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/finalizar-pedido`
+          redirectTo: `${window.location.origin}/auth`
         }
       });
 
       if (error) {
+        console.error('Erro no login com Google:', error);
         toast.error(error.message);
         setLoading(false);
         return;
