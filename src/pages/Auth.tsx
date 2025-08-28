@@ -137,7 +137,7 @@ export default function Auth() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth`
+          redirectTo: 'https://preview--landing-corrida.lovable.app/finalizar-pedido'
         }
       });
 
