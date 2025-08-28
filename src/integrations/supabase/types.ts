@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      cupons: {
+        Row: {
+          ativo: boolean | null
+          codigo: string
+          created_at: string
+          data_expiracao: string | null
+          desconto_fixo: number | null
+          desconto_percentual: number | null
+          id: string
+        }
+        Insert: {
+          ativo?: boolean | null
+          codigo: string
+          created_at?: string
+          data_expiracao?: string | null
+          desconto_fixo?: number | null
+          desconto_percentual?: number | null
+          id?: string
+        }
+        Update: {
+          ativo?: boolean | null
+          codigo?: string
+          created_at?: string
+          data_expiracao?: string | null
+          desconto_fixo?: number | null
+          desconto_percentual?: number | null
+          id?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           created_at: string
@@ -50,6 +80,90 @@ export type Database = {
         }
         Relationships: []
       }
+      pedidos: {
+        Row: {
+          cor: string
+          created_at: string
+          cupom: string | null
+          desconto: number | null
+          email: string
+          endereco: string
+          forma_pagamento: string | null
+          frete: number | null
+          id: string
+          nome: string
+          preco: number
+          produto: string
+          quantidade: number
+          status: string
+          subtotal: number
+          tamanho: string
+          telefone: string
+          user_id: string | null
+        }
+        Insert: {
+          cor: string
+          created_at?: string
+          cupom?: string | null
+          desconto?: number | null
+          email: string
+          endereco: string
+          forma_pagamento?: string | null
+          frete?: number | null
+          id?: string
+          nome: string
+          preco: number
+          produto: string
+          quantidade?: number
+          status?: string
+          subtotal: number
+          tamanho: string
+          telefone: string
+          user_id?: string | null
+        }
+        Update: {
+          cor?: string
+          created_at?: string
+          cupom?: string | null
+          desconto?: number | null
+          email?: string
+          endereco?: string
+          forma_pagamento?: string | null
+          frete?: number | null
+          id?: string
+          nome?: string
+          preco?: number
+          produto?: string
+          quantidade?: number
+          status?: string
+          subtotal?: number
+          tamanho?: string
+          telefone?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      produtos: {
+        Row: {
+          created_at: string
+          descricao: string
+          id: string
+          nome: string
+        }
+        Insert: {
+          created_at?: string
+          descricao: string
+          id?: string
+          nome: string
+        }
+        Update: {
+          created_at?: string
+          descricao?: string
+          id?: string
+          nome?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -79,6 +193,44 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      variacoes: {
+        Row: {
+          cor: string
+          created_at: string
+          id: string
+          imagem_url: string | null
+          preco: number
+          produto_id: string
+          tamanho: string
+        }
+        Insert: {
+          cor: string
+          created_at?: string
+          id?: string
+          imagem_url?: string | null
+          preco: number
+          produto_id: string
+          tamanho: string
+        }
+        Update: {
+          cor?: string
+          created_at?: string
+          id?: string
+          imagem_url?: string | null
+          preco?: number
+          produto_id?: string
+          tamanho?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "variacoes_produto_id_fkey"
+            columns: ["produto_id"]
+            isOneToOne: false
+            referencedRelation: "produtos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

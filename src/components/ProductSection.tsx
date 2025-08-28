@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 const ProductSection = () => {
+  const navigate = useNavigate();
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedType, setSelectedType] = useState("Caixa Alta");
   const [selectedSize, setSelectedSize] = useState("");
@@ -35,12 +37,7 @@ const ProductSection = () => {
   const installmentPrice = 49.90;
   const installments = 12;
   const handlePurchase = () => {
-    if (!selectedColor || !selectedSize) {
-      setShowValidation(true);
-      return;
-    }
-    setShowValidation(false);
-    // Proceed with purchase logic
+    navigate('/produtos');
   };
   return <section className="pt-8 pb-12 bg-gradient-to-b from-background to-muted/30">
       <div className="max-w-6xl mx-auto px-6">
