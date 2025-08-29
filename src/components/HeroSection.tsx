@@ -107,25 +107,25 @@ const HeroSection = () => {
       
       {/* Content */}
       <div className="relative z-10 h-full flex items-center justify-center px-6">
-        <div className="text-center text-white max-w-4xl animate-fade-up">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+        <div className="text-center text-white max-w-4xl">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight opacity-0 animate-fade-up" style={{ animationDelay: "0.2s", animationDuration: "0.9s", animationFillMode: "forwards" }}>
             <span className="accent-blue">Transforme</span> Sua Corrida em Uma Lembrança Eterna
           </h1>
-          <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto opacity-0 animate-fade-up" style={{ animationDelay: "0.5s", animationDuration: "0.9s", animationFillMode: "forwards" }}>
             Quadros personalizados que contam a história da sua conquista, quilômetro por quilômetro.
           </p>
           <Button 
             variant="hero" 
             size="xl" 
-            className="animate-fade-up bg-accent text-white hover:bg-accent/90 text-lg px-8 py-4 mb-8" 
-            style={{ animationDelay: "0.2s" }}
+            className="bg-accent text-white hover:bg-accent/90 text-lg px-8 py-4 mb-8 opacity-0 animate-fade-up" 
+            style={{ animationDelay: "0.7s", animationDuration: "0.9s", animationFillMode: "forwards" }}
             onClick={handleCreateOrder}
           >
             Comprar Agora
           </Button>
           
           {/* Scroll Mouse Icon */}
-          <div className="animate-fade-up flex justify-center" style={{ animationDelay: "0.4s" }}>
+          <div className="flex justify-center opacity-0 animate-fade-up" style={{ animationDelay: "0.9s", animationDuration: "0.9s", animationFillMode: "forwards" }}>
             <div className="animate-bounce">
               <Mouse className="w-8 h-8 text-white/70" />
             </div>
