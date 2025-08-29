@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ElegantShape } from "@/components/ui/shape-landing-hero";
-import { ChevronDown } from "lucide-react";
-const heroRunnerFinish = "/lovable-uploads/e4d9a7c9-a798-4ca6-9ef8-631307b41175.png";
+import { Mouse } from "lucide-react";
+const heroRunnerFinish = "/lovable-uploads/a4c8b948-ed32-4e82-bca0-264945e1ab64.png";
 
 const HeroSection = () => {
   const { user } = useAuth();
@@ -127,7 +127,7 @@ const HeroSection = () => {
           {/* Scroll Mouse Icon */}
           <div className="animate-fade-up flex justify-center" style={{ animationDelay: "0.4s" }}>
             <div className="animate-bounce">
-              <ChevronDown className="w-8 h-8 text-white/70" />
+              <Mouse className="w-8 h-8 text-white/70" />
             </div>
           </div>
         </div>
