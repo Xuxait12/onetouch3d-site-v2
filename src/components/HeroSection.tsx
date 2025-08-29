@@ -3,8 +3,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-const heroRunnerNew = "/lovable-uploads/07909345-9f7e-457b-8adc-d1690db44d2d.png";
 import { ElegantShape } from "@/components/ui/shape-landing-hero";
+import { ChevronDown } from "lucide-react";
+const heroRunnerFinish = "/lovable-uploads/e4d9a7c9-a798-4ca6-9ef8-631307b41175.png";
 
 const HeroSection = () => {
   const { user } = useAuth();
@@ -95,7 +96,10 @@ const HeroSection = () => {
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroRunnerNew})` }}
+        style={{ 
+          backgroundImage: `url(${heroRunnerFinish})`,
+          backgroundSize: '1350px 850px'
+        }}
       >
         {/* Overlay para melhorar legibilidade */}
         <div className="absolute inset-0 bg-black/40"></div>
@@ -105,7 +109,7 @@ const HeroSection = () => {
       <div className="relative z-10 h-full flex items-center justify-center px-6">
         <div className="text-center text-white max-w-4xl animate-fade-up">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            <span className="text-primary">Transforme</span> Sua Corrida em Uma Lembrança Eterna
+            <span className="accent-blue">Transforme</span> Sua Corrida em Uma Lembrança Eterna
           </h1>
           <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
             Quadros personalizados que contam a história da sua conquista, quilômetro por quilômetro.
@@ -113,12 +117,19 @@ const HeroSection = () => {
           <Button 
             variant="hero" 
             size="xl" 
-            className="animate-fade-up bg-primary text-white hover:bg-primary/90 text-lg px-8 py-4" 
+            className="animate-fade-up bg-accent text-white hover:bg-accent/90 text-lg px-8 py-4 mb-8" 
             style={{ animationDelay: "0.2s" }}
             onClick={handleCreateOrder}
           >
-            Criar Meu Quadro Agora
+            Comprar Agora
           </Button>
+          
+          {/* Scroll Mouse Icon */}
+          <div className="animate-fade-up flex justify-center" style={{ animationDelay: "0.4s" }}>
+            <div className="animate-bounce">
+              <ChevronDown className="w-8 h-8 text-white/70" />
+            </div>
+          </div>
         </div>
       </div>
     </section>
