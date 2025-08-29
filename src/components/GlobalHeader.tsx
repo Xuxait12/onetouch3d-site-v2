@@ -30,7 +30,6 @@ const GlobalHeader = () => {
   };
 
   const navigationItems = [
-    { name: "Home", path: "/home" },
     { name: "Corrida", path: "/corrida" },
     { name: "Ciclismo", path: "/ciclismo" },
     { name: "Viagem", path: "/viagem" },
