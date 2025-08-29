@@ -98,7 +98,7 @@ const HeroSection = () => {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ 
           backgroundImage: `url(${heroRunnerFinish})`,
-          backgroundSize: '1350px 850px'
+          backgroundSize: '1350px 911px'
         }}
       >
         {/* Overlay para melhorar legibilidade */}
