@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { motion } from "framer-motion";
 import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -40,18 +42,27 @@ const Home = () => {
       <GlobalHeader />
       
       <main className="flex-1">
-        {/* Hero Section */}
-        <section className="hero-section relative min-h-screen flex items-center justify-center bg-background">
-          <div className="container mx-auto px-6 md:px-12 text-center max-w-7xl">
-            <h1 className="hero-text text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold accent-blue mb-8 animate-fade-up">
+        {/* Hero Section with Aurora Background */}
+        <AuroraBackground className="hero-section">
+          <motion.div
+            initial={{ opacity: 0.0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              delay: 0.3,
+              duration: 0.8,
+              ease: "easeInOut",
+            }}
+            className="relative flex flex-col gap-4 items-center justify-center px-6 md:px-12 text-center max-w-7xl mx-auto"
+          >
+            <h1 className="hero-text text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold accent-blue mb-8">
               TRANSFORMAMOS SUA CONQUISTA EM ARTE
             </h1>
-            <p className="body-large text-lg sm:text-xl md:text-2xl text-foreground mb-16 max-w-4xl mx-auto animate-fade-up">
+            <p className="body-large text-lg sm:text-xl md:text-2xl text-foreground mb-16 max-w-4xl mx-auto">
               Quadros personalizados para eternizar sua história
             </p>
             
             {/* Modalidades Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-16 animate-fade-up">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-16">
               {landingPages.map((page, index) => (
                 <div
                   key={index}
@@ -67,7 +78,7 @@ const Home = () => {
                     <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-500" />
                     {/* Modalidade no canto inferior esquerdo */}
                     <div className="absolute bottom-4 left-4">
-                      <span className="bg-accent/95 text-accent-foreground px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-sm">
+                      <span className="text-white text-sm font-semibold drop-shadow-lg">
                         {page.title}
                       </span>
                     </div>
@@ -77,7 +88,7 @@ const Home = () => {
             </div>
             
             {/* Botão decorativo com gradiente animado */}
-            <div className="inline-block animate-fade-up">
+            <div className="inline-block">
               <div className="relative overflow-hidden rounded-full">
                 <div className="absolute inset-0 bg-gradient-to-r from-accent via-blue-light to-accent animate-[pulse_2s_ease-in-out_infinite] bg-[length:200%_100%]"></div>
                 <div className="relative bg-gradient-to-r from-accent to-blue-light text-accent-foreground px-8 py-4 rounded-full font-semibold text-lg">
@@ -85,8 +96,8 @@ const Home = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </motion.div>
+        </AuroraBackground>
       </main>
 
       <GlobalFooter />
