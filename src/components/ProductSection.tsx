@@ -1,52 +1,14 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
-import { supabase } from "@/integrations/supabase/client";
 const ProductSection = () => {
-  const navigate = useNavigate();
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedType, setSelectedType] = useState("Caixa Alta");
   const [selectedSize, setSelectedSize] = useState("");
   const [cep, setCep] = useState("");
   const [showValidation, setShowValidation] = useState(false);
-  const [variacoes, setVariacoes] = useState([]);
-  const [currentPrice, setCurrentPrice] = useState(0);
-  
-  // Carregar variações do backend
-  useEffect(() => {
-    const loadVariacoes = async () => {
-      const { data, error } = await supabase
-        .from('variacoes')
-        .select('*');
-      
-      if (data && !error) {
-        setVariacoes(data);
-      }
-    };
-    
-    loadVariacoes();
-  }, []);
-  
-  // Atualizar preço quando tamanho, cor ou tipo mudarem
-  useEffect(() => {
-    if (selectedType && selectedColor && selectedSize && variacoes.length > 0) {
-      const variacao = variacoes.find(v => {
-        const produto = selectedType === "Caixa Alta" ? "Caixa Alta" : "Caixa Baixa";
-        // Converter "Preta/branca" para "Preta/Branca" para coincidir com o banco
-        const colorToMatch = selectedColor === "Preta/branca" ? "Preta/Branca" : selectedColor;
-        return v.cor === colorToMatch && v.tamanho === selectedSize && 
-               (produto === "Caixa Alta" ? v.produto_id === "5a270960-1e10-4367-9001-497727c6106b" : 
-                v.produto_id === "85b0c3fa-2eb2-420a-9e42-b24fd0f7784a");
-      });
-      
-      if (variacao) {
-        setCurrentPrice(parseFloat(variacao.preco));
-      }
-    }
-  }, [selectedType, selectedColor, selectedSize, variacoes]);
   const getColorOptions = () => {
     if (selectedType === "Caixa Alta") {
       return ["Preta/branca", "Preta"];
@@ -56,61 +18,31 @@ const ProductSection = () => {
   const colorOptions = getColorOptions();
   const typeOptions = ["Caixa Alta", "Caixa Baixa"];
   const sizeOptions = ["33x33cm", "33x43cm", "37x48cm", "43x43cm", "43x53cm", "43x63cm", "53x53cm"];
-  // Função para obter a imagem baseada no tipo e cor selecionados
-  const getProductImage = () => {
-    if (selectedType === "Caixa Alta") {
-      if (selectedColor === "Preta") {
-        return "/lovable-uploads/40be9b53-f271-490e-aaf6-e1fb313f84a6.png";
-      } else if (selectedColor === "Preta/branca") {
-        return "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png";
-      }
-      // Imagem padrão para Caixa Alta
-      return "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png";
-    } else {
-      if (selectedColor === "Branca") {
-        return "/lovable-uploads/79a5fadb-f906-4fd2-95b4-80ae0e7dff65.png";
-      } else if (selectedColor === "Preta") {
-        return "/lovable-uploads/f410345d-8605-4ce2-bbb3-7d9ce37ae9c7.png";
-      }
-      // Imagem padrão para Caixa Baixa
-      return "/lovable-uploads/f410345d-8605-4ce2-bbb3-7d9ce37ae9c7.png";
+  const productData = {
+    "Caixa Alta": {
+      name: "Quadro Caixa Alta",
+      subtitle: "COM percurso em alto relevo (3D)",
+      image: "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png"
+    },
+    "Caixa Baixa": {
+      name: "Quadro Caixa Baixa",
+      subtitle: "SEM percurso em alto relevo (3D)",
+      image: "/lovable-uploads/f410345d-8605-4ce2-bbb3-7d9ce37ae9c7.png"
     }
   };
-
-  // Garantir que o produto seja atualizado sempre que tipo ou cor mudarem
-  const currentProduct = {
-    name: selectedType === "Caixa Alta" ? "Quadro Caixa Alta" : "Quadro Caixa Baixa",
-    subtitle: selectedType === "Caixa Alta" ? "COM percurso em alto relevo (3D)" : "SEM percurso em alto relevo (3D)",
-    image: getProductImage()
-  };
-  
-  // Usar preço dinâmico do backend ou preços padrão
-  const pixPrice = currentPrice > 0 ? currentPrice : 499.00;
-  const installmentPrice = currentPrice > 0 ? currentPrice / 12 : 49.90;
+  const currentProduct = productData[selectedType];
+  const pixPrice = 499.00;
+  const installmentPrice = 49.90;
   const installments = 12;
-  const handlePurchase = async () => {
+  const handlePurchase = () => {
     if (!selectedColor || !selectedSize) {
       setShowValidation(true);
       return;
     }
-
-    try {
-      // Verificar se o usuário está logado
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (session) {
-        // Usuário logado, redirecionar direto para checkout
-        navigate('/checkout');
-      } else {
-        // Usuário não logado, redirecionar para auth
-        navigate('/auth');
-      }
-    } catch (error) {
-      console.error('Erro ao verificar sessão:', error);
-      navigate('/auth');
-    }
+    setShowValidation(false);
+    // Proceed with purchase logic
   };
-  return <section className="pt-8 pb-12 bg-gradient-to-b from-background to-muted/30">
+  return <section className="section-spacing bg-gradient-to-b from-background to-muted/30">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16 animate-fade-up">
           <h2 className="section-text mb-4">Nossa Loja</h2>
@@ -124,18 +56,7 @@ const ProductSection = () => {
               <div className="relative overflow-hidden">
                 {/* Imagem do Produto */}
                  <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center group cursor-pointer">
-                   <img 
-                     src={currentProduct.image} 
-                     alt={`${currentProduct.name} - ${selectedColor || 'sem cor selecionada'}`} 
-                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                     key={`${selectedType}-${selectedColor}`}
-                     onError={(e) => {
-                       // Fallback para imagem padrão em caso de erro
-                       e.currentTarget.src = selectedType === "Caixa Alta" 
-                         ? "/lovable-uploads/433fbef2-a13f-4b22-8332-3e1083bb0e7e.png"
-                         : "/lovable-uploads/f410345d-8605-4ce2-bbb3-7d9ce37ae9c7.png";
-                     }}
-                   />
+                   <img src={currentProduct.image} alt={currentProduct.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
                  </div>
                 

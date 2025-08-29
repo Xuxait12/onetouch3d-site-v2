@@ -17,7 +17,7 @@ const steps = [{
   description: "Seu quadro será enviado entre 5 a 7 dias úteis"
 }];
 const HowItWorksSection = () => {
-  return <section className="pt-8 pb-12 max-w-7xl mx-auto px-6">
+  return <section className="section-spacing max-w-7xl mx-auto px-6">
       <div className="text-center mb-16 animate-fade-up">
         <h2 className="section-text mb-4">Como funciona</h2>
         <p className="body-large text-muted-foreground">Simples, rápido e personalizado.</p>

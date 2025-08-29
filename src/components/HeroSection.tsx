@@ -3,8 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Mouse } from "lucide-react";
-import heroRunnerFinish from "@/assets/hero-runner-finish-resized.jpg";
+const heroRunnerNew = "/lovable-uploads/07909345-9f7e-457b-8adc-d1690db44d2d.png";
 import { ElegantShape } from "@/components/ui/shape-landing-hero";
 
 const HeroSection = () => {
@@ -96,17 +95,17 @@ const HeroSection = () => {
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroRunnerFinish})` }}
+        style={{ backgroundImage: `url(${heroRunnerNew})` }}
       >
         {/* Overlay para melhorar legibilidade */}
         <div className="absolute inset-0 bg-black/40"></div>
       </div>
       
       {/* Content */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center px-6">
+      <div className="relative z-10 h-full flex items-center justify-center px-6">
         <div className="text-center text-white max-w-4xl animate-fade-up">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            <span className="text-blue-500">Transforme</span> Sua Corrida em Uma Lembrança Eterna
+            <span className="text-primary">Transforme</span> Sua Corrida em Uma Lembrança Eterna
           </h1>
           <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
             Quadros personalizados que contam a história da sua conquista, quilômetro por quilômetro.
@@ -120,14 +119,6 @@ const HeroSection = () => {
           >
             Criar Meu Quadro Agora
           </Button>
-        </div>
-        
-        {/* Scroll Indicator */}
-        <div className="mt-16 animate-bounce">
-          <div className="flex flex-col items-center text-white/80">
-            <Mouse size={24} className="mb-2" />
-            <div className="text-sm font-medium">Role para baixo</div>
-          </div>
         </div>
       </div>
     </section>

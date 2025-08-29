@@ -2,7 +2,6 @@
 
 import AutoScroll from "embla-carousel-auto-scroll";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import { AnimatedText } from "@/components/ui/animated-underline-text-one";
 interface Logo {
   id: string;
   description?: string;
@@ -33,10 +32,6 @@ const Logos3 = ({
     image: "/lovable-uploads/e8e41613-7cf8-4473-ad6e-4d1228ed4a6d.png",
     className: "h-12 md:h-16 w-auto"
   }, {
-    id: "paraty",
-    image: "/lovable-uploads/b6ced35d-8230-4d4b-9cc5-adc7e83eea44.png",
-    className: "h-12 md:h-16 w-auto"
-  }, {
     id: "logo-5",
     image: "/lovable-uploads/d55d8ea9-accd-4cf7-b18a-3ee10d894610.png",
     className: "h-12 md:h-16 w-auto"
@@ -51,10 +46,6 @@ const Logos3 = ({
   }, {
     id: "logo-8",
     image: "/lovable-uploads/1e90facf-c2ee-43d6-9fd6-35f1aff72989.png",
-    className: "h-12 md:h-16 w-auto"
-  }, {
-    id: "la-mission",
-    image: "/lovable-uploads/841eb927-fe0e-4a98-8b32-8a9b15683046.png",
     className: "h-12 md:h-16 w-auto"
   }]
 }: Logos3Props) => {
@@ -82,25 +73,8 @@ const Logos3 = ({
         <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background to-transparent"></div>
       </div>
       
-      <div className="max-w-4xl mx-auto px-6 mt-12 mb-5 md:mb-6 flex justify-center">
-        <AnimatedText 
-          text="Cada conquista é única!" 
-          textClassName="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 text-brand-red"
-          underlinePath="M 0,10 Q 75,0 150,10 Q 225,20 300,10"
-          underlineHoverPath="M 0,10 Q 75,20 150,10 Q 225,0 300,10"
-          underlineDuration={1.5}
-          underlineClassName="text-brand-red"
-        />
-      </div>
-      
-      {/* Blue rectangle with call-to-action text */}
-      <div className="pt-6 pb-12 flex justify-center px-6">
-        <div className="inline-block bg-gradient-to-r from-blue-400 via-blue-500 to-blue-700 bg-[length:200%_100%] animate-gradient-x rounded-2xl px-8 py-6 shadow-lg">
-          <p className="text-white font-bold text-center uppercase text-lg md:text-xl leading-tight">
-            SE A SUA PROVA NÃO ESTÁ AQUI,<br />
-            NOS ENVIE DADOS DA SUA PROVA QUE NÓS A ETERNIZAMOS PARA VOCÊ.
-          </p>
-        </div>
+      <div className="max-w-4xl mx-auto px-6 mt-12 mb-5 md:mb-6 text-center">
+        <p className="text-xl font-bold text-center" style={{ color: 'hsl(var(--brand-red))' }}>Cada conquista é única. Se a sua prova não está aqui, nos envie dados da sua prova que nós a eternizamos para você.</p>
       </div>
     </section>;
 };

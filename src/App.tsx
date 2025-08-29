@@ -14,10 +14,6 @@ import ResetPassword from "./pages/ResetPassword";
 import PoliticaDevolucao from "./pages/PoliticaDevolucao";
 import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 import EntregasPrazos from "./pages/EntregasPrazos";
-import Produtos from "./pages/Produtos";
-import Checkout from "./pages/Checkout";
-import FinalizarPedido from "./pages/FinalizarPedido";
-import PedidoConfirmado from "./pages/PedidoConfirmado";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,10 +36,6 @@ const App = () => (
             <Route path="/politica-devolucao" element={<PoliticaDevolucao />} />
             <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
             <Route path="/entregas-prazos" element={<EntregasPrazos />} />
-            <Route path="/produtos" element={<Produtos />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/finalizar-pedido" element={<FinalizarPedido />} />
-            <Route path="/pedido-confirmado" element={<PedidoConfirmado />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

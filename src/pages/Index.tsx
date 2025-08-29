@@ -1,4 +1,4 @@
-import HeaderLanding from "@/components/HeaderLanding";
+import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import ProblemSection from "@/components/ProblemSection";
 import SolutionSection from "@/components/SolutionSection";
@@ -13,13 +13,12 @@ import CtaSection from "@/components/CtaSection";
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { BlurIn } from "@/components/ui/blur-in";
 
 import premiumFrame from "@/assets/premium-frame.jpg";
 const routeMap = "/lovable-uploads/68eacf6d-3bb9-4055-9393-0b6bb4e9f571.png";
 const marathonPhotos = "/lovable-uploads/21b002b5-2f2c-4d1f-8328-552225739dc6.png";
 const modernDisplay = "/lovable-uploads/5de0791a-3bf0-4f5d-b44a-3d290400fb08.png";
-const raceDetails = "/lovable-uploads/c7196af7-624d-4380-aa89-2073d2ba2cb0.png";
+const raceDetails = "/lovable-uploads/f834e5fc-0dbb-4e28-ba79-06b7d032635f.png";
 const securePackaging = "/lovable-uploads/def7cbeb-e713-4419-95fc-602df501de68.png";
 
 const Index = () => {
@@ -28,7 +27,7 @@ const Index = () => {
       {/* Background gradient similar to OneTouch3D home */}
       <div className="fixed inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-100 -z-10"></div>
       
-      <HeaderLanding />
+      <Header />
       <HeroSection />
       
       {/* Content sections with background */}
@@ -69,7 +68,7 @@ const Index = () => {
         
         <FeatureSection
           title="Design moderno e sofisticado"
-          description="Cada quadro é pensado para se integrar perfeitamente ao seu ambiente, criando um ponto focal elegante na decoração. Seu quadro pronto para você adicionar a sua medalha."
+          description="Cada quadro é pensado para se integrar perfeitamente ao seu ambiente, criando um ponto focal elegante na decoração."
           imageSrc={modernDisplay}
           imageAlt="Quadro personalizado exibido em parede moderna"
           imageOnLeft={false}
@@ -92,33 +91,9 @@ const Index = () => {
         />
         
         <Logos3 />
-        
         <HowItWorksSection />
         <TestimonialsSection />
         <GallerySection />
-        
-        {/* Botão Compartilhar no WhatsApp */}
-        <div style={{ textAlign: 'center', margin: '50px 0' }}>
-          <a 
-            href="https://api.whatsapp.com/send?text=Olha%20esse%20quadro%20personalizado%20incr%C3%ADvel%20para%20medalhas%20de%20corrida%20que%20achei%20👉%20https://corrida.onetouch3d.com.br/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-block',
-              background: '#25D366',
-              color: 'white',
-              padding: '15px 30px',
-              fontSize: '18px',
-              borderRadius: '50px',
-              textDecoration: 'none',
-              fontWeight: 'bold',
-              transition: '0.3s'
-            }}
-          >
-            📤 Compartilhar no WhatsApp
-          </a>
-        </div>
-        
         <ProductSection />
         <CtaSection />
         <FAQSection />
