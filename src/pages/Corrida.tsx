@@ -9,13 +9,13 @@ import FAQSection from "@/components/FAQSection";
 import CtaSection from "@/components/CtaSection";
 import GallerySection from "@/components/GallerySection";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import WhyChooseSection from "@/components/WhyChooseSection";
 
 // Import images
 import premiumFrame from "@/assets/premium-frame.jpg";
 import routeMap from "@/assets/3d-route-map.jpg";
 import raceDetails from "@/assets/race-details.jpg";
 import modernDisplay from "@/assets/modern-display.jpg";
-import securePackaging from "@/assets/secure-packaging.jpg";
 
 const Corrida = () => {
   return (
@@ -24,12 +24,14 @@ const Corrida = () => {
       
       <main>
         <HeroSection />
+        <WhyChooseSection />
         
         <FeatureSection
           title="Moldura Premium Personalizada"
           description="Cada medalha recebe uma moldura única, projetada especialmente para destacar sua conquista com elegância e sofisticação."
           imageSrc={premiumFrame}
           imageAlt="Moldura premium personalizada"
+          imageOnLeft={true}
         />
         
         <FeatureSection
@@ -37,6 +39,7 @@ const Corrida = () => {
           description="Reviva cada quilômetro da sua corrida com um mapa tridimensional detalhado do percurso que você conquistou."
           imageSrc={routeMap}
           imageAlt="Mapa 3D da rota"
+          imageOnLeft={false}
         />
         
         <FeatureSection
@@ -44,6 +47,7 @@ const Corrida = () => {
           description="Todos os dados importantes da sua corrida gravados permanentemente: tempo, distância, pace e posição final."
           imageSrc={raceDetails}
           imageAlt="Detalhes da prova"
+          imageOnLeft={true}
         />
         
         <FeatureSection
@@ -51,6 +55,15 @@ const Corrida = () => {
           description="Um produto único que combina tecnologia de ponta com design sofisticado para eternizar suas conquistas."
           imageSrc={modernDisplay}
           imageAlt="Design moderno e exclusivo"
+          imageOnLeft={false}
+        />
+        
+        <FeatureSection
+          title="Embalagem Segura e Cuidadosa"
+          description="Seu produto chega protegido em embalagem especial, garantindo que sua lembrança chegue perfeita até você."
+          imageSrc="/lovable-uploads/925aca7c-d20c-45bc-8fb7-463c5ba8e600.png"
+          imageAlt="Embalagem segura"
+          imageOnLeft={true}
         />
         
         <TestimonialsSection />
@@ -58,13 +71,6 @@ const Corrida = () => {
         <BenefitsSection />
         <GallerySection />
         <FAQSection />
-        
-        <FeatureSection
-          title="Embalagem Segura e Cuidadosa"
-          description="Seu produto chega protegido em embalagem especial, garantindo que sua lembrança chegue perfeita até você."
-          imageSrc={securePackaging}
-          imageAlt="Embalagem segura"
-        />
         
         <CtaSection />
       </main>
