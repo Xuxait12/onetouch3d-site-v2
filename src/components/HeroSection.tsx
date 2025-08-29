@@ -1,60 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/useAuth";
-import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
 import { ElegantShape } from "@/components/ui/shape-landing-hero";
 import { Mouse } from "lucide-react";
 const heroRunnerFinish = "/lovable-uploads/a4c8b948-ed32-4e82-bca0-264945e1ab64.png";
 
 const HeroSection = () => {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  const { toast } = useToast();
-
-  const handleCreateOrder = async () => {
-    if (!user) {
-      navigate('/auth');
-      return;
-    }
-
-    try {
-      const orderData = {
-        user_id: user.id,
-        product_name: "Quadro Personalizado de Corrida",
-        product_description: "Quadro personalizado que conta a história da sua conquista, quilômetro por quilômetro.",
-        total_amount: 149.90,
-        status: 'pending'
-      };
-
-      const { data, error } = await supabase
-        .from('orders')
-        .insert(orderData)
-        .select()
-        .single();
-
-      if (error) {
-        toast({
-          title: "Erro",
-          description: "Não foi possível criar o pedido. Tente novamente.",
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Pedido criado!",
-          description: "Seu pedido foi criado com sucesso.",
-        });
-        navigate(`/meus-pedidos/${data.id}`);
-      }
-    } catch (error) {
-      toast({
-        title: "Erro",
-        description: "Erro inesperado. Tente novamente.",
-        variant: "destructive",
-      });
-    }
-  };
-
   return (
     <section className="relative w-full h-[100vh] overflow-hidden">
       {/* Animated Background Shapes */}
@@ -114,15 +62,6 @@ const HeroSection = () => {
           <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto opacity-0 animate-fade-up" style={{ animationDelay: "0.5s", animationDuration: "0.9s", animationFillMode: "forwards" }}>
             Quadros personalizados que contam a história da sua conquista, quilômetro por quilômetro.
           </p>
-          <Button 
-            variant="hero" 
-            size="xl" 
-            className="bg-accent text-white hover:bg-accent/90 text-lg px-8 py-4 mb-8 opacity-0 animate-fade-up" 
-            style={{ animationDelay: "0.7s", animationDuration: "0.9s", animationFillMode: "forwards" }}
-            onClick={handleCreateOrder}
-          >
-            Comprar Agora
-          </Button>
           
           {/* Scroll Mouse Icon */}
           <div className="flex justify-center opacity-0 animate-fade-up" style={{ animationDelay: "0.9s", animationDuration: "0.9s", animationFillMode: "forwards" }}>
