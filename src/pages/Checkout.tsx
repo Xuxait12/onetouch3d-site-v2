@@ -69,7 +69,7 @@ export default function Checkout() {
     const dados = localStorage.getItem('dadosPedido');
     if (!dados) {
       toast.error('Nenhum produto selecionado');
-      navigate('/produtos');
+      navigate('/');
       return;
     }
     setDadosPedido(JSON.parse(dados));
@@ -251,10 +251,10 @@ export default function Checkout() {
           <div className="flex justify-between items-center mb-4">
             <Button 
               variant="ghost" 
-              onClick={() => navigate('/produtos')}
+              onClick={() => navigate('/')}
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Voltar aos Produtos
+              Voltar à Loja
             </Button>
             <Button 
               variant="outline" 

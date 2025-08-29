@@ -88,8 +88,27 @@ const ProductSection = () => {
   const pixPrice = currentPrice > 0 ? currentPrice : 499.00;
   const installmentPrice = currentPrice > 0 ? currentPrice / 12 : 49.90;
   const installments = 12;
-  const handlePurchase = () => {
-    navigate('/produtos');
+  const handlePurchase = async () => {
+    if (!selectedColor || !selectedSize) {
+      setShowValidation(true);
+      return;
+    }
+
+    try {
+      // Verificar se o usuário está logado
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (session) {
+        // Usuário logado, redirecionar direto para checkout
+        navigate('/checkout');
+      } else {
+        // Usuário não logado, redirecionar para auth
+        navigate('/auth');
+      }
+    } catch (error) {
+      console.error('Erro ao verificar sessão:', error);
+      navigate('/auth');
+    }
   };
   return <section className="pt-8 pb-12 bg-gradient-to-b from-background to-muted/30">
       <div className="max-w-6xl mx-auto px-6">

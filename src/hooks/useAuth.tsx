@@ -80,8 +80,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setUser(session?.user ?? null);
         
         if (event === 'SIGNED_IN' && session) {
-          // Redirecionar para finalizar pedido após login bem-sucedido
-          window.location.href = '/finalizar-pedido';
+          // Redirecionar para checkout após login bem-sucedido
+          window.location.href = '/checkout';
           return;
         }
         
