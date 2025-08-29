@@ -4,7 +4,12 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
-import Index from "./pages/Index";
+import Home from "./pages/Home";
+import Corrida from "./pages/Corrida";
+import Ciclismo from "./pages/Ciclismo";
+import Viagem from "./pages/Viagem";
+import Triathlon from "./pages/Triathlon";
+import Checkout from "./pages/Checkout";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import MyOrders from "./pages/MyOrders";
@@ -26,7 +31,13 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/corrida" element={<Corrida />} />
+            <Route path="/ciclismo" element={<Ciclismo />} />
+            <Route path="/viagem" element={<Viagem />} />
+            <Route path="/triathlon" element={<Triathlon />} />
+            <Route path="/checkout" element={<Checkout />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/perfil" element={<Profile />} />
             <Route path="/meus-pedidos" element={<MyOrders />} />
