@@ -13,9 +13,9 @@ const GlobalFooter = () => {
   ];
 
   const socialLinks = [
-    { icon: <Facebook className="h-6 w-6" />, href: "https://facebook.com", name: "Facebook" },
-    { icon: <Instagram className="h-6 w-6" />, href: "https://instagram.com", name: "Instagram" },
-    { icon: <FaTiktok className="h-6 w-6" />, href: "https://tiktok.com", name: "TikTok" },
+    { icon: <Facebook className="h-6 w-6" />, href: "https://www.facebook.com/onetouch3d", name: "Facebook" },
+    { icon: <Instagram className="h-6 w-6" />, href: "https://www.instagram.com/onetouch3d/", name: "Instagram" },
+    { icon: <FaTiktok className="h-6 w-6" />, href: "https://www.tiktok.com/@onetouch3d", name: "TikTok" },
   ];
 
   return (
