@@ -22,24 +22,6 @@ const Corrida = () => {
       <main>
         <HeroSection />
         
-        <section className="py-16 bg-background">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center mb-12 animate-fade-up">
-              <h2 className="section-text mb-4">
-                Por que escolher nossos quadros?
-              </h2>
-            </div>
-            
-            <div className="flex justify-center">
-              <img 
-                src="/lovable-uploads/a2787de9-4964-4793-ac19-fa530120def8.png" 
-                alt="Por que escolher nossos quadros"
-                className="max-w-full h-auto animate-fade-up"
-              />
-            </div>
-          </div>
-        </section>
-        
         <FeatureSection
           title="Moldura premium"
           description="Transforme sua conquista em arte: uma moldura exclusiva que valoriza cada detalhe com elegância e sofisticação."
