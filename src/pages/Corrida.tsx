@@ -21,7 +21,24 @@ const Corrida = () => {
       
       <main>
         <HeroSection />
-        <WhyChooseSection />
+        
+        <section className="py-16 bg-background">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-12 animate-fade-up">
+              <h2 className="section-text mb-4">
+                Por que escolher nossos quadros?
+              </h2>
+            </div>
+            
+            <div className="flex justify-center">
+              <img 
+                src="/lovable-uploads/a2787de9-4964-4793-ac19-fa530120def8.png" 
+                alt="Por que escolher nossos quadros"
+                className="max-w-full h-auto animate-fade-up"
+              />
+            </div>
+          </div>
+        </section>
         
         <FeatureSection
           title="Moldura premium"
@@ -33,7 +50,7 @@ const Corrida = () => {
         
         <FeatureSection
           title="Percurso 3D da sua prova"
-          description="Reviva sua corrida com o percurso em 3D ou escolha a versão sem relevo. Medalha, fotos e dados da prova reunidos em um quadro exclusivo, do seu jeito."
+          description="Reviva cada emoção da sua corrida com o percurso em 3D ou opte pela versão SEM ALTO RELEVO(3D). Cada quilômetro da sua conquista ganha destaque em um quadro exclusivo, feito para eternizar sua vitória."
           imageSrc="/lovable-uploads/9d29309d-d713-40d4-910c-40e574c7147e.png"
           imageAlt="Percurso 3D da prova"
           imageOnLeft={false}
@@ -50,7 +67,7 @@ const Corrida = () => {
         <FeatureSection
           title="Dados pessoais da sua prova"
           description="Todos os dados importantes da sua corrida gravados permanentemente: tempo, distância e pace."
-          imageSrc="/lovable-uploads/0ded5234-350a-4330-b6ab-8cece8f2c1b3.png"
+          imageSrc="/lovable-uploads/da6090ca-3f85-42bd-a91c-b5c8cf836006.png"
           imageAlt="Dados da prova"
           imageOnLeft={false}
         />
