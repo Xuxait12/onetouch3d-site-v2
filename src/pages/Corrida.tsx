@@ -13,9 +13,6 @@ import WhyChooseSection from "@/components/WhyChooseSection";
 
 // Import images
 import premiumFrame from "@/assets/premium-frame.jpg";
-import routeMap from "@/assets/3d-route-map.jpg";
-import raceDetails from "@/assets/race-details.jpg";
-import modernDisplay from "@/assets/modern-display.jpg";
 
 const Corrida = () => {
   return (
@@ -27,35 +24,43 @@ const Corrida = () => {
         <WhyChooseSection />
         
         <FeatureSection
-          title="Moldura Premium Personalizada"
-          description="Cada medalha recebe uma moldura única, projetada especialmente para destacar sua conquista com elegância e sofisticação."
+          title="Moldura premium"
+          description="Transforme sua conquista em arte: uma moldura exclusiva que valoriza cada detalhe com elegância e sofisticação."
           imageSrc={premiumFrame}
           imageAlt="Moldura premium personalizada"
           imageOnLeft={true}
         />
         
         <FeatureSection
-          title="Mapa 3D da Sua Rota"
-          description="Reviva cada quilômetro da sua corrida com um mapa tridimensional detalhado do percurso que você conquistou."
-          imageSrc={routeMap}
-          imageAlt="Mapa 3D da rota"
+          title="Percurso 3D da sua prova"
+          description="Reviva sua corrida com o percurso em 3D ou escolha a versão sem relevo. Medalha, fotos e dados da prova reunidos em um quadro exclusivo, do seu jeito."
+          imageSrc="/lovable-uploads/c313acd8-b46f-496c-b294-8863680892b2.png"
+          imageAlt="Percurso 3D da prova"
           imageOnLeft={false}
         />
         
         <FeatureSection
-          title="Detalhes da Sua Prova"
-          description="Todos os dados importantes da sua corrida gravados permanentemente: tempo, distância, pace e posição final."
-          imageSrc={raceDetails}
-          imageAlt="Detalhes da prova"
+          title="Suas fotos em destaque"
+          description="Envie as fotos mais marcantes da sua prova e nós transformaremos sua conquista em uma lembrança exclusiva. Cada detalhe será personalizado em estilo scrapbook, criando uma arte única que eterniza esse seu momento especial."
+          imageSrc="/lovable-uploads/def7cbeb-e713-4419-95fc-602df501de68.png"
+          imageAlt="Fotos em destaque estilo scrapbook"
           imageOnLeft={true}
         />
         
         <FeatureSection
-          title="Design Moderno e Exclusivo"
-          description="Um produto único que combina tecnologia de ponta com design sofisticado para eternizar suas conquistas."
-          imageSrc={modernDisplay}
-          imageAlt="Design moderno e exclusivo"
+          title="Dados pessoais da sua prova"
+          description="Todos os dados importantes da sua corrida gravados permanentemente: tempo, distância e pace."
+          imageSrc="/lovable-uploads/e062d32b-d2bd-4a30-9716-980aa7576edf.png"
+          imageAlt="Dados da prova"
           imageOnLeft={false}
+        />
+        
+        <FeatureSection
+          title="Layout Moderno e Exclusivo"
+          description="Um produto único que combina tecnologia 3D de ponta com design sofisticado para eternizar suas conquistas"
+          imageSrc="/lovable-uploads/f834e5fc-0dbb-4e28-ba79-06b7d032635f.png"
+          imageAlt="Layout moderno e exclusivo"
+          imageOnLeft={true}
         />
         
         <FeatureSection
@@ -63,11 +68,11 @@ const Corrida = () => {
           description="Seu produto chega protegido em embalagem especial, garantindo que sua lembrança chegue perfeita até você."
           imageSrc="/lovable-uploads/925aca7c-d20c-45bc-8fb7-463c5ba8e600.png"
           imageAlt="Embalagem segura"
-          imageOnLeft={true}
+          imageOnLeft={false}
         />
         
-        <TestimonialsSection />
         <HowItWorksSection />
+        <TestimonialsSection />
         <BenefitsSection />
         <GallerySection />
         <FAQSection />
