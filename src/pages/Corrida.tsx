@@ -34,7 +34,7 @@ const Corrida = () => {
         <FeatureSection
           title="Percurso 3D da sua prova"
           description="Reviva sua corrida com o percurso em 3D ou escolha a versão sem relevo. Medalha, fotos e dados da prova reunidos em um quadro exclusivo, do seu jeito."
-          imageSrc="/lovable-uploads/c313acd8-b46f-496c-b294-8863680892b2.png"
+          imageSrc="/lovable-uploads/9d29309d-d713-40d4-910c-40e574c7147e.png"
           imageAlt="Percurso 3D da prova"
           imageOnLeft={false}
         />
@@ -42,7 +42,7 @@ const Corrida = () => {
         <FeatureSection
           title="Suas fotos em destaque"
           description="Envie as fotos mais marcantes da sua prova e nós transformaremos sua conquista em uma lembrança exclusiva. Cada detalhe será personalizado em estilo scrapbook, criando uma arte única que eterniza esse seu momento especial."
-          imageSrc="/lovable-uploads/def7cbeb-e713-4419-95fc-602df501de68.png"
+          imageSrc="/lovable-uploads/cffe1512-5aa2-4772-a8ca-769908354178.png"
           imageAlt="Fotos em destaque estilo scrapbook"
           imageOnLeft={true}
         />
@@ -50,7 +50,7 @@ const Corrida = () => {
         <FeatureSection
           title="Dados pessoais da sua prova"
           description="Todos os dados importantes da sua corrida gravados permanentemente: tempo, distância e pace."
-          imageSrc="/lovable-uploads/e062d32b-d2bd-4a30-9716-980aa7576edf.png"
+          imageSrc="/lovable-uploads/0ded5234-350a-4330-b6ab-8cece8f2c1b3.png"
           imageAlt="Dados da prova"
           imageOnLeft={false}
         />
@@ -58,7 +58,7 @@ const Corrida = () => {
         <FeatureSection
           title="Layout Moderno e Exclusivo"
           description="Um produto único que combina tecnologia 3D de ponta com design sofisticado para eternizar suas conquistas"
-          imageSrc="/lovable-uploads/f834e5fc-0dbb-4e28-ba79-06b7d032635f.png"
+          imageSrc="/lovable-uploads/08725db7-f098-448e-b49b-34385f462460.png"
           imageAlt="Layout moderno e exclusivo"
           imageOnLeft={true}
         />
