@@ -15,7 +15,7 @@ const WhyChooseSection = () => {
     {
       icon: <Star className="h-8 w-8 text-primary" />,
       title: "Qualidade premium",
-      description: "Impressão 3D de alta qualidade"
+      description: "Impressão 3D e molduras premium de alta qualidade"
     },
     {
       icon: <Truck className="h-8 w-8 text-primary" />,

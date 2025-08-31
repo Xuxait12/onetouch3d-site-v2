@@ -70,42 +70,44 @@ const GlobalHeader = () => {
           </nav>
 
           {/* Desktop User Menu */}
-          <div className="hidden md:flex items-center">
-            {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="flex items-center gap-2">
-                    <User className="w-4 h-4" />
-                    <span className="hidden sm:inline">
-                      {user.email?.split('@')[0] || 'Usuário'}
-                    </span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuItem onClick={() => navigate('/perfil')}>
-                    <User className="w-4 h-4 mr-2" />
-                    Perfil
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate('/meus-pedidos')}>
-                    <ShoppingBag className="w-4 h-4 mr-2" />
-                    Meus Pedidos
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleSignOut}>
-                    <LogOut className="w-4 h-4 mr-2" />
-                    Sair
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Button 
-                variant="outline" 
-                className="bg-primary text-primary-foreground border-primary hover:bg-primary/90"
-                onClick={() => navigate('/auth')}
-              >
-                Login
-              </Button>
-            )}
-          </div>
+          {location.pathname !== '/corrida' && (
+            <div className="hidden md:flex items-center">
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="flex items-center gap-2">
+                      <User className="w-4 h-4" />
+                      <span className="hidden sm:inline">
+                        {user.email?.split('@')[0] || 'Usuário'}
+                      </span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuItem onClick={() => navigate('/perfil')}>
+                      <User className="w-4 h-4 mr-2" />
+                      Perfil
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate('/meus-pedidos')}>
+                      <ShoppingBag className="w-4 h-4 mr-2" />
+                      Meus Pedidos
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleSignOut}>
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Sair
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Button 
+                  variant="outline" 
+                  className="bg-primary text-primary-foreground border-primary hover:bg-primary/90"
+                  onClick={() => navigate('/auth')}
+                >
+                  Login
+                </Button>
+              )}
+            </div>
+          )}
 
           {/* Mobile Menu Button */}
           <button

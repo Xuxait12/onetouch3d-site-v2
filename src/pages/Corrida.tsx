@@ -22,6 +22,8 @@ const Corrida = () => {
       <main>
         <HeroSection />
         
+        <WhyChooseSection />
+        
         <FeatureSection
           title="Moldura premium"
           description="Transforme sua conquista em arte: uma moldura exclusiva que valoriza cada detalhe com elegância e sofisticação."
@@ -32,7 +34,7 @@ const Corrida = () => {
         
         <FeatureSection
           title="Percurso 3D da sua prova"
-          description="Reviva cada emoção da sua corrida com o percurso em 3D ou opte pela versão SEM ALTO RELEVO(3D). Cada quilômetro da sua conquista ganha destaque em um quadro exclusivo, feito para eternizar sua vitória."
+          description="Reviva cada emoção da sua corrida com o percurso em 3D ou opte pela versão SEM ALTO RELEVO. Cada quilômetro da sua conquista ganha destaque em um quadro exclusivo, feito para eternizar sua vitória."
           imageSrc="/lovable-uploads/9d29309d-d713-40d4-910c-40e574c7147e.png"
           imageAlt="Percurso 3D da prova"
           imageOnLeft={false}
@@ -48,32 +50,32 @@ const Corrida = () => {
         
         <FeatureSection
           title="Dados pessoais da sua prova"
-          description="Todos os dados importantes da sua corrida gravados permanentemente: tempo, distância e pace."
+          description="Todos os dados importantes da sua corrida gravados permanentemente: tempo, distância, pace. Personalizamos do seu jeito."
           imageSrc="/lovable-uploads/da6090ca-3f85-42bd-a91c-b5c8cf836006.png"
           imageAlt="Dados da prova"
           imageOnLeft={false}
         />
         
         <FeatureSection
-          title="Layout Moderno e Exclusivo"
-          description="Um produto único que combina tecnologia 3D de ponta com design sofisticado para eternizar suas conquistas"
+          title="Layout moderno e exclusivo"
+          description="Um produto único que combina tecnologia 3D de ponta com design sofisticado para eternizar suas conquistas."
           imageSrc="/lovable-uploads/08725db7-f098-448e-b49b-34385f462460.png"
           imageAlt="Layout moderno e exclusivo"
           imageOnLeft={true}
         />
         
         <FeatureSection
-          title="Embalagem Segura e Cuidadosa"
-          description="Seu produto chega protegido em embalagem especial, garantindo que sua lembrança chegue perfeita até você."
+          title="Embalagem segura"
+          description="Seu produto chega protegido em uma embalagem especial, garantindo que sua lembrança chegue em perfeita condições até você."
           imageSrc="/lovable-uploads/925aca7c-d20c-45bc-8fb7-463c5ba8e600.png"
           imageAlt="Embalagem segura"
           imageOnLeft={false}
         />
         
         <HowItWorksSection />
-        <TestimonialsSection />
         <BenefitsSection />
         <GallerySection />
+        <TestimonialsSection />
         <FAQSection />
         
         <CtaSection />

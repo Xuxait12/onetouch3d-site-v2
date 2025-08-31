@@ -1,16 +1,16 @@
 import { MousePointer2, Upload, CheckCircle, Package } from "lucide-react";
 const steps = [{
   icon: MousePointer2,
-  title: "Escolha modelo e tamanho",
-  description: "Escolha o tamanho e design que mais lhe agrada"
+  title: "Escolha o tamanho e moldura",
+  description: "Escolha o tamanho e a moldura que mais lhe agrada."
 }, {
   icon: Upload,
   title: "Envie seus dados pelo Whatsapp",
-  description: "Compartilhe os dados da sua corrida, fotos, dados da prova, nome completo"
+  description: "Compartilhe os dados da sua prova e fotos pelo nosso Whatsapp."
 }, {
   icon: CheckCircle,
   title: "Aprove a arte",
-  description: "Revise e aprove o design personalizado conosco"
+  description: "A arte do seu quadro quem aprova é você!"
 }, {
   icon: Package,
   title: "Receba seu quadro",
