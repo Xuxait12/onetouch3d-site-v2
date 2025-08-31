@@ -22,8 +22,6 @@ const Corrida = () => {
       <main>
         <HeroSection />
         
-        <WhyChooseSection />
-        
         <FeatureSection
           title="Moldura premium"
           description="Transforme sua conquista em arte: uma moldura exclusiva que valoriza cada detalhe com elegância e sofisticação."
