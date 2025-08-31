@@ -14,67 +14,64 @@ export type Database = {
   }
   public: {
     Tables: {
-      orders: {
-        Row: {
-          created_at: string
-          id: string
-          order_date: string
-          product_description: string | null
-          product_name: string
-          status: string
-          total_amount: number
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          order_date?: string
-          product_description?: string | null
-          product_name: string
-          status?: string
-          total_amount: number
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          order_date?: string
-          product_description?: string | null
-          product_name?: string
-          status?: string
-          total_amount?: number
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
       profiles: {
         Row: {
+          address: string
+          birth_date: string
+          cep: string
+          city: string
+          complement: string | null
+          country: string
+          cpf_cnpj: string
           created_at: string
-          email: string | null
-          full_name: string | null
+          email: string
+          full_name: string
           id: string
-          phone: string | null
+          neighborhood: string
+          number: string
+          person_type: Database["public"]["Enums"]["person_type_enum"]
+          phone: string
+          state: string
           updated_at: string
           user_id: string
         }
         Insert: {
+          address: string
+          birth_date: string
+          cep: string
+          city: string
+          complement?: string | null
+          country?: string
+          cpf_cnpj: string
           created_at?: string
-          email?: string | null
-          full_name?: string | null
+          email: string
+          full_name: string
           id?: string
-          phone?: string | null
+          neighborhood: string
+          number: string
+          person_type?: Database["public"]["Enums"]["person_type_enum"]
+          phone: string
+          state: string
           updated_at?: string
           user_id: string
         }
         Update: {
+          address?: string
+          birth_date?: string
+          cep?: string
+          city?: string
+          complement?: string | null
+          country?: string
+          cpf_cnpj?: string
           created_at?: string
-          email?: string | null
-          full_name?: string | null
+          email?: string
+          full_name?: string
           id?: string
-          phone?: string | null
+          neighborhood?: string
+          number?: string
+          person_type?: Database["public"]["Enums"]["person_type_enum"]
+          phone?: string
+          state?: string
           updated_at?: string
           user_id?: string
         }
@@ -88,7 +85,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      person_type_enum: "fisica" | "juridica"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -215,6 +212,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      person_type_enum: ["fisica", "juridica"],
+    },
   },
 } as const
