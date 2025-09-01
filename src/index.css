@@ -201,3 +201,12 @@ All colors MUST be HSL.
     transform: translateY(0) scale(1);
   }
 }
+
+@keyframes infiniteScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
