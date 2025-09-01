@@ -44,34 +44,10 @@ const OrderDetails = () => {
         return;
       }
 
-      try {
-        const { data: orderData, error } = await supabase
-          .from('orders')
-          .select('*')
-          .eq('id', id)
-          .eq('user_id', session.user.id)
-          .single();
-
-        if (error) {
-          toast({
-            title: "Erro",
-            description: "Pedido não encontrado.",
-            variant: "destructive",
-          });
-          navigate('/meus-pedidos');
-        } else {
-          setOrder(orderData);
-        }
-      } catch (error) {
-        toast({
-          title: "Erro",
-          description: "Erro inesperado. Tente novamente.",
-          variant: "destructive",
-        });
-        navigate('/meus-pedidos');
-      } finally {
-        setLoading(false);
-      }
+      // Tabela orders não existe ainda, mas mantemos a estrutura para futura implementação
+      // Redireciona para meus pedidos já que não temos dados
+      navigate('/meus-pedidos');
+      setLoading(false);
     };
 
     getOrderDetails();

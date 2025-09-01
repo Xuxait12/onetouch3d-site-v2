@@ -37,31 +37,9 @@ const MyOrders = () => {
 
       setUser(session.user);
 
-      try {
-        const { data: ordersData, error } = await supabase
-          .from('orders')
-          .select('*')
-          .eq('user_id', session.user.id)
-          .order('order_date', { ascending: false });
-
-        if (error) {
-          toast({
-            title: "Erro",
-            description: "Não foi possível carregar seus pedidos.",
-            variant: "destructive",
-          });
-        } else {
-          setOrders(ordersData || []);
-        }
-      } catch (error) {
-        toast({
-          title: "Erro",
-          description: "Erro inesperado. Tente novamente.",
-          variant: "destructive",
-        });
-      } finally {
-        setLoading(false);
-      }
+      // Tabela orders não existe ainda, mas mantemos a estrutura para futura implementação
+      setOrders([]);
+      setLoading(false);
     };
 
     getOrdersData();
