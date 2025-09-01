@@ -24,13 +24,13 @@ const InfiniteLogoCarousel = ({ className = "" }: InfiniteLogoCarouselProps) => 
     { id: "floripa", image: "/lovable-uploads/cd67de84-b9ab-4538-9d58-ca0e843aa5a2.png", alt: "Floripa International" }
   ];
 
-  // Group 2: existing logos from project
+  // Group 2: existing logos from project updated with new uploads
   const group2: Logo[] = [
-    { id: "ny", image: "/lovable-uploads/55384af6-f74b-4f22-a6e9-bbe2e65dc526.png", alt: "New York Marathon" },
-    { id: "poa", image: "/lovable-uploads/3ae15162-cde4-4abb-9f06-08b7dac7c00c.png", alt: "Porto Alegre Marathon" },
-    { id: "la-mission", image: "/lovable-uploads/e1042b3e-604b-41bf-b9c5-687ade9efe1d.png", alt: "LA Mission Marathon" },
-    { id: "rio", image: "/lovable-uploads/e8e41613-7cf8-4473-ad6e-4d1228ed4a6d.png", alt: "Rio Marathon" },
-    { id: "sp-city", image: "/lovable-uploads/d55d8ea9-accd-4cf7-b18a-3ee10d894610.png", alt: "São Paulo City Marathon" }
+    { id: "ny", image: "/lovable-uploads/4b4b4c3c-9e98-4de6-8bce-b664ee11e844.png", alt: "New York City Marathon" },
+    { id: "poa", image: "/lovable-uploads/d1c593ef-e7b5-4ab1-a9bf-e0c0f317bea9.png", alt: "Maratona de Porto Alegre" },
+    { id: "la-mission", image: "/lovable-uploads/a0585803-792c-4caf-9717-e78b986ab368.png", alt: "LA Mission Serra Fina Brasil" },
+    { id: "rio", image: "/lovable-uploads/24f358e6-7bae-49d4-882d-89882262e764.png", alt: "Maratona do Rio" },
+    { id: "sp-city", image: "/lovable-uploads/0cbdf698-7f6b-48ee-9b64-829f0c110046.png", alt: "SP City Marathon" }
   ];
 
   // Combine both groups
@@ -44,7 +44,7 @@ const InfiniteLogoCarousel = ({ className = "" }: InfiniteLogoCarouselProps) => 
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
-            Maratonas e Provas Parceiras
+            Maratonas e provas
           </h2>
           <p className="text-lg text-muted-foreground">
             Celebramos conquistas de corredores ao redor do mundo
@@ -67,11 +67,21 @@ const InfiniteLogoCarousel = ({ className = "" }: InfiniteLogoCarouselProps) => 
                 <img
                   src={logo.image}
                   alt={logo.alt}
-                  className="h-16 w-auto object-contain filter hover:grayscale-0 grayscale transition-all duration-300 hover:scale-110"
+                  className="h-16 w-auto object-contain transition-all duration-300 hover:scale-110"
                   style={{ maxWidth: '180px' }}
                 />
               </div>
             ))}
+          </div>
+        </div>
+        
+        {/* Call to action message */}
+        <div className="flex justify-center mt-16">
+          <div className="bg-gradient-to-r from-blue-400 to-blue-600 rounded-2xl px-8 py-6 md:px-12 md:py-8 max-w-4xl mx-4 shadow-lg">
+            <p className="text-white font-bold text-center text-lg md:text-xl leading-relaxed">
+              SE A SUA PROVA NÃO ESTÁ AQUI,<br />
+              NOS ENVIE DADOS DA SUA PROVA QUE NÓS A ETERNIZAMOS PARA VOCÊ.
+            </p>
           </div>
         </div>
       </div>
