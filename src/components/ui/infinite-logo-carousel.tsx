@@ -51,27 +51,27 @@ const InfiniteLogoCarousel = ({ className = "" }: InfiniteLogoCarouselProps) => 
           </p>
         </div>
         
-        <div className="relative max-w-5xl mx-auto">
+        <div className="relative overflow-hidden">
           {/* Gradient overlays for seamless effect */}
-          <div className="absolute left-0 top-0 w-16 h-full bg-gradient-to-r from-background to-transparent z-10"></div>
-          <div className="absolute right-0 top-0 w-16 h-full bg-gradient-to-l from-background to-transparent z-10"></div>
+          <div className="absolute left-0 top-0 w-24 h-full bg-gradient-to-r from-background to-transparent z-10"></div>
+          <div className="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-background to-transparent z-10"></div>
           
           {/* Scrolling container */}
           <div className="flex animate-infinite-scroll">
             {duplicatedLogos.map((logo, index) => (
               <div
                 key={`${logo.id}-${index}`}
-                className="flex-shrink-0 mx-8 flex items-center justify-center"
-                style={{ width: '200px' }} // Fixed width for consistent spacing
+                className="flex-shrink-0 flex items-center justify-center"
+                style={{ width: '220px', padding: '0 20px' }} // Balanced spacing
               >
                 <img
                   src={logo.image}
                   alt={logo.alt}
-                  className="h-16 w-auto object-contain transition-all duration-300 hover:scale-110 drop-shadow-sm"
+                  className="h-16 w-auto object-contain transition-all duration-300 hover:scale-110"
                   style={{ 
                     maxWidth: '180px',
-                    filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))',
-                    mixBlendMode: 'multiply'
+                    backgroundColor: 'transparent',
+                    filter: 'none'
                   }}
                 />
               </div>
