@@ -79,15 +79,6 @@ const InfiniteLogoCarousel = ({ className = "" }: InfiniteLogoCarouselProps) => 
           </div>
         </div>
         
-        {/* Call to action message */}
-        <div className="flex justify-center mt-16">
-          <div className="bg-gradient-to-r from-blue-400 to-blue-600 rounded-2xl px-8 py-6 md:px-12 md:py-8 max-w-4xl mx-4 shadow-lg">
-            <p className="text-white font-bold text-center text-lg md:text-xl leading-relaxed">
-              SE A SUA PROVA NÃO ESTÁ AQUI,<br />
-              NOS ENVIE DADOS DA SUA PROVA QUE NÓS A ETERNIZAMOS PARA VOCÊ.
-            </p>
-          </div>
-        </div>
         
         {/* Minimalist contact button */}
         <div className="flex justify-center mt-8">
