@@ -88,6 +88,16 @@ const InfiniteLogoCarousel = ({ className = "" }: InfiniteLogoCarouselProps) => 
             </p>
           </div>
         </div>
+        
+        {/* Minimalist contact button */}
+        <div className="flex justify-center mt-8">
+          <button className="group relative bg-white/90 backdrop-blur-sm border border-transparent bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-border rounded-full px-8 py-3 transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-600 hover:text-white overflow-hidden">
+            <span className="relative z-10 text-gray-800 font-semibold text-base group-hover:text-white transition-colors duration-300">
+              Sua prova não está aqui? Entre em contato e nós personalizamos para você.
+            </span>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></div>
+          </button>
+        </div>
       </div>
     </section>
   );
