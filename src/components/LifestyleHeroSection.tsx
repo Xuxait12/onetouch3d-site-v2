@@ -12,9 +12,9 @@ const LifestyleHeroSection = () => {
         <div className="absolute inset-0 bg-black/10"></div>
       </div>
       
-      {/* Content positioned above the artwork in the red rectangle area */}
-      <div className="relative z-10 h-full flex items-start justify-end px-6 sm:px-12 pt-16 lg:pt-20">
-        <div className="max-w-lg text-right mr-8 lg:mr-16">
+      {/* Content positioned in the red rectangle area */}
+      <div className="relative z-10 h-full flex items-center justify-start px-6 sm:px-12">
+        <div className="max-w-md ml-8 lg:ml-16 text-center">
           <p className="text-2xl sm:text-3xl md:text-4xl font-light text-gray-700 leading-relaxed">
             O quadro não é só sobre a corrida que você fez.{" "}
             <span className="font-semibold text-gray-800">
