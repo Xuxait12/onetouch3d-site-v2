@@ -11,6 +11,7 @@ import GallerySection from "@/components/GallerySection";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import WhyChooseSection from "@/components/WhyChooseSection";
 import InfiniteLogoCarousel from "@/components/ui/infinite-logo-carousel";
+import LifestyleHeroSection from "@/components/LifestyleHeroSection";
 
 // Import images
 import premiumFrame from "@/assets/premium-frame.jpg";
@@ -74,6 +75,7 @@ const Corrida = () => {
         
         <HowItWorksSection />
         <InfiniteLogoCarousel />
+        <LifestyleHeroSection />
         <GallerySection />
         <TestimonialsSection />
         <FAQSection />
