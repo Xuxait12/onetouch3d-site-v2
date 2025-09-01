@@ -51,10 +51,10 @@ const InfiniteLogoCarousel = ({ className = "" }: InfiniteLogoCarouselProps) => 
           </p>
         </div>
         
-        <div className="relative">
+        <div className="relative max-w-5xl mx-auto">
           {/* Gradient overlays for seamless effect */}
-          <div className="absolute left-0 top-0 w-20 h-full bg-gradient-to-r from-background to-transparent z-10"></div>
-          <div className="absolute right-0 top-0 w-20 h-full bg-gradient-to-l from-background to-transparent z-10"></div>
+          <div className="absolute left-0 top-0 w-16 h-full bg-gradient-to-r from-background to-transparent z-10"></div>
+          <div className="absolute right-0 top-0 w-16 h-full bg-gradient-to-l from-background to-transparent z-10"></div>
           
           {/* Scrolling container */}
           <div className="flex animate-infinite-scroll">
@@ -67,8 +67,12 @@ const InfiniteLogoCarousel = ({ className = "" }: InfiniteLogoCarouselProps) => 
                 <img
                   src={logo.image}
                   alt={logo.alt}
-                  className="h-16 w-auto object-contain transition-all duration-300 hover:scale-110"
-                  style={{ maxWidth: '180px' }}
+                  className="h-16 w-auto object-contain transition-all duration-300 hover:scale-110 drop-shadow-sm"
+                  style={{ 
+                    maxWidth: '180px',
+                    filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))',
+                    mixBlendMode: 'multiply'
+                  }}
                 />
               </div>
             ))}
