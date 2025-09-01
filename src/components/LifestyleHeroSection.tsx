@@ -5,7 +5,7 @@ const LifestyleHeroSection = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ 
-          backgroundImage: `url(/lovable-uploads/05bc6baf-a9d1-469e-9a70-12b8e0bbf3e2.png)`
+          backgroundImage: `url(/lovable-uploads/58e078e4-5384-4798-a40d-66837fbcad03.png)`
         }}
       >
         {/* Subtle overlay for better text readability */}
