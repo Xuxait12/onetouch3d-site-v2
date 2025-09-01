@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from '@supabase/supabase-js';
-import Header from '@/components/Header';
+import GlobalHeader from '@/components/GlobalHeader';
 
 const Profile = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -154,7 +154,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100">
-      <Header />
+      <GlobalHeader />
       <div className="max-w-4xl mx-auto px-6 py-8">
         <Card>
           <CardHeader>

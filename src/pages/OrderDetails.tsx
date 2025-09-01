@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from '@supabase/supabase-js';
-import Header from '@/components/Header';
+import GlobalHeader from '@/components/GlobalHeader';
 import { Calendar, Package, ArrowLeft, CreditCard } from 'lucide-react';
 
 interface Order {
@@ -106,8 +106,8 @@ const OrderDetails = () => {
 
   if (!user || loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100">
-        <Header />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100">
+      <GlobalHeader />
         <div className="max-w-4xl mx-auto px-6 py-8">
           <div className="text-center py-8">
             <p className="text-muted-foreground">Carregando detalhes do pedido...</p>
@@ -123,7 +123,7 @@ const OrderDetails = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100">
-      <Header />
+      <GlobalHeader />
       <div className="max-w-4xl mx-auto px-6 py-8">
         <div className="mb-6">
           <Button

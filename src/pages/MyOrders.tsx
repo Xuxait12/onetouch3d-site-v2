@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from '@supabase/supabase-js';
-import Header from '@/components/Header';
+import GlobalHeader from '@/components/GlobalHeader';
 import { Calendar, Package, Eye } from 'lucide-react';
 
 interface Order {
@@ -100,7 +100,7 @@ const MyOrders = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100">
-      <Header />
+      <GlobalHeader />
       <div className="max-w-6xl mx-auto px-6 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">Meus Pedidos</h1>
