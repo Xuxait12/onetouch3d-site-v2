@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { X } from "lucide-react";
 
 const GalleryCarousel = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-  // Mapping between gallery images (for carousel) and popup images (for dialog)
   const galleryImages = [
     {
       gallery: "/lovable-uploads/bbf261b6-ad4d-41f6-a971-c8ea629ef76d.png",
@@ -49,56 +49,85 @@ const GalleryCarousel = () => {
     }
   ];
 
-  const handleImageDoubleClick = (popupImageSrc: string) => {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const galleryElement = document.getElementById('gallery-section');
+    if (galleryElement) {
+      observer.observe(galleryElement);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const handleImageClick = (popupImageSrc: string) => {
     setSelectedImage(popupImageSrc);
   };
 
   return (
     <>
-      <div className="w-full max-w-6xl mx-auto px-6">
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          className="w-full"
-        >
-          <CarouselContent className="-ml-2 md:-ml-4">
-            {galleryImages.map((image, index) => (
-              <CarouselItem key={index} className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
-                <div className="p-1">
-                  <div
-                    className="aspect-square rounded-xl overflow-hidden shadow-lg cursor-pointer transition-transform duration-300 hover:scale-105"
-                    onDoubleClick={() => handleImageDoubleClick(image.popup)}
-                  >
-                    <img
-                      src={image.gallery}
-                      alt={image.alt}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
+      <div 
+        id="gallery-section" 
+        className={`w-full max-w-7xl mx-auto px-6 transition-all duration-700 ease-out ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {galleryImages.map((image, index) => (
+            <div
+              key={index}
+              className="group cursor-pointer overflow-hidden rounded-2xl bg-card shadow-md hover:shadow-xl transition-all duration-300 ease-out"
+              onClick={() => handleImageClick(image.popup)}
+            >
+              <div className="relative aspect-square overflow-hidden">
+                <img
+                  src={image.gallery}
+                  alt={image.alt}
+                  className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+                  loading="lazy"
+                />
+                {/* Overlay com legenda */}
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out flex items-end">
+                  <div className="p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                    <p className="text-sm font-medium">{image.alt}</p>
+                    <p className="text-xs opacity-80 mt-1">Clique para ampliar</p>
                   </div>
                 </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="left-2" />
-          <CarouselNext className="right-2" />
-        </Carousel>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Modal for enlarged image */}
+      {/* Lightbox Modal */}
       <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
-        <DialogContent 
-          className="p-0 bg-background/95 backdrop-blur-sm border-0" 
-          style={{ width: '894px', height: '894px', maxWidth: '894px', maxHeight: '894px' }}
-        >
+        <DialogContent className="max-w-7xl w-full h-full max-h-[95vh] p-0 bg-black/95 border-0 flex items-center justify-center">
+          {/* Close button */}
+          <button
+            onClick={() => setSelectedImage(null)}
+            className="absolute top-4 right-4 z-50 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 text-white"
+          >
+            <X size={24} />
+          </button>
+          
           {selectedImage && (
-            <img
-              src={selectedImage}
-              alt="Imagem ampliada da galeria"
-              className="w-full h-full object-contain rounded-lg"
-            />
+            <div className="relative w-full h-full flex items-center justify-center p-8">
+              <img
+                src={selectedImage}
+                alt="Imagem ampliada da galeria"
+                className="max-w-full max-h-full object-contain animate-scale-in"
+                style={{
+                  animation: 'scale-in 0.3s ease-out'
+                }}
+              />
+            </div>
           )}
         </DialogContent>
       </Dialog>
