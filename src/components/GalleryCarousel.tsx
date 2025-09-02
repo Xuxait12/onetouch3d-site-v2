@@ -10,42 +10,50 @@ const GalleryCarousel = () => {
     {
       gallery: "/lovable-uploads/bbf261b6-ad4d-41f6-a971-c8ea629ef76d.png",
       popup: "/lovable-uploads/7c09a0d0-d367-4316-a691-53b47fdaae2e.png",
-      alt: "Moldura Caixa Baixa - Galeria 1"
+      alt: "Moldura Caixa Baixa - Galeria 1",
+      description: "Moldura caixa baixa > tamanho 33x33cm > COM IMPRESSÃO 3D"
     },
     {
       gallery: "/lovable-uploads/e9162ee9-87c9-4072-afeb-1de7423ffb9f.png",
       popup: "/lovable-uploads/91af6451-0cf5-4f69-9008-2584611dafa2.png",
-      alt: "Moldura Caixa Alta - Galeria 2"
+      alt: "Moldura Caixa Alta - Galeria 2",
+      description: "Moldura caixa alta > tamanho 40x30cm > COM IMPRESSÃO 3D"
     },
     {
       gallery: "/lovable-uploads/88578ea2-c2e0-4357-8952-44ff4a4f749c.png",
       popup: "/lovable-uploads/31dcb058-af24-4025-b0ff-23aadbdc4b2e.png",
-      alt: "Moldura Caixa Alta - Galeria 3"
+      alt: "Moldura Caixa Alta - Galeria 3",
+      description: "Moldura caixa alta > tamanho 35x25cm > COM IMPRESSÃO 3D"
     },
     {
       gallery: "/lovable-uploads/1fcf6d0a-d71f-4fdc-8b49-7627ae928de0.png",
       popup: "/lovable-uploads/712dbb01-624d-4e7a-b20d-65ce28eedba9.png",
-      alt: "Moldura Caixa Alta - Galeria 4"
+      alt: "Moldura Caixa Alta - Galeria 4",
+      description: "Moldura caixa alta > tamanho 40x30cm > COM IMPRESSÃO 3D"
     },
     {
       gallery: "/lovable-uploads/a518bfaa-f6b6-40bc-8793-bc08b65a7bf1.png",
       popup: "/lovable-uploads/7c8d5c4c-a799-439e-aaf9-8f79bafe351a.png",
-      alt: "Moldura Caixa Alta - Galeria 5"
+      alt: "Moldura Caixa Alta - Galeria 5",
+      description: "Moldura caixa alta > tamanho 33x33cm > COM IMPRESSÃO 3D"
     },
     {
       gallery: "/lovable-uploads/c313acd8-b46f-496c-b294-8863680892b2.png",
       popup: "/lovable-uploads/130c5e63-61d1-4d26-a820-9d24bd55abc5.png",
-      alt: "Moldura Caixa Alta - Galeria 6"
+      alt: "Moldura Caixa Alta - Galeria 6",
+      description: "Moldura caixa alta > tamanho 35x25cm > COM IMPRESSÃO 3D"
     },
     {
       gallery: "/lovable-uploads/25680a65-988b-462e-80d6-175971903021.png",
       popup: "/lovable-uploads/ee44b493-c143-4327-ab94-dcfa0c5f6622.png",
-      alt: "Moldura Caixa Alta - Galeria 7"
+      alt: "Moldura Caixa Alta - Galeria 7",
+      description: "Moldura caixa alta > tamanho 40x30cm > COM IMPRESSÃO 3D"
     },
     {
       gallery: "/lovable-uploads/fd7af026-40a0-4160-bd66-cea2f8269693.png",
       popup: "/lovable-uploads/e13877bb-10e1-487c-a167-f3298ef7cd71.png",
-      alt: "Moldura Caixa Baixa - Galeria 8"
+      alt: "Moldura Caixa Baixa - Galeria 8",
+      description: "Moldura caixa baixa > tamanho 33x33cm > COM IMPRESSÃO 3D"
     }
   ];
 
@@ -93,11 +101,13 @@ const GalleryCarousel = () => {
                   className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                   loading="lazy"
                 />
-                {/* Overlay com legenda */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out flex items-end">
+                {/* Overlay com escurecimento */}
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"></div>
+                
+                {/* Descrição no rodapé */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out">
                   <div className="p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out">
-                    <p className="text-sm font-medium">{image.alt}</p>
-                    <p className="text-xs opacity-80 mt-1">Clique para ampliar</p>
+                    <p className="text-sm font-medium">{image.description}</p>
                   </div>
                 </div>
               </div>
