@@ -23,7 +23,6 @@ const Corrida = () => {
       
       <main>
         <HeroSection />
-        <BenefitsSection />
         
         <FeatureSection
           title="Moldura premium"
@@ -73,8 +72,9 @@ const Corrida = () => {
           imageOnLeft={false}
         />
         
-        <HowItWorksSection />
+        <BenefitsSection />
         <InfiniteLogoCarousel />
+        <HowItWorksSection />
         <LifestyleHeroSection />
         <GallerySection />
         <TestimonialsSection />
