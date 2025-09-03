@@ -123,6 +123,8 @@ const Profile = () => {
           city: city,
           state: state,
           phone: phone,
+        }, {
+          onConflict: 'user_id'
         });
 
       if (error) {
