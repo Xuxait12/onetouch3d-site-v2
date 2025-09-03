@@ -42,7 +42,7 @@ const Corrida = () => {
         
         <FeatureSection
           title="Suas fotos em destaque"
-          description="Envie as fotos mais marcantes da sua prova e nós transformaremos sua conquista em uma lembrança exclusiva. Cada detalhe será personalizado em estilo scrapbook, criando uma arte única que eterniza esse seu momento especial."
+          description="Envie as fotos mais marcantes da sua prova e nós transformaremos sua conquista em uma lembrança exclusiva. Cada detalhe será personalizado em estilo scrapbook, criando uma arte única que eterniza esse momento especial."
           imageSrc="/lovable-uploads/cffe1512-5aa2-4772-a8ca-769908354178.png"
           imageAlt="Fotos em destaque estilo scrapbook"
           imageOnLeft={true}
@@ -66,7 +66,7 @@ const Corrida = () => {
         
         <FeatureSection
           title="Embalagem segura"
-          description="Seu produto chega protegido em uma embalagem especial, garantindo que sua lembrança chegue em perfeita condições até você."
+          description="Seu produto chega protegido em uma embalagem especial, garantindo que sua lembrança chegue em perfeitas condições até você."
           imageSrc="/lovable-uploads/925aca7c-d20c-45bc-8fb7-463c5ba8e600.png"
           imageAlt="Embalagem segura"
           imageOnLeft={false}

@@ -43,7 +43,7 @@ const InfiniteLogoCarousel = ({ className = "" }: InfiniteLogoCarouselProps) => 
             Maratonas e provas
           </h2>
           <p className="text-lg text-muted-foreground">
-            Celebramos conquistas de corredores ao redor do mundo
+            Celebramos conquistas de corredores ao redor do mundo.
           </p>
         </div>
         
