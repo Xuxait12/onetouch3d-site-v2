@@ -82,8 +82,7 @@ const InfiniteLogoCarousel = ({ className = "" }: InfiniteLogoCarouselProps) => 
             <div className="flex items-center justify-center gap-2 text-center">
               <Mail size={16} className="text-blue-600 flex-shrink-0" />
               <span className="text-sm md:text-base">
-                <span className="font-bold text-blue-600">Sua prova não está aqui?</span>
-                <span className="text-gray-800 ml-1">Entre em contato e nós personalizamos para você.</span>
+                <span className="font-bold text-blue-600">Cada conquista é única — se a sua prova não estiver aqui, nos chame e nós a transformamos em um quadro exclusivo.</span>
               </span>
             </div>
           </div>
