@@ -1,8 +1,4 @@
-import berlimLogo from "@/assets/berlim.png";
-import bostonLogo from "@/assets/boston.png";
-import chicagoLogo from "@/assets/chicago.png";
-import floripaLogo from "@/assets/floripa.png";
-import paratyLogo from "@/assets/paraty.png";
+import { Mail } from 'lucide-react';
 
 interface Logo {
   id: string;
@@ -80,14 +76,17 @@ const InfiniteLogoCarousel = ({ className = "" }: InfiniteLogoCarouselProps) => 
         </div>
         
         
-        {/* Minimalist contact button */}
-        <div className="flex justify-center mt-8">
-          <button className="group relative bg-white/90 backdrop-blur-sm border border-transparent bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-border rounded-full px-8 py-3 transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-600 hover:text-white overflow-hidden">
-            <span className="relative z-10 text-gray-800 font-semibold text-base group-hover:text-white transition-colors duration-300">
-              Sua prova não está aqui? Entre em contato e nós personalizamos para você.
-            </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></div>
-          </button>
+        {/* Discrete horizontal banner */}
+        <div className="mt-8">
+          <div className="w-full bg-gray-100 rounded-lg py-3 px-4">
+            <div className="flex items-center justify-center gap-2 text-center">
+              <Mail size={16} className="text-blue-600 flex-shrink-0" />
+              <span className="text-sm md:text-base">
+                <span className="font-bold text-blue-600">Sua prova não está aqui?</span>
+                <span className="text-gray-800 ml-1">Entre em contato e nós personalizamos para você.</span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
