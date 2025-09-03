@@ -59,7 +59,7 @@ const Corrida = () => {
         <FeatureSection
           title="Layout moderno e exclusivo"
           description="Um produto único que combina tecnologia 3D de ponta com design sofisticado para eternizar suas conquistas."
-          imageSrc="/lovable-uploads/08725db7-f098-448e-b49b-34385f462460.png"
+          imageSrc="/lovable-uploads/7ea271e8-64aa-4620-81c8-08fc1ac1a4f0.png"
           imageAlt="Layout moderno e exclusivo"
           imageOnLeft={true}
         />
