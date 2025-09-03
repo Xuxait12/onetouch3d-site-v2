@@ -87,12 +87,13 @@ const Home = () => {
               ))}
             </div>
             
-            {/* Botão decorativo com gradiente animado */}
-            <div className="inline-block">
-              <div className="relative overflow-hidden rounded-full">
-                <div className="absolute inset-0 bg-gradient-to-r from-accent via-blue-light to-accent animate-[pulse_2s_ease-in-out_infinite] bg-[length:200%_100%]"></div>
-                <div className="relative bg-gradient-to-r from-accent to-blue-light text-accent-foreground px-8 py-4 rounded-full font-semibold text-lg">
-                  Escolha sua modalidade preferida
+            {/* Faixa horizontal discreta */}
+            <div className="w-full max-w-4xl mx-auto">
+              <div className="bg-gray-100 rounded-lg py-3 px-4">
+                <div className="text-center">
+                  <span className="font-bold text-blue-600 text-sm md:text-base">
+                    Escolha sua modalidade preferida
+                  </span>
                 </div>
               </div>
             </div>
