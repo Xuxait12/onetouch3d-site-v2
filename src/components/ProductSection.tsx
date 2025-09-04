@@ -90,7 +90,13 @@ const ProductSection = () => {
             {/* Imagem do Produto */}
             <div className="relative">
               <img 
-                src={selectedType === "caixa-alta" ? "/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png" : "/lovable-uploads/5eab4c9e-14d7-460b-bc61-945f92a65e4e.png"}
+                src={
+                  selectedType === "caixa-alta" 
+                    ? "/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png" 
+                    : selectedType === "caixa-baixa" && selectedColor === "branca"
+                    ? "/lovable-uploads/9a113f39-ed59-40e5-97f4-b4589f60aa35.png"
+                    : "/lovable-uploads/5eab4c9e-14d7-460b-bc61-945f92a65e4e.png"
+                }
                 alt="Quadro personalizado da corrida"
                 className="w-full rounded-lg shadow-lg"
               />
