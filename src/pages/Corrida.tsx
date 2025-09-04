@@ -3,6 +3,7 @@ import GlobalFooter from "@/components/GlobalFooter";
 import HeroSection from "@/components/HeroSection";
 import FeatureSection from "@/components/FeatureSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import ProductSection from "@/components/ProductSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import BenefitsSection from "@/components/BenefitsSection";
 import FAQSection from "@/components/FAQSection";
@@ -78,6 +79,7 @@ const Corrida = () => {
         <LifestyleHeroSection />
         <GallerySection />
         <TestimonialsSection />
+        <ProductSection />
         <FAQSection />
         
         <CtaSection />
