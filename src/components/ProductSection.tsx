@@ -57,7 +57,7 @@ const ProductSection = () => {
             {/* Imagem do Produto */}
             <div className="relative">
               <img 
-                src="/lovable-uploads/d23f9378-1b3e-4282-8d59-3641dc81b92f.png"
+                src="/lovable-uploads/7ea271e8-64aa-4620-81c8-08fc1ac1a4f0.png"
                 alt="Quadro personalizado da corrida"
                 className="w-full rounded-lg shadow-lg"
               />
