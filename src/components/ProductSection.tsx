@@ -64,7 +64,7 @@ const ProductSection = () => {
     };
     
     console.log("Produto adicionado ao carrinho:", selectedProduct);
-    // Aqui você pode implementar a lógica do carrinho
+    window.location.href = "/carrinho";
   };
 
   const handleCalculateFrete = () => {
