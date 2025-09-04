@@ -9,24 +9,50 @@ const ProductSection = () => {
   const [selectedType, setSelectedType] = useState("caixa-alta");
   const [selectedColor, setSelectedColor] = useState("preta-branca");
   const [selectedSize, setSelectedSize] = useState("33x33cm");
+
+  // Reset color when type changes
+  const handleTypeChange = (value: string) => {
+    setSelectedType(value);
+    // Reset color to first option of the new type
+    if (value === "caixa-alta") {
+      setSelectedColor("preta-branca");
+    } else {
+      setSelectedColor("branca");
+    }
+  };
   const [cep, setCep] = useState("");
 
   const typeOptions = [
-    { value: "caixa-alta", label: "Caixa Alta", price: 499 },
-    { value: "caixa-baixa", label: "Caixa Baixa", price: 399 }
+    { value: "caixa-alta", label: "Caixa Alta" },
+    { value: "caixa-baixa", label: "Caixa Baixa" }
   ];
 
-  const colorOptions = [
+  const colorOptionsCaixaAlta = [
     { value: "preta-branca", label: "Preta/branca" },
     { value: "preta", label: "Preta" }
   ];
 
-  const sizeOptions = [
-    "33x33cm", "33x43cm", "37x48cm", "43x43cm", "43x53cm", "43x63cm", "53x53cm"
+  const colorOptionsCaixaBaixa = [
+    { value: "branca", label: "Branca" },
+    { value: "preta", label: "Preta" }
   ];
 
-  const currentPrice = typeOptions.find(type => type.value === selectedType)?.price || 499;
-  const installmentPrice = (currentPrice / 12).toFixed(2);
+  const sizeOptions = [
+    { size: "33x33cm", fullPrice: 310, pixPrice: 294.50 },
+    { size: "33x43cm", fullPrice: 330, pixPrice: 313.50 },
+    { size: "37x48cm", fullPrice: 360, pixPrice: 342.00 },
+    { size: "43x43cm", fullPrice: 360, pixPrice: 342.00 },
+    { size: "43x53cm", fullPrice: 410, pixPrice: 389.50 },
+    { size: "43x63cm", fullPrice: 510, pixPrice: 484.50 },
+    { size: "53x53cm", fullPrice: 490, pixPrice: 465.50 }
+  ];
+
+  const currentSizeOption = sizeOptions.find(option => option.size === selectedSize) || sizeOptions[0];
+  const currentPrice = currentSizeOption.pixPrice;
+  const fullPrice = currentSizeOption.fullPrice;
+  const installmentPrice = (fullPrice / 12).toFixed(2);
+
+  const colorOptions = selectedType === "caixa-alta" ? colorOptionsCaixaAlta : colorOptionsCaixaBaixa;
 
   const handleAddToCart = () => {
     const selectedProduct = {
@@ -64,7 +90,7 @@ const ProductSection = () => {
             {/* Imagem do Produto */}
             <div className="relative">
               <img 
-                src="/lovable-uploads/7ea271e8-64aa-4620-81c8-08fc1ac1a4f0.png"
+                src={selectedType === "caixa-alta" ? "/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png" : "/lovable-uploads/5eab4c9e-14d7-460b-bc61-945f92a65e4e.png"}
                 alt="Quadro personalizado da corrida"
                 className="w-full rounded-lg shadow-lg"
               />
@@ -116,10 +142,10 @@ const ProductSection = () => {
           <div className="space-y-6">
             {/* Título do Produto */}
             <div>
-              <h2 className="text-2xl font-bold mb-2">
+              <h2 className="text-3xl font-bold mb-2">
                 {selectedType === "caixa-alta" ? "Quadro Caixa Alta" : "Quadro Caixa Baixa"}
               </h2>
-              <p className="text-muted-foreground">
+              <p className="text-blue-600 font-medium">
                 {selectedType === "caixa-alta" ? "COM percurso em alto relevo (3D)" : "SEM alto relevo"}
               </p>
             </div>
@@ -127,7 +153,7 @@ const ProductSection = () => {
             {/* Tipo de Moldura */}
             <div>
               <Label className="text-base font-medium mb-3 block">Tipo da Moldura</Label>
-              <RadioGroup value={selectedType} onValueChange={setSelectedType}>
+              <RadioGroup value={selectedType} onValueChange={handleTypeChange}>
                 <div className="flex gap-3">
                   {typeOptions.map((option) => (
                     <div key={option.value} className="flex items-center space-x-2">
@@ -162,12 +188,12 @@ const ProductSection = () => {
             <div>
               <Label className="text-base font-medium mb-3 block">Tamanho</Label>
               <RadioGroup value={selectedSize} onValueChange={setSelectedSize}>
-                <div className="grid grid-cols-3 gap-3">
-                  {sizeOptions.map((size) => (
-                    <div key={size} className="flex items-center space-x-2">
-                      <RadioGroupItem value={size} id={size} />
-                      <Label htmlFor={size} className="cursor-pointer text-sm">
-                        {size}
+                <div className="grid grid-cols-2 gap-3">
+                  {sizeOptions.map((option) => (
+                    <div key={option.size} className="flex items-center space-x-2">
+                      <RadioGroupItem value={option.size} id={option.size} />
+                      <Label htmlFor={option.size} className="cursor-pointer text-sm">
+                        {option.size}
                       </Label>
                     </div>
                   ))}
@@ -177,6 +203,9 @@ const ProductSection = () => {
 
             {/* Preço */}
             <div className="bg-muted/50 p-4 rounded-lg">
+              <div className="text-sm text-muted-foreground mb-1">
+                De R$ {fullPrice.toFixed(2).replace('.', ',')} por:
+              </div>
               <div className="text-2xl font-bold text-green-600 mb-1">
                 R$ {currentPrice.toFixed(2).replace('.', ',')} no PIX
               </div>
