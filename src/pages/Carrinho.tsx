@@ -253,7 +253,7 @@ const Carrinho = () => {
 
                   <Button 
                     className="w-full mt-6 bg-black hover:bg-black/90 text-white py-3 text-lg font-medium"
-                    onClick={() => console.log("Finalizar compra")}
+                    onClick={() => window.location.href = "/checkout"}
                   >
                     Finalizar Compra
                   </Button>
