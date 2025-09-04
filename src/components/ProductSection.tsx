@@ -51,7 +51,14 @@ const ProductSection = () => {
   return (
     <section className="py-16 bg-background">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        {/* Título da Seção */}
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-foreground">NOSSA LOJA</h2>
+        </div>
+        
+        {/* Container Principal */}
+        <div className="bg-white rounded-2xl shadow-lg p-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Coluna Esquerda - Imagem e Características */}
           <div className="space-y-8">
             {/* Imagem do Produto */}
@@ -207,6 +214,7 @@ const ProductSection = () => {
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>
