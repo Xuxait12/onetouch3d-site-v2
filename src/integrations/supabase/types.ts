@@ -14,6 +14,100 @@ export type Database = {
   }
   public: {
     Tables: {
+      itens_pedido: {
+        Row: {
+          created_at: string
+          id: string
+          moldura_tipo: string
+          pedido_id: string
+          produto_nome: string
+          quantidade: number
+          subtotal: number
+          tamanho: string
+          valor_unitario: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          moldura_tipo: string
+          pedido_id: string
+          produto_nome: string
+          quantidade: number
+          subtotal: number
+          tamanho: string
+          valor_unitario: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          moldura_tipo?: string
+          pedido_id?: string
+          produto_nome?: string
+          quantidade?: number
+          subtotal?: number
+          tamanho?: string
+          valor_unitario?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "itens_pedido_pedido_id_fkey"
+            columns: ["pedido_id"]
+            isOneToOne: false
+            referencedRelation: "pedidos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pedidos: {
+        Row: {
+          created_at: string
+          data_pedido: string
+          desconto: number
+          forma_pagamento: string
+          frete: number
+          id: string
+          status: string
+          subtotal: number
+          total: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          data_pedido?: string
+          desconto?: number
+          forma_pagamento: string
+          frete?: number
+          id?: string
+          status?: string
+          subtotal: number
+          total: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          data_pedido?: string
+          desconto?: number
+          forma_pagamento?: string
+          frete?: number
+          id?: string
+          status?: string
+          subtotal?: number
+          total?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pedidos_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           address: string
