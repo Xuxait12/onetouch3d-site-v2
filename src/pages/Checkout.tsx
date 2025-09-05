@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,14 +11,33 @@ import GlobalFooter from "@/components/GlobalFooter";
 import { useCart } from "@/contexts/CartContext";
 import { useNavigate } from "react-router-dom";
 import { ShoppingBag } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "@/hooks/use-toast";
 
 const Checkout = () => {
   const navigate = useNavigate();
   const { state: cart } = useCart();
+  const { user } = useAuth();
   const [personType, setPersonType] = useState("fisica");
   const [differentAddress, setDifferentAddress] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
+  
+  // Refs for form fields
+  const fullNameRef = useRef<HTMLInputElement>(null);
+  const documentRef = useRef<HTMLInputElement>(null);
+  const birthDateRef = useRef<HTMLInputElement>(null);
+  const cepRef = useRef<HTMLInputElement>(null);
+  const addressRef = useRef<HTMLInputElement>(null);
+  const numberRef = useRef<HTMLInputElement>(null);
+  const complementRef = useRef<HTMLInputElement>(null);
+  const neighborhoodRef = useRef<HTMLInputElement>(null);
+  const cityRef = useRef<HTMLInputElement>(null);
+  const stateRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const pontoReferenciaRef = useRef<HTMLInputElement>(null);
   
   const subtotal = cart.total;
   const frete = cart.frete;
@@ -38,7 +57,7 @@ const Checkout = () => {
               <ShoppingBag className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
               <p className="text-lg text-muted-foreground mb-6">Seu carrinho está vazio. Voltar para a loja.</p>
               <Button 
-                onClick={() => navigate("/corrida")}
+                onClick={() => window.location.href = "/corrida#nossa-loja"}
                 className="bg-black hover:bg-black/90 text-white"
               >
                 Voltar para a Loja
@@ -51,13 +70,131 @@ const Checkout = () => {
     );
   }
 
-  const handleLoginClick = () => {
-    console.log("Abrir modal de login");
-    // Implementar modal de login
+  const handleLoginClick = async () => {
+    try {
+      // Check if user is already logged in
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate('/auth-redirect');
+        return;
+      }
+      
+      // Redirect to Google OAuth
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth-redirect`
+        }
+      });
+
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "Erro no login",
+          description: error.message,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Erro no login",
+        description: "Ocorreu um erro inesperado. Tente novamente.",
+      });
+    }
   };
 
-  const handleSaveData = () => {
-    console.log("Salvar dados do cliente");
+  const handleSaveData = async () => {
+    try {
+      if (!user) {
+        toast({
+          variant: "destructive",
+          title: "Erro",
+          description: "Você precisa estar logado para salvar os dados.",
+        });
+        return;
+      }
+
+      // Get form values
+      const fullName = fullNameRef.current?.value;
+      const document = documentRef.current?.value;
+      const birthDate = birthDateRef.current?.value;
+      const cep = cepRef.current?.value;
+      const address = addressRef.current?.value;
+      const number = numberRef.current?.value;
+      const complement = complementRef.current?.value || null;
+      const neighborhood = neighborhoodRef.current?.value;
+      const city = cityRef.current?.value;
+      const state = stateRef.current?.value;
+      const phone = phoneRef.current?.value;
+      const email = emailRef.current?.value;
+      const pontoReferencia = pontoReferenciaRef.current?.value || null;
+
+      // Validate required fields
+      if (!fullName || !document || !birthDate || !cep || !address || !number || !neighborhood || !city || !state || !phone || !email) {
+        toast({
+          variant: "destructive",
+          title: "Campos obrigatórios",
+          description: "Por favor, preencha todos os campos obrigatórios (*)",
+        });
+        return;
+      }
+
+      // Check if profile exists
+      const { data: existingProfile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      const profileData = {
+        user_id: user.id,
+        person_type: personType as 'fisica' | 'juridica',
+        full_name: fullName,
+        cpf_cnpj: document,
+        birth_date: birthDate,
+        country: 'Brasil',
+        cep,
+        address,
+        number,
+        complement,
+        neighborhood,
+        city,
+        state,
+        phone,
+        email,
+        ponto_referencia: pontoReferencia
+      };
+
+      let error;
+      if (existingProfile) {
+        // Update existing profile
+        ({ error } = await supabase
+          .from('profiles')
+          .update(profileData)
+          .eq('user_id', user.id));
+      } else {
+        // Create new profile
+        ({ error } = await supabase
+          .from('profiles')
+          .insert([profileData]));
+      }
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Dados salvos!",
+        description: "Suas informações foram salvas com sucesso.",
+      });
+    } catch (error) {
+      console.error('Error saving profile:', error);
+      toast({
+        variant: "destructive",
+        title: "Erro ao salvar",
+        description: "Ocorreu um erro ao salvar seus dados. Tente novamente.",
+      });
+    }
   };
 
   const handleFinalizePurchase = () => {
@@ -85,11 +222,12 @@ const Checkout = () => {
 
           {/* Login rápido */}
           <div className="text-center mb-8">
+            <span className="text-foreground">Já tem cadastro? </span>
             <button 
               onClick={handleLoginClick}
               className="text-blue-600 underline hover:text-blue-800 transition-colors"
             >
-              Já tem cadastro? Clique aqui para fazer login.
+              Clique aqui para fazer login
             </button>
           </div>
 
@@ -106,7 +244,7 @@ const Checkout = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="md:col-span-2">
                     <Label htmlFor="fullName">Nome Completo *</Label>
-                    <Input id="fullName" type="text" required />
+                    <Input ref={fullNameRef} id="fullName" type="text" required />
                   </div>
                   
                   <div>
@@ -127,6 +265,7 @@ const Checkout = () => {
                       {personType === "fisica" ? "CPF *" : "CNPJ *"}
                     </Label>
                     <Input 
+                      ref={documentRef}
                       id="document" 
                       type="text" 
                       placeholder={personType === "fisica" ? "000.000.000-00" : "00.000.000/0000-00"}
@@ -136,7 +275,7 @@ const Checkout = () => {
                   
                   <div>
                     <Label htmlFor="birthDate">Data de Nascimento *</Label>
-                    <Input id="birthDate" type="date" required />
+                    <Input ref={birthDateRef} id="birthDate" type="date" required />
                   </div>
                   
                   <div>
@@ -146,47 +285,52 @@ const Checkout = () => {
                   
                   <div>
                     <Label htmlFor="cep">CEP *</Label>
-                    <Input id="cep" type="text" placeholder="00000-000" required />
+                    <Input ref={cepRef} id="cep" type="text" placeholder="00000-000" required />
                   </div>
                   
                   <div>
                     <Label htmlFor="address">Endereço *</Label>
-                    <Input id="address" type="text" required />
+                    <Input ref={addressRef} id="address" type="text" required />
                   </div>
                   
                   <div>
                     <Label htmlFor="number">Número *</Label>
-                    <Input id="number" type="text" required />
+                    <Input ref={numberRef} id="number" type="text" required />
                   </div>
                   
                   <div>
                     <Label htmlFor="complement">Complemento</Label>
-                    <Input id="complement" type="text" />
+                    <Input ref={complementRef} id="complement" type="text" />
                   </div>
                   
                   <div>
                     <Label htmlFor="neighborhood">Bairro *</Label>
-                    <Input id="neighborhood" type="text" required />
+                    <Input ref={neighborhoodRef} id="neighborhood" type="text" required />
                   </div>
                   
                   <div>
                     <Label htmlFor="city">Cidade *</Label>
-                    <Input id="city" type="text" required />
+                    <Input ref={cityRef} id="city" type="text" required />
                   </div>
                   
                   <div>
                     <Label htmlFor="state">Estado *</Label>
-                    <Input id="state" type="text" required />
+                    <Input ref={stateRef} id="state" type="text" required />
                   </div>
                   
                   <div>
                     <Label htmlFor="phone">Telefone *</Label>
-                    <Input id="phone" type="tel" placeholder="(00) 00000-0000" required />
+                    <Input ref={phoneRef} id="phone" type="tel" placeholder="(00) 00000-0000" required />
                   </div>
                   
                   <div>
                     <Label htmlFor="email">E-mail *</Label>
-                    <Input id="email" type="email" required />
+                    <Input ref={emailRef} id="email" type="email" required />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="pontoReferencia">Ponto de referência</Label>
+                    <Input ref={pontoReferenciaRef} id="pontoReferencia" type="text" placeholder="Ex: próximo ao supermercado" />
                   </div>
                 </div>
                 

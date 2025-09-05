@@ -88,7 +88,7 @@ const ProductSection = () => {
   };
 
   return (
-    <section className="py-16 bg-background">
+    <section id="nossa-loja" className="py-16 bg-background">
       <div className="max-w-7xl mx-auto px-6">
         {/* Título da Seção */}
         <div className="text-center mb-12">
