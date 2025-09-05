@@ -251,46 +251,65 @@ const Checkout = () => {
             <div className="lg:col-span-1 space-y-6">
               
               {/* Resumo do Pedido */}
-              <Card className="p-6 bg-muted/30 border-2">
-                <h3 className="text-xl font-semibold mb-4">Resumo do Pedido</h3>
-                
-                <div className="space-y-3">
-                  {cart.items.map((item) => (
-                    <div key={item.id} className="flex justify-between text-sm">
-                      <span>{item.nome} - {item.tamanho} - {item.cor} (x{item.quantidade})</span>
-                      <span>R$ {item.subtotal.toFixed(2).replace('.', ',')}</span>
-                    </div>
-                  ))}
+              <Card className="rounded-xl shadow-lg border border-border/50 lg:max-w-[350px] w-full">
+                <div className="p-6">
+                  <h3 className="text-2xl font-bold text-foreground mb-6">Resumo do Pedido</h3>
                   
-                  <div className="border-t pt-3 space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span>Subtotal:</span>
-                      <span>R$ {subtotal.toFixed(2).replace('.', ',')}</span>
+                  {/* Lista de Produtos */}
+                  <div className="space-y-4 mb-6">
+                    {cart.items.map((item, index) => (
+                      <div key={item.id} className={`pb-4 ${index < cart.items.length - 1 ? 'border-b border-border/30' : ''}`}>
+                        <div className="flex justify-between items-start">
+                          <div className="flex-1 pr-3">
+                            <h4 className="font-semibold text-foreground text-sm break-words">
+                              {item.nome}
+                            </h4>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              {item.tamanho} / {item.cor} / Qtd: {item.quantidade}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <span className="font-semibold text-foreground text-sm">
+                              R$ {item.subtotal.toFixed(2).replace('.', ',')}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Totais */}
+                  <div className="space-y-3 border-t border-border/30 pt-4">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Subtotal:</span>
+                      <span className="text-foreground">R$ {subtotal.toFixed(2).replace('.', ',')}</span>
                     </div>
                     
                     {cupomDesconto > 0 && (
-                      <div className="flex justify-between text-green-600">
-                        <span>Desconto:</span>
-                        <span>- R$ {cupomDesconto.toFixed(2).replace('.', ',')}</span>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">Desconto:</span>
+                        <span className="text-red-600 font-medium">- R$ {cupomDesconto.toFixed(2).replace('.', ',')}</span>
                       </div>
                     )}
                     
-                    <div className="flex justify-between">
-                      <span>Frete:</span>
-                      <span>R$ {frete.toFixed(2).replace('.', ',')}</span>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Frete:</span>
+                      <span className="text-muted-foreground">R$ {frete.toFixed(2).replace('.', ',')}</span>
                     </div>
                     
                     {pixDiscount > 0 && (
-                      <div className="flex justify-between text-green-600">
-                        <span>Desconto PIX (5%):</span>
-                        <span>- R$ {pixDiscount.toFixed(2).replace('.', ',')}</span>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">Desconto PIX (5%):</span>
+                        <span className="text-red-600 font-medium">- R$ {pixDiscount.toFixed(2).replace('.', ',')}</span>
                       </div>
                     )}
                     
-                    <div className="border-t pt-3">
-                      <div className="flex justify-between text-lg font-bold">
-                        <span>Total:</span>
-                        <span className="text-green-600">R$ {total.toFixed(2).replace('.', ',')}</span>
+                    <div className="border-t border-border/30 pt-3 mt-3">
+                      <div className="flex justify-between">
+                        <span className="text-lg font-bold text-foreground">Total:</span>
+                        <span className="text-xl font-bold" style={{ color: '#1a7f37' }}>
+                          R$ {total.toFixed(2).replace('.', ',')}
+                        </span>
                       </div>
                     </div>
                   </div>

@@ -222,42 +222,70 @@ const Carrinho = () => {
               </div>
 
               {/* Coluna Direita - Resumo do Carrinho */}
-              <div className="lg:col-span-1">
-                <Card className="p-6 bg-muted/30 border-2">
-                  <h3 className="text-xl font-semibold mb-4">Resumo do Carrinho</h3>
-                  
-                  <div className="space-y-3 text-sm">
-                    <div className="flex justify-between">
-                      <span>Subtotal:</span>
-                      <span>R$ {subtotal.toFixed(2).replace('.', ',')}</span>
+              <div className="lg:col-span-1 lg:max-w-[350px] w-full">
+                <Card className="rounded-xl shadow-lg border border-border/50 sticky top-6">
+                  <div className="p-6">
+                    <h3 className="text-2xl font-bold text-foreground mb-6">Resumo do Pedido</h3>
+                    
+                    {/* Lista de Produtos */}
+                    <div className="space-y-4 mb-6">
+                      {cart.items.map((item, index) => (
+                        <div key={item.id} className={`pb-4 ${index < cart.items.length - 1 ? 'border-b border-border/30' : ''}`}>
+                          <div className="flex justify-between items-start">
+                            <div className="flex-1 pr-3">
+                              <h4 className="font-semibold text-foreground text-sm break-words">
+                                {item.nome}
+                              </h4>
+                              <p className="text-xs text-muted-foreground mt-1">
+                                {item.tamanho} / {item.cor} / Qtd: {item.quantidade}
+                              </p>
+                            </div>
+                            <div className="text-right">
+                              <span className="font-semibold text-foreground text-sm">
+                                R$ {item.subtotal.toFixed(2).replace('.', ',')}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                     
-                    {cart.cupomDesconto > 0 && (
-                      <div className="flex justify-between text-green-600">
-                        <span>Desconto (10%):</span>
-                        <span>- R$ {cart.cupomDesconto.toFixed(2).replace('.', ',')}</span>
+                    {/* Totais */}
+                    <div className="space-y-3 border-t border-border/30 pt-4">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">Subtotal:</span>
+                        <span className="text-foreground">R$ {subtotal.toFixed(2).replace('.', ',')}</span>
                       </div>
-                    )}
-                    
-                    <div className="flex justify-between">
-                      <span>Frete:</span>
-                      <span>R$ {cart.frete.toFixed(2).replace('.', ',')}</span>
-                    </div>
-                    
-                    <div className="border-t pt-3 mt-3">
-                      <div className="flex justify-between text-lg font-bold">
-                        <span>Total:</span>
-                        <span className="text-green-600">R$ {total.toFixed(2).replace('.', ',')}</span>
+                      
+                      {cart.cupomDesconto > 0 && (
+                        <div className="flex justify-between text-sm">
+                          <span className="text-muted-foreground">Desconto (10%):</span>
+                          <span className="text-red-600 font-medium">- R$ {cart.cupomDesconto.toFixed(2).replace('.', ',')}</span>
+                        </div>
+                      )}
+                      
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">Frete:</span>
+                        <span className="text-muted-foreground">R$ {cart.frete.toFixed(2).replace('.', ',')}</span>
+                      </div>
+                      
+                      <div className="border-t border-border/30 pt-3 mt-3">
+                        <div className="flex justify-between">
+                          <span className="text-lg font-bold text-foreground">Total:</span>
+                          <span className="text-xl font-bold" style={{ color: '#1a7f37' }}>
+                            R$ {total.toFixed(2).replace('.', ',')}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <Button 
-                    className="w-full mt-6 bg-black hover:bg-black/90 text-white py-3 text-lg font-medium"
-                    onClick={() => navigate("/checkout")}
-                  >
-                    Finalizar Compra
-                  </Button>
+                    <Button 
+                      className="w-full mt-6 bg-black hover:bg-black/90 text-white py-3 text-lg font-medium rounded-lg"
+                      onClick={() => navigate("/checkout")}
+                    >
+                      Finalizar Compra
+                    </Button>
+                  </div>
                 </Card>
               </div>
             </div>
