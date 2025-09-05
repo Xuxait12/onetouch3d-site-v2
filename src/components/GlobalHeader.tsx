@@ -15,7 +15,8 @@ const GlobalHeader = () => {
   const { state: cart } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const cartItemsCount = cart.items.reduce((total, item) => total + item.quantidade, 0);
+  // Safe calculation of cart items count with proper fallbacks
+  const cartItemsCount = cart?.items?.reduce((total, item) => total + (item?.quantidade || 0), 0) || 0;
 
   const handleSignOut = async () => {
     try {
