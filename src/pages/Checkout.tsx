@@ -23,6 +23,10 @@ const Checkout = () => {
   const [differentAddress, setDifferentAddress] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
+  const [showInlineLogin, setShowInlineLogin] = useState(false);
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginLoading, setLoginLoading] = useState(false);
   
   // Refs for form fields
   const fullNameRef = useRef<HTMLInputElement>(null);
@@ -70,20 +74,50 @@ const Checkout = () => {
     );
   }
 
-  const handleLoginClick = async () => {
+  const handleInlineLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginLoading(true);
+    
     try {
-      // Check if user is already logged in
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        navigate('/auth-redirect');
-        return;
+      const { error } = await supabase.auth.signInWithPassword({
+        email: loginEmail,
+        password: loginPassword
+      });
+
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "Erro no login",
+          description: error.message,
+        });
+      } else {
+        toast({
+          title: "Login realizado!",
+          description: "Você está logado e pode continuar sua compra.",
+        });
+        setShowInlineLogin(false);
+        setLoginEmail("");
+        setLoginPassword("");
       }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Erro no login",
+        description: "Ocorreu um erro inesperado. Tente novamente.",
+      });
+    } finally {
+      setLoginLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      setLoginLoading(true);
       
-      // Redirect to Google OAuth
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth-redirect`
+          redirectTo: `${window.location.origin}/checkout`
         }
       });
 
@@ -100,6 +134,8 @@ const Checkout = () => {
         title: "Erro no login",
         description: "Ocorreu um erro inesperado. Tente novamente.",
       });
+    } finally {
+      setLoginLoading(false);
     }
   };
 
@@ -232,16 +268,83 @@ const Checkout = () => {
             <h1 className="text-4xl font-bold text-foreground">Finalizar Compra</h1>
           </div>
 
-          {/* Login rápido */}
-          <div className="text-center mb-8">
-            <span className="text-foreground">Já tem cadastro? </span>
-            <button 
-              onClick={handleLoginClick}
-              className="text-blue-600 underline hover:text-blue-800 transition-colors"
-            >
-              Clique aqui para fazer login
-            </button>
-          </div>
+          {/* Login Section */}
+          {!user && (
+            <Card className="p-6">
+              <div className="text-center mb-4">
+                <p className="text-sm">
+                  <span className="text-foreground">Já tem cadastro?</span>{' '}
+                  <button
+                    type="button"
+                    className="text-blue-600 underline hover:text-blue-800 transition-colors"
+                    onClick={() => setShowInlineLogin((v) => !v)}
+                  >
+                    Clique aqui para fazer login
+                  </button>
+                </p>
+              </div>
+
+              {showInlineLogin && (
+                <div className="border-t border-border/30 pt-4">
+                  <form onSubmit={handleInlineLogin} className="space-y-4">
+                    <div>
+                      <Label htmlFor="loginEmail">E-mail</Label>
+                      <Input
+                        id="loginEmail"
+                        type="email"
+                        value={loginEmail}
+                        onChange={(e) => setLoginEmail(e.target.value)}
+                        required
+                        disabled={loginLoading}
+                      />
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="loginPassword">Senha</Label>
+                      <Input
+                        id="loginPassword"
+                        type="password"
+                        value={loginPassword}
+                        onChange={(e) => setLoginPassword(e.target.value)}
+                        required
+                        disabled={loginLoading}
+                      />
+                    </div>
+                    
+                    <div className="flex gap-2">
+                      <Button
+                        type="submit"
+                        className="flex-1 bg-black hover:bg-black/90 text-white"
+                        disabled={loginLoading}
+                      >
+                        {loginLoading ? "Entrando..." : "Entrar"}
+                      </Button>
+                      
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={handleGoogleLogin}
+                        disabled={loginLoading}
+                        className="flex-1"
+                      >
+                        Google
+                      </Button>
+                    </div>
+                    
+                    <div className="text-center">
+                      <button
+                        type="button"
+                        className="text-sm text-blue-600 hover:text-blue-800 underline"
+                        onClick={() => setShowInlineLogin(false)}
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+            </Card>
+          )}
 
           {/* Container Principal */}
           <div className="grid lg:grid-cols-3 gap-8">
