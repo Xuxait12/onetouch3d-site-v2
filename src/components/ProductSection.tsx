@@ -4,8 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
+import { toast } from "@/components/ui/use-toast";
 
 const ProductSection = () => {
+  const navigate = useNavigate();
+  const { addItem } = useCart();
   const [selectedType, setSelectedType] = useState("caixa-alta");
   const [selectedColor, setSelectedColor] = useState("preta-branca");
   const [selectedSize, setSelectedSize] = useState("33x33cm");
@@ -55,16 +60,24 @@ const ProductSection = () => {
   const colorOptions = selectedType === "caixa-alta" ? colorOptionsCaixaAlta : colorOptionsCaixaBaixa;
 
   const handleAddToCart = () => {
-    const selectedProduct = {
-      type: selectedType,
-      color: selectedColor,
-      size: selectedSize,
-      price: currentPrice,
-      title: selectedType === "caixa-alta" ? "Quadro Caixa Alta" : "Quadro Caixa Baixa"
-    };
+    const productName = selectedType === "caixa-alta" ? "Quadro Caixa Alta" : "Quadro Caixa Baixa";
+    const colorDisplay = selectedColor === "preta-branca" ? "Preta/Branca" : 
+                        selectedColor === "preta" ? "Preta" : "Branca";
     
-    console.log("Produto adicionado ao carrinho:", selectedProduct);
-    window.location.href = "/carrinho";
+    addItem({
+      nome: productName,
+      cor: colorDisplay,
+      tamanho: selectedSize,
+      quantidade: 1,
+      precoUnitario: currentPrice,
+    });
+
+    toast({
+      title: "Produto adicionado ao carrinho!",
+      description: `${productName} ${selectedSize} ${colorDisplay}`,
+    });
+
+    navigate("/carrinho");
   };
 
   const handleCalculateFrete = () => {

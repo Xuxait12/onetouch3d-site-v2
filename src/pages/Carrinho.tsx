@@ -5,38 +5,29 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
-import { Minus, Plus, X } from "lucide-react";
+import { Minus, Plus, X, ShoppingBag } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import { useNavigate } from "react-router-dom";
 
 const Carrinho = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      type: "caixa-alta",
-      color: "preta-branca",
-      size: "33x33cm",
-      price: 294.50,
-      quantity: 1,
-      image: "/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png",
-      title: "Quadro Caixa Alta"
-    }
-  ]);
+  const navigate = useNavigate();
+  const { state: cart, updateQuantity: updateCartQuantity, removeItem: removeCartItem } = useCart();
   
   const [cupom, setCupom] = useState("");
   const [cep, setCep] = useState("");
   const [frete, setFrete] = useState(0);
   const [cupomAplicado, setCupomAplicado] = useState(false);
 
-  const updateQuantity = (id: number, newQuantity: number) => {
-    if (newQuantity < 1) return;
-    setCartItems(items => 
-      items.map(item => 
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
+  const updateQuantity = (id: string, newQuantity: number) => {
+    if (newQuantity < 1) {
+      removeCartItem(id);
+      return;
+    }
+    updateCartQuantity(id, newQuantity);
   };
 
-  const removeItem = (id: number) => {
-    setCartItems(items => items.filter(item => item.id !== id));
+  const removeItem = (id: string) => {
+    removeCartItem(id);
   };
 
   const handleAplicarCupom = () => {
@@ -54,18 +45,21 @@ const Carrinho = () => {
     }
   };
 
-  const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  const subtotal = cart.total;
   const desconto = cupomAplicado ? subtotal * 0.1 : 0;
   const total = subtotal - desconto + frete;
 
-  const getProductDescription = (item: any) => {
-    const typeLabel = item.type === "caixa-alta" ? "Caixa Alta" : "Caixa Baixa";
-    const colorLabel = item.color === "preta-branca" ? "Preta/Branca" : 
-                      item.color === "preta" ? "Preta" : "Branca";
-    return `${typeLabel} / ${item.size} / ${colorLabel}`;
+  const getProductImage = (item: any) => {
+    if (item.nome?.includes("Caixa Alta")) {
+      return "/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png";
+    } else if (item.cor === "Branca") {
+      return "/lovable-uploads/9a113f39-ed59-40e5-97f4-b4589f60aa35.png";
+    } else {
+      return "/lovable-uploads/5eab4c9e-14d7-460b-bc61-945f92a65e4e.png";
+    }
   };
 
-  if (cartItems.length === 0) {
+  if (cart.items.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/20">
         <GlobalHeader />
@@ -73,9 +67,10 @@ const Carrinho = () => {
           <div className="max-w-4xl mx-auto px-6 text-center">
             <h1 className="text-4xl font-bold text-foreground mb-8">Seu Carrinho</h1>
             <div className="bg-white rounded-2xl shadow-lg p-12">
+              <ShoppingBag className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
               <p className="text-lg text-muted-foreground mb-6">Seu carrinho está vazio</p>
               <Button 
-                onClick={() => window.history.back()}
+                onClick={() => navigate("/corrida")}
                 className="bg-black hover:bg-black/90 text-white"
               >
                 Continuar Comprando
@@ -94,9 +89,17 @@ const Carrinho = () => {
       
       <div className="py-16">
         <div className="max-w-7xl mx-auto px-6">
-          {/* Título */}
-          <div className="text-center mb-12">
+          {/* Título e Botão Continuar Comprando */}
+          <div className="flex items-center justify-between mb-12">
             <h1 className="text-4xl font-bold text-foreground">Seu Carrinho</h1>
+            <Button 
+              onClick={() => navigate("/corrida")}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <ShoppingBag className="w-4 h-4" />
+              Continuar Comprando
+            </Button>
           </div>
 
           {/* Container Principal */}
@@ -108,26 +111,26 @@ const Carrinho = () => {
                 
                 {/* Lista de Produtos */}
                 <div className="space-y-4">
-                  {cartItems.map((item) => (
+                  {cart.items.map((item) => (
                     <Card key={item.id} className="p-4 relative">
                       <div className="flex gap-4 items-start">
                         {/* Imagem */}
                         <div className="w-20 h-20 flex-shrink-0">
                           <img 
-                            src={item.image}
-                            alt={item.title}
+                            src={getProductImage(item)}
+                            alt={item.nome}
                             className="w-full h-full object-cover rounded-lg"
                           />
                         </div>
                         
                         {/* Detalhes do Produto */}
                         <div className="flex-1">
-                          <h3 className="font-semibold text-lg">{item.title}</h3>
+                          <h3 className="font-semibold text-lg">{item.nome}</h3>
                           <p className="text-sm text-muted-foreground mb-2">
-                            {getProductDescription(item)}
+                            {item.tamanho} / {item.cor}
                           </p>
                           <p className="text-green-600 font-medium">
-                            R$ {item.price.toFixed(2).replace('.', ',')}
+                            R$ {item.precoUnitario.toFixed(2).replace('.', ',')}
                           </p>
                           
                           {/* Controles de Quantidade */}
@@ -135,22 +138,22 @@ const Carrinho = () => {
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                              onClick={() => updateQuantity(item.id, item.quantidade - 1)}
                               className="w-8 h-8 p-0"
                             >
                               <Minus className="w-4 h-4" />
                             </Button>
-                            <span className="w-8 text-center">{item.quantity}</span>
+                            <span className="w-8 text-center">{item.quantidade}</span>
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              onClick={() => updateQuantity(item.id, item.quantidade + 1)}
                               className="w-8 h-8 p-0"
                             >
                               <Plus className="w-4 h-4" />
                             </Button>
                             <span className="ml-4 font-medium">
-                              Subtotal: R$ {(item.price * item.quantity).toFixed(2).replace('.', ',')}
+                              Subtotal: R$ {item.subtotal.toFixed(2).replace('.', ',')}
                             </span>
                           </div>
                         </div>
@@ -253,7 +256,7 @@ const Carrinho = () => {
 
                   <Button 
                     className="w-full mt-6 bg-black hover:bg-black/90 text-white py-3 text-lg font-medium"
-                    onClick={() => window.location.href = "/checkout"}
+                    onClick={() => navigate("/checkout")}
                   >
                     Finalizar Compra
                   </Button>
