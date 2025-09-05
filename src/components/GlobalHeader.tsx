@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { useCart } from "@/contexts/CartContext";
 import { User, LogOut, ShoppingBag, Menu, X } from "lucide-react";
 
 const GlobalHeader = () => {
@@ -11,7 +12,10 @@ const GlobalHeader = () => {
   const location = useLocation();
   const { user, signOut } = useAuth();
   const { toast } = useToast();
+  const { state: cart } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const cartItemsCount = cart.items.reduce((total, item) => total + item.quantidade, 0);
 
   const handleSignOut = async () => {
     try {
@@ -71,7 +75,23 @@ const GlobalHeader = () => {
 
           {/* Desktop User Menu */}
           {location.pathname !== '/corrida' && (
-            <div className="hidden md:flex items-center">
+            <div className="hidden md:flex items-center gap-3">
+              {/* Cart Icon */}
+              <Button 
+                variant="outline" 
+                size="sm"
+                className="relative"
+                onClick={() => navigate('/carrinho')}
+              >
+                <ShoppingBag className="w-4 h-4" />
+                {/* Cart Counter Badge */}
+                {cartItemsCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center min-w-[20px]">
+                    {cartItemsCount}
+                  </span>
+                )}
+              </Button>
+
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -143,6 +163,18 @@ const GlobalHeader = () => {
                 </button>
               ))}
               
+              {/* Mobile Cart Icon */}
+              <button
+                onClick={() => {
+                  navigate('/carrinho');
+                  setMobileMenuOpen(false);
+                }}
+                className="flex items-center py-2 text-sm text-muted-foreground hover:text-foreground"
+              >
+                <ShoppingBag className="w-4 h-4 mr-2" />
+                Carrinho {cartItemsCount > 0 && <span className="ml-1 bg-red-500 text-white text-xs rounded-full px-2 py-1">({cartItemsCount})</span>}
+              </button>
+
               {/* Mobile User Menu */}
               <div className="pt-4 border-t border-border/40">
                 {user ? (

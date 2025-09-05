@@ -68,7 +68,7 @@ const Carrinho = () => {
               <ShoppingBag className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
               <p className="text-lg text-muted-foreground mb-6">Seu carrinho está vazio</p>
               <Button 
-                onClick={() => window.location.href = "/corrida#nossa-loja"}
+                onClick={() => window.location.href = "/lp-corrida#nossa-loja"}
                 className="bg-black hover:bg-black/90 text-white"
               >
                 Continuar Comprando
@@ -91,7 +91,7 @@ const Carrinho = () => {
           <div className="flex items-center justify-between mb-12">
             <h1 className="text-4xl font-bold text-foreground">Seu Carrinho</h1>
             <Button 
-              onClick={() => window.location.href = "/corrida#nossa-loja"}
+              onClick={() => window.location.href = "/lp-corrida#nossa-loja"}
               variant="outline"
               className="flex items-center gap-2"
             >

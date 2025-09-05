@@ -10,7 +10,7 @@ import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
 import { useCart } from "@/contexts/CartContext";
 import { useNavigate } from "react-router-dom";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
@@ -57,7 +57,7 @@ const Checkout = () => {
               <ShoppingBag className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
               <p className="text-lg text-muted-foreground mb-6">Seu carrinho está vazio. Voltar para a loja.</p>
               <Button 
-                onClick={() => window.location.href = "/corrida#nossa-loja"}
+                onClick={() => window.location.href = "/lp-corrida#nossa-loja"}
                 className="bg-black hover:bg-black/90 text-white"
               >
                 Voltar para a Loja
@@ -215,6 +215,18 @@ const Checkout = () => {
       
       <div className="py-16">
         <div className="max-w-7xl mx-auto px-6">
+          {/* Botão Voltar para o Carrinho */}
+          <div className="mb-6">
+            <Button 
+              variant="outline"
+              onClick={() => navigate('/carrinho')}
+              className="flex items-center gap-2 hover:bg-muted/50"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Voltar para o carrinho
+            </Button>
+          </div>
+
           {/* Título */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-foreground">Finalizar Compra</h1>
