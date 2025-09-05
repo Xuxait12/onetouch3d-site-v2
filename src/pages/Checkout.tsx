@@ -8,30 +8,48 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
+import { useCart } from "@/contexts/CartContext";
+import { useNavigate } from "react-router-dom";
+import { ShoppingBag } from "lucide-react";
 
 const Checkout = () => {
+  const navigate = useNavigate();
+  const { state: cart } = useCart();
   const [personType, setPersonType] = useState("fisica");
   const [differentAddress, setDifferentAddress] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
   
-  // Sample cart data - would come from context/state management
-  const cartItems = [
-    {
-      id: 1,
-      name: "Quadro Caixa Alta",
-      size: "33x33cm",
-      color: "Preta/Branca",
-      price: 294.50,
-      quantity: 1
-    }
-  ];
-  
-  const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const frete = 15.90;
-  const cupomDesconto = 0;
+  const subtotal = cart.total;
+  const frete = cart.frete;
+  const cupomDesconto = cart.cupomDesconto;
   const pixDiscount = paymentMethod === "pix" ? subtotal * 0.05 : 0;
   const total = subtotal + frete - cupomDesconto - pixDiscount;
+
+  // If cart is empty, show empty state
+  if (cart.items.length === 0) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/20">
+        <GlobalHeader />
+        <div className="py-16">
+          <div className="max-w-4xl mx-auto px-6 text-center">
+            <h1 className="text-4xl font-bold text-foreground mb-8">Finalizar Compra</h1>
+            <div className="bg-white rounded-2xl shadow-lg p-12">
+              <ShoppingBag className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
+              <p className="text-lg text-muted-foreground mb-6">Seu carrinho está vazio. Voltar para a loja.</p>
+              <Button 
+                onClick={() => navigate("/corrida")}
+                className="bg-black hover:bg-black/90 text-white"
+              >
+                Voltar para a Loja
+              </Button>
+            </div>
+          </div>
+        </div>
+        <GlobalFooter />
+      </div>
+    );
+  }
 
   const handleLoginClick = () => {
     console.log("Abrir modal de login");
@@ -237,10 +255,10 @@ const Checkout = () => {
                 <h3 className="text-xl font-semibold mb-4">Resumo do Pedido</h3>
                 
                 <div className="space-y-3">
-                  {cartItems.map((item) => (
+                  {cart.items.map((item) => (
                     <div key={item.id} className="flex justify-between text-sm">
-                      <span>{item.name} - {item.size} - {item.color}</span>
-                      <span>R$ {item.price.toFixed(2).replace('.', ',')}</span>
+                      <span>{item.nome} - {item.tamanho} - {item.cor} (x{item.quantidade})</span>
+                      <span>R$ {item.subtotal.toFixed(2).replace('.', ',')}</span>
                     </div>
                   ))}
                   
@@ -249,6 +267,13 @@ const Checkout = () => {
                       <span>Subtotal:</span>
                       <span>R$ {subtotal.toFixed(2).replace('.', ',')}</span>
                     </div>
+                    
+                    {cupomDesconto > 0 && (
+                      <div className="flex justify-between text-green-600">
+                        <span>Desconto:</span>
+                        <span>- R$ {cupomDesconto.toFixed(2).replace('.', ',')}</span>
+                      </div>
+                    )}
                     
                     <div className="flex justify-between">
                       <span>Frete:</span>

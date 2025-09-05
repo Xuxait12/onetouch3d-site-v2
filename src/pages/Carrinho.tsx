@@ -11,12 +11,10 @@ import { useNavigate } from "react-router-dom";
 
 const Carrinho = () => {
   const navigate = useNavigate();
-  const { state: cart, updateQuantity: updateCartQuantity, removeItem: removeCartItem } = useCart();
+  const { state: cart, updateQuantity: updateCartQuantity, removeItem: removeCartItem, applyCoupon, calculateShipping } = useCart();
   
-  const [cupom, setCupom] = useState("");
-  const [cep, setCep] = useState("");
-  const [frete, setFrete] = useState(0);
-  const [cupomAplicado, setCupomAplicado] = useState(false);
+  const [cupom, setCupom] = useState(cart.cupom || "");
+  const [cep, setCep] = useState(cart.cep || "");
 
   const updateQuantity = (id: string, newQuantity: number) => {
     if (newQuantity < 1) {
@@ -32,21 +30,21 @@ const Carrinho = () => {
 
   const handleAplicarCupom = () => {
     if (cupom.toLowerCase() === "desconto10") {
-      setCupomAplicado(true);
-      console.log("Cupom aplicado:", cupom);
+      const desconto = cart.total * 0.1;
+      applyCoupon(cupom, desconto);
     }
   };
 
   const handleCalcularFrete = () => {
     if (cep) {
       const freteCalculado = 15.90; // Valor exemplo
-      setFrete(freteCalculado);
-      console.log("Frete calculado para CEP:", cep);
+      calculateShipping(cep, freteCalculado);
     }
   };
 
   const subtotal = cart.total;
-  const desconto = cupomAplicado ? subtotal * 0.1 : 0;
+  const desconto = cart.cupomDesconto;
+  const frete = cart.frete;
   const total = subtotal - desconto + frete;
 
   const getProductImage = (item: any) => {
@@ -191,7 +189,7 @@ const Carrinho = () => {
                       Aplicar
                     </Button>
                   </div>
-                  {cupomAplicado && (
+                  {cart.cupomDesconto > 0 && (
                     <p className="text-green-600 text-sm mt-2">✓ Cupom aplicado com sucesso!</p>
                   )}
                 </Card>
@@ -215,9 +213,9 @@ const Carrinho = () => {
                       Calcular
                     </Button>
                   </div>
-                  {frete > 0 && (
+                  {cart.frete > 0 && (
                     <p className="text-green-600 text-sm mt-2">
-                      Frete: R$ {frete.toFixed(2).replace('.', ',')}
+                      Frete: R$ {cart.frete.toFixed(2).replace('.', ',')}
                     </p>
                   )}
                 </Card>
@@ -234,16 +232,16 @@ const Carrinho = () => {
                       <span>R$ {subtotal.toFixed(2).replace('.', ',')}</span>
                     </div>
                     
-                    {cupomAplicado && (
+                    {cart.cupomDesconto > 0 && (
                       <div className="flex justify-between text-green-600">
                         <span>Desconto (10%):</span>
-                        <span>- R$ {desconto.toFixed(2).replace('.', ',')}</span>
+                        <span>- R$ {cart.cupomDesconto.toFixed(2).replace('.', ',')}</span>
                       </div>
                     )}
                     
                     <div className="flex justify-between">
                       <span>Frete:</span>
-                      <span>R$ {frete.toFixed(2).replace('.', ',')}</span>
+                      <span>R$ {cart.frete.toFixed(2).replace('.', ',')}</span>
                     </div>
                     
                     <div className="border-t pt-3 mt-3">
