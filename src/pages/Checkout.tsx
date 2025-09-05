@@ -14,6 +14,7 @@ import { ShoppingBag, ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
+import { FcGoogle } from 'react-icons/fc';
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -325,9 +326,10 @@ const Checkout = () => {
                         variant="outline"
                         onClick={handleGoogleLogin}
                         disabled={loginLoading}
-                        className="flex-1"
+                        className="flex-1 bg-white border-gray-300 text-gray-700 hover:bg-gray-50 shadow-sm"
                       >
-                        Google
+                        <FcGoogle className="w-4 h-4 mr-2" />
+                        Entrar com Google
                       </Button>
                     </div>
                     
