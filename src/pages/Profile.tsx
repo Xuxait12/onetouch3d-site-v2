@@ -138,6 +138,8 @@ const Profile = () => {
           title: "Perfil atualizado!",
           description: "Suas informações foram salvas com sucesso.",
         });
+        // Redirect to home after successful profile update
+        setTimeout(() => navigate('/'), 1500);
       }
     } catch (error) {
       toast({

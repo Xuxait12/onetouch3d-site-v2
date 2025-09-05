@@ -21,6 +21,7 @@ import PoliticaDevolucao from "./pages/PoliticaDevolucao";
 import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 import EntregasPrazos from "./pages/EntregasPrazos";
 import Carrinho from "./pages/Carrinho";
+import AuthRedirect from "./components/AuthRedirect";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -51,6 +52,7 @@ const App = () => (
             <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
             <Route path="/entregas-prazos" element={<EntregasPrazos />} />
             <Route path="/carrinho" element={<Carrinho />} />
+            <Route path="/auth-redirect" element={<AuthRedirect />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

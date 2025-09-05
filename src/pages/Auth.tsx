@@ -23,7 +23,7 @@ const Auth = () => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        navigate('/perfil');
+        navigate('/auth-redirect');
       }
     };
     checkAuth();
@@ -67,7 +67,7 @@ const Auth = () => {
           title: "Login realizado!",
           description: "Bem-vindo de volta!",
         });
-        navigate('/perfil');
+        navigate('/auth-redirect');
       }
     } catch (error) {
       toast({
@@ -106,7 +106,7 @@ const Auth = () => {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/perfil`
+          emailRedirectTo: `${window.location.origin}/auth-redirect`
         }
       });
 
@@ -121,7 +121,7 @@ const Auth = () => {
           title: "Cadastro realizado!",
           description: "Verifique seu email para confirmar a conta.",
         });
-        navigate('/perfil');
+        navigate('/auth-redirect');
       }
     } catch (error) {
       toast({
@@ -139,7 +139,7 @@ const Auth = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/perfil`
+          redirectTo: `${window.location.origin}/auth-redirect`
         }
       });
 
