@@ -333,16 +333,17 @@ const Checkout = () => {
       }
 
       // Create order items
-      const itens = cart.items.map((item) => ({
-        pedido_id: pedido.id,
-        produto_nome: item.nome,
-        moldura_tipo: item.cor,
-        tamanho: item.tamanho,
-        quantidade: item.quantidade,
-        valor_unitario: item.precoUnitario,
-        subtotal: item.subtotal,
-        created_at: new Date().toISOString()
-      }));
+      const itens = cart.items
+        .filter(item => item.nome && item.quantidade > 0) // Filter out empty items
+        .map((item) => ({
+          pedido_id: pedido.id,
+          produto_nome: item.nome,
+          moldura_tipo: item.cor || 'Não especificado',
+          tamanho: item.tamanho || 'Padrão',
+          quantidade: item.quantidade,
+          valor_unitario: item.precoUnitario,
+          subtotal: item.subtotal
+        }));
 
       const { error: itemsError } = await supabase
         .from('itens_pedido')
