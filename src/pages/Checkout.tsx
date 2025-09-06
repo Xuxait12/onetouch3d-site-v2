@@ -234,16 +234,144 @@ const Checkout = () => {
     }
   };
 
-  const handleFinalizePurchase = () => {
-    if (!acceptTerms) {
-      alert("Você deve aceitar os termos de compra");
-      return;
+  const handleFinalizePurchase = async () => {
+    try {
+      // Check if user is logged in
+      if (!user) {
+        toast({
+          variant: "destructive",
+          title: "Login necessário",
+          description: "Você precisa estar logado para finalizar a compra.",
+        });
+        return;
+      }
+
+      // Check terms and payment method
+      if (!acceptTerms) {
+        toast({
+          variant: "destructive",
+          title: "Termos obrigatórios",
+          description: "Você deve aceitar os termos de compra",
+        });
+        return;
+      }
+      
+      if (!paymentMethod) {
+        toast({
+          variant: "destructive",
+          title: "Forma de pagamento",
+          description: "Selecione uma forma de pagamento",
+        });
+        return;
+      }
+
+      // Get form values
+      const fullName = fullNameRef.current?.value;
+      const document = documentRef.current?.value;
+      const cep = cepRef.current?.value;
+      const address = addressRef.current?.value;
+      const number = numberRef.current?.value;
+      const neighborhood = neighborhoodRef.current?.value;
+      const city = cityRef.current?.value;
+      const state = stateRef.current?.value;
+      const phone = phoneRef.current?.value;
+      const email = emailRef.current?.value;
+
+      // Validate required fields
+      if (!fullName || !document || !cep || !address || !number || !neighborhood || !city || !state || !phone || !email) {
+        toast({
+          variant: "destructive",
+          title: "Campos obrigatórios",
+          description: "Por favor, preencha todos os campos obrigatórios (*)",
+        });
+        return;
+      }
+
+      // If delivery to different address is checked, validate those fields too
+      if (differentAddress) {
+        const deliveryCep = window.document.getElementById('deliveryCep') as HTMLInputElement;
+        const deliveryAddress = window.document.getElementById('deliveryAddress') as HTMLInputElement;
+        const deliveryNumber = window.document.getElementById('deliveryNumber') as HTMLInputElement;
+        const deliveryNeighborhood = window.document.getElementById('deliveryNeighborhood') as HTMLInputElement;
+        const deliveryCity = window.document.getElementById('deliveryCity') as HTMLInputElement;
+        const deliveryState = window.document.getElementById('deliveryState') as HTMLInputElement;
+
+        if (!deliveryCep?.value || !deliveryAddress?.value || !deliveryNumber?.value || 
+            !deliveryNeighborhood?.value || !deliveryCity?.value || !deliveryState?.value) {
+          toast({
+            variant: "destructive",
+            title: "Endereço de entrega",
+            description: "Por favor, preencha todos os campos obrigatórios do endereço de entrega",
+          });
+          return;
+        }
+      }
+
+      // Create order object
+      const orderData = {
+        user_id: user.id,
+        subtotal: subtotal,
+        frete: frete,
+        desconto: cupomDesconto + pixDiscount,
+        total: total,
+        status: 'pendente',
+        forma_pagamento: paymentMethod,
+        data_pedido: new Date().toISOString(),
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+
+      // Save order to database
+      const { data: pedido, error: orderError } = await supabase
+        .from('pedidos')
+        .insert([orderData])
+        .select()
+        .single();
+
+      if (orderError) {
+        throw orderError;
+      }
+
+      // Create order items
+      const itens = cart.items.map((item) => ({
+        pedido_id: pedido.id,
+        produto_nome: item.nome,
+        moldura_tipo: item.cor,
+        tamanho: item.tamanho,
+        quantidade: item.quantidade,
+        valor_unitario: item.precoUnitario,
+        subtotal: item.subtotal,
+        created_at: new Date().toISOString()
+      }));
+
+      const { error: itemsError } = await supabase
+        .from('itens_pedido')
+        .insert(itens);
+
+      if (itemsError) {
+        throw itemsError;
+      }
+
+      // Save profile data
+      await handleSaveData();
+
+      // Success - redirect to order confirmation or clear cart
+      toast({
+        title: "Pedido finalizado!",
+        description: `Seu pedido #${pedido.id.substring(0, 8)} foi criado com sucesso.`,
+      });
+
+      // Navigate to order details or success page
+      navigate(`/pedidos/${pedido.id}`);
+      
+    } catch (error) {
+      console.error('Error creating order:', error);
+      toast({
+        variant: "destructive",
+        title: "Erro ao finalizar compra",
+        description: "Ocorreu um erro ao processar seu pedido. Tente novamente.",
+      });
     }
-    if (!paymentMethod) {
-      alert("Selecione uma forma de pagamento");
-      return;
-    }
-    console.log("Finalizar compra");
   };
 
   return (
