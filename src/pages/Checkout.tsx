@@ -166,19 +166,22 @@ const Checkout = () => {
       });
 
       if (error) {
+        console.error('Google login error:', error);
         toast({
           variant: "destructive",
-          title: "Erro no login",
+          title: "Erro no login com Google",
           description: error.message,
         });
+        setLoginLoading(false);
       }
+      // Don't set loading to false here on success - let the auth state change handle it
     } catch (error) {
+      console.error('Google login catch error:', error);
       toast({
         variant: "destructive",
         title: "Erro no login",
         description: "Ocorreu um erro inesperado. Tente novamente.",
       });
-    } finally {
       setLoginLoading(false);
     }
   };
@@ -498,10 +501,10 @@ const Checkout = () => {
                         variant="outline"
                         onClick={handleGoogleLogin}
                         disabled={loginLoading}
-                        className="flex-1 bg-white border-gray-300 text-gray-700 hover:bg-gray-50 shadow-sm"
+                        className="flex-1 bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 shadow-sm"
                       >
                         <FcGoogle className="w-4 h-4 mr-2" />
-                        Entrar com Google
+                        {loginLoading ? "Entrando..." : "Continuar com Google"}
                       </Button>
                     </div>
                     
