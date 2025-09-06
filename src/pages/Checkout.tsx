@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -75,49 +75,6 @@ const Checkout = () => {
     );
   }
 
-  // Load profile data when user logs in
-  const loadProfileData = async (userId: string) => {
-    try {
-      const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', userId)
-        .maybeSingle();
-
-      if (error) {
-        console.error('Error loading profile:', error);
-        return;
-      }
-
-      if (profile) {
-        // Load personal data (not address fields which should be filled via CEP)
-        if (fullNameRef.current) fullNameRef.current.value = profile.full_name || '';
-        if (documentRef.current) documentRef.current.value = profile.cpf_cnpj || '';
-        if (birthDateRef.current) birthDateRef.current.value = profile.birth_date || '';
-        if (phoneRef.current) phoneRef.current.value = profile.phone || '';
-        if (emailRef.current) emailRef.current.value = profile.email || '';
-        if (pontoReferenciaRef.current) pontoReferenciaRef.current.value = (profile as any).ponto_referencia || '';
-        
-        // Set person type
-        setPersonType(profile.person_type || 'fisica');
-
-        toast({
-          title: "Dados carregados!",
-          description: "Seus dados pessoais foram carregados automaticamente.",
-        });
-      }
-    } catch (error) {
-      console.error('Error loading profile data:', error);
-    }
-  };
-
-  // Load profile data when user changes (login/logout)
-  useEffect(() => {
-    if (user) {
-      loadProfileData(user.id);
-    }
-  }, [user]);
-
   const handleInlineLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginLoading(true);
@@ -166,22 +123,19 @@ const Checkout = () => {
       });
 
       if (error) {
-        console.error('Google login error:', error);
         toast({
           variant: "destructive",
-          title: "Erro no login com Google",
+          title: "Erro no login",
           description: error.message,
         });
-        setLoginLoading(false);
       }
-      // Don't set loading to false here on success - let the auth state change handle it
     } catch (error) {
-      console.error('Google login catch error:', error);
       toast({
         variant: "destructive",
         title: "Erro no login",
         description: "Ocorreu um erro inesperado. Tente novamente.",
       });
+    } finally {
       setLoginLoading(false);
     }
   };
@@ -280,145 +234,16 @@ const Checkout = () => {
     }
   };
 
-  const handleFinalizePurchase = async () => {
-    try {
-      // Check if user is logged in
-      if (!user) {
-        toast({
-          variant: "destructive",
-          title: "Login necessário",
-          description: "Você precisa estar logado para finalizar a compra.",
-        });
-        return;
-      }
-
-      // Check terms and payment method
-      if (!acceptTerms) {
-        toast({
-          variant: "destructive",
-          title: "Termos obrigatórios",
-          description: "Você deve aceitar os termos de compra",
-        });
-        return;
-      }
-      
-      if (!paymentMethod) {
-        toast({
-          variant: "destructive",
-          title: "Forma de pagamento",
-          description: "Selecione uma forma de pagamento",
-        });
-        return;
-      }
-
-      // Get form values
-      const fullName = fullNameRef.current?.value;
-      const document = documentRef.current?.value;
-      const cep = cepRef.current?.value;
-      const address = addressRef.current?.value;
-      const number = numberRef.current?.value;
-      const neighborhood = neighborhoodRef.current?.value;
-      const city = cityRef.current?.value;
-      const state = stateRef.current?.value;
-      const phone = phoneRef.current?.value;
-      const email = emailRef.current?.value;
-
-      // Validate required fields
-      if (!fullName || !document || !cep || !address || !number || !neighborhood || !city || !state || !phone || !email) {
-        toast({
-          variant: "destructive",
-          title: "Campos obrigatórios",
-          description: "Por favor, preencha todos os campos obrigatórios (*)",
-        });
-        return;
-      }
-
-      // If delivery to different address is checked, validate those fields too
-      if (differentAddress) {
-        const deliveryCep = window.document.getElementById('deliveryCep') as HTMLInputElement;
-        const deliveryAddress = window.document.getElementById('deliveryAddress') as HTMLInputElement;
-        const deliveryNumber = window.document.getElementById('deliveryNumber') as HTMLInputElement;
-        const deliveryNeighborhood = window.document.getElementById('deliveryNeighborhood') as HTMLInputElement;
-        const deliveryCity = window.document.getElementById('deliveryCity') as HTMLInputElement;
-        const deliveryState = window.document.getElementById('deliveryState') as HTMLInputElement;
-
-        if (!deliveryCep?.value || !deliveryAddress?.value || !deliveryNumber?.value || 
-            !deliveryNeighborhood?.value || !deliveryCity?.value || !deliveryState?.value) {
-          toast({
-            variant: "destructive",
-            title: "Endereço de entrega",
-            description: "Por favor, preencha todos os campos obrigatórios do endereço de entrega",
-          });
-          return;
-        }
-      }
-
-      // Create order object
-      const orderData = {
-        user_id: user.id,
-        subtotal: subtotal,
-        frete: frete,
-        desconto: cupomDesconto + pixDiscount,
-        total: total,
-        status: 'pendente',
-        forma_pagamento: paymentMethod,
-        data_pedido: new Date().toISOString(),
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      };
-
-      // Save order to database
-      const { data: pedido, error: orderError } = await supabase
-        .from('pedidos')
-        .insert([orderData])
-        .select()
-        .single();
-
-      if (orderError) {
-        throw orderError;
-      }
-
-      // Create order items
-      const itens = cart.items
-        .filter(item => item.nome && item.quantidade > 0) // Filter out empty items
-        .map((item) => ({
-          pedido_id: pedido.id,
-          produto_nome: item.nome,
-          moldura_tipo: item.cor || 'Não especificado',
-          tamanho: item.tamanho || 'Padrão',
-          quantidade: item.quantidade,
-          valor_unitario: item.precoUnitario,
-          subtotal: item.subtotal
-        }));
-
-      const { error: itemsError } = await supabase
-        .from('itens_pedido')
-        .insert(itens);
-
-      if (itemsError) {
-        throw itemsError;
-      }
-
-      // Save profile data
-      await handleSaveData();
-
-      // Success - redirect to order confirmation or clear cart
-      toast({
-        title: "Pedido finalizado!",
-        description: `Seu pedido #${pedido.id.substring(0, 8)} foi criado com sucesso.`,
-      });
-
-      // Navigate to order details or success page
-      navigate(`/pedidos/${pedido.id}`);
-      
-    } catch (error) {
-      console.error('Error creating order:', error);
-      toast({
-        variant: "destructive",
-        title: "Erro ao finalizar compra",
-        description: "Ocorreu um erro ao processar seu pedido. Tente novamente.",
-      });
+  const handleFinalizePurchase = () => {
+    if (!acceptTerms) {
+      alert("Você deve aceitar os termos de compra");
+      return;
     }
+    if (!paymentMethod) {
+      alert("Selecione uma forma de pagamento");
+      return;
+    }
+    console.log("Finalizar compra");
   };
 
   return (
@@ -501,10 +326,10 @@ const Checkout = () => {
                         variant="outline"
                         onClick={handleGoogleLogin}
                         disabled={loginLoading}
-                        className="flex-1 bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 shadow-sm"
+                        className="flex-1 bg-white border-gray-300 text-gray-700 hover:bg-gray-50 shadow-sm"
                       >
                         <FcGoogle className="w-4 h-4 mr-2" />
-                        {loginLoading ? "Entrando..." : "Continuar com Google"}
+                        Entrar com Google
                       </Button>
                     </div>
                     
