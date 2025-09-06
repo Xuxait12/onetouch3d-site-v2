@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -74,6 +74,49 @@ const Checkout = () => {
       </div>
     );
   }
+
+  // Load profile data when user logs in
+  const loadProfileData = async (userId: string) => {
+    try {
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', userId)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Error loading profile:', error);
+        return;
+      }
+
+      if (profile) {
+        // Load personal data (not address fields which should be filled via CEP)
+        if (fullNameRef.current) fullNameRef.current.value = profile.full_name || '';
+        if (documentRef.current) documentRef.current.value = profile.cpf_cnpj || '';
+        if (birthDateRef.current) birthDateRef.current.value = profile.birth_date || '';
+        if (phoneRef.current) phoneRef.current.value = profile.phone || '';
+        if (emailRef.current) emailRef.current.value = profile.email || '';
+        if (pontoReferenciaRef.current) pontoReferenciaRef.current.value = (profile as any).ponto_referencia || '';
+        
+        // Set person type
+        setPersonType(profile.person_type || 'fisica');
+
+        toast({
+          title: "Dados carregados!",
+          description: "Seus dados pessoais foram carregados automaticamente.",
+        });
+      }
+    } catch (error) {
+      console.error('Error loading profile data:', error);
+    }
+  };
+
+  // Load profile data when user changes (login/logout)
+  useEffect(() => {
+    if (user) {
+      loadProfileData(user.id);
+    }
+  }, [user]);
 
   const handleInlineLogin = async (e: React.FormEvent) => {
     e.preventDefault();
