@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,6 +49,47 @@ const Checkout = () => {
   const cupomDesconto = cart.cupomDesconto;
   const pixDiscount = paymentMethod === "pix" ? subtotal * 0.05 : 0;
   const total = subtotal + frete - cupomDesconto - pixDiscount;
+
+  // Load profile data when user logs in
+  const loadProfileData = async () => {
+    if (!user) return;
+    
+    try {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (profile) {
+        // Fill form with saved data
+        if (fullNameRef.current) fullNameRef.current.value = profile.full_name || '';
+        if (documentRef.current) documentRef.current.value = profile.cpf_cnpj || '';
+        if (birthDateRef.current) birthDateRef.current.value = profile.birth_date || '';
+        if (phoneRef.current) phoneRef.current.value = profile.phone || '';
+        if (emailRef.current) emailRef.current.value = profile.email || user.email || '';
+        // ponto_referencia field is not in the profiles table, keep it empty
+        
+        setPersonType(profile.person_type || 'fisica');
+      }
+    } catch (error) {
+      console.error('Error loading profile:', error);
+    }
+  };
+
+  // Check for OAuth redirect and load profile data
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const fromOauth = urlParams.get('from_oauth');
+    
+    if (fromOauth && user) {
+      // Remove the parameter from URL
+      window.history.replaceState({}, '', '/checkout');
+      loadProfileData();
+    } else if (user) {
+      loadProfileData();
+    }
+  }, [user]);
 
   // If cart is empty, show empty state
   if (cart.items.length === 0) {
@@ -115,10 +156,16 @@ const Checkout = () => {
     try {
       setLoginLoading(true);
       
+      // Store current checkout state to preserve cart
+      localStorage.setItem('checkoutState', JSON.stringify({
+        cart: cart,
+        timestamp: Date.now()
+      }));
+      
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/checkout`
+          redirectTo: `${window.location.origin}/checkout?from_oauth=true`
         }
       });
 
