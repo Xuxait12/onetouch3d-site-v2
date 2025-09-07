@@ -18,7 +18,7 @@ import { FcGoogle } from 'react-icons/fc';
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { state: cart } = useCart();
+  const { state: cart, clearCart } = useCart();
   const { user } = useAuth();
   const [personType, setPersonType] = useState("fisica");
   const [differentAddress, setDifferentAddress] = useState(false);
@@ -281,16 +281,90 @@ const Checkout = () => {
     }
   };
 
-  const handleFinalizePurchase = () => {
+  const handleFinalizePurchase = async () => {
     if (!acceptTerms) {
-      alert("Você deve aceitar os termos de compra");
+      toast({
+        variant: "destructive",
+        title: "Termos de compra",
+        description: "Você deve aceitar os termos de compra para continuar.",
+      });
       return;
     }
     if (!paymentMethod) {
-      alert("Selecione uma forma de pagamento");
+      toast({
+        variant: "destructive",
+        title: "Forma de pagamento",
+        description: "Selecione uma forma de pagamento para continuar.",
+      });
       return;
     }
-    console.log("Finalizar compra");
+    if (!user) {
+      toast({
+        variant: "destructive",
+        title: "Login necessário",
+        description: "Você precisa estar logado para finalizar a compra.",
+      });
+      return;
+    }
+
+    try {
+      // Create order in pedidos table
+      const { data: pedido, error: pedidoError } = await supabase
+        .from('pedidos')
+        .insert({
+          user_id: user.id,
+          subtotal: subtotal,
+          frete: frete,
+          desconto: cupomDesconto + pixDiscount,
+          total: total,
+          status: 'aguardando pagamento',
+          forma_pagamento: paymentMethod
+        })
+        .select()
+        .single();
+
+      if (pedidoError) {
+        throw pedidoError;
+      }
+
+      // Create order items in itens_pedido table
+      const orderItems = cart.items.map(item => ({
+        pedido_id: pedido.id,
+        produto_nome: item.nome,
+        moldura_tipo: item.cor, // Using cor as moldura_tipo for now
+        tamanho: item.tamanho,
+        quantidade: item.quantidade,
+        valor_unitario: item.precoUnitario,
+        subtotal: item.subtotal
+      }));
+
+      const { error: itemsError } = await supabase
+        .from('itens_pedido')
+        .insert(orderItems);
+
+      if (itemsError) {
+        throw itemsError;
+      }
+
+      // Clear cart
+      clearCart();
+
+      // Navigate to confirmation page with order ID
+      navigate(`/confirmacao?pedido=${pedido.id}`);
+
+      toast({
+        title: "Pedido realizado!",
+        description: `Seu pedido nº ${pedido.id} foi criado com sucesso.`,
+      });
+
+    } catch (error) {
+      console.error('Error creating order:', error);
+      toast({
+        variant: "destructive",
+        title: "Erro ao finalizar compra",
+        description: "Ocorreu um erro ao processar seu pedido. Tente novamente.",
+      });
+    }
   };
 
   return (
