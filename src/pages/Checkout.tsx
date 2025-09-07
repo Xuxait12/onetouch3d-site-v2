@@ -44,9 +44,9 @@ const Checkout = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const pontoReferenciaRef = useRef<HTMLInputElement>(null);
   
-  const subtotal = cart.total;
-  const frete = cart.frete;
-  const cupomDesconto = cart.cupomDesconto;
+  const subtotal = cart?.total || 0;
+  const frete = cart?.frete || 0;
+  const cupomDesconto = cart?.cupomDesconto || 0;
   const pixDiscount = paymentMethod === "pix" ? subtotal * 0.05 : 0;
   const total = subtotal + frete - cupomDesconto - pixDiscount;
 
@@ -92,7 +92,7 @@ const Checkout = () => {
   }, [user]);
 
   // If cart is empty, show empty state
-  if (cart.items.length === 0) {
+  if (!cart?.items || cart.items.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/20">
         <GlobalHeader />
@@ -565,8 +565,8 @@ const Checkout = () => {
                   
                   {/* Lista de Produtos */}
                   <div className="space-y-4 mb-6">
-                    {cart.items.map((item, index) => (
-                      <div key={item.id} className={`pb-4 ${index < cart.items.length - 1 ? 'border-b border-border/30' : ''}`}>
+                    {cart?.items?.map((item, index) => (
+                      <div key={item.id} className={`pb-4 ${index < (cart?.items?.length || 0) - 1 ? 'border-b border-border/30' : ''}`}>
                         <div className="flex justify-between items-start">
                           <div className="flex-1 pr-3">
                             <h4 className="font-semibold text-foreground text-sm break-words">
