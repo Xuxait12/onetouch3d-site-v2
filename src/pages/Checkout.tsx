@@ -313,11 +313,12 @@ const Checkout = () => {
         .from('pedidos')
         .insert({
           user_id: user.id,
+          data_pedido: new Date().toISOString(),
           subtotal: subtotal,
           frete: frete,
           desconto: cupomDesconto + pixDiscount,
           total: total,
-          status: 'aguardando pagamento',
+          status: 'pendente',
           forma_pagamento: paymentMethod
         })
         .select()
@@ -331,7 +332,7 @@ const Checkout = () => {
       const orderItems = cart.items.map(item => ({
         pedido_id: pedido.id,
         produto_nome: item.nome,
-        moldura_tipo: item.cor, // Using cor as moldura_tipo for now
+        moldura_tipo: item.cor,
         tamanho: item.tamanho,
         quantidade: item.quantidade,
         valor_unitario: item.precoUnitario,
@@ -346,16 +347,17 @@ const Checkout = () => {
         throw itemsError;
       }
 
+      // Show success message with order code
+      toast({
+        title: "Pedido realizado com sucesso!",
+        description: `Código do pedido: #${pedido.id}`,
+      });
+
       // Clear cart
       clearCart();
 
       // Navigate to confirmation page with order ID
       navigate(`/confirmacao?pedido=${pedido.id}`);
-
-      toast({
-        title: "Pedido realizado!",
-        description: `Seu pedido nº ${pedido.id} foi criado com sucesso.`,
-      });
 
     } catch (error) {
       console.error('Error creating order:', error);
