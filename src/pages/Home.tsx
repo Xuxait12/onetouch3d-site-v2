@@ -37,60 +37,62 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50/30 via-white to-blue-100/40">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Animated Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/40 via-white to-blue-100/30 bg-[length:400%_400%] animate-gradient-shift"></div>
+      
       <GlobalHeader />
       
-      <main className="flex-1 py-16">
-        {/* Hero Section */}
+      <main className="relative z-10 flex-1 py-20">
         <div className="max-w-7xl mx-auto px-6 md:px-12 text-center">
-          {/* Title Animation */}
+          {/* Main Title Animation */}
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold mb-6 bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent"
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold mb-8 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 bg-clip-text text-transparent leading-tight"
           >
             TRANSFORMAMOS SUA CONQUISTA EM ARTE
           </motion.h1>
           
           {/* Subtitle Animation */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-            className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-16 max-w-3xl mx-auto font-light"
+            transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
+            className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-20 max-w-2xl mx-auto font-light tracking-wide"
           >
             Quadros personalizados para eternizar sua história
           </motion.p>
           
           {/* Cards Grid - Sequential Animation */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
             {landingPages.map((page, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                initial={{ opacity: 0, scale: 0.8, y: 40 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ 
-                  duration: 0.6, 
-                  delay: 0.6 + (index * 0.15),
-                  ease: "easeOut",
+                  duration: 0.7, 
+                  delay: 0.8 + (index * 0.2),
+                  ease: [0.25, 0.46, 0.45, 0.94],
                   type: "spring",
-                  stiffness: 100
+                  stiffness: 80
                 }}
                 onClick={() => navigate(page.path)}
-                className="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:scale-105 border border-gray-100"
+                className="group cursor-pointer bg-white/90 backdrop-blur-sm rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-700 hover:scale-[1.02] border border-white/50"
               >
-                <div className="aspect-[4/3] relative overflow-hidden">
+                <div className="aspect-[5/4] relative overflow-hidden">
                   <img
                     src={page.image}
                     alt={page.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
                   />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent group-hover:from-black/20 transition-all duration-700" />
                   
-                  {/* Category Label */}
-                  <div className="absolute bottom-4 left-4">
-                    <span className="text-white text-sm font-semibold drop-shadow-lg group-hover:text-blue-100 transition-colors duration-300">
+                  {/* Category Label with Enhanced Hover */}
+                  <div className="absolute bottom-6 left-6">
+                    <span className="text-white text-base font-semibold drop-shadow-2xl group-hover:text-blue-100 group-hover:scale-105 transition-all duration-500 inline-block">
                       {page.title}
                     </span>
                   </div>
@@ -99,16 +101,16 @@ const Home = () => {
             ))}
           </div>
           
-          {/* CTA Button */}
+          {/* Refined CTA Button */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.2, ease: "easeOut" }}
-            className="w-full max-w-md mx-auto"
+            transition={{ duration: 0.8, delay: 1.6, ease: "easeOut" }}
+            className="flex justify-center"
           >
             <Button 
               variant="outline"
-              className="w-full py-4 px-8 text-base font-medium bg-white/80 backdrop-blur-sm border-primary/20 text-primary hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 rounded-xl shadow-sm hover:shadow-md"
+              className="px-10 py-4 text-lg font-medium bg-white/70 backdrop-blur-md border-2 border-blue-200/50 text-blue-700 hover:bg-blue-50 hover:border-blue-300 hover:text-blue-800 transition-all duration-500 rounded-2xl shadow-sm hover:shadow-lg hover:scale-105"
             >
               Escolha sua modalidade preferida
             </Button>
