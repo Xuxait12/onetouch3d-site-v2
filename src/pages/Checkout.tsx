@@ -28,6 +28,7 @@ const Checkout = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   // Refs for form fields
   const fullNameRef = useRef<HTMLInputElement>(null);
@@ -282,6 +283,40 @@ const Checkout = () => {
   };
 
   const handleFinalizePurchase = async () => {
+    // Prevent duplicate submissions
+    if (isSubmitting) return;
+
+    // Validate cart
+    if (!cart?.items || cart.items.length === 0) {
+      toast({
+        variant: "destructive",
+        title: "Carrinho vazio",
+        description: "Adicione produtos ao carrinho para continuar.",
+      });
+      return;
+    }
+
+    // Validate required form fields
+    const fullName = fullNameRef.current?.value;
+    const document = documentRef.current?.value;
+    const cep = cepRef.current?.value;
+    const address = addressRef.current?.value;
+    const number = numberRef.current?.value;
+    const neighborhood = neighborhoodRef.current?.value;
+    const city = cityRef.current?.value;
+    const state = stateRef.current?.value;
+    const phone = phoneRef.current?.value;
+    const email = emailRef.current?.value;
+
+    if (!fullName || !document || !cep || !address || !number || !neighborhood || !city || !state || !phone || !email) {
+      toast({
+        variant: "destructive",
+        title: "Campos obrigatórios",
+        description: "Por favor, preencha todos os campos obrigatórios (*).",
+      });
+      return;
+    }
+
     if (!acceptTerms) {
       toast({
         variant: "destructive",
@@ -290,6 +325,7 @@ const Checkout = () => {
       });
       return;
     }
+
     if (!paymentMethod) {
       toast({
         variant: "destructive",
@@ -298,35 +334,49 @@ const Checkout = () => {
       });
       return;
     }
+
     if (!user) {
       toast({
         variant: "destructive",
         title: "Login necessário",
         description: "Você precisa estar logado para finalizar a compra.",
       });
+      setShowInlineLogin(true);
       return;
     }
 
+    setIsSubmitting(true);
+
     try {
+      // Round values to 2 decimal places before inserting
+      const roundedSubtotal = Math.round(subtotal * 100) / 100;
+      const roundedFrete = Math.round(frete * 100) / 100;
+      const roundedDesconto = Math.round((cupomDesconto + pixDiscount) * 100) / 100;
+      const roundedTotal = Math.round(total * 100) / 100;
+
       // Create order in pedidos table
       const { data: pedido, error: pedidoError } = await supabase
         .from('pedidos')
         .insert({
           user_id: user.id,
-          data_pedido: new Date().toISOString(),
-          subtotal: subtotal,
-          frete: frete,
-          desconto: cupomDesconto + pixDiscount,
-          total: total,
+          subtotal: roundedSubtotal,
+          frete: roundedFrete,
+          desconto: roundedDesconto,
+          total: roundedTotal,
           status: 'pendente',
-          forma_pagamento: paymentMethod
+          forma_pagamento: paymentMethod || 'teste'
         })
         .select()
         .single();
 
       if (pedidoError) {
+        if (pedidoError.message.includes('row-level security') || pedidoError.message.includes('permission')) {
+          throw new Error('Não foi possível salvar seu pedido (permissão). Tente fazer login novamente.');
+        }
         throw pedidoError;
       }
+
+      console.log('Order created with ID:', pedido.id);
 
       // Create order items in itens_pedido table
       const orderItems = cart.items.map(item => ({
@@ -335,8 +385,8 @@ const Checkout = () => {
         moldura_tipo: item.cor,
         tamanho: item.tamanho,
         quantidade: item.quantidade,
-        valor_unitario: item.precoUnitario,
-        subtotal: item.subtotal
+        valor_unitario: Math.round(item.precoUnitario * 100) / 100,
+        subtotal: Math.round(item.subtotal * 100) / 100
       }));
 
       const { error: itemsError } = await supabase
@@ -344,8 +394,19 @@ const Checkout = () => {
         .insert(orderItems);
 
       if (itemsError) {
+        // Try to delete the order if items failed to insert
+        try {
+          await supabase
+            .from('pedidos')
+            .delete()
+            .eq('id', pedido.id);
+        } catch (deleteError) {
+          console.error('Failed to cleanup order after items error:', deleteError);
+        }
         throw itemsError;
       }
+
+      console.log('Order items created:', orderItems.length, 'items');
 
       // Show success message with order code
       toast({
@@ -361,11 +422,19 @@ const Checkout = () => {
 
     } catch (error) {
       console.error('Error creating order:', error);
+      
+      let errorMessage = "Ocorreu um erro ao processar seu pedido. Tente novamente.";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
       toast({
         variant: "destructive",
         title: "Erro ao finalizar compra",
-        description: "Ocorreu um erro ao processar seu pedido. Tente novamente.",
+        description: errorMessage,
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -742,10 +811,16 @@ const Checkout = () => {
               <Button 
                 onClick={handleFinalizePurchase}
                 className="w-full bg-black hover:bg-black/90 text-white py-4 text-lg font-medium"
-                disabled={!acceptTerms || !paymentMethod}
+                disabled={!acceptTerms || !paymentMethod || isSubmitting || !user}
               >
-                Finalizar Compra
+                {isSubmitting ? "Processando pedido..." : "Finalizar Compra"}
               </Button>
+              
+              {!user && (
+                <p className="text-sm text-muted-foreground text-center mt-2">
+                  É necessário fazer login para finalizar a compra
+                </p>
+              )}
             </div>
           </div>
         </div>
