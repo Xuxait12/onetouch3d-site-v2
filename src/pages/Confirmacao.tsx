@@ -10,6 +10,7 @@ import { CheckCircle, Package, Clock } from "lucide-react";
 
 interface OrderDetails {
   id: string;
+  numero_pedido?: string;
   data_pedido: string;
   subtotal: number;
   frete: number;
@@ -154,7 +155,7 @@ const Confirmacao = () => {
             </div>
             <h1 className="text-4xl font-bold text-foreground mb-4">🎉 Pedido realizado com sucesso!</h1>
             <p className="text-xl text-muted-foreground mb-2">
-              Seu pedido nº <span className="font-bold text-foreground">{orderDetails.id}</span> foi registrado.
+              Seu pedido nº <span className="font-bold text-foreground">{orderDetails.numero_pedido || orderDetails.id}</span> foi registrado.
             </p>
             <div className="flex items-center justify-center gap-2 text-lg">
               <Clock className="w-5 h-5 text-orange-500" />
