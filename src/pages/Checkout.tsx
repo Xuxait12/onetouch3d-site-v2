@@ -335,11 +335,21 @@ const Checkout = () => {
       return;
     }
 
+    // Validate payment method values
+    if (!["pix", "debito", "credito"].includes(paymentMethod)) {
+      toast({
+        variant: "destructive",
+        title: "Forma de pagamento inválida",
+        description: "Selecione uma forma de pagamento válida.",
+      });
+      return;
+    }
+
     if (!user) {
       toast({
         variant: "destructive",
         title: "Login necessário",
-        description: "Você precisa estar logado para finalizar a compra.",
+        description: "Você precisa fazer login antes de finalizar a compra.",
       });
       setShowInlineLogin(true);
       return;
@@ -408,22 +418,22 @@ const Checkout = () => {
 
       console.log('Order items created:', orderItems.length, 'items');
 
-      // Show success message with order code
+      // Show success message with order status
       toast({
-        title: "Pedido realizado com sucesso!",
+        title: "Pedido realizado com sucesso! Status: pendente",
         description: `Código do pedido: #${pedido.id}`,
       });
 
       // Clear cart
       clearCart();
 
-      // Navigate to confirmation page with order ID
+      // Navigate to order tracking page
       navigate(`/confirmacao?pedido=${pedido.id}`);
 
     } catch (error) {
       console.error('Error creating order:', error);
       
-      let errorMessage = "Ocorreu um erro ao processar seu pedido. Tente novamente.";
+      let errorMessage = "Não foi possível finalizar sua compra. Tente novamente.";
       if (error instanceof Error) {
         errorMessage = error.message;
       }
@@ -782,13 +792,13 @@ const Checkout = () => {
                   </div>
                   
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="debit" id="debit" />
-                    <Label htmlFor="debit" className="cursor-pointer">Cartão de Débito</Label>
+                    <RadioGroupItem value="debito" id="debito" />
+                    <Label htmlFor="debito" className="cursor-pointer">Cartão de Débito</Label>
                   </div>
                   
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="credit" id="credit" />
-                    <Label htmlFor="credit" className="cursor-pointer">Cartão de Crédito</Label>
+                    <RadioGroupItem value="credito" id="credito" />
+                    <Label htmlFor="credito" className="cursor-pointer">Cartão de Crédito</Label>
                   </div>
                 </RadioGroup>
               </Card>
