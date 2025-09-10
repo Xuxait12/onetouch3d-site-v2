@@ -17,13 +17,23 @@ interface Order {
   status: string;
   order_date: string;
   created_at: string;
-  updated_at: string;
+}
+
+interface OrderItem {
+  id: string;
+  produto_nome: string;
+  moldura_tipo: string;
+  tamanho: string;
+  quantidade: number;
+  valor_unitario: number;
+  subtotal: number;
 }
 
 const OrderDetails = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id: orderId } = useParams<{ id: string }>();
   const [user, setUser] = useState<User | null>(null);
   const [order, setOrder] = useState<Order | null>(null);
+  const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -39,48 +49,93 @@ const OrderDetails = () => {
 
       setUser(session.user);
 
-      if (!id) {
+      if (!orderId) {
         navigate('/meus-pedidos');
         return;
       }
 
-      // Tabela orders não existe ainda, mas mantemos a estrutura para futura implementação
-      // Redireciona para meus pedidos já que não temos dados
-      navigate('/meus-pedidos');
-      setLoading(false);
+      try {
+        // Buscar dados do pedido
+        const { data: pedido, error: pedidoError } = await supabase
+          .from('pedidos')
+          .select('*')
+          .eq('id', orderId)
+          .eq('user_id', session.user.id)
+          .single();
+
+        if (pedidoError) {
+          console.error('Error fetching order:', pedidoError);
+          toast({
+            variant: "destructive",
+            title: "Pedido não encontrado",
+            description: "O pedido solicitado não foi encontrado.",
+          });
+          navigate('/meus-pedidos');
+          return;
+        }
+
+        // Buscar itens do pedido
+        const { data: itens, error: itensError } = await supabase
+          .from('itens_pedido')
+          .select('*')
+          .eq('pedido_id', orderId);
+
+        if (itensError) {
+          console.error('Error fetching order items:', itensError);
+        }
+
+        // Mapear os dados para o formato esperado
+        const mappedOrder = {
+          id: (pedido as any).id,
+          product_name: `Quadro Personalizado`,
+          product_description: `${(pedido as any).numero_pedido || 'Pedido #' + (pedido as any).id.slice(0, 8)}`,
+          total_amount: (pedido as any).total,
+          status: (pedido as any).status,
+          order_date: (pedido as any).data_pedido,
+          created_at: (pedido as any).created_at
+        };
+
+        setOrder(mappedOrder);
+        setOrderItems(itens || []);
+      } catch (error) {
+        console.error('Error fetching order data:', error);
+        navigate('/meus-pedidos');
+      } finally {
+        setLoading(false);
+      }
     };
 
     getOrderDetails();
-  }, [id, navigate, toast]);
+  }, [orderId, navigate, toast]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'paid':
-        return 'bg-blue-100 text-blue-800';
-      case 'shipped':
-        return 'bg-purple-100 text-purple-800';
-      case 'completed':
-        return 'bg-green-100 text-green-800';
-      case 'canceled':
-        return 'bg-red-100 text-red-800';
+      case 'pendente':
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'pago':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'enviado':
+        return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'concluido':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'cancelado':
+        return 'bg-red-100 text-red-800 border-red-200';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'pending':
+      case 'pendente':
         return 'Pendente';
-      case 'paid':
+      case 'pago':
         return 'Pago';
-      case 'shipped':
+      case 'enviado':
         return 'Enviado';
-      case 'completed':
+      case 'concluido':
         return 'Concluído';
-      case 'canceled':
+      case 'cancelado':
         return 'Cancelado';
       default:
         return status;
@@ -138,108 +193,93 @@ const OrderDetails = () => {
           <div className="flex justify-between items-start">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">
-                Pedido #{order.id.slice(0, 8)}
+                {order.product_description}
               </h1>
               <p className="text-muted-foreground">
                 Detalhes completos do seu pedido
               </p>
             </div>
-            <Badge className={getStatusColor(order.status)} variant="secondary">
+            <Badge className={`px-4 py-2 rounded-full border ${getStatusColor(order.status)}`}>
               {getStatusText(order.status)}
             </Badge>
           </div>
         </div>
 
         <div className="grid gap-6">
-          {/* Product Information */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+          {/* Informações do Pedido */}
+          <Card className="border border-border/50 shadow-lg">
+            <CardHeader className="bg-gradient-to-r from-muted/20 to-muted/30">
+              <CardTitle className="flex items-center gap-2 text-xl">
                 <Package className="w-5 h-5" />
-                Informações do Produto
+                Informações do Pedido
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <h3 className="font-semibold text-lg">{order.product_name}</h3>
-                {order.product_description && (
-                  <p className="text-muted-foreground mt-2">
-                    {order.product_description}
-                  </p>
-                )}
-              </div>
-              
-              <div className="pt-4 border-t">
-                <div className="flex justify-between items-center">
-                  <span className="text-lg font-medium">Valor Total:</span>
-                  <span className="text-2xl font-bold text-accent">
-                    {formatPrice(order.total_amount)}
-                  </span>
+            <CardContent className="pt-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="font-semibold text-lg mb-4">{order.product_name}</h3>
+                  <div className="space-y-2">
+                    <div>
+                      <span className="text-muted-foreground font-medium">Data do Pedido:</span>
+                      <p className="font-semibold">{formatDate(order.order_date)}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground font-medium">Status:</span>
+                      <div className="mt-1">
+                        <Badge className={`px-3 py-1 rounded-full border ${getStatusColor(order.status)}`}>
+                          {getStatusText(order.status)}
+                        </Badge>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="font-semibold text-lg mb-4">Resumo Financeiro</h3>
+                  <div className="flex justify-between items-center p-4 bg-green-50 rounded-lg border border-green-200">
+                    <span className="text-foreground font-medium">Total do Pedido:</span>
+                    <span className="text-2xl font-bold text-green-600">
+                      {formatPrice(order.total_amount)}
+                    </span>
+                  </div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Order Timeline */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calendar className="w-5 h-5" />
-                Cronologia do Pedido
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">
-                    Data do Pedido
-                  </label>
-                  <p className="text-lg">{formatDate(order.order_date)}</p>
+          {/* Lista de Itens do Pedido */}
+          {orderItems.length > 0 && (
+            <Card className="border border-border/50 shadow-lg">
+              <CardHeader className="bg-gradient-to-r from-muted/20 to-muted/30">
+                <CardTitle className="flex items-center gap-2 text-xl">
+                  <Calendar className="w-5 h-5" />
+                  Itens do Pedido
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="space-y-4">
+                  {orderItems.map((item) => (
+                    <div key={item.id} className="flex justify-between items-start p-4 bg-muted/20 rounded-lg border border-border/30">
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-lg text-foreground">{item.produto_nome}</h4>
+                        <p className="text-muted-foreground mt-1">
+                          {item.tamanho} / {item.moldura_tipo} / Quantidade: {item.quantidade}
+                        </p>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          R$ {item.valor_unitario.toFixed(2).replace('.', ',')} cada
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <span className="font-bold text-lg text-foreground">
+                          R$ {item.subtotal.toFixed(2).replace('.', ',')}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">
-                    Última Atualização
-                  </label>
-                  <p className="text-lg">{formatDate(order.updated_at)}</p>
-                </div>
-              </div>
-              
-              <div className="pt-4 border-t">
-                <label className="text-sm font-medium text-muted-foreground">
-                  Status Atual
-                </label>
-                <div className="mt-2">
-                  <Badge className={getStatusColor(order.status)} variant="secondary">
-                    {getStatusText(order.status)}
-                  </Badge>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Payment Information */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CreditCard className="w-5 h-5" />
-                Informações de Pagamento
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span>Subtotal:</span>
-                  <span>{formatPrice(order.total_amount)}</span>
-                </div>
-                
-                <div className="flex justify-between items-center font-bold text-lg pt-4 border-t">
-                  <span>Total:</span>
-                  <span className="text-accent">{formatPrice(order.total_amount)}</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </div>

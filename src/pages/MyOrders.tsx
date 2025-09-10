@@ -37,9 +37,42 @@ const MyOrders = () => {
 
       setUser(session.user);
 
-      // Tabela orders não existe ainda, mas mantemos a estrutura para futura implementação
-      setOrders([]);
-      setLoading(false);
+      try {
+        // Buscar pedidos do usuário logado
+        const { data: pedidos, error } = await supabase
+          .from('pedidos')
+          .select('*')
+          .eq('user_id', session.user.id)
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          console.error('Error fetching orders:', error);
+          toast({
+            variant: "destructive",
+            title: "Erro ao carregar pedidos",
+            description: "Não foi possível carregar seus pedidos. Tente novamente.",
+          });
+          setOrders([]);
+        } else {
+          // Mapear os dados para o formato esperado
+          const mappedOrders = pedidos?.map((pedido: any) => ({
+            id: pedido.id,
+            product_name: `Quadro Personalizado`,
+            product_description: `${pedido.numero_pedido || 'Pedido #' + pedido.id.slice(0, 8)}`,
+            total_amount: pedido.total,
+            status: pedido.status,
+            order_date: pedido.data_pedido,
+            created_at: pedido.created_at
+          })) || [];
+          
+          setOrders(mappedOrders);
+        }
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+        setOrders([]);
+      } finally {
+        setLoading(false);
+      }
     };
 
     getOrdersData();
@@ -47,32 +80,32 @@ const MyOrders = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'paid':
-        return 'bg-blue-100 text-blue-800';
-      case 'shipped':
-        return 'bg-purple-100 text-purple-800';
-      case 'completed':
-        return 'bg-green-100 text-green-800';
-      case 'canceled':
-        return 'bg-red-100 text-red-800';
+      case 'pendente':
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'pago':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'enviado':
+        return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'concluido':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'cancelado':
+        return 'bg-red-100 text-red-800 border-red-200';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'pending':
+      case 'pendente':
         return 'Pendente';
-      case 'paid':
+      case 'pago':
         return 'Pago';
-      case 'shipped':
+      case 'enviado':
         return 'Enviado';
-      case 'completed':
+      case 'concluido':
         return 'Concluído';
-      case 'canceled':
+      case 'cancelado':
         return 'Cancelado';
       default:
         return status;
@@ -125,43 +158,38 @@ const MyOrders = () => {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid gap-6">
+          <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
             {orders.map((order) => (
-              <Card key={order.id} className="overflow-hidden">
-                <CardHeader className="bg-muted/30">
+              <Card key={order.id} className="overflow-hidden border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                <CardHeader className="bg-gradient-to-r from-muted/20 to-muted/30 pb-4">
                   <div className="flex justify-between items-start">
                     <div>
-                      <CardTitle className="text-lg">
-                        Pedido #{order.id.slice(0, 8)}
+                      <CardTitle className="text-xl font-bold text-foreground">
+                        {order.product_description}
                       </CardTitle>
                       <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
                         <Calendar className="w-4 h-4" />
                         {formatDate(order.order_date)}
                       </div>
                     </div>
-                    <Badge className={getStatusColor(order.status)}>
+                    <Badge className={`px-3 py-1 rounded-full border font-medium ${getStatusColor(order.status)}`}>
                       {getStatusText(order.status)}
                     </Badge>
                   </div>
                 </CardHeader>
-                <CardContent className="pt-4">
-                  <div className="grid md:grid-cols-3 gap-4">
-                    <div className="md:col-span-2">
-                      <h3 className="font-semibold mb-1">{order.product_name}</h3>
-                      {order.product_description && (
-                        <p className="text-sm text-muted-foreground mb-2">
-                          {order.product_description}
-                        </p>
-                      )}
-                      <p className="text-lg font-bold text-accent">
+                <CardContent className="pt-6">
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="font-semibold text-lg text-foreground mb-2">{order.product_name}</h3>
+                      <p className="text-2xl font-bold text-green-600">
                         {formatPrice(order.total_amount)}
                       </p>
                     </div>
-                    <div className="flex justify-end">
+                    <div className="pt-2">
                       <Button
-                        variant="outline"
+                        variant="default"
                         onClick={() => navigate(`/meus-pedidos/${order.id}`)}
-                        className="w-full md:w-auto"
+                        className="w-full bg-black hover:bg-black/90 text-white font-medium py-3 transition-all duration-200"
                       >
                         <Eye className="w-4 h-4 mr-2" />
                         Ver Detalhes
