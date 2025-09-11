@@ -418,10 +418,27 @@ const Checkout = () => {
 
       console.log('Order items created:', orderItems.length, 'items');
 
+      // Enviar e-mail de confirmação (não bloquear o checkout se falhar)
+      try {
+        console.log('Sending order confirmation email for order:', pedido.numero_pedido);
+        
+        const emailResponse = await supabase.functions.invoke('send-order-confirmation', {
+          body: { pedido_id: pedido.id }
+        });
+
+        if (emailResponse.error) {
+          console.error('Error sending confirmation email:', emailResponse.error);
+        } else {
+          console.log('Confirmation email sent successfully:', emailResponse.data);
+        }
+      } catch (emailError) {
+        console.error('Failed to send confirmation email (non-blocking):', emailError);
+      }
+
       // Show success message with order status
       toast({
         title: "Pedido realizado com sucesso! Status: pendente",
-        description: `Código do pedido: #${pedido.id}`,
+        description: `Código do pedido: ${pedido.numero_pedido}. E-mail de confirmação enviado!`,
       });
 
       // Clear cart
