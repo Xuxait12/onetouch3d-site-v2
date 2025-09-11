@@ -50,7 +50,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "itens_pedido_pedido_id_fkey"
+            foreignKeyName: "fk_itens_pedido_pedido"
             columns: ["pedido_id"]
             isOneToOne: false
             referencedRelation: "pedidos"
@@ -66,6 +66,7 @@ export type Database = {
           forma_pagamento: string
           frete: number
           id: string
+          numero_pedido: string | null
           status: string
           subtotal: number
           total: number
@@ -79,6 +80,7 @@ export type Database = {
           forma_pagamento: string
           frete?: number
           id?: string
+          numero_pedido?: string | null
           status?: string
           subtotal: number
           total: number
@@ -92,6 +94,7 @@ export type Database = {
           forma_pagamento?: string
           frete?: number
           id?: string
+          numero_pedido?: string | null
           status?: string
           subtotal?: number
           total?: number
@@ -100,7 +103,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "pedidos_user_id_fkey"
+            foreignKeyName: "fk_pedidos_profile"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
@@ -125,6 +128,7 @@ export type Database = {
           number: string
           person_type: Database["public"]["Enums"]["person_type_enum"]
           phone: string
+          ponto_referencia: string | null
           state: string
           updated_at: string
           user_id: string
@@ -145,6 +149,7 @@ export type Database = {
           number: string
           person_type?: Database["public"]["Enums"]["person_type_enum"]
           phone: string
+          ponto_referencia?: string | null
           state: string
           updated_at?: string
           user_id: string
@@ -165,6 +170,7 @@ export type Database = {
           number?: string
           person_type?: Database["public"]["Enums"]["person_type_enum"]
           phone?: string
+          ponto_referencia?: string | null
           state?: string
           updated_at?: string
           user_id?: string
