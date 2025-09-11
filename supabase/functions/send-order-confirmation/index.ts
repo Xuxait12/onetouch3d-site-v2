@@ -1,0 +1,223 @@
+import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.55.0";
+import { Resend } from "npm:resend@2.0.0";
+
+const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+
+const supabase = createClient(
+  Deno.env.get("SUPABASE_URL") ?? "",
+  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+);
+
+interface OrderData {
+  pedido_id: string;
+}
+
+const handler = async (req: Request): Promise<Response> => {
+  console.log("Order confirmation email function called");
+
+  // Handle CORS preflight requests
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    const { pedido_id }: OrderData = await req.json();
+    console.log("Processing order confirmation for pedido_id:", pedido_id);
+
+    // Buscar dados do pedido
+    const { data: pedido, error: pedidoError } = await supabase
+      .from("pedidos")
+      .select("*")
+      .eq("id", pedido_id)
+      .single();
+
+    if (pedidoError || !pedido) {
+      console.error("Erro ao buscar pedido:", pedidoError);
+      throw new Error("Pedido não encontrado");
+    }
+
+    // Buscar perfil do cliente
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("user_id", pedido.user_id)
+      .single();
+
+    if (profileError || !profile) {
+      console.error("Erro ao buscar perfil:", profileError);
+      throw new Error("Perfil do cliente não encontrado");
+    }
+
+    // Buscar itens do pedido
+    const { data: itens, error: itensError } = await supabase
+      .from("itens_pedido")
+      .select("*")
+      .eq("pedido_id", pedido_id);
+
+    if (itensError) {
+      console.error("Erro ao buscar itens:", itensError);
+      throw new Error("Erro ao buscar itens do pedido");
+    }
+
+    // Formatar data
+    const dataFormatada = new Date(pedido.data_pedido).toLocaleDateString("pt-BR");
+
+    // Montar lista de itens
+    const itensHtml = itens?.map(item => `
+      <tr style="border-bottom: 1px solid #e5e7eb;">
+        <td style="padding: 12px 0;">
+          <div style="font-weight: 600; color: #1f2937;">${item.produto_nome}</div>
+          <div style="font-size: 14px; color: #6b7280;">${item.moldura_tipo} - ${item.tamanho}</div>
+        </td>
+        <td style="padding: 12px 0; text-align: center; color: #6b7280;">${item.quantidade}</td>
+        <td style="padding: 12px 0; text-align: right; color: #6b7280;">R$ ${item.valor_unitario.toFixed(2)}</td>
+        <td style="padding: 12px 0; text-align: right; font-weight: 600; color: #1f2937;">R$ ${item.subtotal.toFixed(2)}</td>
+      </tr>
+    `).join('') || '';
+
+    // Template do e-mail
+    const emailHtml = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Confirmação do Pedido</title>
+        </head>
+        <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+          
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+            <h1 style="color: white; margin: 0; font-size: 28px;">OneTouch3D</h1>
+            <p style="color: #f1f5f9; margin: 10px 0 0 0; font-size: 16px;">Confirmação do seu pedido</p>
+          </div>
+
+          <div style="background: white; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            
+            <h2 style="color: #1f2937; margin: 0 0 20px 0;">Olá, ${profile.full_name}!</h2>
+            
+            <p style="font-size: 16px; margin-bottom: 25px;">
+              Recebemos o seu pedido nº <strong style="color: #667eea;">${pedido.numero_pedido}</strong> com sucesso.
+            </p>
+
+            <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+              <h3 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px;">Resumo do Pedido</h3>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Número do pedido:</span>
+                <span style="font-weight: 600; color: #1f2937;">${pedido.numero_pedido}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Data do pedido:</span>
+                <span style="color: #1f2937;">${dataFormatada}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Status atual:</span>
+                <span style="background: #fbbf24; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">${pedido.status.toUpperCase()}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">Forma de pagamento:</span>
+                <span style="color: #1f2937;">${pedido.forma_pagamento}</span>
+              </div>
+            </div>
+
+            ${itens && itens.length > 0 ? `
+            <div style="margin-bottom: 25px;">
+              <h3 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px;">Produtos</h3>
+              
+              <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                  <tr style="background: #f8fafc; border-bottom: 2px solid #e5e7eb;">
+                    <th style="padding: 12px 0; text-align: left; color: #374151; font-weight: 600;">Produto</th>
+                    <th style="padding: 12px 0; text-align: center; color: #374151; font-weight: 600;">Qtd</th>
+                    <th style="padding: 12px 0; text-align: right; color: #374151; font-weight: 600;">Valor Unit.</th>
+                    <th style="padding: 12px 0; text-align: right; color: #374151; font-weight: 600;">Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${itensHtml}
+                </tbody>
+              </table>
+            </div>
+            ` : ''}
+
+            <div style="background: #1f2937; color: white; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 18px; font-weight: 600;">Total do Pedido:</span>
+                <span style="font-size: 24px; font-weight: bold;">R$ ${pedido.total.toFixed(2)}</span>
+              </div>
+            </div>
+
+            <div style="background: #f1f5f9; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+              <p style="margin: 0 0 10px 0;">
+                Você pode acompanhar este e outros pedidos acessando sua conta na página <strong>"Meus Pedidos"</strong>.
+              </p>
+              <p style="margin: 0; font-weight: 600; color: #667eea;">
+                Obrigado por confiar na OneTouch3D.
+              </p>
+            </div>
+
+          </div>
+
+          <div style="text-align: center; padding: 20px; color: #6b7280; font-size: 14px;">
+            <p style="margin: 0;">
+              © 2024 OneTouch3D - Transformando suas conquistas em arte
+            </p>
+          </div>
+
+        </body>
+      </html>
+    `;
+
+    // Enviar e-mail
+    const emailResponse = await resend.emails.send({
+      from: "OneTouch3D <noreply@resend.dev>",
+      to: [profile.email],
+      subject: `Confirmação do seu pedido nº ${pedido.numero_pedido}`,
+      html: emailHtml,
+    });
+
+    console.log("Email enviado com sucesso:", emailResponse);
+
+    return new Response(
+      JSON.stringify({ 
+        success: true, 
+        message: "E-mail de confirmação enviado com sucesso",
+        emailId: emailResponse.data?.id 
+      }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders,
+        },
+      }
+    );
+
+  } catch (error: any) {
+    console.error("Erro ao enviar e-mail de confirmação:", error);
+    return new Response(
+      JSON.stringify({ 
+        success: false, 
+        error: error.message 
+      }),
+      {
+        status: 500,
+        headers: { 
+          "Content-Type": "application/json", 
+          ...corsHeaders 
+        },
+      }
+    );
+  }
+};
+
+serve(handler);
