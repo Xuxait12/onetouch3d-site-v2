@@ -99,10 +99,10 @@ const handler = async (req: Request): Promise<Response> => {
 
           <div style="background: white; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
             
-            <h2 style="color: #1f2937; margin: 0 0 20px 0;">Olá, ${profile.full_name}!</h2>
+            <h2 style="color: #1f2937; margin: 0 0 20px 0;">Olá, ${profile.full_name}! Obrigado por sua compra na OneTouch3D.</h2>
             
             <p style="font-size: 16px; margin-bottom: 25px;">
-              Recebemos o seu pedido nº <strong style="color: #667eea;">${pedido.numero_pedido}</strong> com sucesso.
+              Seu pedido nº <strong style="color: #667eea;">${pedido.numero_pedido}</strong> foi registrado com sucesso e já está em processamento.
             </p>
 
             <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
@@ -149,10 +149,29 @@ const handler = async (req: Request): Promise<Response> => {
             </div>
             ` : ''}
 
-            <div style="background: #1f2937; color: white; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 18px; font-weight: 600;">Total do Pedido:</span>
-                <span style="font-size: 24px; font-weight: bold;">R$ ${pedido.total.toFixed(2)}</span>
+            <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+              <h3 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px;">Resumo Financeiro</h3>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Subtotal:</span>
+                <span style="color: #1f2937;">R$ ${pedido.subtotal.toFixed(2)}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Frete:</span>
+                <span style="color: #1f2937;">R$ ${pedido.frete.toFixed(2)}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                <span style="color: #6b7280;">Desconto:</span>
+                <span style="color: #1f2937;">R$ ${pedido.desconto.toFixed(2)}</span>
+              </div>
+              
+              <div style="border-top: 2px solid #e5e7eb; padding-top: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-size: 18px; font-weight: 600; color: #1f2937;">Total:</span>
+                  <span style="font-size: 24px; font-weight: bold; color: #667eea;">R$ ${pedido.total.toFixed(2)}</span>
+                </div>
               </div>
             </div>
 
@@ -160,8 +179,11 @@ const handler = async (req: Request): Promise<Response> => {
               <p style="margin: 0 0 10px 0;">
                 Você pode acompanhar este e outros pedidos acessando sua conta na página <strong>"Meus Pedidos"</strong>.
               </p>
+              <p style="margin: 0 0 10px 0; color: #6b7280;">
+                Qualquer dúvida, fale com a gente pelo WhatsApp ou e-mail <strong>contato@onetouch3d.com.br</strong>
+              </p>
               <p style="margin: 0; font-weight: 600; color: #667eea;">
-                Obrigado por confiar na OneTouch3D.
+                Obrigado por confiar na OneTouch3D!
               </p>
             </div>
 
@@ -179,7 +201,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Enviar e-mail
     const emailResponse = await resend.emails.send({
-      from: "OneTouch3D <noreply@resend.dev>",
+      from: "OneTouch3D <contato@onetouch3d.com.br>",
       to: [profile.email],
       subject: `Confirmação do seu pedido nº ${pedido.numero_pedido}`,
       html: emailHtml,
