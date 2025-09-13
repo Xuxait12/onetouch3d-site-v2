@@ -85,89 +85,117 @@ const handler = async (req: Request): Promise<Response> => {
     const emailHtml = `
       <!DOCTYPE html>
       <html>
-      <head>
-        <meta charset="utf-8">
-        <title>Confirmação de Pedido - OneTouch3D</title>
-      </head>
-      <body style="font-family: Arial, sans-serif; background-color:#f5f5f5; margin:0; padding:0;">
-        <table align="center" width="600" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:8px; overflow:hidden;">
-          <!-- Cabeçalho -->
-          <tr>
-            <td style="background:#000000; padding:20px; text-align:center;">
-              <img src="https://onetouch3d.com.br/logo.png" alt="OneTouch3D" style="max-height:60px;">
-            </td>
-          </tr>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Confirmação do Pedido</title>
+        </head>
+        <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+          
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+            <h1 style="color: white; margin: 0; font-size: 28px;">OneTouch3D</h1>
+            <p style="color: #f1f5f9; margin: 10px 0 0 0; font-size: 16px;">Confirmação do seu pedido</p>
+          </div>
 
-          <!-- Título -->
-          <tr>
-            <td style="padding:30px 20px; text-align:center;">
-              <h1 style="color:#333333; margin:0;">Seu pedido foi confirmado!</h1>
-              <p style="color:#666666; margin-top:8px; font-size:14px;">
-                Obrigado por escolher a <strong>OneTouch3D</strong>.
-              </p>
-            </td>
-          </tr>
+          <div style="background: white; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            
+            <h2 style="color: #1f2937; margin: 0 0 20px 0;">Olá, ${profile.full_name}! Obrigado por sua compra na OneTouch3D.</h2>
+            
+            <p style="font-size: 16px; margin-bottom: 25px;">
+              Seu pedido nº <strong style="color: #667eea;">${pedido.numero_pedido}</strong> foi registrado com sucesso e já está em processamento.
+            </p>
 
-          <!-- Resumo do Pedido -->
-          <tr>
-            <td style="padding:20px;">
-              <h2 style="color:#333333; font-size:18px; margin-bottom:10px;">Resumo do Pedido</h2>
-              <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse:collapse;">
-                <tr>
-                  <td style="border:1px solid #dddddd;">Número do Pedido</td>
-                  <td style="border:1px solid #dddddd; font-weight:bold;">${pedido.numero_pedido}</td>
-                </tr>
-                <tr>
-                  <td style="border:1px solid #dddddd;">Data</td>
-                  <td style="border:1px solid #dddddd;">${dataFormatada}</td>
-                </tr>
-                <tr>
-                  <td style="border:1px solid #dddddd;">Forma de Pagamento</td>
-                  <td style="border:1px solid #dddddd;">${pedido.forma_pagamento}</td>
-                </tr>
-                <tr>
-                  <td style="border:1px solid #dddddd;">Status</td>
-                  <td style="border:1px solid #dddddd; color:#ff9900;">${pedido.status.toUpperCase()}</td>
-                </tr>
-                <tr>
-                  <td style="border:1px solid #dddddd;">Subtotal</td>
-                  <td style="border:1px solid #dddddd;">R$ ${pedido.subtotal.toFixed(2)}</td>
-                </tr>
-                <tr>
-                  <td style="border:1px solid #dddddd;">Frete</td>
-                  <td style="border:1px solid #dddddd;">R$ ${pedido.frete.toFixed(2)}</td>
-                </tr>
-                <tr>
-                  <td style="border:1px solid #dddddd;">Desconto</td>
-                  <td style="border:1px solid #dddddd;">R$ ${pedido.desconto.toFixed(2)}</td>
-                </tr>
-                <tr>
-                  <td style="border:1px solid #dddddd; font-weight:bold;">Total</td>
-                  <td style="border:1px solid #dddddd; font-weight:bold; color:#28a745;">R$ ${pedido.total.toFixed(2)}</td>
-                </tr>
+            <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+              <h3 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px;">Resumo do Pedido</h3>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Número do pedido:</span>
+                <span style="font-weight: 600; color: #1f2937;">${pedido.numero_pedido}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Data do pedido:</span>
+                <span style="color: #1f2937;">${dataFormatada}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Status atual:</span>
+                <span style="background: #fbbf24; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">${pedido.status.toUpperCase()}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">Forma de pagamento:</span>
+                <span style="color: #1f2937;">${pedido.forma_pagamento}</span>
+              </div>
+            </div>
+
+            ${itens && itens.length > 0 ? `
+            <div style="margin-bottom: 25px;">
+              <h3 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px;">Produtos</h3>
+              
+              <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                  <tr style="background: #f8fafc; border-bottom: 2px solid #e5e7eb;">
+                    <th style="padding: 12px 0; text-align: left; color: #374151; font-weight: 600;">Produto</th>
+                    <th style="padding: 12px 0; text-align: center; color: #374151; font-weight: 600;">Qtd</th>
+                    <th style="padding: 12px 0; text-align: right; color: #374151; font-weight: 600;">Valor Unit.</th>
+                    <th style="padding: 12px 0; text-align: right; color: #374151; font-weight: 600;">Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${itensHtml}
+                </tbody>
               </table>
-            </td>
-          </tr>
+            </div>
+            ` : ''}
 
-          <!-- Detalhes do Cliente -->
-          <tr>
-            <td style="padding:20px;">
-              <h2 style="color:#333333; font-size:18px; margin-bottom:10px;">Seus Dados</h2>
-              <p style="margin:0; color:#555555;">Nome: <strong>${profile.full_name}</strong></p>
-              <p style="margin:0; color:#555555;">E-mail: <strong>${profile.email}</strong></p>
-              <p style="margin:0; color:#555555;">Telefone: <strong>${profile.phone}</strong></p>
-            </td>
-          </tr>
+            <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+              <h3 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px;">Resumo Financeiro</h3>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Subtotal:</span>
+                <span style="color: #1f2937;">R$ ${pedido.subtotal.toFixed(2)}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Frete:</span>
+                <span style="color: #1f2937;">R$ ${pedido.frete.toFixed(2)}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                <span style="color: #6b7280;">Desconto:</span>
+                <span style="color: #1f2937;">R$ ${pedido.desconto.toFixed(2)}</span>
+              </div>
+              
+              <div style="border-top: 2px solid #e5e7eb; padding-top: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-size: 18px; font-weight: 600; color: #1f2937;">Total:</span>
+                  <span style="font-size: 24px; font-weight: bold; color: #667eea;">R$ ${pedido.total.toFixed(2)}</span>
+                </div>
+              </div>
+            </div>
 
-          <!-- Rodapé -->
-          <tr>
-            <td style="background:#f5f5f5; padding:20px; text-align:center; font-size:12px; color:#888888;">
-              <p style="margin:0;">Em breve você receberá novidades sobre a produção do seu quadro personalizado.</p>
-              <p style="margin:5px 0 0 0;">Equipe OneTouch3D</p>
-            </td>
-          </tr>
-        </table>
-      </body>
+            <div style="background: #f1f5f9; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+              <p style="margin: 0 0 10px 0;">
+                Você pode acompanhar este e outros pedidos acessando sua conta na página <strong>"Meus Pedidos"</strong>.
+              </p>
+              <p style="margin: 0 0 10px 0; color: #6b7280;">
+                Qualquer dúvida, fale com a gente pelo WhatsApp ou e-mail <strong>contato@onetouch3d.com.br</strong>
+              </p>
+              <p style="margin: 0; font-weight: 600; color: #667eea;">
+                Obrigado por confiar na OneTouch3D!
+              </p>
+            </div>
+
+          </div>
+
+          <div style="text-align: center; padding: 20px; color: #6b7280; font-size: 14px;">
+            <p style="margin: 0;">
+              © 2024 OneTouch3D - Transformando suas conquistas em arte
+            </p>
+          </div>
+
+        </body>
       </html>
     `;
 
