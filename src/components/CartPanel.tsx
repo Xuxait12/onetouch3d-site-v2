@@ -139,8 +139,8 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
           </Button>
         </div>
 
-        {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-6 bg-white">
+        {/* Content Area - Fixed scrolling */}
+        <div className="flex-1 overflow-y-auto p-6 bg-white cart-scroll" style={{ maxHeight: 'calc(100vh - 320px)' }}>
           {cart.items.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center bg-white">
               <ShoppingBag className="h-16 w-16 text-gray-400 mb-4" />
@@ -161,14 +161,14 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
             <div className="space-y-4 bg-white">
               {cart.items.map((item) => (
                 <div key={item.id} className="flex gap-4 p-4 rounded-lg border-2 border-gray-300 bg-white shadow-sm">
-                  {/* Product image placeholder */}
-                  <div className="w-16 h-16 bg-gray-100 rounded-md flex items-center justify-center flex-shrink-0 border border-gray-200">
-                    <ShoppingBag className="h-6 w-6 text-gray-400" />
+                  {/* Product image placeholder - Simplified for now */}
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-md flex items-center justify-center flex-shrink-0 border border-gray-200">
+                    <ShoppingBag className="h-6 w-6 text-blue-600" />
                   </div>
                   
                   {/* Product details */}
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-sm text-gray-900 mb-1">
+                    <h4 className="font-semibold text-sm text-gray-900 mb-1">
                       {item.nome}
                     </h4>
                     <div className="flex flex-wrap gap-2 mb-2">
@@ -211,10 +211,16 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
                         variant="ghost"
                         size="sm"
                         className="h-7 w-7 p-0 ml-auto text-red-500 hover:text-red-700 hover:bg-red-50"
-                        onClick={() => removeItem(item.id)}
-                        aria-label="Remover item"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          console.log('Removing item:', item.id); // Debug log
+                          removeItem(item.id);
+                        }}
+                        aria-label={`Remover ${item.nome} do carrinho`}
+                        title="Remover item"
                       >
-                        <Trash2 className="h-3 w-3" />
+                        <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>
