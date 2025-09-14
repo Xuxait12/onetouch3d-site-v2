@@ -97,12 +97,13 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
 
       {/* Black Side Tab - Behind cart window */}
       <div 
-        className={`fixed right-0 top-0 w-80 h-screen z-30 bg-black transition-all duration-500 ease-in-out ${
+        className={`fixed right-0 top-4 w-80 z-30 bg-black transition-all duration-500 ease-in-out ${
           isOpen 
             ? 'animate-[expand-center_0.5s_ease-in-out] opacity-100' 
             : 'animate-[collapse-center_0.5s_ease-in-out] opacity-0'
         }`}
         style={{
+          height: 'calc(100vh - 2rem)',
           clipPath: isOpen 
             ? 'inset(0% 0% 0% 0%)' 
             : 'inset(50% 0% 50% 0%)'
