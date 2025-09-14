@@ -72,13 +72,17 @@ const AdminPanel = () => {
 
   // Verificar autenticação e autorização
   useEffect(() => {
+    console.log('Admin Panel - Estado da autenticação:', { user: user?.email, loading });
+    
     if (!loading) {
       if (!user) {
+        console.log('Admin Panel - Usuário não logado, redirecionando para /auth');
         navigate('/auth');
         return;
       }
       
       if (user.email !== 'onetouch3dbrasil@gmail.com') {
+        console.log('Admin Panel - Email não autorizado:', user.email);
         toast({
           title: "Acesso restrito",
           description: "Apenas administradores autorizados podem acessar este painel.",
@@ -87,6 +91,8 @@ const AdminPanel = () => {
         navigate('/');
         return;
       }
+      
+      console.log('Admin Panel - Acesso autorizado para:', user.email);
     }
   }, [user, loading, navigate, toast]);
 
