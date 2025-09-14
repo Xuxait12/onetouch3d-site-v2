@@ -177,27 +177,23 @@ All colors MUST be HSL.
 /* Side tab animations */
 @keyframes expand-center {
   0% {
-    top: 50%;
-    bottom: 50%;
-    height: 0;
+    clip-path: inset(50% 0% 50% 0%);
+    opacity: 0;
   }
   100% {
-    top: 0;
-    bottom: 0;
-    height: 100%;
+    clip-path: inset(0% 0% 0% 0%);
+    opacity: 1;
   }
 }
 
 @keyframes collapse-center {
   0% {
-    top: 0;
-    bottom: 0;
-    height: 100%;
+    clip-path: inset(0% 0% 0% 0%);
+    opacity: 1;
   }
   100% {
-    top: 50%;
-    bottom: 50%;
-    height: 0;
+    clip-path: inset(50% 0% 50% 0%);
+    opacity: 0;
   }
 }
 .cart-scroll::-webkit-scrollbar {
