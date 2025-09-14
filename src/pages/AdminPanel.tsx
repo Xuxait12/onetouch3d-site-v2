@@ -6,9 +6,15 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { ShoppingCart, Users, FileText, Settings, LogOut, Search, Menu } from 'lucide-react';
+import { ShoppingCart, Users, FileText, Settings, LogOut, Search, Menu, CalendarIcon, Filter } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { format } from 'date-fns';
+import { pt } from 'date-fns/locale';
+import { cn } from '@/lib/utils';
 
 interface Order {
   id: string;
@@ -40,6 +46,10 @@ const AdminPanel = () => {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loadingData, setLoadingData] = useState(false);
+  const [statusFilter, setStatusFilter] = useState('todos');
+  const [periodFilter, setPeriodFilter] = useState('todos');
+  const [customStartDate, setCustomStartDate] = useState<Date>();
+  const [customEndDate, setCustomEndDate] = useState<Date>();
 
   // Verificar autenticação e autorização
   useEffect(() => {
@@ -167,11 +177,53 @@ const AdminPanel = () => {
     }
   };
 
-  const filteredOrders = orders.filter(order =>
-    order.numero_pedido.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    order.profiles.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    order.profiles.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const getFilteredOrders = () => {
+    let filtered = orders.filter(order =>
+      order.numero_pedido.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.profiles.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.profiles.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    // Filtro por status
+    if (statusFilter !== 'todos') {
+      filtered = filtered.filter(order => order.status.toLowerCase() === statusFilter);
+    }
+
+    // Filtro por período
+    if (periodFilter !== 'todos') {
+      const now = new Date();
+      let startDate: Date;
+      let endDate = now;
+
+      switch (periodFilter) {
+        case '7dias':
+          startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+          break;
+        case 'mes':
+          startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+          break;
+        case 'personalizado':
+          if (customStartDate && customEndDate) {
+            startDate = customStartDate;
+            endDate = customEndDate;
+          } else {
+            return filtered;
+          }
+          break;
+        default:
+          return filtered;
+      }
+
+      filtered = filtered.filter(order => {
+        const orderDate = new Date(order.data_pedido);
+        return orderDate >= startDate && orderDate <= endDate;
+      });
+    }
+
+    return filtered;
+  };
+
+  const filteredOrders = getFilteredOrders();
 
   const filteredProfiles = profiles.filter(profile =>
     profile.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -367,17 +419,121 @@ const AdminPanel = () => {
 
             {activeSection === 'orders' && (
               <div className="space-y-6">
-                <div className="flex gap-4">
-                  <div className="relative flex-1">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    <Input
-                      placeholder="Buscar por nome, e-mail ou número do pedido..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10"
-                    />
-                  </div>
-                </div>
+                {/* Filtros e Busca */}
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="space-y-4">
+                      {/* Busca Rápida */}
+                      <div className="relative">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                        <Input
+                          placeholder="Buscar por número do pedido ou nome do cliente..."
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          className="pl-10"
+                        />
+                      </div>
+                      
+                      {/* Filtros */}
+                      <div className="flex flex-wrap gap-4">
+                        {/* Filtro de Status */}
+                        <div className="flex items-center gap-2">
+                          <Filter className="h-4 w-4 text-gray-500" />
+                          <Select value={statusFilter} onValueChange={setStatusFilter}>
+                            <SelectTrigger className="w-40">
+                              <SelectValue placeholder="Status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="todos">Todos</SelectItem>
+                              <SelectItem value="pendente">Pendente</SelectItem>
+                              <SelectItem value="confirmado">Confirmado</SelectItem>
+                              <SelectItem value="processando">Processando</SelectItem>
+                              <SelectItem value="enviado">Enviado</SelectItem>
+                              <SelectItem value="entregue">Entregue</SelectItem>
+                              <SelectItem value="cancelado">Cancelado</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        {/* Filtro de Período */}
+                        <div className="flex items-center gap-2">
+                          <CalendarIcon className="h-4 w-4 text-gray-500" />
+                          <Select value={periodFilter} onValueChange={setPeriodFilter}>
+                            <SelectTrigger className="w-48">
+                              <SelectValue placeholder="Período" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="todos">Todos os períodos</SelectItem>
+                              <SelectItem value="7dias">Últimos 7 dias</SelectItem>
+                              <SelectItem value="mes">Mês atual</SelectItem>
+                              <SelectItem value="personalizado">Personalizado</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        {/* Seletor de Data Personalizada */}
+                        {periodFilter === 'personalizado' && (
+                          <div className="flex items-center gap-2">
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  className={cn(
+                                    "w-36 justify-start text-left font-normal",
+                                    !customStartDate && "text-muted-foreground"
+                                  )}
+                                >
+                                  <CalendarIcon className="mr-2 h-4 w-4" />
+                                  {customStartDate ? format(customStartDate, "dd/MM/yyyy", { locale: pt }) : "Data inicial"}
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                  mode="single"
+                                  selected={customStartDate}
+                                  onSelect={setCustomStartDate}
+                                  initialFocus
+                                  className="pointer-events-auto"
+                                />
+                              </PopoverContent>
+                            </Popover>
+
+                            <span className="text-gray-500">até</span>
+
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  className={cn(
+                                    "w-36 justify-start text-left font-normal",
+                                    !customEndDate && "text-muted-foreground"
+                                  )}
+                                >
+                                  <CalendarIcon className="mr-2 h-4 w-4" />
+                                  {customEndDate ? format(customEndDate, "dd/MM/yyyy", { locale: pt }) : "Data final"}
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                  mode="single"
+                                  selected={customEndDate}
+                                  onSelect={setCustomEndDate}
+                                  initialFocus
+                                  className="pointer-events-auto"
+                                />
+                              </PopoverContent>
+                            </Popover>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Contador de resultados */}
+                      <div className="text-sm text-gray-600">
+                        {filteredOrders.length} pedido(s) encontrado(s)
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
 
                 <Card>
                   <CardContent className="p-0">
