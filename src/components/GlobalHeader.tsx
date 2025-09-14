@@ -5,6 +5,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/contexts/CartContext";
+import { useCartPanel } from "@/hooks/useCartPanel";
+import CartPanel from "@/components/CartPanel";
 import { User, LogOut, ShoppingBag, Menu, X } from "lucide-react";
 
 const GlobalHeader = () => {
@@ -13,6 +15,7 @@ const GlobalHeader = () => {
   const { user, signOut } = useAuth();
   const { toast } = useToast();
   const { state: cart } = useCart();
+  const { isOpen: isCartOpen, openPanel: openCart, closePanel: closeCart } = useCartPanel();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Safe calculation of cart items count with proper fallbacks
@@ -57,43 +60,48 @@ const GlobalHeader = () => {
             />
           </div>
           
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navigationItems.map((item) => (
-              <button
-                key={item.path}
-                onClick={() => navigate(item.path)}
-                className={`text-sm font-medium transition-colors duration-200 ${
-                  isActive(item.path)
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {item.name}
-              </button>
-            ))}
+          {/* Desktop Navigation - Centered */}
+          <nav className="flex-1 flex justify-center">
+            <div className="hidden md:flex items-center space-x-8">
+              {navigationItems.map((item) => (
+                <button
+                  key={item.path}
+                  onClick={() => navigate(item.path)}
+                  className={`text-sm font-medium transition-colors duration-200 ${
+                    isActive(item.path)
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {item.name}
+                </button>
+              ))}
+            </div>
           </nav>
 
-          {/* Desktop User Menu */}
-          {location.pathname !== '/corrida' && (
-            <div className="hidden md:flex items-center gap-3">
-              {/* Cart Icon */}
-              <Button 
-                variant="outline" 
-                size="sm"
-                className="relative"
-                onClick={() => navigate('/carrinho')}
-              >
-                <ShoppingBag className="w-4 h-4" />
-                {/* Cart Counter Badge */}
-                {cartItemsCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center min-w-[20px]">
-                    {cartItemsCount}
-                  </span>
-                )}
-              </Button>
+          {/* Desktop Right Section */}
+          <div className="flex items-center gap-3">
+            {/* Cart Icon - Always visible */}
+            <Button 
+              variant="outline" 
+              size="sm"
+              className="relative"
+              onClick={openCart}
+              aria-label={`Abrir carrinho com ${cartItemsCount} ${cartItemsCount === 1 ? 'item' : 'itens'}`}
+            >
+              <ShoppingBag className="w-4 h-4" />
+              {/* Cart Counter Badge */}
+              {cartItemsCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center min-w-[20px]">
+                  {cartItemsCount}
+                </span>
+              )}
+            </Button>
 
-              {user ? (
+            {/* User Menu - Hidden on corrida page */}
+            {location.pathname !== '/corrida' && (
+              <div>
+                {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="flex items-center gap-2">
@@ -126,9 +134,10 @@ const GlobalHeader = () => {
                 >
                   Login
                 </Button>
-              )}
-            </div>
-          )}
+                )}
+              </div>
+            )}
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -167,7 +176,7 @@ const GlobalHeader = () => {
               {/* Mobile Cart Icon */}
               <button
                 onClick={() => {
-                  navigate('/carrinho');
+                  openCart();
                   setMobileMenuOpen(false);
                 }}
                 className="flex items-center py-2 text-sm text-muted-foreground hover:text-foreground"
@@ -228,6 +237,9 @@ const GlobalHeader = () => {
           </div>
         )}
       </div>
+
+      {/* Cart Panel */}
+      <CartPanel isOpen={isCartOpen} onClose={closeCart} />
     </header>
   );
 };
