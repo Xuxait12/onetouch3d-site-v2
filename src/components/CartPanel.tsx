@@ -102,17 +102,17 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
         aria-modal="true"
         aria-labelledby="cart-title"
         aria-describedby="cart-description"
-        className={`fixed z-50 bg-white border border-gray-300 rounded-lg shadow-2xl transition-all duration-400 ease-in-out transform origin-center
-          /* Desktop: 4cm from top, bottom, right (approx 6rem = 4cm) */
-          right-24 top-24 bottom-24 w-96
+        className={`fixed z-50 bg-white border border-gray-300 rounded-lg shadow-2xl transition-all duration-700 ease-in-out transform origin-center
+          /* Desktop: 4cm from top, bottom, right, wider to the left */
+          right-24 top-24 bottom-24 w-[32rem]
           /* Tablet */
-          md:right-16 md:top-16 md:bottom-16 md:w-80
+          md:right-16 md:top-16 md:bottom-16 md:w-96
           /* Mobile */
           sm:right-4 sm:top-16 sm:bottom-16 sm:w-[calc(100vw-2rem)]
           ${
             isOpen 
-              ? 'opacity-100 visible animate-[cart-expand_0.4s_ease-in-out] scale-y-100' 
-              : 'opacity-0 invisible animate-[cart-collapse_0.4s_ease-in-out] scale-y-0'
+              ? 'opacity-100 visible animate-[cart-expand_0.7s_ease-in-out] scale-y-100' 
+              : 'opacity-0 invisible animate-[cart-collapse_0.7s_ease-in-out] scale-y-0'
           }`}
         style={{ backgroundColor: '#ffffff' }}
         onClick={(e) => e.stopPropagation()}
@@ -158,12 +158,12 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
               </Button>
             </div>
           ) : (
-            <div className="space-y-4 bg-white">
+            <div className="space-y-3 bg-white">
               {cart.items.map((item) => (
-                <div key={item.id} className="flex gap-4 p-4 rounded-lg border-2 border-gray-300 bg-white shadow-sm">
-                  {/* Product image placeholder - Simplified for now */}
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-md flex items-center justify-center flex-shrink-0 border border-gray-200">
-                    <ShoppingBag className="h-6 w-6 text-blue-600" />
+                <div key={item.id} className="flex gap-3 p-3 rounded-lg border-2 border-gray-300 bg-white shadow-sm">
+                  {/* Product image placeholder - Smaller */}
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-md flex items-center justify-center flex-shrink-0 border border-gray-200">
+                    <ShoppingBag className="h-5 w-5 text-blue-600" />
                   </div>
                   
                   {/* Product details */}
@@ -171,67 +171,62 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
                     <h4 className="font-semibold text-sm text-gray-900 mb-1">
                       {item.nome}
                     </h4>
-                    <div className="flex flex-wrap gap-2 mb-2">
-                      {item.cor && (
-                        <span className="text-xs text-gray-500">
-                          Cor: {item.cor}
-                        </span>
-                      )}
-                      {item.tamanho && (
-                        <span className="text-xs text-gray-500">
-                          Tamanho: {item.tamanho}
-                        </span>
-                      )}
+                    <div className="flex flex-wrap gap-2 mb-2 text-xs text-gray-500">
+                      {item.cor && <span>Cor: {item.cor}</span>}
+                      {item.tamanho && <span>Tamanho: {item.tamanho}</span>}
                     </div>
                     
-                    {/* Quantity controls */}
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="h-7 w-7 p-0 border-gray-300"
-                        onClick={() => updateQuantity(item.id, Math.max(1, item.quantidade - 1))}
-                        aria-label="Diminuir quantidade"
-                      >
-                        <Minus className="h-3 w-3" />
-                      </Button>
-                      <span className="text-sm font-medium min-w-[2rem] text-center">
-                        {item.quantidade}
-                      </span>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="h-7 w-7 p-0 border-gray-300"
-                        onClick={() => updateQuantity(item.id, item.quantidade + 1)}
-                        aria-label="Aumentar quantidade"
-                      >
-                        <Plus className="h-3 w-3" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-7 w-7 p-0 ml-auto text-red-500 hover:text-red-700 hover:bg-red-50"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          console.log('Removing item:', item.id); // Debug log
-                          removeItem(item.id);
-                        }}
-                        aria-label={`Remover ${item.nome} do carrinho`}
-                        title="Remover item"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  {/* Price */}
-                  <div className="text-right">
-                    <div className="text-sm font-semibold text-gray-900">
-                      {formatPrice(item.subtotal)}
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      {formatPrice(item.precoUnitario)} cada
+                    {/* Quantity controls and price inline */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-6 w-6 p-0 border-gray-300"
+                          onClick={() => updateQuantity(item.id, Math.max(1, item.quantidade - 1))}
+                          aria-label="Diminuir quantidade"
+                        >
+                          <Minus className="h-3 w-3" />
+                        </Button>
+                        <span className="text-sm font-medium min-w-[1.5rem] text-center">
+                          {item.quantidade}
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-6 w-6 p-0 border-gray-300"
+                          onClick={() => updateQuantity(item.id, item.quantidade + 1)}
+                          aria-label="Aumentar quantidade"
+                        >
+                          <Plus className="h-3 w-3" />
+                        </Button>
+                      </div>
+                      
+                      {/* Price and remove button */}
+                      <div className="flex items-center gap-2">
+                        <div className="text-right">
+                          <div className="text-sm font-semibold text-gray-900">
+                            {formatPrice(item.subtotal)}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {formatPrice(item.precoUnitario)} cada
+                          </div>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 w-6 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            removeItem(item.id);
+                          }}
+                          aria-label={`Remover ${item.nome} do carrinho`}
+                          title="Remover item"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
