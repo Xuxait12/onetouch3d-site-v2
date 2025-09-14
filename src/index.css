@@ -143,81 +143,42 @@ All colors MUST be HSL.
   }
 }
 
-/* Cart Panel Animation Keyframes */
+/* Cart Window Animation Keyframes */
 
-/* Cart Window Animations - Center expand/collapse */
-@keyframes cart-window-enter {
+/* Center expand/collapse animation for cart window */
+@keyframes cart-expand {
   0% {
     opacity: 0;
-    transform: scale(0.3) translateY(0);
+    transform: scaleY(0) scaleX(0.8);
+    transform-origin: center center;
   }
   50% {
     opacity: 0.8;
-    transform: scale(0.7) translateY(0);
+    transform: scaleY(0.6) scaleX(0.9);
+    transform-origin: center center;
   }
   100% {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: scaleY(1) scaleX(1);
+    transform-origin: center center;
   }
 }
 
-@keyframes cart-window-exit {
+@keyframes cart-collapse {
   0% {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: scaleY(1) scaleX(1);
+    transform-origin: center center;
   }
   50% {
     opacity: 0.8;
-    transform: scale(0.7) translateY(0);
+    transform: scaleY(0.6) scaleX(0.9);
+    transform-origin: center center;
   }
   100% {
     opacity: 0;
-    transform: scale(0.3) translateY(0);
-  }
-}
-
-/* Black Side Tab Split Animations */
-@keyframes cart-stripe-top-enter {
-  0% {
-    height: 0;
-    transform: translateY(-100%);
-  }
-  100% {
-    height: 50%;
-    transform: translateY(0);
-  }
-}
-
-@keyframes cart-stripe-top-exit {
-  0% {
-    height: 50%;
-    transform: translateY(0);
-  }
-  100% {
-    height: 0;
-    transform: translateY(-100%);
-  }
-}
-
-@keyframes cart-stripe-bottom-enter {
-  0% {
-    height: 0;
-    transform: translateY(100%);
-  }
-  100% {
-    height: 50%;
-    transform: translateY(0);
-  }
-}
-
-@keyframes cart-stripe-bottom-exit {
-  0% {
-    height: 50%;
-    transform: translateY(0);
-  }
-  100% {
-    height: 0;
-    transform: translateY(100%);
+    transform: scaleY(0) scaleX(0.8);
+    transform-origin: center center;
   }
 }
 
