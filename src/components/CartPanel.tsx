@@ -102,7 +102,7 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
         aria-modal="true"
         aria-labelledby="cart-title"
         aria-describedby="cart-description"
-        className={`fixed z-50 bg-white rounded-lg shadow-2xl transition-all duration-400 ease-in-out transform origin-center
+        className={`fixed z-50 bg-white border border-gray-300 rounded-lg shadow-2xl transition-all duration-400 ease-in-out transform origin-center
           /* Desktop: 4cm from top, bottom, right (approx 6rem = 4cm) */
           right-24 top-24 bottom-24 w-96
           /* Tablet */
@@ -114,15 +114,16 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
               ? 'opacity-100 visible animate-[cart-expand_0.4s_ease-in-out] scale-y-100' 
               : 'opacity-0 invisible animate-[cart-collapse_0.4s_ease-in-out] scale-y-0'
           }`}
+        style={{ backgroundColor: '#ffffff' }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-6 border-b border-gray-300 bg-white rounded-t-lg">
           <div>
-            <h2 id="cart-title" className="text-xl font-semibold text-gray-900">
+            <h2 id="cart-title" className="text-xl font-bold text-gray-900">
               Meu Carrinho
             </h2>
-            <p id="cart-description" className="text-sm text-gray-500">
+            <p id="cart-description" className="text-sm text-gray-600">
               {cartItemsCount} {cartItemsCount === 1 ? 'item' : 'itens'}
             </p>
           </div>
@@ -132,21 +133,21 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
             size="sm"
             onClick={onClose}
             aria-label="Fechar carrinho"
-            className="h-8 w-8 p-0 hover:bg-gray-100"
+            className="h-8 w-8 p-0 hover:bg-gray-100 text-gray-600 hover:text-gray-900"
           >
             <X className="h-5 w-5" />
           </Button>
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-6 bg-white">
           {cart.items.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <ShoppingBag className="h-16 w-16 text-gray-300 mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <div className="flex flex-col items-center justify-center py-12 text-center bg-white">
+              <ShoppingBag className="h-16 w-16 text-gray-400 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 Seu carrinho está vazio
               </h3>
-              <p className="text-sm text-gray-500 mb-6">
+              <p className="text-sm text-gray-600 mb-6">
                 Explore nossos produtos e adicione itens ao seu carrinho
               </p>
               <Button 
@@ -157,11 +158,11 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
               </Button>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-4 bg-white">
               {cart.items.map((item) => (
-                <div key={item.id} className="flex gap-4 p-4 rounded-lg border border-gray-200 bg-gray-50">
+                <div key={item.id} className="flex gap-4 p-4 rounded-lg border-2 border-gray-300 bg-white shadow-sm">
                   {/* Product image placeholder */}
-                  <div className="w-16 h-16 bg-gray-200 rounded-md flex items-center justify-center flex-shrink-0">
+                  <div className="w-16 h-16 bg-gray-100 rounded-md flex items-center justify-center flex-shrink-0 border border-gray-200">
                     <ShoppingBag className="h-6 w-6 text-gray-400" />
                   </div>
                   
@@ -235,7 +236,7 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
 
         {/* Footer */}
         {cart.items.length > 0 && (
-          <div className="border-t border-gray-200 p-6 bg-gray-50 rounded-b-lg">
+          <div className="border-t-2 border-gray-300 p-6 bg-white rounded-b-lg">
             {/* Totals */}
             <div className="space-y-2 text-sm mb-4">
               <div className="flex justify-between">
