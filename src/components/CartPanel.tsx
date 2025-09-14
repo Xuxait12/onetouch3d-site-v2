@@ -130,7 +130,7 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
           }`}
         style={{ 
           backgroundColor: '#ffffff',
-          height: 'calc(100vh - 2rem)'
+          height: 'calc(100vh - 4rem)'
         }}
         onClick={(e) => e.stopPropagation()}
       >
