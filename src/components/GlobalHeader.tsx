@@ -5,8 +5,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/contexts/CartContext";
-import { useCartPanel } from "@/hooks/useCartPanel";
-import { CartPanel } from "@/components/CartPanel";
 import { User, LogOut, ShoppingBag, Menu, X } from "lucide-react";
 
 const GlobalHeader = () => {
@@ -16,7 +14,6 @@ const GlobalHeader = () => {
   const { toast } = useToast();
   const { state: cart } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { isOpen: isCartOpen, isAnimating: isCartAnimating, openPanel: openCart, closePanel: closeCart } = useCartPanel();
 
   // Safe calculation of cart items count with proper fallbacks
   const cartItemsCount = cart?.items?.reduce((total, item) => total + (item?.quantidade || 0), 0) || 0;
@@ -85,8 +82,7 @@ const GlobalHeader = () => {
                 variant="outline" 
                 size="sm"
                 className="relative"
-                onClick={openCart}
-                aria-label={`Abrir carrinho - ${cartItemsCount} ${cartItemsCount === 1 ? 'item' : 'itens'}`}
+                onClick={() => navigate('/carrinho')}
               >
                 <ShoppingBag className="w-4 h-4" />
                 {/* Cart Counter Badge */}
@@ -171,11 +167,10 @@ const GlobalHeader = () => {
               {/* Mobile Cart Icon */}
               <button
                 onClick={() => {
-                  openCart();
+                  navigate('/carrinho');
                   setMobileMenuOpen(false);
                 }}
                 className="flex items-center py-2 text-sm text-muted-foreground hover:text-foreground"
-                aria-label={`Abrir carrinho - ${cartItemsCount} ${cartItemsCount === 1 ? 'item' : 'itens'}`}
               >
                 <ShoppingBag className="w-4 h-4 mr-2" />
                 Carrinho {cartItemsCount > 0 && <span className="ml-1 bg-red-500 text-white text-xs rounded-full px-2 py-1">({cartItemsCount})</span>}
@@ -233,13 +228,6 @@ const GlobalHeader = () => {
           </div>
         )}
       </div>
-
-      {/* Cart Panel */}
-      <CartPanel 
-        isOpen={isCartOpen} 
-        isAnimating={isCartAnimating} 
-        onClose={closeCart} 
-      />
     </header>
   );
 };
