@@ -195,7 +195,6 @@ All colors MUST be HSL.
 .cart-scroll::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
 }
-}
 
 @layer components {
   .hero-section {
