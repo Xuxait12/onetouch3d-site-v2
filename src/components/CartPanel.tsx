@@ -87,12 +87,28 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
     <>
       {/* Background overlay */}
       <div
-        className={`fixed inset-0 z-40 transition-all duration-300 ease-in-out ${
+        className={`fixed inset-0 z-30 transition-all duration-300 ease-in-out ${
           isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
         onClick={onClose}
       >
         <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
+      </div>
+
+      {/* Black Side Tab - Behind cart window */}
+      <div className="fixed right-0 top-0 bottom-0 z-40">
+        {/* Top part sliding down */}
+        <div 
+          className={`absolute top-0 right-0 w-80 bg-black transition-all duration-500 ease-in-out ${
+            isOpen ? 'h-1/2 animate-[slide-down_0.5s_ease-in-out]' : 'h-0 animate-[slide-down-out_0.5s_ease-in-out]'
+          }`}
+        />
+        {/* Bottom part sliding up */}
+        <div 
+          className={`absolute bottom-0 right-0 w-80 bg-black transition-all duration-500 ease-in-out ${
+            isOpen ? 'h-1/2 animate-[slide-up_0.5s_ease-in-out]' : 'h-0 animate-[slide-up-out_0.5s_ease-in-out]'
+          }`}
+        />
       </div>
 
       {/* Cart Window - White DIV */}
