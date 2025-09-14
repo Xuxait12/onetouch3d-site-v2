@@ -161,9 +161,19 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
             <div className="space-y-3 bg-white">
               {cart.items.map((item) => (
                 <div key={item.id} className="flex gap-3 p-3 rounded-lg border-2 border-gray-300 bg-white shadow-sm">
-                  {/* Product image placeholder - Smaller */}
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-md flex items-center justify-center flex-shrink-0 border border-gray-200">
-                    <ShoppingBag className="h-5 w-5 text-blue-600" />
+                  {/* Product image */}
+                  <div className="w-12 h-12 rounded-md flex-shrink-0 border border-gray-200 overflow-hidden">
+                    {item.imagem ? (
+                      <img 
+                        src={item.imagem} 
+                        alt={item.nome}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
+                        <ShoppingBag className="h-5 w-5 text-blue-600" />
+                      </div>
+                    )}
                   </div>
                   
                   {/* Product details */}
@@ -207,9 +217,6 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
                         <div className="text-right">
                           <div className="text-sm font-semibold text-gray-900">
                             {formatPrice(item.subtotal)}
-                          </div>
-                          <div className="text-xs text-gray-500">
-                            {formatPrice(item.precoUnitario)} cada
                           </div>
                         </div>
                         <Button

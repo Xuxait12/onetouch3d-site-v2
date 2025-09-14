@@ -8,6 +8,7 @@ export interface CartItem {
   quantidade: number;
   precoUnitario: number;
   subtotal: number;
+  imagem?: string;
 }
 
 interface CartState {

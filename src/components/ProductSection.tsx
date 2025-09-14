@@ -64,12 +64,19 @@ const ProductSection = () => {
     const colorDisplay = selectedColor === "preta-branca" ? "Preta/Branca" : 
                         selectedColor === "preta" ? "Preta" : "Branca";
     
+    const productImage = selectedType === "caixa-alta" 
+      ? "/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png" 
+      : selectedType === "caixa-baixa" && selectedColor === "branca"
+      ? "/lovable-uploads/9a113f39-ed59-40e5-97f4-b4589f60aa35.png"
+      : "/lovable-uploads/5eab4c9e-14d7-460b-bc61-945f92a65e4e.png";
+    
     addItem({
       nome: productName,
       cor: colorDisplay,
       tamanho: selectedSize,
       quantidade: 1,
       precoUnitario: currentPrice,
+      imagem: productImage,
     });
 
     toast({
