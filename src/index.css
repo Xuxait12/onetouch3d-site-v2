@@ -175,39 +175,29 @@ All colors MUST be HSL.
 /* Custom scrollbar styles for cart panel */
 
 /* Side tab animations */
-@keyframes slide-down {
+@keyframes expand-center {
   0% {
-    transform: translateY(-100%);
+    top: 50%;
+    bottom: 50%;
+    height: 0;
   }
   100% {
-    transform: translateY(0);
+    top: 0;
+    bottom: 0;
+    height: 100%;
   }
 }
 
-@keyframes slide-up {
+@keyframes collapse-center {
   0% {
-    transform: translateY(100%);
+    top: 0;
+    bottom: 0;
+    height: 100%;
   }
   100% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes slide-up-out {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(100%);
-  }
-}
-
-@keyframes slide-down-out {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-100%);
+    top: 50%;
+    bottom: 50%;
+    height: 0;
   }
 }
 .cart-scroll::-webkit-scrollbar {
