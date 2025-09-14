@@ -23,6 +23,7 @@ import EntregasPrazos from "./pages/EntregasPrazos";
 import Carrinho from "./pages/Carrinho";
 import Confirmacao from "./pages/Confirmacao";
 import AuthRedirect from "./components/AuthRedirect";
+import AdminPanel from "./pages/AdminPanel";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -55,6 +56,7 @@ const App = () => (
             <Route path="/carrinho" element={<Carrinho />} />
             <Route path="/confirmacao" element={<Confirmacao />} />
             <Route path="/auth-redirect" element={<AuthRedirect />} />
+            <Route path="/painel" element={<AdminPanel />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
