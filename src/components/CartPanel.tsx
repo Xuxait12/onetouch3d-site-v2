@@ -102,7 +102,7 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
         aria-modal="true"
         aria-labelledby="cart-title"
         aria-describedby="cart-description"
-        className={`fixed z-50 bg-white border border-gray-300 rounded-lg shadow-2xl transition-all duration-700 ease-in-out transform origin-center
+        className={`fixed z-50 bg-white border border-gray-300 rounded-lg shadow-2xl transform origin-center
           /* Desktop: 4cm from top, bottom, right, wider to the left */
           right-24 top-24 bottom-24 w-[32rem]
           /* Tablet */
@@ -111,8 +111,8 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
           sm:right-4 sm:top-16 sm:bottom-16 sm:w-[calc(100vw-2rem)]
           ${
             isOpen 
-              ? 'opacity-100 visible animate-[cart-expand_0.7s_ease-in-out] scale-y-100' 
-              : 'opacity-0 invisible animate-[cart-collapse_0.7s_ease-in-out] scale-y-0'
+              ? 'opacity-100 visible animate-[cart-expand_0.7s_ease-in-out]' 
+              : 'opacity-0 invisible animate-[cart-collapse_0.7s_ease-in-out]'
           }`}
         style={{ backgroundColor: '#ffffff' }}
         onClick={(e) => e.stopPropagation()}

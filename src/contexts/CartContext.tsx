@@ -114,9 +114,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (savedCart) {
       try {
         const parsedCart = JSON.parse(savedCart);
+        // Check if cart items have the imagem field - if not, clear cart to avoid issues
+        if (parsedCart.items && parsedCart.items.length > 0 && !parsedCart.items[0].hasOwnProperty('imagem')) {
+          localStorage.removeItem('cart');
+          return;
+        }
         dispatch({ type: 'LOAD_CART', payload: parsedCart });
       } catch (error) {
         console.error('Error loading cart from localStorage:', error);
+        localStorage.removeItem('cart');
       }
     }
   }, []);
