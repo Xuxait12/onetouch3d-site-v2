@@ -85,35 +85,47 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
 
   return (
     <>
-      {/* Overlay + Tarja Lateral */}
+      {/* Background overlay */}
       <div
-        className={`fixed inset-0 z-40 transition-all duration-300 ease-in-out ${
+        className={`fixed inset-0 z-30 transition-all duration-300 ease-in-out ${
           isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
         onClick={onClose}
       >
-        {/* Background overlay */}
         <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
-        
-        {/* Tarja lateral */}
+      </div>
+
+      {/* Black Side Tab - Split Animation */}
+      <div className={`fixed right-0 top-0 h-full z-40 pointer-events-none ${isOpen ? 'block' : 'hidden'}`}>
+        {/* Top half of side tab */}
         <div
-          className={`absolute right-0 top-0 h-full bg-gradient-to-b from-blue-500 to-blue-600 shadow-2xl transition-all duration-300 ease-in-out ${
-            isOpen ? 'w-16 md:w-20' : 'w-0'
+          className={`absolute right-0 top-0 w-16 md:w-20 bg-black transition-all duration-400 ease-in-out ${
+            isOpen 
+              ? 'h-1/2 opacity-100 animate-[cart-stripe-top-enter_0.4s_ease-in-out]' 
+              : 'h-0 opacity-0 animate-[cart-stripe-top-exit_0.4s_ease-in-out]'
+          }`}
+        />
+        {/* Bottom half of side tab */}
+        <div
+          className={`absolute right-0 bottom-0 w-16 md:w-20 bg-black transition-all duration-400 ease-in-out ${
+            isOpen 
+              ? 'h-1/2 opacity-100 animate-[cart-stripe-bottom-enter_0.4s_ease-in-out]' 
+              : 'h-0 opacity-0 animate-[cart-stripe-bottom-exit_0.4s_ease-in-out]'
           }`}
         />
       </div>
 
-      {/* Cart Panel */}
+      {/* Cart Panel Window */}
       <div
         ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="cart-title"
         aria-describedby="cart-description"
-        className={`fixed right-20 md:right-24 top-16 bottom-16 z-50 w-80 md:w-96 bg-white border border-border rounded-lg shadow-2xl transition-all duration-300 ease-in-out transform origin-center ${
+        className={`fixed right-24 md:right-28 top-16 bottom-16 z-50 w-80 md:w-96 bg-white border border-gray-200 rounded-lg shadow-2xl transition-all duration-400 ease-in-out transform origin-center ${
           isOpen 
-            ? 'opacity-100 visible scale-100' 
-            : 'opacity-0 invisible scale-50'
+            ? 'opacity-100 visible animate-[cart-window-enter_0.4s_ease-in-out] scale-100' 
+            : 'opacity-0 invisible animate-[cart-window-exit_0.4s_ease-in-out] scale-50'
         }`}
         onClick={(e) => e.stopPropagation()}
       >

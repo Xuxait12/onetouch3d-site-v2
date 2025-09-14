@@ -144,69 +144,80 @@ All colors MUST be HSL.
 }
 
 /* Cart Panel Animation Keyframes */
-@keyframes cart-panel-enter {
+
+/* Cart Window Animations - Center expand/collapse */
+@keyframes cart-window-enter {
   0% {
     opacity: 0;
-    transform: scale(0.5);
+    transform: scale(0.3) translateY(0);
   }
   50% {
-    opacity: 0.7;
-    transform: scale(0.8);
+    opacity: 0.8;
+    transform: scale(0.7) translateY(0);
   }
   100% {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(0);
   }
 }
 
-@keyframes cart-panel-exit {
+@keyframes cart-window-exit {
   0% {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(0);
   }
   50% {
-    opacity: 0.7;
-    transform: scale(0.8);
+    opacity: 0.8;
+    transform: scale(0.7) translateY(0);
   }
   100% {
     opacity: 0;
-    transform: scale(0.5);
+    transform: scale(0.3) translateY(0);
   }
 }
 
-@keyframes cart-stripe-enter {
+/* Black Side Tab Split Animations */
+@keyframes cart-stripe-top-enter {
   0% {
-    width: 0;
-    transform: scaleY(0);
-    transform-origin: top center;
-  }
-  50% {
-    width: 4rem;
-    transform: scaleY(0.5);
-    transform-origin: center center;
+    height: 0;
+    transform: translateY(-100%);
   }
   100% {
-    width: 4rem;
-    transform: scaleY(1);
-    transform-origin: bottom center;
+    height: 50%;
+    transform: translateY(0);
   }
 }
 
-@keyframes cart-stripe-exit {
+@keyframes cart-stripe-top-exit {
   0% {
-    width: 4rem;
-    transform: scaleY(1);
-    transform-origin: bottom center;
-  }
-  50% {
-    width: 4rem;
-    transform: scaleY(0.5);
-    transform-origin: center center;
+    height: 50%;
+    transform: translateY(0);
   }
   100% {
-    width: 0;
-    transform: scaleY(0);
-    transform-origin: top center;
+    height: 0;
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes cart-stripe-bottom-enter {
+  0% {
+    height: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    height: 50%;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cart-stripe-bottom-exit {
+  0% {
+    height: 50%;
+    transform: translateY(0);
+  }
+  100% {
+    height: 0;
+    transform: translateY(100%);
   }
 }
 
