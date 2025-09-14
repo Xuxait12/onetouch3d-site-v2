@@ -57,6 +57,15 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
 
   const handleContinueShopping = () => {
     onClose();
+    // Scroll to "Nossa Loja" section (ProductSection)
+    setTimeout(() => {
+      const productSection = document.querySelector('[data-section="nossa-loja"]') || 
+                           document.querySelector('.product-section') ||
+                           document.getElementById('nossa-loja');
+      if (productSection) {
+        productSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 300);
   };
 
   const handleCheckout = () => {
@@ -101,10 +110,10 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
         aria-modal="true"
         aria-labelledby="cart-title"
         aria-describedby="cart-description"
-        className={`fixed right-4 top-4 bottom-4 z-50 w-80 md:w-96 bg-background border border-border rounded-lg shadow-2xl transition-all duration-300 ease-in-out transform origin-center ${
+        className={`fixed right-20 md:right-24 top-16 bottom-16 z-50 w-80 md:w-96 bg-white border border-border rounded-lg shadow-2xl transition-all duration-300 ease-in-out transform origin-center ${
           isOpen 
-            ? 'opacity-100 visible scale-100 translate-x-0' 
-            : 'opacity-0 invisible scale-95 translate-x-4'
+            ? 'opacity-100 visible scale-100' 
+            : 'opacity-0 invisible scale-50'
         }`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -255,14 +264,13 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
             <div className="space-y-2">
               <Button
                 onClick={handleCheckout}
-                className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium"
+                className="w-full bg-black hover:bg-black/90 text-white font-medium"
               >
                 Finalizar compra
               </Button>
               <Button
                 onClick={handleContinueShopping}
-                variant="outline"
-                className="w-full"
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white"
               >
                 Continuar comprando
               </Button>

@@ -77,7 +77,7 @@ const ProductSection = () => {
       description: `${productName} ${selectedSize} ${colorDisplay}`,
     });
 
-    navigate("/carrinho");
+    // Stay on the same page, don't navigate to cart
   };
 
   const handleCalculateFrete = () => {
@@ -88,7 +88,7 @@ const ProductSection = () => {
   };
 
   return (
-    <section id="nossa-loja" className="py-16 bg-background">
+    <section id="nossa-loja" data-section="nossa-loja" className="py-16 bg-background product-section">
       <div className="max-w-7xl mx-auto px-6">
         {/* Título da Seção */}
         <div className="text-center mb-12">

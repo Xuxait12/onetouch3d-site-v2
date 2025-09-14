@@ -143,6 +143,73 @@ All colors MUST be HSL.
   }
 }
 
+/* Cart Panel Animation Keyframes */
+@keyframes cart-panel-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cart-panel-exit {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+@keyframes cart-stripe-enter {
+  0% {
+    width: 0;
+    transform: scaleY(0);
+    transform-origin: top center;
+  }
+  50% {
+    width: 4rem;
+    transform: scaleY(0.5);
+    transform-origin: center center;
+  }
+  100% {
+    width: 4rem;
+    transform: scaleY(1);
+    transform-origin: bottom center;
+  }
+}
+
+@keyframes cart-stripe-exit {
+  0% {
+    width: 4rem;
+    transform: scaleY(1);
+    transform-origin: bottom center;
+  }
+  50% {
+    width: 4rem;
+    transform: scaleY(0.5);
+    transform-origin: center center;
+  }
+  100% {
+    width: 0;
+    transform: scaleY(0);
+    transform-origin: top center;
+  }
+}
+
 @layer components {
   .hero-section {
     padding-top: var(--spacing-hero);
