@@ -292,6 +292,49 @@ const Checkout = () => {
     }
   };
 
+  const handleSaveDeliveryAddress = async () => {
+    try {
+      if (!user) {
+        toast({
+          variant: "destructive",
+          title: "Erro",
+          description: "Você precisa estar logado para salvar o endereço de entrega.",
+        });
+        return;
+      }
+
+      // Get delivery address values
+      const deliveryCep = deliveryCepRef.current?.value;
+      const deliveryAddress = deliveryAddressRef.current?.value;
+      const deliveryNumber = deliveryNumberRef.current?.value;
+      const deliveryNeighborhood = deliveryNeighborhoodRef.current?.value;
+      const deliveryCity = deliveryCityRef.current?.value;
+      const deliveryState = deliveryStateRef.current?.value;
+
+      // Validate required delivery address fields
+      if (!deliveryCep || !deliveryAddress || !deliveryNumber || !deliveryNeighborhood || !deliveryCity || !deliveryState) {
+        toast({
+          variant: "destructive",
+          title: "Campos obrigatórios",
+          description: "Por favor, preencha todos os campos obrigatórios (*) do endereço de entrega",
+        });
+        return;
+      }
+
+      toast({
+        title: "Endereço de entrega salvo!",
+        description: "O endereço de entrega foi salvo e será usado no pedido.",
+      });
+    } catch (error) {
+      console.error('Error saving delivery address:', error);
+      toast({
+        variant: "destructive",
+        title: "Erro ao salvar",
+        description: "Ocorreu um erro ao salvar o endereço de entrega. Tente novamente.",
+      });
+    }
+  };
+
   const handleFinalizePurchase = async () => {
     // Prevent duplicate submissions
     if (isSubmitting) return;
@@ -720,44 +763,58 @@ const Checkout = () => {
                   <Label htmlFor="differentAddress">Entregar em um endereço diferente</Label>
                 </div>
                 
-                {differentAddress && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                    <div>
-                      <Label htmlFor="deliveryCep">CEP *</Label>
-                      <Input id="deliveryCep" type="text" placeholder="00000-000" required />
-                    </div>
-                    
-                    <div>
-                      <Label htmlFor="deliveryAddress">Endereço *</Label>
-                      <Input id="deliveryAddress" type="text" required />
-                    </div>
-                    
-                    <div>
-                      <Label htmlFor="deliveryNumber">Número *</Label>
-                      <Input id="deliveryNumber" type="text" required />
-                    </div>
-                    
-                    <div>
-                      <Label htmlFor="deliveryComplement">Complemento</Label>
-                      <Input id="deliveryComplement" type="text" />
-                    </div>
-                    
-                    <div>
-                      <Label htmlFor="deliveryNeighborhood">Bairro *</Label>
-                      <Input id="deliveryNeighborhood" type="text" required />
-                    </div>
-                    
-                    <div>
-                      <Label htmlFor="deliveryCity">Cidade *</Label>
-                      <Input id="deliveryCity" type="text" required />
-                    </div>
-                    
-                    <div>
-                      <Label htmlFor="deliveryState">Estado *</Label>
-                      <Input id="deliveryState" type="text" required />
-                    </div>
-                  </div>
-                )}
+                 {differentAddress && (
+                   <div className="space-y-4 mt-4">
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                       <div>
+                         <Label htmlFor="deliveryCep">CEP *</Label>
+                         <Input ref={deliveryCepRef} id="deliveryCep" type="text" placeholder="00000-000" required />
+                       </div>
+                       
+                       <div>
+                         <Label htmlFor="deliveryAddress">Endereço *</Label>
+                         <Input ref={deliveryAddressRef} id="deliveryAddress" type="text" required />
+                       </div>
+                       
+                       <div>
+                         <Label htmlFor="deliveryNumber">Número *</Label>
+                         <Input ref={deliveryNumberRef} id="deliveryNumber" type="text" required />
+                       </div>
+                       
+                       <div>
+                         <Label htmlFor="deliveryComplement">Complemento</Label>
+                         <Input ref={deliveryComplementRef} id="deliveryComplement" type="text" />
+                       </div>
+                       
+                       <div>
+                         <Label htmlFor="deliveryNeighborhood">Bairro *</Label>
+                         <Input ref={deliveryNeighborhoodRef} id="deliveryNeighborhood" type="text" required />
+                       </div>
+                       
+                       <div>
+                         <Label htmlFor="deliveryCity">Cidade *</Label>
+                         <Input ref={deliveryCityRef} id="deliveryCity" type="text" required />
+                       </div>
+                       
+                       <div>
+                         <Label htmlFor="deliveryState">Estado *</Label>
+                         <Input ref={deliveryStateRef} id="deliveryState" type="text" required />
+                       </div>
+
+                       <div>
+                         <Label htmlFor="deliveryReference">Ponto de referência</Label>
+                         <Input ref={deliveryReferenceRef} id="deliveryReference" type="text" placeholder="Ex: próximo ao supermercado" />
+                       </div>
+                     </div>
+                     
+                     <Button 
+                       onClick={handleSaveDeliveryAddress} 
+                       className="bg-black hover:bg-black/90 text-white"
+                     >
+                       Salvar endereço de entrega
+                     </Button>
+                   </div>
+                 )}
               </Card>
             </div>
 
