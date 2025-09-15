@@ -35,6 +35,7 @@ interface Order {
     full_name: string;
     email: string;
     phone: string;
+    cpf_cnpj: string;
     address: string;
     number: string;
     complement?: string;
@@ -65,7 +66,7 @@ const OrderDetails = () => {
           .from('pedidos')
           .select(`
             *,
-            profiles!inner(full_name, email, phone, address, number, complement, neighborhood, city, state, cep)
+            profiles!inner(full_name, email, phone, cpf_cnpj, address, number, complement, neighborhood, city, state, cep)
           `)
           .eq('id', id);
 
@@ -256,6 +257,10 @@ const OrderDetails = () => {
                   <div>
                     <span className="text-muted-foreground">Telefone:</span>
                     <p className="font-medium">{order.profiles.phone}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">CPF/CNPJ:</span>
+                    <p className="font-medium">{order.profiles.cpf_cnpj}</p>
                   </div>
                 </div>
               </CardContent>
