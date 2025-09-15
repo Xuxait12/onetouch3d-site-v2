@@ -127,6 +127,7 @@ export type Database = {
           email: string
           full_name: string
           id: string
+          is_admin: boolean | null
           neighborhood: string
           number: string
           person_type: Database["public"]["Enums"]["person_type_enum"]
@@ -148,6 +149,7 @@ export type Database = {
           email: string
           full_name: string
           id?: string
+          is_admin?: boolean | null
           neighborhood: string
           number: string
           person_type?: Database["public"]["Enums"]["person_type_enum"]
@@ -169,6 +171,7 @@ export type Database = {
           email?: string
           full_name?: string
           id?: string
+          is_admin?: boolean | null
           neighborhood?: string
           number?: string
           person_type?: Database["public"]["Enums"]["person_type_enum"]
@@ -185,7 +188,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_current_user_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
     }
     Enums: {
       person_type_enum: "fisica" | "juridica"
