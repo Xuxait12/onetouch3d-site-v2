@@ -123,10 +123,17 @@ const handler = async (req: Request): Promise<Response> => {
                 <span style="background: #fbbf24; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">${pedido.status.toUpperCase()}</span>
               </div>
               
-              <div style="display: flex; justify-content: space-between;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                 <span style="color: #6b7280;">Forma de pagamento:</span>
                 <span style="color: #1f2937;">${pedido.forma_pagamento}</span>
               </div>
+              
+              ${pedido.shipping_address ? `
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">Endereço de entrega:</span>
+                <span style="color: #1f2937; text-align: right; max-width: 60%;">${pedido.shipping_address}</span>
+              </div>
+              ` : ''}
             </div>
 
             ${itens && itens.length > 0 ? `
@@ -199,7 +206,144 @@ const handler = async (req: Request): Promise<Response> => {
       </html>
     `;
 
-    // Enviar e-mail
+    // Template do e-mail do administrador
+    const adminEmailHtml = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Novo Pedido - Admin</title>
+        </head>
+        <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+          
+          <div style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+            <h1 style="color: white; margin: 0; font-size: 28px;">NOVO PEDIDO - ADMIN</h1>
+            <p style="color: #fecaca; margin: 10px 0 0 0; font-size: 16px;">Pedido nº ${pedido.numero_pedido}</p>
+          </div>
+
+          <div style="background: white; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            
+            <h2 style="color: #1f2937; margin: 0 0 20px 0;">Novo pedido recebido</h2>
+            
+            <div style="background: #fef2f2; padding: 20px; border-radius: 8px; margin-bottom: 25px; border-left: 4px solid #dc2626;">
+              <h3 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px;">Dados do Pedido</h3>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">ID do Usuário:</span>
+                <span style="font-weight: 600; color: #1f2937;">${pedido.user_id}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Número do pedido:</span>
+                <span style="font-weight: 600; color: #1f2937;">${pedido.numero_pedido}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Data/Hora:</span>
+                <span style="color: #1f2937;">${new Date(pedido.data_pedido).toLocaleString("pt-BR")}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Status inicial:</span>
+                <span style="background: #fbbf24; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">${pedido.status.toUpperCase()}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Forma de pagamento:</span>
+                <span style="color: #1f2937;">${pedido.forma_pagamento}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Total:</span>
+                <span style="font-weight: 600; color: #dc2626; font-size: 18px;">R$ ${pedido.total.toFixed(2)}</span>
+              </div>
+              
+              ${pedido.shipping_address ? `
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">Endereço de entrega:</span>
+                <span style="color: #1f2937; text-align: right; max-width: 60%;">${pedido.shipping_address}</span>
+              </div>
+              ` : ''}
+            </div>
+
+            <div style="background: #f1f5f9; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+              <h3 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px;">Dados do Cliente</h3>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Nome:</span>
+                <span style="color: #1f2937;">${profile.full_name}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">E-mail:</span>
+                <span style="color: #1f2937;">${profile.email}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Telefone:</span>
+                <span style="color: #1f2937;">${profile.phone}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">Documento:</span>
+                <span style="color: #1f2937;">${profile.cpf_cnpj}</span>
+              </div>
+            </div>
+
+            ${itens && itens.length > 0 ? `
+            <div style="margin-bottom: 25px;">
+              <h3 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px;">Produtos</h3>
+              
+              <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                  <tr style="background: #f8fafc; border-bottom: 2px solid #e5e7eb;">
+                    <th style="padding: 12px 0; text-align: left; color: #374151; font-weight: 600;">Produto</th>
+                    <th style="padding: 12px 0; text-align: center; color: #374151; font-weight: 600;">Qtd</th>
+                    <th style="padding: 12px 0; text-align: right; color: #374151; font-weight: 600;">Valor Unit.</th>
+                    <th style="padding: 12px 0; text-align: right; color: #374151; font-weight: 600;">Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${itensHtml}
+                </tbody>
+              </table>
+            </div>
+            ` : ''}
+
+            <div style="background: #f8fafc; padding: 20px; border-radius: 8px;">
+              <h3 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px;">Resumo Financeiro</h3>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Subtotal:</span>
+                <span style="color: #1f2937;">R$ ${pedido.subtotal.toFixed(2)}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #6b7280;">Frete:</span>
+                <span style="color: #1f2937;">R$ ${pedido.frete.toFixed(2)}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                <span style="color: #6b7280;">Desconto:</span>
+                <span style="color: #1f2937;">R$ ${pedido.desconto.toFixed(2)}</span>
+              </div>
+              
+              <div style="border-top: 2px solid #e5e7eb; padding-top: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-size: 18px; font-weight: 600; color: #1f2937;">Total:</span>
+                  <span style="font-size: 24px; font-weight: bold; color: #dc2626;">R$ ${pedido.total.toFixed(2)}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </body>
+      </html>
+    `;
+
+    // Enviar e-mail para o cliente
     const emailResponse = await resend.emails.send({
       from: "OneTouch3D <contato@onetouch3d.com.br>",
       to: [profile.email],
@@ -207,7 +351,16 @@ const handler = async (req: Request): Promise<Response> => {
       html: emailHtml,
     });
 
+    // Enviar cópia para o administrador
+    const adminEmailResponse = await resend.emails.send({
+      from: "OneTouch3D <contato@onetouch3d.com.br>",
+      to: ["contato@onetouch3d.com.br"],
+      subject: `[ADMIN] Novo pedido nº ${pedido.numero_pedido} - ${profile.full_name}`,
+      html: adminEmailHtml,
+    });
+
     console.log("Email enviado com sucesso:", emailResponse);
+    console.log("Email admin enviado com sucesso:", adminEmailResponse);
 
     return new Response(
       JSON.stringify({ 

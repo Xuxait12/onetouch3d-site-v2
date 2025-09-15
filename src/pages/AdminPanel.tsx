@@ -23,9 +23,18 @@ interface Order {
   total: number;
   status: string;
   forma_pagamento: string;
+  shipping_address?: string;
   profiles: {
     full_name: string;
     email: string;
+    phone: string;
+    address: string;
+    number: string;
+    complement?: string;
+    neighborhood: string;
+    city: string;
+    state: string;
+    cep: string;
   };
 }
 
@@ -84,9 +93,18 @@ const AdminPanel = () => {
           total,
           status,
           forma_pagamento,
+          shipping_address,
           profiles!inner(
             full_name,
-            email
+            email,
+            phone,
+            address,
+            number,
+            complement,
+            neighborhood,
+            city,
+            state,
+            cep
           )
         `)
         .order('data_pedido', { ascending: false });
@@ -547,6 +565,7 @@ const AdminPanel = () => {
                               <th className="text-left py-3 px-4">Pedido</th>
                               <th className="text-left py-3 px-4">Cliente</th>
                               <th className="text-left py-3 px-4">E-mail</th>
+                              <th className="text-left py-3 px-4">Endereço de Entrega</th>
                               <th className="text-left py-3 px-4">Valor</th>
                               <th className="text-left py-3 px-4">Pagamento</th>
                               <th className="text-left py-3 px-4">Status</th>
@@ -555,10 +574,13 @@ const AdminPanel = () => {
                           </thead>
                           <tbody>
                             {filteredOrders.map((order) => (
-                              <tr key={order.id} className="border-b">
+                              <tr key={order.id} className="border-b cursor-pointer hover:bg-gray-50" onClick={() => navigate(`/order-details/${order.id}`)}>
                                 <td className="py-3 px-4 font-medium">{order.numero_pedido}</td>
                                 <td className="py-3 px-4">{order.profiles.full_name}</td>
                                 <td className="py-3 px-4">{order.profiles.email}</td>
+                                <td className="py-3 px-4 max-w-xs truncate text-sm">
+                                  {order.shipping_address || 'Mesmo do cadastro'}
+                                </td>
                                 <td className="py-3 px-4">R$ {Number(order.total).toFixed(2)}</td>
                                 <td className="py-3 px-4">{order.forma_pagamento}</td>
                                 <td className="py-3 px-4">

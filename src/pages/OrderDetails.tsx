@@ -1,23 +1,14 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useParams, Navigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { ArrowLeft, Package, User, MapPin } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { User } from '@supabase/supabase-js';
-import GlobalHeader from '@/components/GlobalHeader';
-import { Calendar, Package, ArrowLeft, CreditCard } from 'lucide-react';
-
-interface Order {
-  id: string;
-  product_name: string;
-  product_description: string | null;
-  total_amount: number;
-  status: string;
-  order_date: string;
-  created_at: string;
-}
+import { useAuth } from "@/hooks/useAuth";
+import GlobalHeader from "@/components/GlobalHeader";
+import GlobalFooter from "@/components/GlobalFooter";
 
 interface OrderItem {
   id: string;
@@ -29,94 +20,130 @@ interface OrderItem {
   subtotal: number;
 }
 
+interface Order {
+  id: string;
+  numero_pedido: string;
+  data_pedido: string;
+  status: string;
+  subtotal: number;
+  frete: number;
+  desconto: number;
+  total: number;
+  forma_pagamento: string;
+  shipping_address?: string;
+  profiles: {
+    full_name: string;
+    email: string;
+    phone: string;
+    address: string;
+    number: string;
+    complement?: string;
+    neighborhood: string;
+    city: string;
+    state: string;
+    cep: string;
+  };
+}
+
 const OrderDetails = () => {
-  const { id: orderId } = useParams<{ id: string }>();
-  const [user, setUser] = useState<User | null>(null);
+  const { id } = useParams<{ id: string }>();
+  const { user } = useAuth();
   const [order, setOrder] = useState<Order | null>(null);
-  const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
+  const [items, setItems] = useState<OrderItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const getOrderDetails = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        navigate('/auth');
-        return;
-      }
-
-      setUser(session.user);
-
-      if (!orderId) {
-        navigate('/meus-pedidos');
-        return;
-      }
+    const loadOrderDetails = async () => {
+      if (!id || !user) return;
 
       try {
-        // Buscar dados do pedido
-        const { data: pedido, error: pedidoError } = await supabase
-          .from('pedidos')
-          .select('*')
-          .eq('id', orderId)
-          .eq('user_id', session.user.id)
-          .single();
+        // Check if user is admin
+        const isAdmin = user.email === 'onetouch3dbrasil@gmail.com';
 
-        if (pedidoError) {
-          console.error('Error fetching order:', pedidoError);
-          toast({
-            variant: "destructive",
-            title: "Pedido não encontrado",
-            description: "O pedido solicitado não foi encontrado.",
-          });
-          navigate('/meus-pedidos');
-          return;
+        // Load order
+        let orderQuery = supabase
+          .from('pedidos')
+          .select(`
+            *,
+            profiles!inner(full_name, email, phone, address, number, complement, neighborhood, city, state, cep)
+          `)
+          .eq('id', id);
+
+        // If not admin, filter by user_id
+        if (!isAdmin) {
+          orderQuery = orderQuery.eq('user_id', user.id);
         }
 
-        // Buscar itens do pedido
-        const { data: itens, error: itensError } = await supabase
+        const { data: orderData, error: orderError } = await orderQuery.single();
+
+        if (orderError) throw orderError;
+
+        // Load order items
+        const { data: itemsData, error: itemsError } = await supabase
           .from('itens_pedido')
           .select('*')
-          .eq('pedido_id', orderId);
+          .eq('pedido_id', id);
 
-        if (itensError) {
-          console.error('Error fetching order items:', itensError);
-        }
+        if (itemsError) throw itemsError;
 
-        // Mapear os dados para o formato esperado
-        const mappedOrder = {
-          id: (pedido as any).id,
-          product_name: `Quadro Personalizado`,
-          product_description: `${(pedido as any).numero_pedido || 'Pedido #' + (pedido as any).id.slice(0, 8)}`,
-          total_amount: (pedido as any).total,
-          status: (pedido as any).status,
-          order_date: (pedido as any).data_pedido,
-          created_at: (pedido as any).created_at
-        };
-
-        setOrder(mappedOrder);
-        setOrderItems(itens || []);
+        setOrder(orderData);
+        setItems(itemsData || []);
       } catch (error) {
-        console.error('Error fetching order data:', error);
-        navigate('/meus-pedidos');
+        console.error('Error loading order details:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    getOrderDetails();
-  }, [orderId, navigate, toast]);
+    loadOrderDetails();
+  }, [id, user]);
+
+  // Redirect if not logged in
+  if (!user) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/20">
+        <GlobalHeader />
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex items-center justify-center h-64">
+            <p className="text-lg text-muted-foreground">Carregando detalhes do pedido...</p>
+          </div>
+        </div>
+        <GlobalFooter />
+      </div>
+    );
+  }
+
+  if (!order) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/20">
+        <GlobalHeader />
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-foreground mb-4">Pedido não encontrado</h1>
+            <Button onClick={() => window.history.back()}>
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Voltar
+            </Button>
+          </div>
+        </div>
+        <GlobalFooter />
+      </div>
+    );
+  }
 
   const getStatusColor = (status: string) => {
-    switch (status) {
+    switch (status.toLowerCase()) {
       case 'pendente':
         return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'pago':
-        return 'bg-green-100 text-green-800 border-green-200';
-      case 'enviado':
+      case 'processando':
         return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'concluido':
+      case 'enviado':
+        return 'bg-purple-100 text-purple-800 border-purple-200';
+      case 'entregue':
         return 'bg-green-100 text-green-800 border-green-200';
       case 'cancelado':
         return 'bg-red-100 text-red-800 border-red-200';
@@ -125,163 +152,184 @@ const OrderDetails = () => {
     }
   };
 
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'pendente':
-        return 'Pendente';
-      case 'pago':
-        return 'Pago';
-      case 'enviado':
-        return 'Enviado';
-      case 'concluido':
-        return 'Concluído';
-      case 'cancelado':
-        return 'Cancelado';
-      default:
-        return status;
-    }
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
-
-  const formatPrice = (amount: number) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    }).format(amount);
-  };
-
-  if (!user || loading) {
-    return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100">
-      <GlobalHeader />
-        <div className="max-w-4xl mx-auto px-6 py-8">
-          <div className="text-center py-8">
-            <p className="text-muted-foreground">Carregando detalhes do pedido...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (!order) {
-    return null;
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/20">
       <GlobalHeader />
-      <div className="max-w-4xl mx-auto px-6 py-8">
+      
+      <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
-          <Button
-            variant="ghost"
-            onClick={() => navigate('/meus-pedidos')}
-            className="mb-4"
+          <Button 
+            variant="outline" 
+            onClick={() => window.history.back()}
+            className="flex items-center gap-2"
           >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Voltar para Meus Pedidos
+            <ArrowLeft className="w-4 h-4" />
+            Voltar
           </Button>
-          
-          <div className="flex justify-between items-start">
-            <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">
-                {order.product_description}
-              </h1>
-              <p className="text-muted-foreground">
-                Detalhes completos do seu pedido
-              </p>
-            </div>
-            <Badge className={`px-4 py-2 rounded-full border ${getStatusColor(order.status)}`}>
-              {getStatusText(order.status)}
-            </Badge>
-          </div>
         </div>
 
-        <div className="grid gap-6">
-          {/* Informações do Pedido */}
-          <Card className="border border-border/50 shadow-lg">
-            <CardHeader className="bg-gradient-to-r from-muted/20 to-muted/30">
-              <CardTitle className="flex items-center gap-2 text-xl">
-                <Package className="w-5 h-5" />
-                Informações do Pedido
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="font-semibold text-lg mb-4">{order.product_name}</h3>
-                  <div className="space-y-2">
-                    <div>
-                      <span className="text-muted-foreground font-medium">Data do Pedido:</span>
-                      <p className="font-semibold">{formatDate(order.order_date)}</p>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground font-medium">Status:</span>
-                      <div className="mt-1">
-                        <Badge className={`px-3 py-1 rounded-full border ${getStatusColor(order.status)}`}>
-                          {getStatusText(order.status)}
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
+        <div className="grid gap-6 lg:grid-cols-3">
+          {/* Order Summary */}
+          <div className="lg:col-span-2 space-y-6">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center gap-2">
+                    <Package className="w-5 h-5" />
+                    Pedido #{order.numero_pedido}
+                  </CardTitle>
+                  <Badge className={getStatusColor(order.status)}>
+                    {order.status.toUpperCase()}
+                  </Badge>
                 </div>
-                
-                <div>
-                  <h3 className="font-semibold text-lg mb-4">Resumo Financeiro</h3>
-                  <div className="flex justify-between items-center p-4 bg-green-50 rounded-lg border border-green-200">
-                    <span className="text-foreground font-medium">Total do Pedido:</span>
-                    <span className="text-2xl font-bold text-green-600">
-                      {formatPrice(order.total_amount)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Lista de Itens do Pedido */}
-          {orderItems.length > 0 && (
-            <Card className="border border-border/50 shadow-lg">
-              <CardHeader className="bg-gradient-to-r from-muted/20 to-muted/30">
-                <CardTitle className="flex items-center gap-2 text-xl">
-                  <Calendar className="w-5 h-5" />
-                  Itens do Pedido
-                </CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  Realizado em {new Date(order.data_pedido).toLocaleDateString('pt-BR')}
+                </p>
               </CardHeader>
-              <CardContent className="pt-6">
+              <CardContent>
                 <div className="space-y-4">
-                  {orderItems.map((item) => (
-                    <div key={item.id} className="flex justify-between items-start p-4 bg-muted/20 rounded-lg border border-border/30">
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <span className="text-muted-foreground">Data:</span>
+                      <p className="font-medium">{new Date(order.data_pedido).toLocaleDateString('pt-BR')}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Pagamento:</span>
+                      <p className="font-medium">{order.forma_pagamento}</p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Order Items */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Itens do Pedido</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {items.map((item) => (
+                    <div key={item.id} className="flex justify-between items-start p-4 border rounded-lg">
                       <div className="flex-1">
-                        <h4 className="font-semibold text-lg text-foreground">{item.produto_nome}</h4>
-                        <p className="text-muted-foreground mt-1">
-                          {item.tamanho} / {item.moldura_tipo} / Quantidade: {item.quantidade}
+                        <h4 className="font-semibold">{item.produto_nome}</h4>
+                        <p className="text-sm text-muted-foreground">
+                          {item.moldura_tipo} - {item.tamanho}
                         </p>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          R$ {item.valor_unitario.toFixed(2).replace('.', ',')} cada
+                        <p className="text-sm text-muted-foreground">
+                          Quantidade: {item.quantidade}
                         </p>
                       </div>
                       <div className="text-right">
-                        <span className="font-bold text-lg text-foreground">
-                          R$ {item.subtotal.toFixed(2).replace('.', ',')}
-                        </span>
+                        <p className="font-semibold">R$ {item.subtotal.toFixed(2)}</p>
+                        <p className="text-sm text-muted-foreground">
+                          R$ {item.valor_unitario.toFixed(2)} cada
+                        </p>
                       </div>
                     </div>
                   ))}
                 </div>
               </CardContent>
             </Card>
-          )}
+          </div>
+
+          {/* Customer and Address Info */}
+          <div className="space-y-6">
+            {/* Customer Info */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <User className="w-5 h-5" />
+                  Dados do Cliente
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3 text-sm">
+                  <div>
+                    <span className="text-muted-foreground">Nome:</span>
+                    <p className="font-medium">{order.profiles.full_name}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">E-mail:</span>
+                    <p className="font-medium">{order.profiles.email}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Telefone:</span>
+                    <p className="font-medium">{order.profiles.phone}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Address Info */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <MapPin className="w-5 h-5" />
+                  Endereços
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-semibold text-sm mb-2">Endereço de Cadastro:</h4>
+                    <p className="text-sm text-muted-foreground">
+                      {order.profiles.address}, {order.profiles.number}
+                      {order.profiles.complement && `, ${order.profiles.complement}`}
+                      <br />
+                      {order.profiles.neighborhood}, {order.profiles.city} - {order.profiles.state}
+                      <br />
+                      CEP: {order.profiles.cep}
+                    </p>
+                  </div>
+                  
+                  {order.shipping_address && (
+                    <>
+                      <Separator />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-2">Endereço de Entrega:</h4>
+                        <p className="text-sm text-muted-foreground">
+                          {order.shipping_address}
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Order Summary */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Resumo Financeiro</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Subtotal:</span>
+                    <span>R$ {order.subtotal.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Frete:</span>
+                    <span>R$ {order.frete.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Desconto:</span>
+                    <span>-R$ {order.desconto.toFixed(2)}</span>
+                  </div>
+                  <Separator />
+                  <div className="flex justify-between font-semibold">
+                    <span>Total:</span>
+                    <span>R$ {order.total.toFixed(2)}</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
+
+      <GlobalFooter />
     </div>
   );
 };

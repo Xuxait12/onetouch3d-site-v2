@@ -45,6 +45,16 @@ const Checkout = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const pontoReferenciaRef = useRef<HTMLInputElement>(null);
   
+  // Refs for delivery address fields
+  const deliveryCepRef = useRef<HTMLInputElement>(null);
+  const deliveryAddressRef = useRef<HTMLInputElement>(null);
+  const deliveryNumberRef = useRef<HTMLInputElement>(null);
+  const deliveryComplementRef = useRef<HTMLInputElement>(null);
+  const deliveryNeighborhoodRef = useRef<HTMLInputElement>(null);
+  const deliveryCityRef = useRef<HTMLInputElement>(null);
+  const deliveryStateRef = useRef<HTMLInputElement>(null);
+  const deliveryReferenceRef = useRef<HTMLInputElement>(null);
+  
   const subtotal = cart?.total || 0;
   const frete = cart?.frete || 0;
   const cupomDesconto = cart?.cupomDesconto || 0;
@@ -364,6 +374,29 @@ const Checkout = () => {
       const roundedDesconto = Math.round((cupomDesconto + pixDiscount) * 100) / 100;
       const roundedTotal = Math.round(total * 100) / 100;
 
+      // Prepare shipping address
+      let shippingAddress = '';
+      if (differentAddress) {
+        // Use delivery address if provided
+        const deliveryCep = deliveryCepRef.current?.value;
+        const deliveryAddress = deliveryAddressRef.current?.value;
+        const deliveryNumber = deliveryNumberRef.current?.value;
+        const deliveryComplement = deliveryComplementRef.current?.value;
+        const deliveryNeighborhood = deliveryNeighborhoodRef.current?.value;
+        const deliveryCity = deliveryCityRef.current?.value;
+        const deliveryState = deliveryStateRef.current?.value;
+        const deliveryReference = deliveryReferenceRef.current?.value;
+        
+        if (deliveryCep && deliveryAddress && deliveryNumber && deliveryNeighborhood && deliveryCity && deliveryState) {
+          shippingAddress = `${deliveryAddress}, ${deliveryNumber}${deliveryComplement ? ', ' + deliveryComplement : ''}, ${deliveryNeighborhood}, ${deliveryCity} - ${deliveryState}, CEP: ${deliveryCep}${deliveryReference ? ', Ref: ' + deliveryReference : ''}`;
+        }
+      }
+      
+      // If no delivery address or incomplete, use profile address
+      if (!shippingAddress) {
+        shippingAddress = `${address}, ${number}${complementRef.current?.value ? ', ' + complementRef.current.value : ''}, ${neighborhood}, ${city} - ${state}, CEP: ${cep}${pontoReferenciaRef.current?.value ? ', Ref: ' + pontoReferenciaRef.current.value : ''}`;
+      }
+
       // Create order in pedidos table
       const { data: pedido, error: pedidoError } = await supabase
         .from('pedidos')
@@ -374,7 +407,8 @@ const Checkout = () => {
           desconto: roundedDesconto,
           total: roundedTotal,
           status: 'pendente',
-          forma_pagamento: paymentMethod || 'teste'
+          forma_pagamento: paymentMethod || 'teste',
+          shipping_address: shippingAddress
         })
         .select()
         .single();

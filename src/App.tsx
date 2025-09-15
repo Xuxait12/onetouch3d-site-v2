@@ -57,6 +57,7 @@ const App = () => (
             <Route path="/confirmacao" element={<Confirmacao />} />
             <Route path="/auth-redirect" element={<AuthRedirect />} />
             <Route path="/painel" element={<AdminPanel />} />
+            <Route path="/order-details/:id" element={<OrderDetails />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

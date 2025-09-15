@@ -67,6 +67,7 @@ export type Database = {
           frete: number
           id: string
           numero_pedido: string | null
+          shipping_address: string | null
           status: string
           subtotal: number
           total: number
@@ -81,6 +82,7 @@ export type Database = {
           frete?: number
           id?: string
           numero_pedido?: string | null
+          shipping_address?: string | null
           status?: string
           subtotal: number
           total: number
@@ -95,6 +97,7 @@ export type Database = {
           frete?: number
           id?: string
           numero_pedido?: string | null
+          shipping_address?: string | null
           status?: string
           subtotal?: number
           total?: number
