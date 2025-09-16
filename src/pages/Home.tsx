@@ -121,8 +121,6 @@ const Home = () => {
       </div>
 
       <GlobalFooter />
-
-      <GlobalFooter />
     </div>
   );
 };
