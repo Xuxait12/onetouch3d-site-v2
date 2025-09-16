@@ -29,6 +29,13 @@ const Checkout = () => {
   const [loginPassword, setLoginPassword] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [authTab, setAuthTab] = useState<'login' | 'signup'>('login');
+  const [signupData, setSignupData] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
   
   // Refs for form fields
   const fullNameRef = useRef<HTMLInputElement>(null);
@@ -79,7 +86,13 @@ const Checkout = () => {
         if (birthDateRef.current) birthDateRef.current.value = profile.birth_date || '';
         if (phoneRef.current) phoneRef.current.value = profile.phone || '';
         if (emailRef.current) emailRef.current.value = profile.email || user.email || '';
-        // ponto_referencia field is not in the profiles table, keep it empty
+        if (cepRef.current) cepRef.current.value = profile.cep || '';
+        if (addressRef.current) addressRef.current.value = profile.address || '';
+        if (numberRef.current) numberRef.current.value = profile.number || '';
+        if (complementRef.current) complementRef.current.value = profile.complement || '';
+        if (neighborhoodRef.current) neighborhoodRef.current.value = profile.neighborhood || '';
+        if (cityRef.current) cityRef.current.value = profile.city || '';
+        if (stateRef.current) stateRef.current.value = profile.state || '';
         
         setPersonType(profile.person_type || 'fisica');
       }
@@ -146,16 +159,116 @@ const Checkout = () => {
       } else {
         toast({
           title: "Login realizado!",
-          description: "Você está logado e pode continuar sua compra.",
+          description: `Logado como ${loginEmail} — campos do checkout preenchidos`,
         });
         setShowInlineLogin(false);
         setLoginEmail("");
         setLoginPassword("");
+        // Auto-load profile data after login
+        setTimeout(() => loadProfileData(), 100);
       }
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Erro no login",
+        description: "Ocorreu um erro inesperado. Tente novamente.",
+      });
+    } finally {
+      setLoginLoading(false);
+    }
+  };
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validations
+    if (!signupData.fullName || !signupData.email || !signupData.password || !signupData.confirmPassword) {
+      toast({
+        variant: "destructive",
+        title: "Campos obrigatórios",
+        description: "Preencha todos os campos para criar sua conta.",
+      });
+      return;
+    }
+
+    if (signupData.password.length < 6) {
+      toast({
+        variant: "destructive",
+        title: "Senha muito curta",
+        description: "A senha deve ter pelo menos 6 caracteres.",
+      });
+      return;
+    }
+
+    if (signupData.password !== signupData.confirmPassword) {
+      toast({
+        variant: "destructive",
+        title: "Senhas não coincidem",
+        description: "A confirmação de senha deve ser igual à senha.",
+      });
+      return;
+    }
+
+    setLoginLoading(true);
+    
+    try {
+      // Create user with Supabase Auth
+      const { data, error } = await supabase.auth.signUp({
+        email: signupData.email,
+        password: signupData.password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/checkout`
+        }
+      });
+
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "Erro ao criar conta",
+          description: error.message,
+        });
+        return;
+      }
+
+      if (data.user) {
+        // Create profile data
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .upsert({
+            user_id: data.user.id,
+            full_name: signupData.fullName,
+            email: signupData.email,
+            phone: '',
+            cpf_cnpj: '',
+            birth_date: '1990-01-01',
+            cep: '',
+            address: '',
+            number: '',
+            neighborhood: '',
+            city: '',
+            state: '',
+            person_type: 'fisica'
+          });
+
+        if (profileError) {
+          console.error('Error creating profile:', profileError);
+        }
+
+        toast({
+          title: "Cadastro realizado com sucesso!",
+          description: "Seus dados foram preenchidos no checkout — complete as informações restantes.",
+        });
+        
+        setShowInlineLogin(false);
+        setSignupData({ fullName: '', email: '', password: '', confirmPassword: '' });
+        
+        // Auto-load profile data after signup
+        setTimeout(() => loadProfileData(), 100);
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Erro ao criar conta",
         description: "Ocorreu um erro inesperado. Tente novamente.",
       });
     } finally {
@@ -402,7 +515,7 @@ const Checkout = () => {
       toast({
         variant: "destructive",
         title: "Login necessário",
-        description: "Você precisa fazer login antes de finalizar a compra.",
+        description: "Faça login ou crie sua conta para prosseguir com o pedido.",
       });
       setShowInlineLogin(true);
       return;
@@ -583,62 +696,166 @@ const Checkout = () => {
 
               {showInlineLogin && (
                 <div className="border-t border-border/30 pt-4">
-                  <form onSubmit={handleInlineLogin} className="space-y-4">
-                    <div>
-                      <Label htmlFor="loginEmail">E-mail</Label>
-                      <Input
-                        id="loginEmail"
-                        type="email"
-                        value={loginEmail}
-                        onChange={(e) => setLoginEmail(e.target.value)}
-                        required
-                        disabled={loginLoading}
-                      />
-                    </div>
-                    
-                    <div>
-                      <Label htmlFor="loginPassword">Senha</Label>
-                      <Input
-                        id="loginPassword"
-                        type="password"
-                        value={loginPassword}
-                        onChange={(e) => setLoginPassword(e.target.value)}
-                        required
-                        disabled={loginLoading}
-                      />
-                    </div>
-                    
-                    <div className="flex gap-2">
-                      <Button
-                        type="submit"
-                        className="flex-1 bg-black hover:bg-black/90 text-white"
-                        disabled={loginLoading}
-                      >
-                        {loginLoading ? "Entrando..." : "Entrar"}
-                      </Button>
+                  {/* Tabs for Login/Signup */}
+                  <div className="flex mb-4 border-b">
+                    <button
+                      type="button"
+                      className={`px-4 py-2 font-medium ${
+                        authTab === 'login'
+                          ? 'border-b-2 border-black text-black'
+                          : 'text-gray-500 hover:text-gray-700'
+                      }`}
+                      onClick={() => setAuthTab('login')}
+                    >
+                      Entrar
+                    </button>
+                    <button
+                      type="button"
+                      className={`px-4 py-2 font-medium ${
+                        authTab === 'signup'
+                          ? 'border-b-2 border-black text-black'
+                          : 'text-gray-500 hover:text-gray-700'
+                      }`}
+                      onClick={() => setAuthTab('signup')}
+                    >
+                      Criar Conta
+                    </button>
+                  </div>
+
+                  {/* Login Tab */}
+                  {authTab === 'login' && (
+                    <form onSubmit={handleInlineLogin} className="space-y-4">
+                      <div>
+                        <Label htmlFor="loginEmail">E-mail</Label>
+                        <Input
+                          id="loginEmail"
+                          type="email"
+                          value={loginEmail}
+                          onChange={(e) => setLoginEmail(e.target.value)}
+                          required
+                          disabled={loginLoading}
+                        />
+                      </div>
                       
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={handleGoogleLogin}
-                        disabled={loginLoading}
-                        className="flex-1 bg-white border-gray-300 text-gray-700 hover:bg-gray-50 shadow-sm"
-                      >
-                        <FcGoogle className="w-4 h-4 mr-2" />
-                        Entrar com Google
-                      </Button>
-                    </div>
-                    
-                    <div className="text-center">
-                      <button
-                        type="button"
-                        className="text-sm text-blue-600 hover:text-blue-800 underline"
-                        onClick={() => setShowInlineLogin(false)}
-                      >
-                        Cancelar
-                      </button>
-                    </div>
-                  </form>
+                      <div>
+                        <Label htmlFor="loginPassword">Senha</Label>
+                        <Input
+                          id="loginPassword"
+                          type="password"
+                          value={loginPassword}
+                          onChange={(e) => setLoginPassword(e.target.value)}
+                          required
+                          disabled={loginLoading}
+                        />
+                      </div>
+                      
+                      <div className="flex gap-2">
+                        <Button
+                          type="submit"
+                          className="flex-1 bg-black hover:bg-black/90 text-white"
+                          disabled={loginLoading}
+                        >
+                          {loginLoading ? "Entrando..." : "Entrar"}
+                        </Button>
+                        
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={handleGoogleLogin}
+                          disabled={loginLoading}
+                          className="flex-1 bg-white border-gray-300 text-gray-700 hover:bg-gray-50 shadow-sm"
+                        >
+                          <FcGoogle className="w-4 h-4 mr-2" />
+                          Entrar com Google
+                        </Button>
+                      </div>
+                    </form>
+                  )}
+
+                  {/* Signup Tab */}
+                  {authTab === 'signup' && (
+                    <form onSubmit={handleSignup} className="space-y-4">
+                      <div>
+                        <Label htmlFor="signupFullName">Nome Completo *</Label>
+                        <Input
+                          id="signupFullName"
+                          type="text"
+                          value={signupData.fullName}
+                          onChange={(e) => setSignupData(prev => ({ ...prev, fullName: e.target.value }))}
+                          required
+                          disabled={loginLoading}
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="signupEmail">E-mail *</Label>
+                        <Input
+                          id="signupEmail"
+                          type="email"
+                          value={signupData.email}
+                          onChange={(e) => setSignupData(prev => ({ ...prev, email: e.target.value }))}
+                          required
+                          disabled={loginLoading}
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="signupPassword">Senha * (min. 6 caracteres)</Label>
+                        <Input
+                          id="signupPassword"
+                          type="password"
+                          value={signupData.password}
+                          onChange={(e) => setSignupData(prev => ({ ...prev, password: e.target.value }))}
+                          required
+                          disabled={loginLoading}
+                          minLength={6}
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="signupConfirmPassword">Confirmar Senha *</Label>
+                        <Input
+                          id="signupConfirmPassword"
+                          type="password"
+                          value={signupData.confirmPassword}
+                          onChange={(e) => setSignupData(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                          required
+                          disabled={loginLoading}
+                        />
+                      </div>
+                      
+                      <div className="flex gap-2">
+                        <Button
+                          type="submit"
+                          className="flex-1 bg-black hover:bg-black/90 text-white"
+                          disabled={loginLoading}
+                        >
+                          {loginLoading ? "Criando conta..." : "Criar Conta"}
+                        </Button>
+                        
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={handleGoogleLogin}
+                          disabled={loginLoading}
+                          className="flex-1 bg-white border-gray-300 text-gray-700 hover:bg-gray-50 shadow-sm"
+                        >
+                          <FcGoogle className="w-4 h-4 mr-2" />
+                          Entrar com Google
+                        </Button>
+                      </div>
+                    </form>
+                  )}
+                  
+                  <div className="text-center mt-4">
+                    <button
+                      type="button"
+                      className="text-sm text-blue-600 hover:text-blue-800 underline"
+                      onClick={() => setShowInlineLogin(false)}
+                    >
+                      Cancelar
+                    </button>
+                  </div>
                 </div>
               )}
             </Card>
