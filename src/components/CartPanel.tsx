@@ -83,29 +83,22 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
     }).format(price);
   };
 
+  // Não renderizar nada se o carrinho não estiver aberto
+  if (!isOpen) return null;
+
   return (
     <>
       {/* Background overlay */}
       <div
-        className={`fixed inset-0 z-30 transition-all duration-300 ease-in-out ${
-          isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-        }`}
+        className="fixed inset-0 z-30 bg-black/20 backdrop-blur-sm opacity-100 visible transition-all duration-300 ease-in-out"
         onClick={onClose}
-      >
-        <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
-      </div>
+      />
 
       {/* Black Side Tab - Behind cart window */}
       <div 
-        className={`fixed right-0 top-0 w-80 h-screen z-30 bg-black transition-all duration-500 ease-in-out ${
-          isOpen 
-            ? 'animate-[expand-center_0.5s_ease-in-out] opacity-100' 
-            : 'animate-[collapse-center_0.5s_ease-in-out] opacity-0'
-        }`}
+        className="fixed right-0 top-0 w-80 h-screen z-30 bg-black opacity-100 animate-[expand-center_0.5s_ease-in-out] transition-all duration-500 ease-in-out"
         style={{
-          clipPath: isOpen 
-            ? 'inset(0% 0% 0% 0%)' 
-            : 'inset(50% 0% 50% 0%)'
+          clipPath: 'inset(0% 0% 0% 0%)'
         }}
       />
 
@@ -116,18 +109,11 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
         aria-modal="true"
         aria-labelledby="cart-title"
         aria-describedby="cart-description"
-        className={`fixed z-50 bg-white border border-gray-300 rounded-lg shadow-2xl transform origin-center
-          /* Desktop: 1rem from top, bottom, right, wider to the left */
+        className="fixed z-50 bg-white border border-gray-300 rounded-lg shadow-2xl transform origin-center
           right-16 top-4 w-96
-          /* Tablet */
           md:right-16 md:top-4 md:w-96
-          /* Mobile */
           sm:right-4 sm:top-4 sm:w-[calc(100vw-2rem)]
-          ${
-            isOpen 
-              ? 'opacity-100 visible animate-[cart-expand_0.7s_ease-in-out]' 
-              : 'opacity-0 invisible animate-[cart-collapse_0.7s_ease-in-out]'
-          }`}
+          opacity-100 visible animate-[cart-expand_0.7s_ease-in-out]"
         style={{ 
           backgroundColor: '#ffffff',
           height: 'calc(100vh - 4rem)'
