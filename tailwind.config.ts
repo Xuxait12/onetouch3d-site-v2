@@ -116,6 +116,96 @@ export default {
 					'100%': { 
 						backgroundPosition: '0% 50%' 
 					}
+				},
+				'fade-in-down': {
+					from: {
+						opacity: '0',
+						transform: 'translateY(-30px)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
+				'slide-in-left': {
+					from: {
+						opacity: '0',
+						transform: 'translateX(-50px)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'translateX(0)'
+					}
+				},
+				'slide-in-right': {
+					from: {
+						opacity: '0',
+						transform: 'translateX(50px)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'translateX(0)'
+					}
+				},
+				'fade-in-right': {
+					from: {
+						opacity: '0',
+						transform: 'translateX(30px)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'translateX(0)'
+					}
+				},
+				'fade-in-left': {
+					from: {
+						opacity: '0',
+						transform: 'translateX(-30px)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'translateX(0)'
+					}
+				},
+				'fade-in-up': {
+					from: {
+						opacity: '0',
+						transform: 'translateY(30px)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
+				'zoom-in': {
+					from: {
+						opacity: '0',
+						transform: 'scale(0.8)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'scale(1)'
+					}
+				},
+				'rotate-in-up-left': {
+					from: {
+						opacity: '0',
+						transform: 'rotate(-45deg) translateY(30px) translateX(-30px) scale(0.8)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'rotate(0deg) translateY(0) translateX(0) scale(1)'
+					}
+				},
+				'zoom-in-up': {
+					from: {
+						opacity: '0',
+						transform: 'scale(0.8) translateY(30px)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'scale(1) translateY(0)'
+					}
 				}
 			},
 			animation: {
@@ -123,7 +213,16 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				aurora: "aurora 60s linear infinite",
 				'infinite-scroll': 'infiniteScroll 30s linear infinite',
-				'gradient-shift': 'gradientShift 8s ease-in-out infinite'
+				'gradient-shift': 'gradientShift 8s ease-in-out infinite',
+				'fade-in-down': 'fade-in-down 1s ease-out',
+				'slide-in-left': 'slide-in-left 0.8s ease-out',
+				'slide-in-right': 'slide-in-right 0.8s ease-out',
+				'fade-in-right': 'fade-in-right 0.9s ease-out',
+				'fade-in-left': 'fade-in-left 0.9s ease-out',
+				'fade-in-up': 'fade-in-up 1s ease-out',
+				'zoom-in': 'zoom-in 1.1s ease-out',
+				'rotate-in-up-left': 'rotate-in-up-left 1.2s ease-out',
+				'zoom-in-up': 'zoom-in-up 1s ease-out'
 			}
 		}
 	},

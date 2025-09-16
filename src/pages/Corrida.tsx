@@ -44,6 +44,8 @@ const Corrida = () => {
           imageSrc={premiumFrame}
           imageAlt="Moldura premium personalizada"
           imageOnLeft={true}
+          imageAnimation="animate-slide-in-left"
+          textAnimation="animate-fade-in-right"
         />
         
         <FeatureSection
@@ -52,6 +54,8 @@ const Corrida = () => {
           imageSrc="/lovable-uploads/9d29309d-d713-40d4-910c-40e574c7147e.png"
           imageAlt="Percurso 3D da prova"
           imageOnLeft={false}
+          imageAnimation="animate-slide-in-right"
+          textAnimation="animate-fade-in-left"
         />
         
         <FeatureSection
@@ -60,6 +64,8 @@ const Corrida = () => {
           imageSrc="/lovable-uploads/cffe1512-5aa2-4772-a8ca-769908354178.png"
           imageAlt="Fotos em destaque estilo scrapbook"
           imageOnLeft={true}
+          imageAnimation="animate-zoom-in"
+          textAnimation="animate-fade-in-up"
         />
         
         <FeatureSection
@@ -68,6 +74,8 @@ const Corrida = () => {
           imageSrc="/lovable-uploads/da6090ca-3f85-42bd-a91c-b5c8cf836006.png"
           imageAlt="Dados da prova"
           imageOnLeft={false}
+          imageAnimation="animate-rotate-in-up-left"
+          textAnimation="animate-fade-in"
         />
         
         <FeatureSection
@@ -76,6 +84,8 @@ const Corrida = () => {
           imageSrc="/lovable-uploads/7ea271e8-64aa-4620-81c8-08fc1ac1a4f0.png"
           imageAlt="Layout moderno e exclusivo"
           imageOnLeft={true}
+          imageAnimation="animate-slide-in-left"
+          textAnimation="animate-fade-in-up"
         />
         
         <FeatureSection
@@ -84,6 +94,8 @@ const Corrida = () => {
           imageSrc="/lovable-uploads/925aca7c-d20c-45bc-8fb7-463c5ba8e600.png"
           imageAlt="Embalagem segura"
           imageOnLeft={false}
+          imageAnimation="animate-zoom-in-up"
+          textAnimation="animate-fade-in-left"
         />
         
         <BenefitsSection />
