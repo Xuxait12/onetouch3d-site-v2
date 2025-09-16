@@ -10,7 +10,7 @@ import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
 import { useCart } from "@/contexts/CartContext";
 import { useNavigate } from "react-router-dom";
-import { ShoppingBag, ArrowLeft } from "lucide-react";
+import { ShoppingBag, ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
@@ -36,6 +36,11 @@ const Checkout = () => {
     password: '',
     confirmPassword: ''
   });
+  
+  // Password visibility states
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [showSignupPassword, setShowSignupPassword] = useState(false);
+  const [showSignupConfirmPassword, setShowSignupConfirmPassword] = useState(false);
   
   // Refs for form fields
   const fullNameRef = useRef<HTMLInputElement>(null);
@@ -737,17 +742,31 @@ const Checkout = () => {
                         />
                       </div>
                       
-                      <div>
-                        <Label htmlFor="loginPassword">Senha</Label>
-                        <Input
-                          id="loginPassword"
-                          type="password"
-                          value={loginPassword}
-                          onChange={(e) => setLoginPassword(e.target.value)}
-                          required
-                          disabled={loginLoading}
-                        />
-                      </div>
+                       <div>
+                         <Label htmlFor="loginPassword">Senha</Label>
+                         <div className="relative">
+                           <Input
+                             id="loginPassword"
+                             type={showLoginPassword ? "text" : "password"}
+                             value={loginPassword}
+                             onChange={(e) => setLoginPassword(e.target.value)}
+                             required
+                             disabled={loginLoading}
+                             className="pr-10"
+                           />
+                           <button
+                             type="button"
+                             className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
+                             onClick={() => setShowLoginPassword(!showLoginPassword)}
+                           >
+                             {showLoginPassword ? (
+                               <EyeOff className="h-4 w-4" />
+                             ) : (
+                               <Eye className="h-4 w-4" />
+                             )}
+                           </button>
+                         </div>
+                       </div>
                       
                       <div className="flex gap-2">
                         <Button
@@ -799,30 +818,58 @@ const Checkout = () => {
                         />
                       </div>
                       
-                      <div>
-                        <Label htmlFor="signupPassword">Senha * (min. 6 caracteres)</Label>
-                        <Input
-                          id="signupPassword"
-                          type="password"
-                          value={signupData.password}
-                          onChange={(e) => setSignupData(prev => ({ ...prev, password: e.target.value }))}
-                          required
-                          disabled={loginLoading}
-                          minLength={6}
-                        />
-                      </div>
+                       <div>
+                         <Label htmlFor="signupPassword">Senha * (min. 6 caracteres)</Label>
+                         <div className="relative">
+                           <Input
+                             id="signupPassword"
+                             type={showSignupPassword ? "text" : "password"}
+                             value={signupData.password}
+                             onChange={(e) => setSignupData(prev => ({ ...prev, password: e.target.value }))}
+                             required
+                             disabled={loginLoading}
+                             minLength={6}
+                             className="pr-10"
+                           />
+                           <button
+                             type="button"
+                             className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
+                             onClick={() => setShowSignupPassword(!showSignupPassword)}
+                           >
+                             {showSignupPassword ? (
+                               <EyeOff className="h-4 w-4" />
+                             ) : (
+                               <Eye className="h-4 w-4" />
+                             )}
+                           </button>
+                         </div>
+                       </div>
                       
-                      <div>
-                        <Label htmlFor="signupConfirmPassword">Confirmar Senha *</Label>
-                        <Input
-                          id="signupConfirmPassword"
-                          type="password"
-                          value={signupData.confirmPassword}
-                          onChange={(e) => setSignupData(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                          required
-                          disabled={loginLoading}
-                        />
-                      </div>
+                       <div>
+                         <Label htmlFor="signupConfirmPassword">Confirmar Senha *</Label>
+                         <div className="relative">
+                           <Input
+                             id="signupConfirmPassword"
+                             type={showSignupConfirmPassword ? "text" : "password"}
+                             value={signupData.confirmPassword}
+                             onChange={(e) => setSignupData(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                             required
+                             disabled={loginLoading}
+                             className="pr-10"
+                           />
+                           <button
+                             type="button"
+                             className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
+                             onClick={() => setShowSignupConfirmPassword(!showSignupConfirmPassword)}
+                           >
+                             {showSignupConfirmPassword ? (
+                               <EyeOff className="h-4 w-4" />
+                             ) : (
+                               <Eye className="h-4 w-4" />
+                             )}
+                           </button>
+                         </div>
+                       </div>
                       
                       <div className="flex gap-2">
                         <Button
