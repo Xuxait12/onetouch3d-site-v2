@@ -39,8 +39,8 @@ const Corrida = () => {
         <HeroSection />
         
         <FeatureSection
-          title="Moldura premium"
-          description="Transforme sua conquista em arte: uma moldura exclusiva que valoriza cada detalhe com elegância e sofisticação."
+          title="Moldura Premium e Durável"
+          description="Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado. Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração."
           imageSrc={premiumFrame}
           imageAlt="Moldura premium personalizada"
           imageOnLeft={true}
@@ -49,8 +49,8 @@ const Corrida = () => {
         />
         
         <FeatureSection
-          title="Percurso 3D da sua prova"
-          description="Reviva cada emoção da sua corrida com o percurso em 3D ou opte pela versão SEM ALTO RELEVO. Cada quilômetro da sua conquista ganha destaque em um quadro exclusivo, feito para eternizar sua vitória."
+          title="Percurso 3D Exclusivo"
+          description="Recriamos o trajeto da sua corrida em 3D com precisão, tornando cada quadro único e totalmente personalizado com a sua conquista."
           imageSrc="/lovable-uploads/9d29309d-d713-40d4-910c-40e574c7147e.png"
           imageAlt="Percurso 3D da prova"
           imageOnLeft={false}
@@ -59,8 +59,8 @@ const Corrida = () => {
         />
         
         <FeatureSection
-          title="Suas fotos em destaque"
-          description="Envie as fotos mais marcantes da sua prova e nós transformaremos sua conquista em uma lembrança exclusiva. Cada detalhe será personalizado em estilo scrapbook, criando uma arte única que eterniza esse momento especial."
+          title="Suas Fotos em Destaque"
+          description="Escolha as melhores fotos da sua corrida e veja sua história ganhar vida em um quadro que une emoção, lembrança e design moderno."
           imageSrc="/lovable-uploads/cffe1512-5aa2-4772-a8ca-769908354178.png"
           imageAlt="Fotos em destaque estilo scrapbook"
           imageOnLeft={true}
@@ -69,8 +69,8 @@ const Corrida = () => {
         />
         
         <FeatureSection
-          title="Dados pessoais da sua prova"
-          description="Todos os dados importantes da sua corrida gravados permanentemente: tempo, distância, pace. Personalizamos do seu jeito."
+          title="Seus Dados de Prova Personalizados"
+          description="Incluímos informações como seu nome, distância, tempo oficial e data da corrida – para eternizar cada detalhe da sua conquista."
           imageSrc="/lovable-uploads/da6090ca-3f85-42bd-a91c-b5c8cf836006.png"
           imageAlt="Dados da prova"
           imageOnLeft={false}
@@ -79,8 +79,8 @@ const Corrida = () => {
         />
         
         <FeatureSection
-          title="Layout moderno e exclusivo"
-          description="Um produto único que combina tecnologia 3D de ponta com design sofisticado para eternizar suas conquistas."
+          title="Design Moderno e Exclusivo"
+          description="Um layout pensado para destacar sua corrida com estilo. Seu quadro combina com qualquer ambiente, do quarto à sala de estar."
           imageSrc="/lovable-uploads/7ea271e8-64aa-4620-81c8-08fc1ac1a4f0.png"
           imageAlt="Layout moderno e exclusivo"
           imageOnLeft={true}
@@ -89,8 +89,8 @@ const Corrida = () => {
         />
         
         <FeatureSection
-          title="Embalagem segura"
-          description="Seu produto chega protegido em uma embalagem especial, garantindo que sua lembrança chegue em perfeitas condições até você."
+          title="Entrega Segura em Todo Brasil"
+          description="Seus quadros são embalados com proteção reforçada, garantindo que cheguem em perfeito estado até a sua casa, em qualquer lugar do Brasil."
           imageSrc="/lovable-uploads/925aca7c-d20c-45bc-8fb7-463c5ba8e600.png"
           imageAlt="Embalagem segura"
           imageOnLeft={false}
@@ -107,7 +107,7 @@ const Corrida = () => {
         <ProductSection />
         <FAQSection />
         
-        <CtaSection />
+        
       </main>
 
       <GlobalFooter />

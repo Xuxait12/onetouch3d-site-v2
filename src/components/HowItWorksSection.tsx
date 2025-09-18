@@ -1,20 +1,20 @@
 import { MousePointer2, Upload, CheckCircle, Package } from "lucide-react";
 const steps = [{
   icon: MousePointer2,
-  title: "Escolha o tamanho e moldura",
-  description: "Escolha o tamanho e a moldura que mais lhe agrada."
+  title: "Escolha seu modelo",
+  description: "Selecione a moldura que mais combina com sua conquista."
 }, {
   icon: Upload,
-  title: "Envie seus dados pelo Whatsapp",
-  description: "Compartilhe os dados da sua prova e fotos pelo nosso Whatsapp."
+  title: "Envie suas informações",
+  description: "Fotos, tempo, distância e medalha da corrida tudo pelo Whatsapp."
 }, {
   icon: CheckCircle,
-  title: "Aprove a arte",
-  description: "A arte do seu quadro quem aprova é você!"
+  title: "Produção personalizada",
+  description: "Nossa equipe monta seu quadro exclusivo."
 }, {
   icon: Package,
-  title: "Receba seu quadro",
-  description: "Seu quadro será enviado entre 5 a 7 dias úteis"
+  title: "Receba em casa",
+  description: "Entrega rápida e segura em qualquer região do Brasil."
 }];
 const HowItWorksSection = () => {
   return (
@@ -22,10 +22,9 @@ const HowItWorksSection = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16 animate-fade-up">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent relative">
-            Como funciona
+            Como Funciona
             <div className="w-24 h-1 bg-gradient-to-r from-accent to-accent/60 mx-auto mt-3 rounded-full"></div>
           </h2>
-          <p className="text-lg text-muted-foreground italic font-light">Simples, rápido e personalizado.</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

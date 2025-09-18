@@ -262,6 +262,26 @@ const ProductSection = () => {
               </RadioGroup>
             </div>
 
+            {/* Bullet points */}
+            <div className="space-y-2 text-sm text-muted-foreground">
+              <p className="flex items-center">
+                <span className="text-green-600 mr-2">•</span>
+                Inclui moldura premium
+              </p>
+              <p className="flex items-center">
+                <span className="text-green-600 mr-2">•</span>
+                Percurso 3D incluso
+              </p>
+              <p className="flex items-center">
+                <span className="text-green-600 mr-2">•</span>
+                Personalização completa (fotos + dados)
+              </p>
+              <p className="flex items-center">
+                <span className="text-green-600 mr-2">•</span>
+                Produção e envio rápido
+              </p>
+            </div>
+
             {/* Preço */}
             <div className="bg-muted/50 p-4 rounded-lg">
               <div className="text-sm text-muted-foreground mb-1">
@@ -280,7 +300,7 @@ const ProductSection = () => {
               onClick={handleAddToCart}
               className="w-full bg-black hover:bg-black/90 text-white py-3 text-lg font-medium"
             >
-              Enviar ao Carrinho
+              Garanta já seu quadro personalizado
             </Button>
 
             {/* Consulta de Frete */}

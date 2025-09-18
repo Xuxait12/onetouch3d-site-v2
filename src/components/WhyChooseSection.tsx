@@ -29,28 +29,32 @@ const WhyChooseSection = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-12 animate-fade-up">
           <h2 className="section-text mb-4">
-            Por que escolher nossos quadros?
+            Por que Escolher os Quadros OneTouch Frames?
           </h2>
+          <div className="max-w-2xl mx-auto space-y-2 text-left">
+            <p className="flex items-center text-muted-foreground">
+              <span className="text-green-600 mr-2">✅</span>
+              Produzidos com materiais premium e duráveis
+            </p>
+            <p className="flex items-center text-muted-foreground">
+              <span className="text-green-600 mr-2">✅</span>
+              Totalmente personalizados com fotos, percurso 3D e dados da sua corrida
+            </p>
+            <p className="flex items-center text-muted-foreground">
+              <span className="text-green-600 mr-2">✅</span>
+              Design exclusivo, ideal para decoração e lembrança
+            </p>
+            <p className="flex items-center text-muted-foreground">
+              <span className="text-green-600 mr-2">✅</span>
+              Embalagem segura e entrega para todo o Brasil
+            </p>
+          </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {benefits.map((benefit, index) => (
-            <div 
-              key={index}
-              className="text-center animate-fade-up"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                {benefit.icon}
-              </div>
-              <h3 className="text-lg font-semibold mb-2 text-foreground">
-                {benefit.title}
-              </h3>
-              <p className="text-muted-foreground text-sm">
-                {benefit.description}
-              </p>
-            </div>
-          ))}
+        <div className="text-center mt-8 animate-fade-up">
+          <p className="text-lg text-muted-foreground">
+            👉 Já eternizamos conquistas de grandes provas pelo Brasil e pelo mundo.
+          </p>
         </div>
       </div>
     </section>
