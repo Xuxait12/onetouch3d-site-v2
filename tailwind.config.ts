@@ -222,7 +222,9 @@ export default {
 				'fade-in-up': 'fade-in-up 1s ease-out',
 				'zoom-in': 'zoom-in 1.1s ease-out',
 				'rotate-in-up-left': 'rotate-in-up-left 1.2s ease-out',
-				'zoom-in-up': 'zoom-in-up 1s ease-out'
+				'zoom-in-up': 'zoom-in-up 1s ease-out',
+				'zoom-in-smooth': 'zoomInSmooth 0.6s ease-out',
+				'fade-in-up-delayed': 'fadeInUp 0.5s ease-out 0.2s both'
 			}
 		}
 	},

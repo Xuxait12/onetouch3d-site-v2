@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { X } from "lucide-react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const GalleryCarousel = () => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   const galleryImages = [
@@ -75,9 +75,38 @@ const GalleryCarousel = () => {
     return () => observer.disconnect();
   }, []);
 
-  const handleImageClick = (popupImageSrc: string) => {
-    setSelectedImage(popupImageSrc);
+  const handleImageClick = (index: number) => {
+    setSelectedImageIndex(index);
   };
+
+  const handlePrevImage = () => {
+    if (selectedImageIndex !== null) {
+      const prevIndex = selectedImageIndex === 0 ? galleryImages.length - 1 : selectedImageIndex - 1;
+      setSelectedImageIndex(prevIndex);
+    }
+  };
+
+  const handleNextImage = () => {
+    if (selectedImageIndex !== null) {
+      const nextIndex = selectedImageIndex === galleryImages.length - 1 ? 0 : selectedImageIndex + 1;
+      setSelectedImageIndex(nextIndex);
+    }
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (selectedImageIndex !== null) {
+      if (e.key === 'ArrowLeft') handlePrevImage();
+      if (e.key === 'ArrowRight') handleNextImage();
+      if (e.key === 'Escape') setSelectedImageIndex(null);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedImageIndex !== null) {
+      document.addEventListener('keydown', handleKeyDown);
+      return () => document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [selectedImageIndex]);
 
   return (
     <>
@@ -92,7 +121,7 @@ const GalleryCarousel = () => {
             <div
               key={index}
               className="group cursor-pointer overflow-hidden rounded-2xl bg-card shadow-md hover:shadow-xl transition-all duration-300 ease-out"
-              onClick={() => handleImageClick(image.popup)}
+              onClick={() => handleImageClick(index)}
             >
               <div className="relative aspect-square overflow-hidden">
                 <img
@@ -116,27 +145,52 @@ const GalleryCarousel = () => {
         </div>
       </div>
 
-      {/* Lightbox Modal */}
-      <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
-        <DialogContent className="max-w-7xl w-full h-full max-h-[95vh] p-0 bg-black/95 border-0 flex items-center justify-center">
+      {/* Enhanced Lightbox Modal */}
+      <Dialog open={selectedImageIndex !== null} onOpenChange={() => setSelectedImageIndex(null)}>
+        <DialogContent className="max-w-none w-full h-full p-0 border-0 bg-black/80 backdrop-blur-md flex items-center justify-center">
           {/* Close button */}
           <button
-            onClick={() => setSelectedImage(null)}
-            className="absolute top-4 right-4 z-50 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 text-white"
+            onClick={() => setSelectedImageIndex(null)}
+            className="absolute top-4 right-4 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 text-white backdrop-blur-sm"
           >
-            <X size={24} />
+            <X size={28} />
           </button>
           
-          {selectedImage && (
-            <div className="relative w-full h-full flex items-center justify-center p-8">
-              <img
-                src={selectedImage}
-                alt="Imagem ampliada da galeria"
-                className="max-w-full max-h-full object-contain animate-scale-in"
-                style={{
-                  animation: 'scale-in 0.3s ease-out'
-                }}
-              />
+          {/* Navigation arrows */}
+          <button
+            onClick={handlePrevImage}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 text-white backdrop-blur-sm"
+          >
+            <ChevronLeft size={32} />
+          </button>
+          
+          <button
+            onClick={handleNextImage}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 text-white backdrop-blur-sm"
+          >
+            <ChevronRight size={32} />
+          </button>
+          
+          {selectedImageIndex !== null && (
+            <div className="relative w-full h-full flex flex-col items-center justify-center p-4 md:p-8">
+              {/* Main image container */}
+              <div className="relative w-full max-w-[90vw] md:max-w-[80vw] lg:max-w-[75vw] h-full max-h-[80vh] flex items-center justify-center">
+                <img
+                  src={galleryImages[selectedImageIndex].popup}
+                  alt={galleryImages[selectedImageIndex].alt}
+                  className="max-w-full max-h-full object-contain animate-zoom-in-smooth"
+                />
+              </div>
+              
+              {/* Caption */}
+              <div className="mt-4 md:mt-6 text-center animate-fade-in-up">
+                <p className="text-white/90 text-sm md:text-base font-medium tracking-wide">
+                  {galleryImages[selectedImageIndex].description}
+                </p>
+                <p className="text-white/60 text-xs md:text-sm mt-1">
+                  {selectedImageIndex + 1} de {galleryImages.length}
+                </p>
+              </div>
             </div>
           )}
         </DialogContent>
