@@ -147,7 +147,7 @@ const GalleryCarousel = () => {
 
       {/* Enhanced Lightbox Modal */}
       <Dialog open={selectedImageIndex !== null} onOpenChange={() => setSelectedImageIndex(null)}>
-        <DialogContent className="max-w-none w-full h-full p-0 border-0 bg-black/80 backdrop-blur-md flex items-center justify-center">
+        <DialogContent className="max-w-none w-full h-full p-0 border-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', backdropFilter: 'blur(10px)' }}>
           {/* Close button */}
           <button
             onClick={() => setSelectedImageIndex(null)}
@@ -174,7 +174,7 @@ const GalleryCarousel = () => {
           {selectedImageIndex !== null && (
             <div className="relative w-full h-full flex flex-col items-center justify-center p-4 md:p-8">
               {/* Main image container */}
-              <div className="relative w-full max-w-[90vw] md:max-w-[80vw] lg:max-w-[75vw] h-full max-h-[80vh] flex items-center justify-center">
+              <div className="relative w-full max-w-[95vw] md:max-w-[80vw] h-full max-h-[85vh] flex items-center justify-center">
                 <img
                   src={galleryImages[selectedImageIndex].popup}
                   alt={galleryImages[selectedImageIndex].alt}
