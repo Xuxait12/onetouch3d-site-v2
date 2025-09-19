@@ -117,8 +117,8 @@ const Home = () => {
               className="flex justify-center px-4"
             >
               <div className="text-center space-y-4 sm:space-y-6">
-                <p className="text-base sm:text-lg lg:text-xl text-gray-600 font-medium max-w-2xl mx-auto">
-                  Escolha sua modalidade e transforme suas conquistas em uma obra de arte única.
+                <p className="text-base sm:text-lg lg:text-xl text-gray-600 font-medium max-w-4xl mx-auto leading-relaxed">
+                  Escolha sua modalidade e crie um quadro exclusivo que conta a sua história.
                 </p>
                 <Button 
                   variant="outline"
