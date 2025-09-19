@@ -13,25 +13,25 @@ const Home = () => {
     {
       title: "Corrida",
       subtitle: "Transforme sua medalha de corrida em uma lembrança eterna.",
-      image: "/lovable-uploads/4ccca2fb-f8e7-4b30-918c-e462157da6e0.png",
+      image: "/images/corrida-hero.webp",
       path: "/corrida"
     },
     {
       title: "Ciclismo", 
       subtitle: "Personalize seu quadro com o percurso e a emoção da sua prova de bike.",
-      image: "/lovable-uploads/0ea2829a-ca41-4d4f-bdc1-c718b1d677a2.png",
+      image: "/images/ciclismo-hero.webp",
       path: "/ciclismo"
     },
     {
       title: "Viagem",
       subtitle: "Guarde para sempre suas viagens em quadros premium com fotos e recordações.",
-      image: "/lovable-uploads/c325fc9c-9a52-4194-bde8-733bb0f6fd58.png",
+      image: "/images/viagem-hero.webp",
       path: "/viagem"
     },
     {
       title: "Triathlon",
       subtitle: "Celebre sua superação com quadros que unem medalha, percurso e tempo da prova.",
-      image: "/lovable-uploads/adf274a7-fde7-46e0-bf2b-355c47a5a69a.png",
+      image: "/images/triathlon-hero.webp",
       path: "/triathlon"
     }
   ];
