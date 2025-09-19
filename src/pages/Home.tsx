@@ -53,7 +53,10 @@ const Home = () => {
               transition={{ duration: 1, ease: "easeOut" }}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 bg-clip-text text-transparent leading-tight px-2"
             >
-              Quadros Personalizados para Corrida, Ciclismo, Viagem e Triathlon
+              <span className="block">Quadros Personalizados</span>
+              <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl mt-2 lg:mt-4">
+                para Corrida, Ciclismo,<br className="hidden sm:block" /> Viagem e Triathlon
+              </span>
             </motion.h1>
             
             {/* Subtitle Animation */}
