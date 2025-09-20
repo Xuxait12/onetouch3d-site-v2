@@ -61,7 +61,7 @@ const Corrida = () => {
         <FeatureSection
           title="Suas Fotos em Destaque"
           description="Escolha as melhores fotos da sua corrida e veja sua história ganhar vida em um quadro que une emoção, lembrança e design moderno."
-          imageSrc="/lovable-uploads/cffe1512-5aa2-4772-a8ca-769908354178.png"
+          imageSrc="/images/fotos-scrapbook.webp"
           imageAlt="Fotos em destaque estilo scrapbook"
           imageOnLeft={true}
           imageAnimation="animate-zoom-in"
@@ -71,7 +71,7 @@ const Corrida = () => {
         <FeatureSection
           title="Seus Dados de Prova Personalizados"
           description="Incluímos informações como seu nome, distância, tempo oficial e data da corrida – para eternizar cada detalhe da sua conquista."
-          imageSrc="/lovable-uploads/da6090ca-3f85-42bd-a91c-b5c8cf836006.png"
+          imageSrc="/images/dados-prova.webp"
           imageAlt="Dados da prova"
           imageOnLeft={false}
           imageAnimation="animate-rotate-in-up-left"
@@ -81,7 +81,7 @@ const Corrida = () => {
         <FeatureSection
           title="Design Moderno e Exclusivo"
           description="Um layout pensado para destacar sua corrida com estilo. Seu quadro combina com qualquer ambiente, do quarto à sala de estar."
-          imageSrc="/lovable-uploads/7ea271e8-64aa-4620-81c8-08fc1ac1a4f0.png"
+          imageSrc="/images/quadro-moderno.webp"
           imageAlt="Layout moderno e exclusivo"
           imageOnLeft={true}
           imageAnimation="animate-slide-in-left"
@@ -91,7 +91,7 @@ const Corrida = () => {
         <FeatureSection
           title="Entrega Segura em Todo Brasil"
           description="Seus quadros são embalados com proteção reforçada, garantindo que cheguem em perfeito estado até a sua casa, em qualquer lugar do Brasil."
-          imageSrc="/lovable-uploads/925aca7c-d20c-45bc-8fb7-463c5ba8e600.png"
+          imageSrc="/images/embalagem-segura.webp"
           imageAlt="Embalagem segura"
           imageOnLeft={false}
           imageAnimation="animate-zoom-in-up"
