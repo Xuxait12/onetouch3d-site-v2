@@ -1,4 +1,4 @@
-const heroRunnerFinish = "/lovable-uploads/a4c8b948-ed32-4e82-bca0-264945e1ab64.png";
+const heroRunnerFinish = "/images/corrida-hero.webp";
 
 const HeroSection = () => {
   return (
