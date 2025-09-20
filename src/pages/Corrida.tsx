@@ -70,7 +70,7 @@ const Corrida = () => {
         
         <FeatureSection
           title="Seus Dados de Prova Personalizados"
-          description="Incluímos informações como seu nome, distância, tempo oficial e data da corrida – para eternizar cada detalhe da sua conquista."
+          description="Incluímos informações como seu nome, distância, tempo oficial e pace – para eternizar cada detalhe da sua conquista."
           imageSrc="/images/dados-prova.webp"
           imageAlt="Dados da prova"
           imageOnLeft={false}
