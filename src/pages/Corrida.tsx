@@ -51,7 +51,7 @@ const Corrida = () => {
         <FeatureSection
           title="Percurso 3D Exclusivo"
           description="Recriamos o trajeto da sua corrida em 3D com precisão, tornando cada quadro único e totalmente personalizado com a sua conquista."
-          imageSrc="/lovable-uploads/9d29309d-d713-40d4-910c-40e574c7147e.png"
+          imageSrc="/images/percurso-3d.webp"
           imageAlt="Percurso 3D da prova"
           imageOnLeft={false}
           imageAnimation="animate-slide-in-right"
