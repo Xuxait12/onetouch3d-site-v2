@@ -7,28 +7,32 @@ import {
 
 const faqData = [
   {
-    question: "O que precisa para personalizar um quadro?",
-    answer: "Para personalizar um quadro é necessário que o cliente nos envie algumas informações da sua corrida. Informações como tempo oficial da prova, foto(s) da sua prova, foto da sua medalha e o percurso da prova são necessários para elaboração do layout do seu quadro. Todas as informações deverão ser enviadas pelo cliente através do nosso WhatsApp."
+    question: "Como envio minhas fotos e dados da corrida?",
+    answer: "Você pode enviar tudo de forma rápida e prática pelo WhatsApp. Basta clicar no ícone disponível em nossa página e compartilhar as fotos e informações diretamente com nossa equipe."
   },
   {
-    question: "Preciso enviar a medalha pelo correio para adicionar ela no meu quadro?",
-    answer: "Não, basta o cliente enviar uma foto da medalha frontal com as medidas reais da sua medalha. Com isso iremos recortar a imagem que você nos enviou e iremos simular a medalha no tamanho real na arte do seu quadro. Depois do cliente aprovar a arte, iremos retirar a imagem da sua medalha."
+    question: "Posso incluir mais de uma foto no quadro?",
+    answer: "Sim! Oferecemos diferentes opções de layout, incluindo modelos que comportam várias fotos. É só nos informar quantas imagens deseja utilizar e criaremos um design exclusivo para você."
   },
   {
-    question: "Como é elaborada a arte do quadro?",
-    answer: "Neste caso existem duas opções. Provas mais conhecidas ou mais requisitadas em sua grande maioria já temos a arte elaborada, sendo assim basta o cliente apenas nos enviar o tempo oficial e a(s) foto(s) da sua prova. Já quando a sua prova for de uma cidade menos requisitada iremos lhe oferecer algumas opções de artes criadas. É importante mencionar que o quadro só é produzido após a APROVAÇÃO da arte pelo cliente."
+    question: "É possível personalizar a arte antes da produção?",
+    answer: "Sim. Antes de iniciarmos a produção, enviamos a arte digital para a sua aprovação. Só depois da sua confirmação o quadro segue para fabricação. Assim, garantimos que o resultado final fique exatamente como você deseja."
   },
   {
-    question: "Quantas fotos e qual resolução das fotos para fazer a arte do quadro?",
-    answer: "A quantidade de fotos fica a critério do cliente. Porém quanto mais imagens forem adicionadas maior poderá ser o tamanho do quadro. A resolução das fotos precisa ser entre média e alta resolução."
+    question: "Qual o prazo de produção e entrega?",
+    answer: "Após a sua aprovação da arte, iniciamos a produção, que leva de 5 a 7 dias úteis. Em seguida, o quadro é enviado de acordo com a modalidade de frete escolhida. O prazo de entrega pode variar conforme a sua região e a forma de envio selecionada."
   },
   {
-    question: "Como é feito o percurso da prova em 3D?",
-    answer: "Para produzirmos o percurso em 3D, precisamos que o cliente nos envie o percurso da prova em GPX ou o link da atividade que normalmente o cliente registra em aplicativos de práticas esportivas. Esses aplicativos são conhecidos como Strava, Garmin entre outros."
+    question: "Vocês entregam em todo o Brasil?",
+    answer: "Sim, realizamos entregas para todo o território nacional. Depois da aprovação da arte, apresentamos as opções de frete disponíveis para que você escolha a que melhor se adapta às suas necessidades."
   },
   {
-    question: "Como é a embalagem do quadro para envio?",
-    answer: "A embalagem do produto é feita especialmente para envio de quadros. Trata-se de uma caixa de papelão reforçada e revestida internamente por isopor em todos os lados."
+    question: "E se meu quadro chegar danificado?",
+    answer: "Fique tranquilo! Caso seu quadro chegue com qualquer dano, nós produziremos um novo e enviaremos novamente sem custo adicional, conforme nossa política de trocas e devoluções."
+  },
+  {
+    question: "Quais formas de pagamento vocês aceitam?",
+    answer: "Trabalhamos com diversas opções de pagamento para facilitar sua compra: cartão de crédito (com parcelamento), cartão de débito e PIX."
   }
 ];
 
