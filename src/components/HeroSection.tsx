@@ -18,11 +18,11 @@ const HeroSection = () => {
       {/* Content */}
       <div className="relative z-10 h-full flex items-center justify-center px-4 sm:px-6">
         <div className="text-center text-white max-w-5xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight opacity-0 animate-[fade-in-down_1s_ease-out_0.5s_forwards] bg-gradient-to-r from-white via-white to-blue-200 bg-clip-text text-transparent drop-shadow-2xl">
-            Quadros Personalizados para Corrida – Eternize Sua Conquista
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight opacity-0 animate-[fade-in-down_1s_ease-out_0.5s_forwards] text-white drop-shadow-2xl">
+            👉 <span className="text-blue-400">Eternize</span> Sua Prova com um Quadro Personalizado
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl mb-8 opacity-90 max-w-4xl mx-auto opacity-0 animate-[fade-in-down_1s_ease-out_0.8s_forwards] text-white/95 drop-shadow-lg">
-            Sua medalha não merece ficar guardada na gaveta. Transforme-a em um quadro exclusivo com percurso 3D, fotos e dados da sua prova – uma lembrança para toda a vida.
+            👉 Deixe sua medalha em destaque! Personalize com percurso 3D, fotos e dados da prova para criar uma lembrança inesquecível.
           </p>
           <div className="opacity-0 animate-[fade-in-down_1s_ease-out_1.1s_forwards]">
             <a href="#nossa-loja" className="inline-block bg-white text-primary hover:bg-white/90 px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-lg">
