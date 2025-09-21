@@ -24,7 +24,7 @@ const HeroSection = () => {
           <p className="text-lg sm:text-xl md:text-2xl mb-8 opacity-90 max-w-4xl mx-auto opacity-0 animate-[fade-in-down_1s_ease-out_0.8s_forwards] text-white/95 drop-shadow-lg">
             Deixe sua medalha em destaque! Personalize com percurso 3D, fotos e dados da prova para criar uma lembrança inesquecível.
           </p>
-          <div className="opacity-0 animate-[fade-in-up_0.5s_ease-out_0.8s_forwards] transform translate-y-4">
+          <div className="opacity-0 animate-[fade-in-up_0.5s_ease-out_1.1s_forwards]">
             <a href="#nossa-loja" className="inline-block bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg shadow-md">
               👉 Personalize seu quadro agora
             </a>
