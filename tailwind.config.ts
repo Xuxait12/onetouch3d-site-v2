@@ -116,6 +116,7 @@ export default {
 					'100%': { 
 						backgroundPosition: '0% 50%' 
 					}
+				}
 				},
 				'fade-in-down': {
 					from: {
@@ -125,7 +126,16 @@ export default {
 					to: {
 						opacity: '1',
 						transform: 'translateY(0)'
-					}
+				},
+				'fade-in-up': {
+					from: {
+						opacity: '0',
+						transform: 'translateY(30px) scale(0.95)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'translateY(0) scale(1)'
+				},
 				},
 				'slide-in-left': {
 					from: {
@@ -165,16 +175,6 @@ export default {
 					to: {
 						opacity: '1',
 						transform: 'translateX(0)'
-					}
-				},
-				'fade-in-up': {
-					from: {
-						opacity: '0',
-						transform: 'translateY(30px)'
-					},
-					to: {
-						opacity: '1',
-						transform: 'translateY(0)'
 					}
 				},
 				'zoom-in': {
