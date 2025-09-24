@@ -44,13 +44,13 @@ const ProductSection = () => {
 
   // Pricing tables for different frame types
   const sizeOptionsCaixaAlta = [
-    { size: "33x33cm", fullPrice: 310, pixPrice: 294.50 },
-    { size: "33x43cm", fullPrice: 330, pixPrice: 313.50 },
-    { size: "37x48cm", fullPrice: 360, pixPrice: 342.00 },
-    { size: "43x43cm", fullPrice: 360, pixPrice: 342.00 },
-    { size: "43x53cm", fullPrice: 410, pixPrice: 389.50 },
-    { size: "43x63cm", fullPrice: 510, pixPrice: 484.50 },
-    { size: "53x53cm", fullPrice: 490, pixPrice: 465.50 }
+    { size: "33x33cm", fullPrice: 330, pixPrice: 309.50 },
+    { size: "33x43cm", fullPrice: 359, pixPrice: 332.50 },
+    { size: "37x48cm", fullPrice: 390, pixPrice: 363.00 },
+    { size: "43x43cm", fullPrice: 385, pixPrice: 386.00 },
+    { size: "43x53cm", fullPrice: 439, pixPrice: 414.50 },
+    { size: "43x63cm", fullPrice: 560, pixPrice: 517.50 },
+    { size: "53x53cm", fullPrice: 510, pixPrice: 493.50 }
   ];
 
   const sizeOptionsCaixaBaixa = [
