@@ -292,16 +292,15 @@ const ProductSection = () => {
                 <span className="text-green-600 mr-2">•</span>
                 Personalização completa (fotos + dados)
               </p>
-              <p className="flex items-center">
-                <span className="text-green-600 mr-2">•</span>
-                Produção e envio rápido
-              </p>
             </div>
 
             {/* Preço */}
             <div className="bg-muted/50 p-4 rounded-lg">
-              <div className="text-2xl font-bold text-foreground mb-2">
-                De R$ {fullPrice.toFixed(2).replace('.', ',')} por R$ {finalPrice.toFixed(2).replace('.', ',')}
+              <div className="text-sm text-muted-foreground mb-1">
+                De <span className="line-through">R$ {fullPrice.toFixed(2).replace('.', ',')}</span> por:
+              </div>
+              <div className="text-3xl font-bold text-green-600 mb-2">
+                R$ {finalPrice.toFixed(2).replace('.', ',')}
               </div>
               <div className="text-sm text-muted-foreground">
                 5% de desconto no PIX ou parcele em até 12 vezes
