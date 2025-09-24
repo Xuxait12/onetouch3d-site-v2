@@ -42,7 +42,8 @@ const ProductSection = () => {
     { value: "preta", label: "Preta" }
   ];
 
-  const sizeOptions = [
+  // Pricing tables for different frame types
+  const sizeOptionsCaixaAlta = [
     { size: "33x33cm", fullPrice: 310, pixPrice: 294.50 },
     { size: "33x43cm", fullPrice: 330, pixPrice: 313.50 },
     { size: "37x48cm", fullPrice: 360, pixPrice: 342.00 },
@@ -52,9 +53,24 @@ const ProductSection = () => {
     { size: "53x53cm", fullPrice: 490, pixPrice: 465.50 }
   ];
 
+  const sizeOptionsCaixaBaixa = [
+    { size: "33x33cm", fullPrice: 310, finalPrice: 285.50 },
+    { size: "33x43cm", fullPrice: 330, finalPrice: 305.50 },
+    { size: "37x48cm", fullPrice: 360, finalPrice: 323.50 },
+    { size: "43x43cm", fullPrice: 380, finalPrice: 329.50 },
+    { size: "43x53cm", fullPrice: 410, finalPrice: 393.00 },
+    { size: "43x63cm", fullPrice: 510, finalPrice: 485.50 },
+    { size: "53x53cm", fullPrice: 490, finalPrice: 468.50 }
+  ];
+
+  const sizeOptions = selectedType === "caixa-alta" ? sizeOptionsCaixaAlta : sizeOptionsCaixaBaixa;
   const currentSizeOption = sizeOptions.find(option => option.size === selectedSize) || sizeOptions[0];
-  const currentPrice = currentSizeOption.pixPrice;
+  
+  // Calculate prices based on frame type
   const fullPrice = currentSizeOption.fullPrice;
+  const finalPrice = selectedType === "caixa-alta" 
+    ? (currentSizeOption as any).pixPrice 
+    : (currentSizeOption as any).finalPrice;
   const installmentPrice = (fullPrice / 12).toFixed(2);
 
   const colorOptions = selectedType === "caixa-alta" ? colorOptionsCaixaAlta : colorOptionsCaixaBaixa;
@@ -75,7 +91,7 @@ const ProductSection = () => {
       cor: colorDisplay,
       tamanho: selectedSize,
       quantidade: 1,
-      precoUnitario: currentPrice,
+      precoUnitario: finalPrice,
       imagem: productImage,
     });
 
@@ -284,14 +300,11 @@ const ProductSection = () => {
 
             {/* Preço */}
             <div className="bg-muted/50 p-4 rounded-lg">
-              <div className="text-sm text-muted-foreground mb-1">
-                De R$ {fullPrice.toFixed(2).replace('.', ',')} por:
-              </div>
-              <div className="text-2xl font-bold text-green-600 mb-1">
-                R$ {currentPrice.toFixed(2).replace('.', ',')} no PIX
+              <div className="text-2xl font-bold text-foreground mb-2">
+                De R$ {fullPrice.toFixed(2).replace('.', ',')} por R$ {finalPrice.toFixed(2).replace('.', ',')}
               </div>
               <div className="text-sm text-muted-foreground">
-                ou até 12x de R$ {installmentPrice.replace('.', ',')} sem juros
+                5% de desconto no PIX ou parcele em até 12 vezes
               </div>
             </div>
 
