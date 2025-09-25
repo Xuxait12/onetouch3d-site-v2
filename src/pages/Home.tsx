@@ -12,7 +12,7 @@ const Home = () => {
   const landingPages = [
     {
       title: "Corrida",
-      subtitle: "Transforme sua medalha de corrida em uma lembrança eterna.",
+      subtitle: "Sua medalha merece destaque. Torne-a uma lembrança para toda a vida.",
       image: "/images/corrida-hero.webp",
       path: "/corrida"
     },
