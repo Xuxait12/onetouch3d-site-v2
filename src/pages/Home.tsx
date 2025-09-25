@@ -117,12 +117,9 @@ const Home = () => {
                 <p className="text-base sm:text-lg lg:text-xl text-gray-600 font-medium max-w-4xl mx-auto leading-relaxed">
                   Escolha sua modalidade e crie um quadro exclusivo que conta a sua história.
                 </p>
-                <Button 
-                  variant="outline"
-                  className="px-6 sm:px-8 lg:px-10 py-3 sm:py-4 text-base sm:text-lg font-medium bg-white/70 backdrop-blur-md border-2 border-blue-200/50 text-blue-700 hover:bg-blue-50 hover:border-blue-300 hover:text-blue-800 transition-all duration-500 rounded-xl sm:rounded-2xl shadow-sm hover:shadow-lg hover:scale-105"
-                >
+                <button className="btn-donate">
                   Personalize seu quadro agora
-                </Button>
+                </button>
               </div>
             </motion.div>
           </div>
