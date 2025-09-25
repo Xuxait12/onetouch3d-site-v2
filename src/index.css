@@ -2,70 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Botão estilo moderno com borda animada */
-.btn-donate {
-  --btn-bg-1: #06b6d4;
-  --btn-bg-2: #3b82f6;
-  --btn-text: #ffffff;
-  --btn-hover: #0ea5e9;
-  --btn-radius: 0.75em;
+/* Botão estilo Neumorphism */
+.neu-button {
+  background-color: #e0e0e0;
+  border-radius: 50px;
+  border: 2px solid #d6d6d6;
 
-  cursor: pointer;
-  padding: 0.9em 1.6em;
-  min-width: 140px;
-  min-height: 44px;
-
-  font-size: 1rem;
+  color: #4d4d4d;
+  font-size: 16px;
   font-weight: 600;
-  text-transform: uppercase;
   letter-spacing: 0.5px;
 
-  color: var(--btn-text);
-  background: linear-gradient(135deg, var(--btn-bg-1), var(--btn-bg-2));
-  border: none;
-  border-radius: var(--btn-radius);
+  cursor: pointer;
+  padding: 14px 36px;
 
-  position: relative;
-  z-index: 0;
-  overflow: hidden;
-
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  transition: all 0.2s ease-in-out;
+  box-shadow:
+    inset 4px 4px 10px #bcbcbc,
+    inset -4px -4px 10px #ffffff;
 }
 
-/* Efeito de brilho na borda */
-.btn-donate::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: var(--btn-radius);
-  padding: 2px;
-  background: linear-gradient(90deg, #06b6d4, #3b82f6, #06b6d4);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
-  z-index: -1;
-  animation: borderGlow 4s linear infinite;
+/* Hover: efeito de destaque */
+.neu-button:hover {
+  box-shadow:
+    inset 2px 2px 5px #bcbcbc,
+    inset -2px -2px 5px #ffffff,
+    3px 3px 8px rgba(0, 0, 0, 0.1),
+    -3px -3px 8px rgba(255, 255, 255, 0.7);
+  transform: translateY(-2px);
 }
 
-/* Hover com leve zoom */
-.btn-donate:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.45);
-  background: linear-gradient(135deg, var(--btn-bg-2), var(--btn-bg-1));
+/* Foco / ativo */
+.neu-button:focus,
+.neu-button:active {
+  outline: none;
+  box-shadow:
+    inset 2px 2px 5px #bcbcbc,
+    inset -2px -2px 5px #ffffff;
+  transform: scale(0.98);
 }
 
-.btn-donate:active {
-  transform: scale(0.97);
-}
-
-/* Animação da borda */
-@keyframes borderGlow {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
+/* Responsividade */
+@media (max-width: 480px) {
+  .neu-button {
+    font-size: 14px;
+    padding: 12px 28px;
   }
 }
 

@@ -117,7 +117,7 @@ const Home = () => {
                 <p className="text-base sm:text-lg lg:text-xl text-gray-600 font-medium max-w-4xl mx-auto leading-relaxed">
                   Escolha sua modalidade e crie um quadro exclusivo que conta a sua história.
                 </p>
-                <button className="btn-donate">
+                <button className="neu-button">
                   Personalize seu quadro agora
                 </button>
               </div>
