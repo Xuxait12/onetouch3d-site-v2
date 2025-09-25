@@ -135,10 +135,9 @@ const HeroSection = () => {
               href="#nossa-loja"
               aria-label="Personalize seu quadro agora"
               whileHover={shouldReduceMotion ? {} : { scale: 1.03 }}
-              className="inline-flex items-center justify-center px-8 py-4 rounded-lg text-white font-semibold text-lg shadow-lg transition-all duration-300 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
-              style={{ backgroundColor: "#007BFF" }}
+              className="neu-button inline-flex items-center justify-center"
             >
-              👉 Personalize seu quadro agora
+              Personalize seu quadro agora
             </motion.a>
           </motion.div>
         </div>
