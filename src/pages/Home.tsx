@@ -18,19 +18,19 @@ const Home = () => {
     },
     {
       title: "Ciclismo", 
-      subtitle: "Personalize seu quadro com o percurso e a emoção da sua prova de bike.",
+      subtitle: "Transforme pedaladas memoráveis em um quadro personalizado com trajeto 3D, fotos e suas conquistas.",
       image: "/images/ciclismo-hero.webp",
       path: "/ciclismo"
     },
     {
       title: "Viagem",
-      subtitle: "Guarde para sempre suas viagens em quadros premium com fotos e recordações.",
+      subtitle: "Eternize seu roteiro e lembranças em uma arte exclusiva para reviver cada momento especial.",
       image: "/images/viagem-hero.webp",
       path: "/viagem"
     },
     {
       title: "Triathlon",
-      subtitle: "Celebre sua superação com quadros que unem medalha, percurso e tempo da prova.",
+      subtitle: "Celebre toda sua superação com um quadro feito para eternizar essa sua conquista.",
       image: "/images/triathlon-hero.webp",
       path: "/triathlon"
     }
@@ -53,10 +53,7 @@ const Home = () => {
               transition={{ duration: 1, ease: "easeOut" }}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 bg-clip-text text-transparent leading-tight px-2"
             >
-              <span className="block">Quadros Personalizados</span>
-              <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl mt-2 lg:mt-4">
-                para Corrida, Ciclismo,<br className="hidden sm:block" /> Viagem e Triathlon
-              </span>
+              <span className="block">Sua História em um Quadro Personalizado</span>
             </motion.h1>
             
             {/* Subtitle Animation */}
@@ -66,7 +63,7 @@ const Home = () => {
               transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
               className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 mb-12 sm:mb-16 lg:mb-20 max-w-4xl mx-auto font-light tracking-wide px-2"
             >
-              Transforme suas conquistas em arte. Eternize medalhas, percursos e fotos em quadros exclusivos criados especialmente para você.
+              Celebre cada conquista com medalhas, trajetos em 3D de sua prova ou viagem além de fotos em um design único.
             </motion.p>
             
             {/* Cards Grid - Sequential Animation */}
