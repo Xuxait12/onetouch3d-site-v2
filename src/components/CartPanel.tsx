@@ -112,7 +112,7 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
         className="fixed z-50 bg-white border border-gray-300 rounded-lg shadow-2xl transform origin-center
           right-16 top-4 w-96 h-[calc(100vh-4rem)]
           md:right-16 md:top-4 md:w-96 md:h-[calc(100vh-4rem)]
-          max-[640px]:right-4 max-[640px]:top-4 max-[640px]:w-[calc(100vw-2rem)] max-[640px]:h-[70vh] max-[640px]:max-h-[600px]
+          max-[640px]:right-2 max-[640px]:top-2 max-[640px]:w-[calc(100vw-1rem)] max-[640px]:h-[85vh] max-[640px]:max-h-[500px]
           opacity-100 visible animate-[cart-expand_0.7s_ease-in-out]"
         style={{ 
           backgroundColor: '#ffffff'
@@ -120,12 +120,12 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-300 bg-white rounded-t-lg">
+        <div className="flex items-center justify-between p-6 max-[640px]:p-4 border-b border-gray-300 bg-white rounded-t-lg">
           <div>
-            <h2 id="cart-title" className="text-xl font-bold text-gray-900">
-              Meu Carrinho
+            <h2 id="cart-title" className="text-xl max-[640px]:text-lg font-bold text-gray-900">
+              Carrinho
             </h2>
-            <p id="cart-description" className="text-sm text-gray-600">
+            <p id="cart-description" className="text-sm max-[640px]:text-xs text-gray-600">
               {cartItemsCount} {cartItemsCount === 1 ? 'item' : 'itens'}
             </p>
           </div>
@@ -142,19 +142,19 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Content Area - Fixed scrolling */}
-        <div className="flex-1 overflow-y-auto p-6 bg-white cart-scroll max-[640px]:max-h-[calc(70vh-280px)] md:max-h-[calc(100vh-320px)]" style={{ maxHeight: 'calc(100vh - 320px)' }}>
+        <div className="flex-1 overflow-y-auto p-6 max-[640px]:p-3 bg-white cart-scroll max-[640px]:max-h-[calc(85vh-240px)] md:max-h-[calc(100vh-320px)]">
           {cart.items.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-center bg-white">
-              <ShoppingBag className="h-16 w-16 text-gray-400 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <div className="flex flex-col items-center justify-center py-12 max-[640px]:py-8 text-center bg-white">
+              <ShoppingBag className="h-16 w-16 max-[640px]:h-12 max-[640px]:w-12 text-gray-400 mb-4 max-[640px]:mb-3" />
+              <h3 className="text-lg max-[640px]:text-base font-semibold text-gray-900 mb-2">
                 Seu carrinho está vazio
               </h3>
-              <p className="text-sm text-gray-600 mb-6">
+              <p className="text-sm max-[640px]:text-xs text-gray-600 mb-6 max-[640px]:mb-4">
                 Explore nossos produtos e adicione itens ao seu carrinho
               </p>
               <Button 
                 onClick={handleContinueShopping} 
-                className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2"
+                className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 max-[640px]:text-sm"
               >
                 Continuar comprando
               </Button>
@@ -246,9 +246,9 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
 
         {/* Footer */}
         {cart.items.length > 0 && (
-          <div className="border-t-2 border-gray-300 p-6 bg-white rounded-b-lg">
+          <div className="border-t-2 border-gray-300 p-6 max-[640px]:p-3 bg-white rounded-b-lg">
             {/* Totals */}
-            <div className="space-y-2 text-sm mb-4">
+            <div className="space-y-2 max-[640px]:space-y-1 text-sm max-[640px]:text-xs mb-4 max-[640px]:mb-3">
               <div className="flex justify-between">
                 <span className="text-gray-600">Subtotal:</span>
                 <span className="text-gray-900 font-medium">{formatPrice(cart.total)}</span>
@@ -265,9 +265,9 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
                   <span className="text-green-600 font-medium">-{formatPrice(cart.cupomDesconto)}</span>
                 </div>
               )}
-              <div className="flex justify-between pt-2 border-t border-gray-300">
-                <span className="font-bold text-gray-900 text-lg">Total:</span>
-                <span className="font-bold text-xl text-gray-900">
+              <div className="flex justify-between pt-2 max-[640px]:pt-1 border-t border-gray-300">
+                <span className="font-bold text-gray-900 text-lg max-[640px]:text-base">Total:</span>
+                <span className="font-bold text-xl max-[640px]:text-lg text-gray-900">
                   {formatPrice(cartTotal)}
                 </span>
               </div>
@@ -276,7 +276,7 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
             {/* Action button */}
             <Button
               onClick={handleCheckout}
-              className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3 text-base"
+              className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3 max-[640px]:py-2 text-base max-[640px]:text-sm"
             >
               Finalizar compra
             </Button>
