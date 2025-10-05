@@ -110,13 +110,12 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
         aria-labelledby="cart-title"
         aria-describedby="cart-description"
         className="fixed z-50 bg-white border border-gray-300 rounded-lg shadow-2xl transform origin-center
-          right-16 top-4 w-96
-          md:right-16 md:top-4 md:w-96
-          sm:right-4 sm:top-4 sm:w-[calc(100vw-2rem)]
+          right-16 top-4 w-96 h-[calc(100vh-4rem)]
+          md:right-16 md:top-4 md:w-96 md:h-[calc(100vh-4rem)]
+          max-[640px]:right-4 max-[640px]:top-4 max-[640px]:w-[calc(100vw-2rem)] max-[640px]:h-[70vh] max-[640px]:max-h-[600px]
           opacity-100 visible animate-[cart-expand_0.7s_ease-in-out]"
         style={{ 
-          backgroundColor: '#ffffff',
-          height: 'calc(100vh - 4rem)'
+          backgroundColor: '#ffffff'
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -143,7 +142,7 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Content Area - Fixed scrolling */}
-        <div className="flex-1 overflow-y-auto p-6 bg-white cart-scroll" style={{ maxHeight: 'calc(100vh - 320px)' }}>
+        <div className="flex-1 overflow-y-auto p-6 bg-white cart-scroll max-[640px]:max-h-[calc(70vh-280px)] md:max-h-[calc(100vh-320px)]" style={{ maxHeight: 'calc(100vh - 320px)' }}>
           {cart.items.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center bg-white">
               <ShoppingBag className="h-16 w-16 text-gray-400 mb-4" />
