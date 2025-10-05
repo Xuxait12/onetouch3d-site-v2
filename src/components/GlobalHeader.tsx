@@ -80,7 +80,7 @@ const GlobalHeader = () => {
           </nav>
 
           {/* Desktop Right Section */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 md:gap-3 gap-6">
             {/* Cart Icon - Always visible */}
             <Button 
               variant="outline" 
