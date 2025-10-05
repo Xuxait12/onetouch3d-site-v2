@@ -116,7 +116,6 @@ export default {
 					'100%': { 
 						backgroundPosition: '0% 50%' 
 					}
-				}
 				},
 				'fade-in-down': {
 					from: {
@@ -126,6 +125,7 @@ export default {
 					to: {
 						opacity: '1',
 						transform: 'translateY(0)'
+					}
 				},
 				'fade-in-up': {
 					from: {
@@ -135,7 +135,7 @@ export default {
 					to: {
 						opacity: '1',
 						transform: 'translateY(0) scale(1)'
-				},
+					}
 				},
 				'slide-in-left': {
 					from: {

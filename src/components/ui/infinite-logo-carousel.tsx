@@ -52,8 +52,8 @@ const InfiniteLogoCarousel = ({ className = "" }: InfiniteLogoCarouselProps) => 
           <div className="absolute left-0 top-0 w-24 h-full bg-gradient-to-r from-background to-transparent z-10"></div>
           <div className="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-background to-transparent z-10"></div>
           
-          {/* Scrolling container - faster on mobile, uses tailwind config animation */}
-          <div className="flex md:animate-[infiniteScroll_60s_linear_infinite] animate-[infiniteScroll_20s_linear_infinite]">
+          {/* Scrolling container - 3x faster on mobile */}
+          <div className="flex animate-[infiniteScroll_20s_linear_infinite] md:animate-[infiniteScroll_60s_linear_infinite]">
             {duplicatedLogos.map((logo, index) => (
               <div
                 key={`${logo.id}-${index}`}
