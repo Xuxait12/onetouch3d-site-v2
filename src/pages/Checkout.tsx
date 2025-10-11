@@ -687,11 +687,11 @@ const Checkout = () => {
           {!user && (
             <Card className="p-6">
               <div className="text-center mb-4">
-                <p className="text-sm">
-                  <span className="text-foreground">Já tem cadastro?</span>{' '}
+                <p className="text-base sm:text-lg">
+                  <span className="text-foreground font-medium">Já tem cadastro?</span>{' '}
                   <button
                     type="button"
-                    className="text-blue-600 underline hover:text-blue-800 transition-colors"
+                    className="text-blue-600 underline hover:text-blue-800 transition-colors font-semibold"
                     onClick={() => setShowInlineLogin((v) => !v)}
                   >
                     Clique aqui para fazer login
