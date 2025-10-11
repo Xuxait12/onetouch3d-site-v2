@@ -17,22 +17,22 @@ const FeatureSection = ({
 }: FeatureSectionProps) => {
   return (
     <section className="py-8 max-w-7xl mx-auto px-6">
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <div className="grid lg:grid-cols-2 gap-12 items-center">
         {/* Text Content - Title and Description together */}
         <div 
-          className={`${imageOnLeft ? 'order-2 md:order-2' : 'order-2 md:order-1'} text-center md:text-left flex flex-col justify-center space-y-6`}
+          className={`${imageOnLeft ? 'order-2 lg:order-2' : 'order-2 lg:order-1'} text-center lg:text-left flex flex-col justify-center`}
         >
-          <h2 className="section-text">
+          <h2 className="section-text mb-6">
             {title}
           </h2>
-          <p className="body-large text-muted-foreground max-w-xl mx-auto md:mx-0">
+          <p className="body-large text-muted-foreground max-w-xl mx-auto lg:mx-0">
             {description}
           </p>
         </div>
 
         {/* Image */}
         <div 
-          className={`${imageOnLeft ? 'order-1 md:order-1' : 'order-1 md:order-2'}`}
+          className={`${imageOnLeft ? 'order-1 lg:order-1' : 'order-1 lg:order-2'}`}
         >
           <div className="w-full aspect-[592/394] overflow-hidden rounded-2xl shadow-soft">
             <img 
