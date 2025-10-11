@@ -111,9 +111,9 @@ const Home = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.6, ease: "easeOut" }}
-              className="flex justify-center px-4"
+              className="flex justify-center px-4 mt-4 sm:mt-8"
             >
-              <p className="text-xl sm:text-2xl lg:text-3xl font-semibold text-center bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent animate-[pulse_3s_ease-in-out_infinite] mt-8 mb-12 max-w-4xl mx-auto leading-relaxed">
+              <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 bg-clip-text text-transparent animate-[pulse_3s_ease-in-out_infinite] max-w-5xl mx-auto leading-tight sm:leading-snug tracking-tight px-4">
                 Escolha sua modalidade e crie um quadro exclusivo que conta a sua história.
               </p>
             </motion.div>
