@@ -375,7 +375,7 @@ const ProductSection = () => {
               onClick={handleAddToCart}
               className="w-full bg-black hover:bg-black/90 text-white py-3 text-lg font-medium"
             >
-              Garanta já seu quadro personalizado
+              Adicionar ao carrinho
             </Button>
 
             {/* Consulta de Frete */}
