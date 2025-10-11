@@ -1,4 +1,5 @@
 import { Mail } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 
 interface Logo {
   id: string;
@@ -11,17 +12,15 @@ interface InfiniteLogoCarouselProps {
 }
 
 const InfiniteLogoCarousel = ({ className = "" }: InfiniteLogoCarouselProps) => {
-  // Group 1: uploaded logos
-  const group1: Logo[] = [
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Logos array
+  const logos: Logo[] = [
     { id: "berlim", image: "/lovable-uploads/d71f7332-6004-4090-8e9e-e2e0a19713a2.png", alt: "BMW Berlin Marathon" },
     { id: "boston", image: "/lovable-uploads/a0094dd2-299d-4b7f-b118-421e88e1cc8b.png", alt: "Boston Marathon" },
     { id: "chicago", image: "/lovable-uploads/3d11d14f-c982-4537-b510-549cabfe135c.png", alt: "Chicago Marathon" },
     { id: "paraty", image: "/lovable-uploads/94f49477-8894-4272-9b97-80ac6d06129a.png", alt: "Paraty Brazil" },
-    { id: "floripa", image: "/lovable-uploads/cd67de84-b9ab-4538-9d58-ca0e843aa5a2.png", alt: "Floripa International" }
-  ];
-
-  // Group 2: existing logos from project updated with new uploads
-  const group2: Logo[] = [
+    { id: "floripa", image: "/lovable-uploads/cd67de84-b9ab-4538-9d58-ca0e843aa5a2.png", alt: "Floripa International" },
     { id: "ny", image: "/lovable-uploads/4b4b4c3c-9e98-4de6-8bce-b664ee11e844.png", alt: "New York City Marathon" },
     { id: "poa", image: "/lovable-uploads/d1c593ef-e7b5-4ab1-a9bf-e0c0f317bea9.png", alt: "Maratona de Porto Alegre" },
     { id: "la-mission", image: "/lovable-uploads/a0585803-792c-4caf-9717-e78b986ab368.png", alt: "LA Mission Serra Fina Brasil" },
@@ -29,11 +28,39 @@ const InfiniteLogoCarousel = ({ className = "" }: InfiniteLogoCarouselProps) => 
     { id: "sp-city", image: "/lovable-uploads/0cbdf698-7f6b-48ee-9b64-829f0c110046.png", alt: "SP City Marathon" }
   ];
 
-  // Combine both groups
-  const allLogos = [...group1, ...group2];
-  
-  // Duplicate for seamless loop
-  const duplicatedLogos = [...allLogos, ...allLogos];
+  // Infinite scroll animation using requestAnimationFrame
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    let scrollPosition = 0;
+    let animationFrame: number;
+
+    const animate = () => {
+      // Velocidade: 0.5px por frame (ajuste conforme necessário)
+      scrollPosition += 0.5;
+      
+      // Quando chegar na metade (onde as logos duplicadas começam), reseta para 0
+      const halfWidth = scrollContainer.scrollWidth / 2;
+      if (scrollPosition >= halfWidth) {
+        scrollPosition = 0;
+      }
+      
+      scrollContainer.scrollLeft = scrollPosition;
+      animationFrame = requestAnimationFrame(animate);
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+    
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, []);
+
+  // Duplicate logos for seamless loop
+  const duplicatedLogos = [...logos, ...logos];
 
   return (
     <section className={`py-16 ${className}`}>
@@ -47,27 +74,29 @@ const InfiniteLogoCarousel = ({ className = "" }: InfiniteLogoCarouselProps) => 
           </p>
         </div>
         
-        <div className="relative overflow-hidden">
-          {/* Gradient overlays for seamless effect */}
-          <div className="absolute left-0 top-0 w-24 h-full bg-gradient-to-r from-background to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-background to-transparent z-10 pointer-events-none"></div>
+        <div className="relative overflow-hidden py-6">
+          {/* Gradient overlays for blur effect on edges */}
+          <div className="pointer-events-none absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-background via-background/70 to-transparent z-10"></div>
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-background via-background/70 to-transparent z-10"></div>
           
-          {/* Scrolling container - 2x faster on mobile (30s) vs desktop (60s) */}
-          <div className="flex gap-0 animate-[infiniteScroll_30s_linear_infinite] md:animate-[infiniteScroll_60s_linear_infinite]">
+          {/* Scrolling container with ref for requestAnimationFrame */}
+          <div 
+            ref={scrollRef}
+            className="flex gap-8 overflow-x-hidden whitespace-nowrap"
+            style={{ scrollBehavior: 'auto' }}
+          >
             {duplicatedLogos.map((logo, index) => (
               <div
                 key={`${logo.id}-${index}`}
-                className="flex-shrink-0 flex items-center justify-center px-8"
-                style={{ width: '200px' }}
+                className="flex-shrink-0 flex items-center justify-center min-w-[120px] sm:min-w-[160px]"
               >
                 <img
                   src={logo.image}
                   alt={logo.alt}
-                  className="object-contain hover:scale-110 transition-transform duration-300"
+                  className="object-contain transition-transform duration-300 hover:scale-105"
                   style={{ 
-                    height: '64px',
-                    width: 'auto',
-                    maxWidth: '160px'
+                    width: '160px',
+                    height: '80px'
                   }}
                 />
               </div>
