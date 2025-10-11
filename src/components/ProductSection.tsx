@@ -33,8 +33,7 @@ const ProductSection = () => {
   ];
 
   const colorOptionsCaixaAlta = [
-    { value: "preta-branca", label: "Preta/branca" },
-    { value: "preta", label: "Preta" }
+    { value: "preta-branca", label: "Preta/branca" }
   ];
 
   const colorOptionsCaixaBaixa = [
