@@ -44,8 +44,6 @@ const Corrida = () => {
           imageSrc={premiumFrame}
           imageAlt="Moldura premium personalizada"
           imageOnLeft={true}
-          imageAnimation="animate-slide-in-left"
-          textAnimation="animate-fade-in-right"
         />
         
         <FeatureSection
@@ -54,8 +52,6 @@ const Corrida = () => {
           imageSrc="/images/percurso-3d.webp"
           imageAlt="Percurso 3D da prova"
           imageOnLeft={false}
-          imageAnimation="animate-slide-in-right"
-          textAnimation="animate-fade-in-left"
         />
         
         <FeatureSection
@@ -64,8 +60,6 @@ const Corrida = () => {
           imageSrc="/images/fotos-scrapbook.webp"
           imageAlt="Fotos em destaque estilo scrapbook"
           imageOnLeft={true}
-          imageAnimation="animate-zoom-in"
-          textAnimation="animate-fade-in-up"
         />
         
         <FeatureSection
@@ -74,8 +68,6 @@ const Corrida = () => {
           imageSrc="/images/dados-prova.webp"
           imageAlt="Dados da prova"
           imageOnLeft={false}
-          imageAnimation="animate-rotate-in-up-left"
-          textAnimation="animate-fade-in"
         />
         
         <FeatureSection
@@ -84,8 +76,6 @@ const Corrida = () => {
           imageSrc="/images/quadro-moderno.webp"
           imageAlt="Layout moderno e exclusivo"
           imageOnLeft={true}
-          imageAnimation="animate-slide-in-left"
-          textAnimation="animate-fade-in-up"
         />
         
         <FeatureSection
@@ -94,8 +84,6 @@ const Corrida = () => {
           imageSrc="/images/embalagem-segura.webp"
           imageAlt="Embalagem segura"
           imageOnLeft={false}
-          imageAnimation="animate-zoom-in-up"
-          textAnimation="animate-fade-in-left"
         />
         
         <BenefitsSection />
