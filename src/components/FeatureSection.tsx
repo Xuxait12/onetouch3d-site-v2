@@ -18,18 +18,21 @@ const FeatureSection = ({
   return (
     <section className="py-8 max-w-7xl mx-auto px-6">
       <div className="grid lg:grid-cols-2 gap-12 items-center">
-        {/* Mobile: H1 first, Desktop: respect imageOnLeft */}
+        {/* Text Content - Title and Description together */}
         <div 
-          className={`order-1 lg:order-${imageOnLeft ? '2' : '1'} text-center md:text-center lg:text-left`}
+          className={`${imageOnLeft ? 'order-2 lg:order-2' : 'order-2 lg:order-1'} text-center lg:text-left flex flex-col justify-center`}
         >
           <h2 className="section-text mb-6">
             {title}
           </h2>
+          <p className="body-large text-muted-foreground max-w-xl mx-auto lg:mx-0">
+            {description}
+          </p>
         </div>
 
-        {/* Mobile: Image second, Desktop: respect imageOnLeft */}
+        {/* Image */}
         <div 
-          className={`order-2 lg:order-${imageOnLeft ? '1' : '2'}`}
+          className={`${imageOnLeft ? 'order-1 lg:order-1' : 'order-1 lg:order-2'}`}
         >
           <div className="w-full aspect-[592/394] overflow-hidden rounded-2xl shadow-soft">
             <img 
@@ -38,15 +41,6 @@ const FeatureSection = ({
               className="w-full h-full object-cover"
             />
           </div>
-        </div>
-        
-        {/* Mobile: H2/description third, Desktop: respect imageOnLeft */}
-        <div 
-          className={`order-3 lg:order-${imageOnLeft ? '2' : '1'} text-center md:text-center lg:text-left`}
-        >
-          <p className="body-large text-muted-foreground max-w-xl mx-auto md:mx-auto lg:mx-0">
-            {description}
-          </p>
         </div>
       </div>
     </section>
