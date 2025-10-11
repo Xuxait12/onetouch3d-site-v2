@@ -205,11 +205,11 @@ const ProductSection = () => {
                       <span><strong>Kit instalação:</strong> Pendurador, parafuso, bucha e fita 3M.</span>
                     </li>
                   </>
-                ) : (
+                ) : selectedColor === "preta" ? (
                   <>
                     <li className="flex items-start gap-2">
                       <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                      <span><strong>Acabamento sofisticado:</strong> Madeira com revestimento PET texturizado em preto e interno liso branco.</span>
+                      <span><strong>Acabamento sofisticado:</strong> Madeira com revestimento PET texturizado em preto.</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
@@ -221,11 +221,42 @@ const ProductSection = () => {
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                      <span><strong>Design moderno:</strong> Moldura preta premium ou moldura branca premium.</span>
+                      <span><strong>Design moderno:</strong> Moldura preta premium.</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                      <span><strong>Proteção:</strong> Vidro 3mm no tamanho da moldura.</span>
+                      <span><strong>Proteção:</strong> Vidro 3mm no tamanho da imagem.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                      <span><strong>Envio seguro:</strong> Embalagem reforçada com papelão e isopor.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                      <span><strong>Kit instalação:</strong> Pendurador, parafuso, bucha e fita 3M.</span>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li className="flex items-start gap-2">
+                      <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                      <span><strong>Acabamento sofisticado:</strong> Madeira com revestimento PET branco liso.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                      <span><strong>Dimensões:</strong> Espessura 3,2cm (distância da parede) e largura 2cm (frontal).</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                      <span><strong>Materiais de qualidade:</strong> Madeira + fundo em MDF 3mm.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                      <span><strong>Design moderno:</strong> Moldura branca premium.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                      <span><strong>Proteção:</strong> Vidro 3mm no tamanho da imagem.</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
@@ -255,7 +286,7 @@ const ProductSection = () => {
                 {selectedType === "caixa-alta" ? "Quadro Caixa Alta" : "Quadro Caixa Baixa"}
               </h2>
               <p className="text-blue-600 font-medium">
-                {selectedType === "caixa-alta" ? "COM percurso em alto relevo (3D)" : "SEM alto relevo"}
+                {selectedType === "caixa-alta" ? "COM percurso em alto relevo (3D)" : "SEM percurso em alto relevo (3D)"}
               </p>
             </div>
 
