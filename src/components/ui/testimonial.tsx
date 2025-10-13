@@ -93,8 +93,8 @@ const AnimatedTestimonials = ({
   const randomRotate = () => `${Math.floor(Math.random() * 16) - 8}deg`;
 
   return (
-    <div className="mx-auto max-w-sm px-4 py-8 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
-      <div className="relative grid grid-cols-1 gap-y-12 md:grid-cols-2 md:gap-x-20">
+    <div className="mx-auto max-w-sm px-4 py-4 md:py-8 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
+      <div className="relative grid grid-cols-1 gap-y-8 md:gap-y-12 md:grid-cols-2 md:gap-x-20">
         {/* Image Section */}
         <div className="flex items-center justify-center">
             <div className="relative h-80 w-full max-w-xs">
@@ -157,7 +157,7 @@ const AnimatedTestimonials = ({
                 </div>
             </motion.div>
           </AnimatePresence>
-          <div className="flex gap-4 pt-12">
+          <div className="flex gap-4 pt-6 md:pt-12">
             <button
               onClick={handlePrev}
               aria-label="Previous testimonial"
