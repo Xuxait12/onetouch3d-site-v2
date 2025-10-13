@@ -41,7 +41,7 @@ const Corrida = () => {
         <FeatureSection
           title="Moldura Premium e Durável"
           description="Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado. Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração."
-          imageSrc={premiumFrame}
+          imageSrc="/images/quadro-moderno.gif"
           imageAlt="Moldura premium personalizada"
           imageOnLeft={true}
         />
