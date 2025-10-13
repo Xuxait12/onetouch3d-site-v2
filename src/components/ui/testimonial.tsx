@@ -67,12 +67,12 @@ type Testimonial = {
 // This is the core component that handles the animation and logic.
 const AnimatedTestimonials = ({
   testimonials,
-  autoplay = true,
+  autoplay = false,
 }: {
   testimonials: Testimonial[];
   autoplay?: boolean;
 }) => {
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(2); // Start with Rodrigo Nicoloso
 
   const handleNext = React.useCallback(() => {
     setActive((prev) => (prev + 1) % testimonials.length);
@@ -93,11 +93,11 @@ const AnimatedTestimonials = ({
   const randomRotate = () => `${Math.floor(Math.random() * 16) - 8}deg`;
 
   return (
-    <div className="mx-auto max-w-sm px-4 py-4 md:py-8 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
-      <div className="relative grid grid-cols-1 gap-y-8 md:gap-y-12 md:grid-cols-2 md:gap-x-20">
+    <div className="mx-auto max-w-sm px-4 py-2 md:py-6 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
+      <div className="relative grid grid-cols-1 gap-y-6 md:gap-y-10 md:grid-cols-2 md:gap-x-20">
         {/* Image Section */}
         <div className="flex items-center justify-center">
-            <div className="relative h-80 w-full max-w-xs">
+            <div className="relative h-64 md:h-80 w-full max-w-xs">
               <AnimatePresence>
                 {testimonials.map((testimonial, index) => (
                   <motion.div
@@ -135,7 +135,7 @@ const AnimatedTestimonials = ({
         </div>
 
         {/* Text and Controls Section */}
-        <div className="flex flex-col justify-center py-4 h-[400px]">
+        <div className="flex flex-col justify-center py-2 md:py-4 h-auto md:h-[400px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
@@ -157,7 +157,7 @@ const AnimatedTestimonials = ({
                 </div>
             </motion.div>
           </AnimatePresence>
-          <div className="flex gap-4 pt-6 md:pt-12">
+          <div className="flex gap-4 pt-4 md:pt-8">
             <button
               onClick={handlePrev}
               aria-label="Previous testimonial"
@@ -190,7 +190,7 @@ function AnimatedTestimonialsDemo() {
 // This is the root of our application.
 export function Component() {
   return (
-    <div className="relative flex w-full items-center justify-center overflow-hidden bg-slate-50 dark:bg-slate-950 py-8">
+    <div className="relative flex w-full items-center justify-center overflow-hidden bg-slate-50 dark:bg-slate-950 py-4 md:py-8">
         {/* Animated grid background with 10% opacity */}
         <style>
             {`
