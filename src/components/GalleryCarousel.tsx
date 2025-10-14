@@ -20,10 +20,10 @@ const GalleryCarousel = () => {
       description: "Mold. Caixa Alta / 33x33cm / COM IMPRESSÃO 3D"
     },
     {
-      gallery: "/lovable-uploads/db92a3cf-4a0f-48eb-9c2a-bc4eb59c1f3d.png",
-      popup: "/lovable-uploads/db92a3cf-4a0f-48eb-9c2a-bc4eb59c1f3d.png",
-      alt: "Moldura Caixa Baixa - Galeria 3",
-      description: "Mold. Caixa Baixa / 33x43cm / SEM IMPRESSÃO 3D"
+      gallery: "/images/foto-qw.jpg",
+      popup: "/images/foto-qw_alta.jpg",
+      alt: "Cassino Ultra Race 2025 - 135K",
+      description: "Campeão Cassino Ultra Race 2025 - 135K"
     },
     {
       gallery: "/lovable-uploads/b70e7132-d5b6-4171-a63a-48754c5e7455.png",
