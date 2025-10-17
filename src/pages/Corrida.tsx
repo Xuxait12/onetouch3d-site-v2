@@ -89,8 +89,8 @@ const Corrida = () => {
         <FeatureSection
           title="Design Moderno e Exclusivo"
           description="Um layout pensado para destacar sua corrida com estilo. Seu quadro combina com qualquer ambiente, do quarto à sala de estar."
-          imageSrc="/images/quadro-moderno.webp"
-          imageAlt="Layout moderno e exclusivo"
+          imageSrc="/images/medalhas.gif"
+          imageAlt="Medalhas emolduradas"
           imageOnLeft={true}
         />
         
