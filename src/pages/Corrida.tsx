@@ -88,7 +88,7 @@ const Corrida = () => {
         
         <FeatureSection
           title="Sua Conquista em Destaque"
-          description="Um layout pensado para destacar sua corrida com estilo. Seu quadro combina com qualquer ambiente, do quarto à sala de estar."
+          description="Existem conquistas que merecem um destaque especial. Dê vida as suas conquistas emoldurando seu momento mais inesquecível."
           imageSrc="/images/medalhas.gif"
           imageAlt="Medalhas emolduradas"
           imageOnLeft={true}
