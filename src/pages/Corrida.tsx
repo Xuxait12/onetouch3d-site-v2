@@ -86,6 +86,14 @@ const Corrida = () => {
           imageOnLeft={false}
         />
         
+        <FeatureSection
+          title="Design Moderno e Exclusivo"
+          description="Um layout pensado para destacar sua corrida com estilo. Seu quadro combina com qualquer ambiente, do quarto à sala de estar."
+          imageSrc="/images/quadro-moderno.webp"
+          imageAlt="Layout moderno e exclusivo"
+          imageOnLeft={true}
+        />
+        
         <BenefitsSection />
         <InfiniteLogoCarousel />
         <HowItWorksSection />
