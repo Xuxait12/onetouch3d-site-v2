@@ -1,86 +1,32 @@
-// TODO: Duplicado de /corrida - revisar textos, imagens e preços para modalidade viagem
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
-import HeroSectionViagem from "@/components/HeroSectionViagem";
-import FeatureSection from "@/components/FeatureSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
-import ProductSectionViagem from "@/components/ProductSectionViagem";
-import HowItWorksSectionViagem from "@/components/HowItWorksSectionViagem";
-import BenefitsSectionViagem from "@/components/BenefitsSectionViagem";
-import FAQSectionViagem from "@/components/FAQSectionViagem";
-import CtaSection from "@/components/CtaSection";
-import GallerySectionViagem from "@/components/GallerySectionViagem";
-import WhatsAppButton from "@/components/WhatsAppButton";
-import WhyChooseSection from "@/components/WhyChooseSection";
-import InfiniteLogoCarousel from "@/components/ui/infinite-logo-carousel";
-import LifestyleHeroSectionViagem from "@/components/LifestyleHeroSectionViagem";
 
 const Viagem = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    const stateAny = (window.history.state && window.history.state.usr) || {};
-    const anchor = stateAny.anchor || (window.location.hash ? window.location.hash.replace('#','') : '');
-    if (anchor) {
-      requestAnimationFrame(() => {
-        document.getElementById(anchor)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    }
-  }, [location]);
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
+    <div className="min-h-screen bg-background">
       <GlobalHeader />
       
-      <main>
-        <HeroSectionViagem />
-        
-        <FeatureSection
-          title="Moldura Premium e Durável"
-          description="Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado. Seu quadro não apenas valoriza suas memórias, mas também se torna parte da decoração."
-          imageSrc="/images/quadro-moderno.gif"
-          imageAlt="Moldura premium personalizada"
-          imageOnLeft={true}
-        />
-        
-        <FeatureSection
-          title="Suas Fotos em Destaque"
-          description="Escolha as melhores fotos das suas viagens e veja sua história ganhar vida em um quadro que une emoção, lembrança e design moderno."
-          imageSrc="/images/fotos-scrapbook.webp"
-          imageAlt="Fotos em destaque estilo scrapbook"
-          imageOnLeft={false}
-        />
-        
-        <FeatureSection
-          title="Design Moderno e Exclusivo"
-          description="Um layout pensado para destacar suas viagens com estilo. Seu quadro combina com qualquer ambiente, do quarto à sala de estar."
-          imageSrc="/images/quadro-moderno.webp"
-          imageAlt="Layout moderno e exclusivo"
-          imageOnLeft={true}
-        />
-        
-        <FeatureSection
-          title="Entrega Segura em Todo Brasil"
-          description="Seus quadros são embalados com proteção reforçada, garantindo que cheguem em perfeito estado até a sua casa, em qualquer lugar do Brasil."
-          imageSrc="/images/embalagem-segura.webp"
-          imageAlt="Embalagem segura"
-          imageOnLeft={false}
-        />
-        
-        <BenefitsSectionViagem />
-        <InfiniteLogoCarousel />
-        <HowItWorksSectionViagem />
-        <LifestyleHeroSectionViagem />
-        <GallerySectionViagem />
-        <TestimonialsSection />
-        <ProductSectionViagem />
-        <FAQSectionViagem />
+      <main className="flex-1">
+        <section className="relative min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-orange-50 via-white to-orange-50">
+          <div className="container mx-auto px-4 text-center">
+            <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
+              Viagem
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto">
+              Lembranças únicas das suas viagens
+            </p>
+            <div className="bg-card p-8 rounded-lg shadow-lg max-w-2xl mx-auto">
+              <h2 className="text-2xl font-semibold mb-4">Em Breve</h2>
+              <p className="text-muted-foreground">
+                Estamos desenvolvendo produtos especiais para guardar as memórias das suas viagens. 
+                Em breve você poderá criar lembranças únicas de cada destino!
+              </p>
+            </div>
+          </div>
+        </section>
       </main>
 
       <GlobalFooter />
-      <WhatsAppButton />
     </div>
   );
 };
