@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Layers,
   MessageSquare,
@@ -52,23 +52,39 @@ const steps = [
 
 export default function HowItWorksTabs() {
   const [active, setActive] = useState(1);
+  const [sliderStyle, setSliderStyle] = useState({ width: 0, left: 0 });
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  useEffect(() => {
+    const activeIndex = steps.findIndex((step) => step.id === active);
+    const activeButton = tabRefs.current[activeIndex];
+    
+    if (activeButton) {
+      const { offsetWidth, offsetLeft } = activeButton;
+      setSliderStyle({
+        width: offsetWidth,
+        left: offsetLeft
+      });
+    }
+  }, [active]);
 
   return (
     <section className="w-full flex flex-col items-center gap-10 py-14 md:py-20 px-4">
       <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground">Como Funciona</h2>
 
       {/* Tabs container com slider */}
-      <div className="relative flex items-center rounded-full bg-secondary/50 px-2 py-2 gap-2 overflow-hidden shadow-inner max-w-4xl w-full">
-        {steps.map((step) => (
+      <div className="relative flex items-center justify-center rounded-full bg-secondary/50 p-1.5 shadow-inner max-w-4xl w-full overflow-x-auto">
+        {steps.map((step, index) => (
           <button
             key={step.id}
+            ref={(el) => (tabRefs.current[index] = el)}
             onClick={() => setActive(step.id)}
             className={`
-              px-4 md:px-6 py-2 md:py-2.5 font-medium transition-all duration-300 relative z-10 whitespace-nowrap text-sm md:text-base flex-1
+              px-4 md:px-6 py-2 md:py-2.5 font-medium transition-colors duration-300 relative z-10 whitespace-nowrap text-sm md:text-base
               ${
                 active === step.id
                   ? "text-accent-foreground"
-                  : "text-foreground hover:text-foreground/80"
+                  : "text-muted-foreground hover:text-foreground"
               }
             `}
           >
@@ -78,10 +94,12 @@ export default function HowItWorksTabs() {
 
         {/* Slider animado */}
         <div
-          className="absolute top-2 bottom-2 bg-accent rounded-full transition-all duration-300 ease-out z-0 shadow-lg"
+          className="absolute bg-accent rounded-full transition-all duration-300 ease-in-out z-0 shadow-lg"
           style={{
-            width: `calc((100% - 16px) / ${steps.length})`,
-            left: `calc((100% - 16px) / ${steps.length} * ${active - 1} + 8px)`
+            width: `${sliderStyle.width}px`,
+            left: `${sliderStyle.left}px`,
+            top: '6px',
+            bottom: '6px'
           }}
         />
       </div>
