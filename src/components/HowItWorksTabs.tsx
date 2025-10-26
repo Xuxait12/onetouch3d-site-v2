@@ -4,7 +4,9 @@ import {
   MessageSquare,
   Brush,
   ThumbsUp,
-  Truck
+  Truck,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 
 const steps = [
@@ -53,7 +55,21 @@ const steps = [
 export default function HowItWorksTabs() {
   const [active, setActive] = useState(1);
   const [sliderStyle, setSliderStyle] = useState({ width: 0, left: 0 });
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(false);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const checkOverflow = () => {
+    const container = containerRef.current;
+    if (container) {
+      const hasOverflow = container.scrollWidth > container.clientWidth;
+      setShowLeftArrow(hasOverflow && container.scrollLeft > 0);
+      setShowRightArrow(
+        hasOverflow && container.scrollLeft < container.scrollWidth - container.clientWidth
+      );
+    }
+  };
 
   useEffect(() => {
     const activeIndex = steps.findIndex((step) => step.id === active);
@@ -68,40 +84,84 @@ export default function HowItWorksTabs() {
     }
   }, [active]);
 
+  useEffect(() => {
+    checkOverflow();
+    window.addEventListener("resize", checkOverflow);
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, []);
+
+  const scroll = (direction: "left" | "right") => {
+    const container = containerRef.current;
+    if (container) {
+      const scrollAmount = direction === "left" ? -100 : 100;
+      container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      setTimeout(checkOverflow, 300);
+    }
+  };
+
   return (
     <section className="w-full flex flex-col items-center gap-10 py-14 md:py-20 px-4">
       <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground">Como Funciona</h2>
 
-      {/* Tabs container com slider */}
-      <div className="relative flex items-center justify-center rounded-full bg-secondary/50 p-1.5 shadow-inner max-w-4xl w-full overflow-x-auto">
-        {steps.map((step, index) => (
+      {/* Tabs container com setas de navegação */}
+      <div className="relative w-full max-w-4xl">
+        {/* Seta esquerda */}
+        {showLeftArrow && (
           <button
-            key={step.id}
-            ref={(el) => (tabRefs.current[index] = el)}
-            onClick={() => setActive(step.id)}
-            className={`
-              px-4 md:px-6 py-2 md:py-2.5 font-medium transition-colors duration-300 relative z-10 whitespace-nowrap text-sm md:text-base
-              ${
-                active === step.id
-                  ? "text-accent-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }
-            `}
+            onClick={() => scroll("left")}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-background/80 backdrop-blur-sm rounded-full p-1.5 shadow-md hover:bg-background transition-all md:hidden"
+            aria-label="Rolar para esquerda"
           >
-            {step.label}
+            <ChevronLeft size={20} className="text-foreground" />
           </button>
-        ))}
+        )}
 
-        {/* Slider animado */}
+        {/* Seta direita */}
+        {showRightArrow && (
+          <button
+            onClick={() => scroll("right")}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-background/80 backdrop-blur-sm rounded-full p-1.5 shadow-md hover:bg-background transition-all md:hidden"
+            aria-label="Rolar para direita"
+          >
+            <ChevronRight size={20} className="text-foreground" />
+          </button>
+        )}
+
+        {/* Container de tabs */}
         <div
-          className="absolute bg-accent rounded-full transition-all duration-300 ease-in-out z-0 shadow-lg"
-          style={{
-            width: `${sliderStyle.width}px`,
-            left: `${sliderStyle.left}px`,
-            top: '6px',
-            bottom: '6px'
-          }}
-        />
+          ref={containerRef}
+          onScroll={checkOverflow}
+          className="relative flex items-center justify-center rounded-full bg-secondary/50 p-1.5 shadow-inner w-full overflow-x-auto scrollbar-hide"
+        >
+          {steps.map((step, index) => (
+            <button
+              key={step.id}
+              ref={(el) => (tabRefs.current[index] = el)}
+              onClick={() => setActive(step.id)}
+              className={`
+                px-5 md:px-6 py-2 md:py-2.5 font-medium transition-colors duration-300 relative z-10 whitespace-nowrap text-sm md:text-base
+                ${
+                  active === step.id
+                    ? "text-accent-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }
+              `}
+            >
+              {step.label}
+            </button>
+          ))}
+
+          {/* Slider animado */}
+          <div
+            className="absolute bg-accent rounded-full transition-all duration-300 ease-in-out z-0 shadow-lg"
+            style={{
+              width: `${sliderStyle.width}px`,
+              left: `${sliderStyle.left}px`,
+              top: '6px',
+              bottom: '6px'
+            }}
+          />
+        </div>
       </div>
 
       {/* Conteúdo das abas */}
