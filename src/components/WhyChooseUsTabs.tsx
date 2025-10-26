@@ -38,10 +38,22 @@ const WhyChooseUsTabs = () => {
     const container = containerRef.current;
     if (container) {
       const hasOverflow = container.scrollWidth > container.clientWidth;
-      setShowLeftArrow(hasOverflow && container.scrollLeft > 0);
-      setShowRightArrow(
-        hasOverflow && container.scrollLeft < container.scrollWidth - container.clientWidth
-      );
+      const atStart = container.scrollLeft <= 2;
+      const atEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 2;
+      
+      setShowLeftArrow(hasOverflow && !atStart);
+      setShowRightArrow(hasOverflow && !atEnd);
+    }
+  };
+
+  const scrollToActiveTab = () => {
+    const activeIndex = tabs.findIndex((tab) => tab.id === activeTab);
+    const activeButton = tabRefs.current[activeIndex];
+    const container = containerRef.current;
+    
+    if (activeButton && container) {
+      const offset = 12;
+      container.scrollLeft = Math.max(0, activeButton.offsetLeft - offset);
     }
   };
 
@@ -56,10 +68,15 @@ const WhyChooseUsTabs = () => {
         left: offsetLeft
       });
     }
+    
+    // Scroll to active tab on mobile
+    scrollToActiveTab();
   }, [activeTab]);
 
   useEffect(() => {
     checkOverflow();
+    scrollToActiveTab();
+    
     window.addEventListener("resize", checkOverflow);
     return () => window.removeEventListener("resize", checkOverflow);
   }, []);
@@ -67,7 +84,8 @@ const WhyChooseUsTabs = () => {
   const scroll = (direction: "left" | "right") => {
     const container = containerRef.current;
     if (container) {
-      const scrollAmount = direction === "left" ? -100 : 100;
+      const step = Math.floor(container.clientWidth * 0.6);
+      const scrollAmount = direction === "left" ? -step : step;
       container.scrollBy({ left: scrollAmount, behavior: "smooth" });
       setTimeout(checkOverflow, 300);
     }
@@ -120,7 +138,7 @@ const WhyChooseUsTabs = () => {
           <div
             ref={containerRef}
             onScroll={checkOverflow}
-            className="tabs relative inline-flex rounded-full bg-secondary/50 p-1.5 overflow-x-auto max-w-full shadow-inner scrollbar-hide w-full justify-center"
+            className="tabs relative inline-flex rounded-full bg-secondary/50 p-1.5 overflow-x-auto max-w-full shadow-inner scrollbar-hide w-full md:justify-center scroll-smooth snap-x snap-mandatory"
           >
             {tabs.map((tab, index) => (
               <button
@@ -130,7 +148,7 @@ const WhyChooseUsTabs = () => {
                 role="tab"
                 aria-selected={activeTab === tab.id}
                 className={`
-                  px-5 md:px-6 py-2 md:py-2.5 font-medium transition-colors duration-300 relative z-10 whitespace-nowrap text-sm md:text-base leading-relaxed tracking-wide
+                  flex-shrink-0 flex-grow-0 snap-start px-5 md:px-6 py-2 md:py-2.5 font-medium transition-colors duration-300 relative z-10 whitespace-nowrap text-sm md:text-base leading-relaxed tracking-wide
                   ${
                     activeTab === tab.id
                       ? "text-accent-foreground"
