@@ -49,13 +49,13 @@ const WhyChooseUsTabs = () => {
 
         {/* Tabs Navigation */}
         <div className="flex justify-center mb-12 animate-fade-up">
-          <div className="relative inline-flex rounded-full bg-secondary/50 p-1 overflow-x-auto max-w-full shadow-inner">
+          <div className="relative inline-flex rounded-full bg-secondary/50 p-1.5 overflow-x-auto max-w-full shadow-inner">
             {tabs.map((tab, index) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`
-                  px-5 py-2.5 font-medium transition-colors duration-300 relative z-10 whitespace-nowrap text-sm md:text-base
+                  px-6 py-3 font-medium transition-colors duration-300 relative z-10 whitespace-nowrap text-sm md:text-base overflow-hidden rounded-full
                   ${
                     activeTab === tab.id
                       ? "text-accent-foreground"
@@ -69,10 +69,10 @@ const WhyChooseUsTabs = () => {
 
             {/* Animated Slider */}
             <div
-              className="absolute top-1 bottom-1 bg-accent rounded-full transition-all duration-300 ease-in-out z-0 shadow-lg"
+              className="absolute top-1.5 bottom-1.5 bg-accent rounded-full transition-all duration-300 ease-in-out z-0 shadow-lg overflow-hidden"
               style={{
-                width: `calc(100% / ${tabs.length})`,
-                left: `calc((100% / ${tabs.length}) * ${activeTab - 1})`
+                width: `calc((100% - 12px) / ${tabs.length})`,
+                left: `calc(((100% - 12px) / ${tabs.length}) * ${activeTab - 1} + 6px)`
               }}
             />
           </div>
