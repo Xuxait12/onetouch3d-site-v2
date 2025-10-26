@@ -25,93 +25,102 @@ const tabs = [
   }
 ];
 
+const H_PADDING = 12; // padding horizontal da bolha em px (cada lado)
+
 const WhyChooseUsTabs = () => {
   const [activeTab, setActiveTab] = useState(1);
-  const [sliderStyle, setSliderStyle] = useState({ width: 0, left: 0 });
+  const [pillStyle, setPillStyle] = useState({ width: 0, left: 0, opacity: 0 });
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const activeContent = tabs.find((tab) => tab.id === activeTab);
 
-  const checkOverflow = () => {
-    const container = containerRef.current;
-    if (container) {
-      const maxScroll = container.scrollWidth - container.clientWidth;
-      const atStart = container.scrollLeft <= 5;
-      const atEnd = container.scrollLeft >= maxScroll - 5;
-      
-      // Only show left arrow if not at start AND there's overflow
-      setShowLeftArrow(!atStart && maxScroll > 0);
-      // Only show right arrow if not at end AND there's overflow
-      setShowRightArrow(!atEnd && maxScroll > 0);
-    }
+  const updateArrows = () => {
+    const track = trackRef.current;
+    if (!track) return;
+    
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    setShowLeftArrow(track.scrollLeft > 6 && maxScroll > 0);
+    setShowRightArrow(track.scrollLeft + track.clientWidth + 6 < track.scrollWidth && maxScroll > 0);
   };
 
-  const scrollToActiveTab = () => {
-    const activeIndex = tabs.findIndex((tab) => tab.id === activeTab);
-    const activeButton = tabRefs.current[activeIndex];
-    const container = containerRef.current;
+  const updatePillToTab = (tabId: number, smooth = true) => {
+    const activeIndex = tabs.findIndex((tab) => tab.id === tabId);
+    const tab = tabRefs.current[activeIndex];
+    const track = trackRef.current;
     
-    if (activeButton && container) {
-      // Center the active tab with proper spacing
-      const containerWidth = container.clientWidth;
-      const tabCenter = activeButton.offsetLeft + (activeButton.offsetWidth / 2);
-      const scrollPosition = tabCenter - (containerWidth / 2);
-      
-      container.scrollTo({ 
-        left: Math.max(0, Math.min(scrollPosition, container.scrollWidth - containerWidth)), 
-        behavior: 'smooth' 
+    if (!tab || !track) return;
+
+    // Calculate pill width and position
+    const width = tab.offsetWidth + H_PADDING * 2;
+    const left = tab.offsetLeft - track.scrollLeft - H_PADDING + 6;
+
+    setPillStyle({
+      width,
+      left,
+      opacity: 1
+    });
+
+    // Ensure tab is fully visible
+    const visibleLeft = tab.offsetLeft - track.scrollLeft;
+    const visibleRight = visibleLeft + tab.offsetWidth;
+    const viewportWidth = track.clientWidth;
+
+    if (visibleLeft < 8) {
+      track.scrollTo({ 
+        left: Math.max(0, tab.offsetLeft - 12), 
+        behavior: smooth ? 'smooth' : 'auto'
       });
-      setTimeout(checkOverflow, 300);
+    } else if (visibleRight > viewportWidth - 8) {
+      const target = tab.offsetLeft - (viewportWidth / 2) + (tab.offsetWidth / 2);
+      track.scrollTo({ 
+        left: Math.max(0, target), 
+        behavior: smooth ? 'smooth' : 'auto'
+      });
     }
+
+    updateArrows();
+  };
+
+  const handleScroll = () => {
+    updatePillToTab(activeTab, false);
+  };
+
+  const scroll = (direction: "left" | "right") => {
+    const track = trackRef.current;
+    if (!track) return;
+    
+    const scrollAmount = track.clientWidth * 0.6;
+    const target = direction === "left" 
+      ? Math.max(0, track.scrollLeft - scrollAmount)
+      : Math.min(track.scrollWidth, track.scrollLeft + scrollAmount);
+    
+    track.scrollTo({ left: target, behavior: 'smooth' });
   };
 
   useEffect(() => {
-    const activeIndex = tabs.findIndex((tab) => tab.id === activeTab);
-    const activeButton = tabRefs.current[activeIndex];
-    
-    if (activeButton) {
-      // Get the actual text width for precise fitting
-      const textContent = activeButton.textContent || '';
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
-      if (context) {
-        const style = window.getComputedStyle(activeButton);
-        context.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-        const textWidth = context.measureText(textContent).width;
-        
-        // Add minimal padding (12px on each side = 24px total)
-        const sliderWidth = textWidth + 24;
-        const sliderLeft = activeButton.offsetLeft + (activeButton.offsetWidth - sliderWidth) / 2;
-        
-        setSliderStyle({
-          width: sliderWidth,
-          left: sliderLeft
-        });
-      }
-    }
-    
-    // Scroll to active tab on mobile
-    scrollToActiveTab();
+    updatePillToTab(activeTab, true);
   }, [activeTab]);
 
   useEffect(() => {
-    checkOverflow();
-    scrollToActiveTab();
+    const handleResize = () => updatePillToTab(activeTab, false);
     
-    window.addEventListener("resize", checkOverflow);
-    return () => window.removeEventListener("resize", checkOverflow);
-  }, []);
-
-  const scroll = (direction: "left" | "right") => {
-    const currentIndex = tabs.findIndex((tab) => tab.id === activeTab);
-    const newIndex = direction === "left" ? Math.max(0, currentIndex - 1) : Math.min(tabs.length - 1, currentIndex + 1);
+    window.addEventListener("resize", handleResize);
     
-    if (newIndex !== currentIndex) {
-      setActiveTab(tabs[newIndex].id);
+    // Init after fonts load
+    const initPill = () => {
+      setTimeout(() => updatePillToTab(activeTab, false), 120);
+    };
+    
+    if (document.fonts) {
+      document.fonts.ready.then(initPill);
+    } else {
+      initPill();
     }
-  };
+    
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <section className="py-20 bg-gradient-to-br from-secondary/40 via-background to-secondary/20">
@@ -134,70 +143,72 @@ const WhyChooseUsTabs = () => {
 
         {/* Tabs Navigation */}
         <div className="relative w-full max-w-4xl mx-auto mb-12 animate-fade-up">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 md:gap-3 justify-center px-4 md:px-0">
             {/* Seta esquerda */}
-            <div className="flex-shrink-0 md:hidden" style={{ width: showLeftArrow ? '32px' : '0px', transition: 'width 0.2s ease' }}>
-              {showLeftArrow && (
-                <button
-                  onClick={() => scroll("left")}
-                  className="bg-background/90 backdrop-blur-sm rounded-full p-1.5 shadow-md hover:bg-background transition-all"
-                  aria-label="Aba anterior"
-                >
-                  <ChevronLeft size={18} className="text-foreground" />
-                </button>
-              )}
-            </div>
+            <button
+              onClick={() => scroll("left")}
+              className={`md:hidden flex-shrink-0 bg-background/90 backdrop-blur-sm rounded-full p-1.5 shadow-md hover:bg-background transition-all ${
+                showLeftArrow ? 'opacity-100 visible' : 'opacity-0 invisible'
+              }`}
+              aria-label="Rolar para esquerda"
+              style={{ width: '32px', height: '32px' }}
+            >
+              <ChevronLeft size={18} className="text-foreground" />
+            </button>
 
             {/* Container de tabs */}
-            <div
-              ref={containerRef}
-              onScroll={checkOverflow}
-              className="tabs relative inline-flex rounded-full bg-secondary/50 p-1.5 overflow-x-auto max-w-full shadow-inner scrollbar-hide w-full md:justify-center scroll-smooth snap-x snap-mandatory flex-1"
-            >
-              {tabs.map((tab, index) => (
-                <button
-                  key={tab.id}
-                  ref={(el) => (tabRefs.current[index] = el)}
-                  onClick={() => setActiveTab(tab.id)}
-                  role="tab"
-                  aria-selected={activeTab === tab.id}
-                  className={`
-                    flex-shrink-0 flex-grow-0 snap-start px-4 md:px-6 py-2.5 md:py-2.5 font-medium transition-colors duration-300 relative z-10 whitespace-nowrap text-sm md:text-base leading-normal tracking-normal
-                    ${
-                      activeTab === tab.id
-                        ? "text-accent-foreground"
-                        : "text-muted-foreground hover:text-foreground"
-                    }
-                  `}
-                >
-                  {tab.label}
-                </button>
-              ))}
-
-              {/* Animated Slider */}
+            <div className="relative rounded-full bg-secondary/50 p-1.5 shadow-inner overflow-hidden flex-1 md:flex-initial md:inline-flex">
               <div
-                className="absolute bg-accent rounded-full transition-all duration-[280ms] ease-out z-0 shadow-lg"
-                style={{
-                  width: `${sliderStyle.width}px`,
-                  left: `${sliderStyle.left}px`,
-                  top: '6px',
-                  bottom: '6px'
-                }}
-              />
+                ref={trackRef}
+                onScroll={handleScroll}
+                className="flex gap-3 overflow-x-auto scrollbar-hide scroll-smooth whitespace-nowrap px-2"
+                style={{ scrollbarWidth: 'none' }}
+              >
+                {tabs.map((tab, index) => (
+                  <button
+                    key={tab.id}
+                    ref={(el) => (tabRefs.current[index] = el)}
+                    onClick={() => setActiveTab(tab.id)}
+                    role="tab"
+                    aria-selected={activeTab === tab.id}
+                    className={`
+                      flex-shrink-0 px-2 py-2.5 font-medium transition-colors duration-300 relative z-10 whitespace-nowrap text-sm md:text-base
+                      ${
+                        activeTab === tab.id
+                          ? "text-accent-foreground"
+                          : "text-muted-foreground hover:text-foreground"
+                      }
+                    `}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+
+                {/* Animated Pill */}
+                <div
+                  className="absolute bg-accent rounded-full transition-all duration-[280ms] ease-out z-0 shadow-lg pointer-events-none"
+                  style={{
+                    width: `${pillStyle.width}px`,
+                    left: `${pillStyle.left}px`,
+                    top: '6px',
+                    bottom: '6px',
+                    opacity: pillStyle.opacity
+                  }}
+                />
+              </div>
             </div>
 
             {/* Seta direita */}
-            <div className="flex-shrink-0 md:hidden" style={{ width: showRightArrow ? '32px' : '0px', transition: 'width 0.2s ease' }}>
-              {showRightArrow && (
-                <button
-                  onClick={() => scroll("right")}
-                  className="bg-background/90 backdrop-blur-sm rounded-full p-1.5 shadow-md hover:bg-background transition-all"
-                  aria-label="Próxima aba"
-                >
-                  <ChevronRight size={18} className="text-foreground" />
-                </button>
-              )}
-            </div>
+            <button
+              onClick={() => scroll("right")}
+              className={`md:hidden flex-shrink-0 bg-background/90 backdrop-blur-sm rounded-full p-1.5 shadow-md hover:bg-background transition-all ${
+                showRightArrow ? 'opacity-100 visible' : 'opacity-0 invisible'
+              }`}
+              aria-label="Rolar para direita"
+              style={{ width: '32px', height: '32px' }}
+            >
+              <ChevronRight size={18} className="text-foreground" />
+            </button>
           </div>
         </div>
 
