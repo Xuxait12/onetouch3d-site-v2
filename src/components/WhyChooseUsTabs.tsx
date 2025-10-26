@@ -49,13 +49,15 @@ const WhyChooseUsTabs = () => {
 
         {/* Tabs Navigation */}
         <div className="flex justify-center mb-12 animate-fade-up">
-          <div className="relative inline-flex rounded-full bg-secondary/50 p-1.5 overflow-x-auto max-w-full shadow-inner">
+          <div className="tabs relative inline-flex rounded-full bg-secondary/50 p-1.5 overflow-x-auto max-w-full shadow-inner">
             {tabs.map((tab, index) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
+                role="tab"
+                aria-selected={activeTab === tab.id}
                 className={`
-                  px-6 py-3 font-medium transition-colors duration-300 relative z-10 whitespace-nowrap text-sm md:text-base overflow-hidden rounded-full
+                  font-medium transition-colors duration-300 relative z-10 text-sm md:text-base
                   ${
                     activeTab === tab.id
                       ? "text-accent-foreground"

@@ -518,3 +518,68 @@ All colors MUST be HSL.
     transform: scale(1) translateY(0);
   }
 }
+
+/* Normalize box sizing para tabs (seguro aplicar) */
+.tabs, .tabs * {
+  box-sizing: border-box;
+}
+
+/* Seletores amplos para o botão/trigger ativo da tab */
+.tabs [role="tab"],
+.tabs .tabs-trigger,
+.tabs .tab,
+.tab-trigger,
+.tabs .tab-item,
+.tabs button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  line-height: 1;
+  white-space: nowrap;           /* evita quebra de linha dentro do "pill" */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 9999px;        /* pill totalmente arredondado */
+  padding: 10px 20px;           /* ajuste confortável de padding */
+  transition: all .18s ease;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Estilo especificamente para o botão ativo (vários padrões) */
+.tabs [role="tab"][aria-selected="true"],
+.tabs .tabs-trigger[aria-pressed="true"],
+.tabs .tabs-trigger.active,
+.tabs .tab.active,
+.tab-trigger.active,
+.tabs [data-active="true"] {
+  padding: 10px 22px;
+  font-weight: 600;
+  transform: none;
+  border-radius: 9999px;
+  position: relative;
+  z-index: 2;                   /* garante que fique acima de elementos adjacentes */
+  min-width: 0;                 /* importante para não forçar largura além do container */
+}
+
+/* Garante que o texto sempre fique centralizado */
+.tabs [role="tab"] > span,
+.tabs .tabs-trigger > span,
+.tabs .tab > span {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Responsividade: reduz um pouco a fonte quando necessário em telas muito pequenas */
+@media (max-width: 520px) {
+  .tabs [role="tab"],
+  .tabs .tabs-trigger,
+  .tabs .tab {
+    padding: 8px 12px;
+    font-size: 13px;            /* diminuir para caber sem cortar */
+  }
+}
