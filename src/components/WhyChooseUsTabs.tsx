@@ -149,7 +149,7 @@ const WhyChooseUsTabs = () => {
                   role="tab"
                   aria-selected={activeTab === tab.id}
                   className={`
-                    flex-shrink-0 flex-grow-0 snap-start px-5 md:px-6 py-2 md:py-2.5 font-medium transition-colors duration-300 relative z-10 whitespace-nowrap text-sm md:text-base leading-relaxed tracking-wide
+                    flex-shrink-0 flex-grow-0 snap-start px-4 md:px-6 py-2.5 md:py-2.5 font-medium transition-colors duration-300 relative z-10 whitespace-nowrap text-sm md:text-base leading-normal tracking-normal
                     ${
                       activeTab === tab.id
                         ? "text-accent-foreground"
@@ -163,7 +163,7 @@ const WhyChooseUsTabs = () => {
 
               {/* Animated Slider */}
               <div
-                className="absolute bg-accent rounded-full transition-all duration-300 ease-in-out z-0 shadow-lg"
+                className="absolute bg-accent rounded-full transition-all duration-[280ms] ease-out z-0 shadow-lg"
                 style={{
                   width: `${sliderStyle.width}px`,
                   left: `${sliderStyle.left}px`,
