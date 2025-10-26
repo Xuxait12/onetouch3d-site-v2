@@ -37,12 +37,12 @@ const WhyChooseUsTabs = () => {
   const checkOverflow = () => {
     const container = containerRef.current;
     if (container) {
-      const hasOverflow = container.scrollWidth > container.clientWidth;
-      const atStart = container.scrollLeft <= 2;
-      const atEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 2;
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      const atStart = container.scrollLeft <= 5;
+      const atEnd = container.scrollLeft >= maxScroll - 5;
       
-      setShowLeftArrow(hasOverflow && !atStart);
-      setShowRightArrow(hasOverflow && !atEnd);
+      setShowLeftArrow(!atStart && maxScroll > 0);
+      setShowRightArrow(!atEnd && maxScroll > 0);
     }
   };
 
@@ -52,8 +52,9 @@ const WhyChooseUsTabs = () => {
     const container = containerRef.current;
     
     if (activeButton && container) {
-      const offset = 12;
-      container.scrollLeft = Math.max(0, activeButton.offsetLeft - offset);
+      const offset = 10;
+      container.scrollTo({ left: Math.max(0, activeButton.offsetLeft - offset), behavior: 'smooth' });
+      setTimeout(checkOverflow, 300);
     }
   };
 
