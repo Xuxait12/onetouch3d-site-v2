@@ -9,7 +9,7 @@ import HeroSectionCiclismo from "@/components/HeroSectionCiclismo";
 import FeatureSection from "@/components/FeatureSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import ProductSectionCiclismo from "@/components/ProductSectionCiclismo";
-import HowItWorksSectionCiclismo from "@/components/HowItWorksSectionCiclismo";
+import HowItWorksTabs from "@/components/HowItWorksTabs";
 import BenefitsSectionCiclismo from "@/components/BenefitsSectionCiclismo";
 import FAQSectionCiclismo from "@/components/FAQSectionCiclismo";
 import GallerySectionCiclismo from "@/components/GallerySectionCiclismo";
@@ -96,7 +96,7 @@ const Ciclismo = () => {
         
         <BenefitsSectionCiclismo />
         <InfiniteLogoCarousel />
-        <HowItWorksSectionCiclismo />
+        <HowItWorksTabs />
         <LifestyleHeroSectionCiclismo />
         <GallerySectionCiclismo />
         <TestimonialsSection />

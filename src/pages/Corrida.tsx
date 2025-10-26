@@ -6,7 +6,7 @@ import HeroSection from "@/components/HeroSection";
 import FeatureSection from "@/components/FeatureSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import ProductSection from "@/components/ProductSection";
-import HowItWorksSection from "@/components/HowItWorksSection";
+import HowItWorksTabs from "@/components/HowItWorksTabs";
 import BenefitsSection from "@/components/BenefitsSection";
 import FAQSection from "@/components/FAQSection";
 import CtaSection from "@/components/CtaSection";
@@ -96,7 +96,7 @@ const Corrida = () => {
         
         <BenefitsSection />
         <InfiniteLogoCarousel />
-        <HowItWorksSection />
+        <HowItWorksTabs />
         <LifestyleHeroSection />
         <GallerySection />
         <TestimonialsSection />
