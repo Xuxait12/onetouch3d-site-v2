@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const tabs = [
   {
@@ -27,8 +28,22 @@ const tabs = [
 const WhyChooseUsTabs = () => {
   const [activeTab, setActiveTab] = useState(1);
   const [sliderStyle, setSliderStyle] = useState({ width: 0, left: 0 });
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(false);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
   const activeContent = tabs.find((tab) => tab.id === activeTab);
+
+  const checkOverflow = () => {
+    const container = containerRef.current;
+    if (container) {
+      const hasOverflow = container.scrollWidth > container.clientWidth;
+      setShowLeftArrow(hasOverflow && container.scrollLeft > 0);
+      setShowRightArrow(
+        hasOverflow && container.scrollLeft < container.scrollWidth - container.clientWidth
+      );
+    }
+  };
 
   useEffect(() => {
     const activeIndex = tabs.findIndex((tab) => tab.id === activeTab);
@@ -42,6 +57,21 @@ const WhyChooseUsTabs = () => {
       });
     }
   }, [activeTab]);
+
+  useEffect(() => {
+    checkOverflow();
+    window.addEventListener("resize", checkOverflow);
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, []);
+
+  const scroll = (direction: "left" | "right") => {
+    const container = containerRef.current;
+    if (container) {
+      const scrollAmount = direction === "left" ? -100 : 100;
+      container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      setTimeout(checkOverflow, 300);
+    }
+  };
 
   return (
     <section className="py-20 bg-gradient-to-br from-secondary/40 via-background to-secondary/20">
@@ -63,8 +93,35 @@ const WhyChooseUsTabs = () => {
         </div>
 
         {/* Tabs Navigation */}
-        <div className="flex justify-center mb-12 animate-fade-up">
-          <div className="tabs relative inline-flex rounded-full bg-secondary/50 p-1.5 overflow-x-auto max-w-full shadow-inner">
+        <div className="relative w-full max-w-4xl mx-auto mb-12 animate-fade-up">
+          {/* Seta esquerda */}
+          {showLeftArrow && (
+            <button
+              onClick={() => scroll("left")}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-background/80 backdrop-blur-sm rounded-full p-1.5 shadow-md hover:bg-background transition-all md:hidden"
+              aria-label="Rolar para esquerda"
+            >
+              <ChevronLeft size={20} className="text-foreground" />
+            </button>
+          )}
+
+          {/* Seta direita */}
+          {showRightArrow && (
+            <button
+              onClick={() => scroll("right")}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-background/80 backdrop-blur-sm rounded-full p-1.5 shadow-md hover:bg-background transition-all md:hidden"
+              aria-label="Rolar para direita"
+            >
+              <ChevronRight size={20} className="text-foreground" />
+            </button>
+          )}
+
+          {/* Container de tabs */}
+          <div
+            ref={containerRef}
+            onScroll={checkOverflow}
+            className="tabs relative inline-flex rounded-full bg-secondary/50 p-1.5 overflow-x-auto max-w-full shadow-inner scrollbar-hide w-full justify-center"
+          >
             {tabs.map((tab, index) => (
               <button
                 key={tab.id}
@@ -73,7 +130,7 @@ const WhyChooseUsTabs = () => {
                 role="tab"
                 aria-selected={activeTab === tab.id}
                 className={`
-                  font-medium transition-colors duration-300 relative z-10 text-sm md:text-base
+                  px-5 md:px-6 py-2 md:py-2.5 font-medium transition-colors duration-300 relative z-10 whitespace-nowrap text-sm md:text-base leading-relaxed tracking-wide
                   ${
                     activeTab === tab.id
                       ? "text-accent-foreground"
