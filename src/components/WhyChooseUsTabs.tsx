@@ -72,11 +72,24 @@ const WhyChooseUsTabs = () => {
     const activeButton = tabRefs.current[activeIndex];
     
     if (activeButton) {
-      const { offsetWidth, offsetLeft } = activeButton;
-      setSliderStyle({
-        width: offsetWidth,
-        left: offsetLeft
-      });
+      // Get the actual text width for precise fitting
+      const textContent = activeButton.textContent || '';
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      if (context) {
+        const style = window.getComputedStyle(activeButton);
+        context.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+        const textWidth = context.measureText(textContent).width;
+        
+        // Add minimal padding (12px on each side = 24px total)
+        const sliderWidth = textWidth + 24;
+        const sliderLeft = activeButton.offsetLeft + (activeButton.offsetWidth - sliderWidth) / 2;
+        
+        setSliderStyle({
+          width: sliderWidth,
+          left: sliderLeft
+        });
+      }
     }
     
     // Scroll to active tab on mobile
