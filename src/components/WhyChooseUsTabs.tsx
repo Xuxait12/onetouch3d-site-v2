@@ -100,7 +100,7 @@ const WhyChooseUsTabs = () => {
 
         {/* Content */}
         <div className="text-center max-w-2xl mx-auto animate-fade-up">
-          <p className="text-2xl md:text-4xl font-bold text-foreground leading-relaxed transition-all duration-300">
+          <p className="text-xl md:text-2xl font-bold text-foreground leading-relaxed transition-all duration-300">
             {activeContent?.description}
           </p>
         </div>
