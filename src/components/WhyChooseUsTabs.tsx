@@ -49,7 +49,7 @@ const WhyChooseUsTabs = () => {
 
         {/* Tabs Navigation */}
         <div className="flex justify-center mb-12 animate-fade-up">
-          <div className="relative inline-flex items-center rounded-full bg-secondary/50 p-1.5 gap-1 overflow-x-auto max-w-full shadow-inner">
+          <div className="relative inline-flex items-center rounded-full bg-secondary/50 p-1.5 overflow-x-auto max-w-full shadow-inner">
             {tabs.map((tab, index) => (
               <button
                 key={tab.id}
@@ -72,7 +72,7 @@ const WhyChooseUsTabs = () => {
               className="absolute top-1.5 bottom-1.5 bg-accent rounded-full transition-all duration-300 ease-in-out z-0 shadow-lg"
               style={{
                 width: `calc((100% - 12px) / ${tabs.length})`,
-                left: `calc((100% - 12px) / ${tabs.length} * ${activeTab - 1} + 6px)`
+                left: `calc(((100% - 12px) / ${tabs.length}) * ${activeTab - 1} + 6px)`
               }}
             />
           </div>
