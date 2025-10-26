@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const tabs = [
   {
@@ -26,7 +26,22 @@ const tabs = [
 
 const WhyChooseUsTabs = () => {
   const [activeTab, setActiveTab] = useState(1);
+  const [sliderStyle, setSliderStyle] = useState({ width: 0, left: 0 });
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const activeContent = tabs.find((tab) => tab.id === activeTab);
+
+  useEffect(() => {
+    const activeIndex = tabs.findIndex((tab) => tab.id === activeTab);
+    const activeButton = tabRefs.current[activeIndex];
+    
+    if (activeButton) {
+      const { offsetWidth, offsetLeft } = activeButton;
+      setSliderStyle({
+        width: offsetWidth,
+        left: offsetLeft
+      });
+    }
+  }, [activeTab]);
 
   return (
     <section className="py-20 bg-gradient-to-br from-secondary/40 via-background to-secondary/20">
@@ -53,6 +68,7 @@ const WhyChooseUsTabs = () => {
             {tabs.map((tab, index) => (
               <button
                 key={tab.id}
+                ref={(el) => (tabRefs.current[index] = el)}
                 onClick={() => setActiveTab(tab.id)}
                 role="tab"
                 aria-selected={activeTab === tab.id}
@@ -71,10 +87,12 @@ const WhyChooseUsTabs = () => {
 
             {/* Animated Slider */}
             <div
-              className="absolute top-1.5 bottom-1.5 bg-accent rounded-full transition-all duration-300 ease-in-out z-0 shadow-lg overflow-hidden"
+              className="absolute bg-accent rounded-full transition-all duration-300 ease-in-out z-0 shadow-lg"
               style={{
-                width: `calc((100% - 12px) / ${tabs.length})`,
-                left: `calc(((100% - 12px) / ${tabs.length}) * ${activeTab - 1} + 6px)`
+                width: `${sliderStyle.width}px`,
+                left: `${sliderStyle.left}px`,
+                top: '6px',
+                bottom: '6px'
               }}
             />
           </div>
