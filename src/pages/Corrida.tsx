@@ -94,9 +94,9 @@ const Corrida = () => {
           imageOnLeft={true}
         />
         
+        <HowItWorksTabs />
         <WhyChooseUsTabs />
         <InfiniteLogoCarousel />
-        <HowItWorksTabs />
         <LifestyleHeroSection />
         <GallerySection />
         <TestimonialsSection />
