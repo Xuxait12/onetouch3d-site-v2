@@ -14,7 +14,7 @@ const tabs = [
     label: "Destaque para sua medalha",
     title: "Destaque para sua medalha",
     description: "Sua conquista e dedicação em evidência.",
-    image: "/placeholder-medal.jpg"
+    image: "/images/medalha-destaque.gif"
   },
   {
     id: 3,
