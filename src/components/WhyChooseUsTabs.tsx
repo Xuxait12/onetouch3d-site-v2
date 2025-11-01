@@ -184,7 +184,7 @@ const WhyChooseUsTabs = () => {
 
                 {/* Animated Pill */}
                 <div
-                  className="absolute bg-accent rounded-full transition-all duration-150 ease-out z-0 shadow-lg pointer-events-none"
+                  className="absolute bg-accent rounded-full transition-all duration-300 ease-in-out z-0 shadow-lg pointer-events-none"
                   style={{
                     width: `${pillStyle.width}px`,
                     left: `${pillStyle.left}px`,
