@@ -75,11 +75,22 @@ export default function HowItWorksTabs() {
     const activeIndex = steps.findIndex((step) => step.id === active);
     const activeButton = tabRefs.current[activeIndex];
     
-    if (activeButton) {
+    if (activeButton && containerRef.current) {
       const { offsetWidth, offsetLeft } = activeButton;
       setSliderStyle({
         width: offsetWidth,
         left: offsetLeft
+      });
+      
+      // Scroll para mostrar a tab ativa
+      const container = containerRef.current;
+      const buttonCenter = offsetLeft + offsetWidth / 2;
+      const containerCenter = container.clientWidth / 2;
+      const scrollPosition = buttonCenter - containerCenter;
+      
+      container.scrollTo({
+        left: Math.max(0, scrollPosition),
+        behavior: 'smooth'
       });
     }
   }, [active]);
