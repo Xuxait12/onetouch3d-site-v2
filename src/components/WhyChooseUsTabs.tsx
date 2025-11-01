@@ -52,9 +52,9 @@ const WhyChooseUsTabs = () => {
     
     if (!tab || !track) return;
 
-    // Calculate pill width and position
-    const width = tab.offsetWidth + H_PADDING * 2;
-    const left = tab.offsetLeft - track.scrollLeft - H_PADDING + 6;
+    // Calculate pill width and position - now matching the fixed tab width
+    const width = tab.offsetWidth;
+    const left = tab.offsetLeft - track.scrollLeft;
 
     setPillStyle({
       width,
