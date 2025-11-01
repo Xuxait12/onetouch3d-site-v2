@@ -53,7 +53,7 @@ const steps = [
 ];
 
 export default function HowItWorksTabs() {
-  const [active, setActive] = useState(5);
+  const [active, setActive] = useState(1);
   const [sliderStyle, setSliderStyle] = useState({ width: 0, left: 0 });
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
