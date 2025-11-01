@@ -152,7 +152,7 @@ export default function HowItWorksTabs() {
         <div
           ref={containerRef}
           onScroll={checkOverflow}
-          className="relative flex items-center justify-center rounded-full bg-secondary/50 p-1.5 shadow-inner w-full overflow-x-auto scrollbar-hide"
+          className="relative flex items-center justify-start md:justify-center rounded-full bg-secondary/50 p-1.5 shadow-inner w-full overflow-x-auto scrollbar-hide"
         >
           {steps.map((step, index) => (
             <button
