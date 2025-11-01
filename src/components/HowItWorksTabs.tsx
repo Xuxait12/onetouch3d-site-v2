@@ -84,14 +84,24 @@ export default function HowItWorksTabs() {
       
       // Scroll para mostrar a tab ativa
       const container = containerRef.current;
-      const buttonCenter = offsetLeft + offsetWidth / 2;
-      const containerCenter = container.clientWidth / 2;
-      const scrollPosition = buttonCenter - containerCenter;
       
-      container.scrollTo({
-        left: Math.max(0, scrollPosition),
-        behavior: 'smooth'
-      });
+      // Se for a primeira tab, scrollar para o início
+      if (activeIndex === 0) {
+        container.scrollTo({
+          left: 0,
+          behavior: 'smooth'
+        });
+      } else {
+        // Para outras tabs, centralizar
+        const buttonCenter = offsetLeft + offsetWidth / 2;
+        const containerCenter = container.clientWidth / 2;
+        const scrollPosition = buttonCenter - containerCenter;
+        
+        container.scrollTo({
+          left: Math.max(0, scrollPosition),
+          behavior: 'smooth'
+        });
+      }
     }
   }, [active]);
 
