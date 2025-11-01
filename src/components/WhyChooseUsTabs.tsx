@@ -25,7 +25,7 @@ const tabs = [
   }
 ];
 
-const H_PADDING = 12; // padding horizontal da bolha em px (cada lado)
+
 
 const WhyChooseUsTabs = () => {
   const [activeTab, setActiveTab] = useState(1);
@@ -159,7 +159,7 @@ const WhyChooseUsTabs = () => {
               <div
                 ref={trackRef}
                 onScroll={handleScroll}
-                className="flex gap-3 overflow-x-auto scrollbar-hide scroll-smooth whitespace-nowrap px-2"
+                className="flex overflow-x-auto scrollbar-hide scroll-smooth px-1.5"
                 style={{ scrollbarWidth: 'none' }}
               >
                 {tabs.map((tab, index) => (
@@ -170,7 +170,7 @@ const WhyChooseUsTabs = () => {
                     role="tab"
                     aria-selected={activeTab === tab.id}
                     className={`
-                      flex-shrink-0 px-2 py-2.5 font-medium transition-colors duration-300 relative z-10 whitespace-nowrap text-sm md:text-base w-[200px] md:w-[220px] text-center
+                      flex-shrink-0 py-2.5 font-medium transition-colors duration-300 relative z-10 text-sm md:text-base w-[220px] md:w-[240px] text-center
                       ${
                         activeTab === tab.id
                           ? "text-accent-foreground"
