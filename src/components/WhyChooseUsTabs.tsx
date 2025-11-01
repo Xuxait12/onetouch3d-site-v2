@@ -88,15 +88,13 @@ const WhyChooseUsTabs = () => {
   };
 
   const scroll = (direction: "left" | "right") => {
-    const track = trackRef.current;
-    if (!track) return;
+    const currentIndex = tabs.findIndex((tab) => tab.id === activeTab);
     
-    const scrollAmount = track.clientWidth * 0.6;
-    const target = direction === "left" 
-      ? Math.max(0, track.scrollLeft - scrollAmount)
-      : Math.min(track.scrollWidth, track.scrollLeft + scrollAmount);
-    
-    track.scrollTo({ left: target, behavior: 'smooth' });
+    if (direction === "left" && currentIndex > 0) {
+      setActiveTab(tabs[currentIndex - 1].id);
+    } else if (direction === "right" && currentIndex < tabs.length - 1) {
+      setActiveTab(tabs[currentIndex + 1].id);
+    }
   };
 
   useEffect(() => {
