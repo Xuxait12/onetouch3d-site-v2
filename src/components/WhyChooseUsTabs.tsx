@@ -172,7 +172,7 @@ const WhyChooseUsTabs = () => {
                     role="tab"
                     aria-selected={activeTab === tab.id}
                     className={`
-                      flex-shrink-0 px-2 py-2.5 font-medium transition-colors duration-300 relative z-10 whitespace-nowrap text-sm md:text-base
+                      flex-shrink-0 px-2 py-2.5 font-medium transition-colors duration-300 relative z-10 whitespace-nowrap text-sm md:text-base md:w-[220px] md:text-center
                       ${
                         activeTab === tab.id
                           ? "text-accent-foreground"
