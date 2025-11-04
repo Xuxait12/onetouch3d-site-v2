@@ -39,8 +39,9 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       <div className="relative">
-        {/* Premium Gradient Background - subtle depth effect */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-[#f3f8ff]"></div>
+        {/* Vibrant Energy Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-500 to-orange-500 opacity-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-white/80 to-transparent"></div>
         
         <GlobalHeader />
         
