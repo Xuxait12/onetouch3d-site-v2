@@ -21,7 +21,7 @@ const tabs = [
     label: "Personalização completa",
     title: "Personalização completa",
     description: "A personalização é feita junto com você.",
-    image: "/placeholder-custom.jpg"
+    image: "/images/personalizacao-completa.gif"
   }
 ];
 
