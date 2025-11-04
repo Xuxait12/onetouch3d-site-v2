@@ -39,13 +39,9 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       <div className="relative">
-        {/* Apple-style Radial Gradient Background - elegant glow effect */}
-        <div 
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(circle at top center, rgba(0, 120, 255, 0.18) 0%, rgba(255,255,255,1) 60%)'
-          }}
-        ></div>
+        {/* Vibrant Energy Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-500 to-orange-500 opacity-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-white/80 to-transparent"></div>
         
         <GlobalHeader />
         
