@@ -59,16 +59,14 @@ const Corrida = () => {
           {/* Giant RUN text in background - rotated vertically on the right edge */}
           <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none z-0">
             <h2 className="text-[28vw] sm:text-[24vw] md:text-[20vw] lg:text-[16vw] font-black tracking-tighter select-none whitespace-nowrap" style={{
-              background: 'linear-gradient(180deg, #c8c9cb 0%, #e9eaec 50%, rgba(255,255,255,0.75) 100%)',
+              background: 'linear-gradient(to bottom, #c5c6c8, #dedee0, #f6f6f7)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              opacity: '0.12',
+              opacity: '0.20',
               filter: 'blur(2px)',
               transform: 'rotate(90deg) scaleY(1.4)',
-              transformOrigin: 'center center',
-              maskImage: 'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-              WebkitMaskImage: 'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)'
+              transformOrigin: 'center center'
             }}>
               RUN
             </h2>
@@ -122,15 +120,13 @@ const Corrida = () => {
         <div className="relative h-32 md:h-40 lg:h-48 flex items-center justify-center overflow-hidden px-4">
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
             <h2 className="text-[15vw] sm:text-[14vw] md:text-[13vw] lg:text-[12vw] xl:text-[10vw] font-black tracking-tighter select-none whitespace-nowrap" style={{
-              background: 'linear-gradient(180deg, #c8c9cb 0%, #e9eaec 50%, rgba(255,255,255,0.75) 100%)',
+              background: 'linear-gradient(to bottom, #c5c6c8, #dedee0, #f6f6f7)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              opacity: '0.12',
+              opacity: '0.20',
               filter: 'blur(2px)',
-              transform: 'scaleY(1.4)',
-              maskImage: 'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0) 100%)',
-              WebkitMaskImage: 'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0) 100%)'
+              transform: 'scaleY(1.4)'
             }}>
               CONQUISTA
             </h2>
@@ -146,15 +142,13 @@ const Corrida = () => {
         <div className="relative h-48 md:h-56 lg:h-64 flex items-center justify-center overflow-hidden px-4 mb-4 md:mb-6 lg:mb-8">
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
             <h2 className="text-[15vw] sm:text-[14vw] md:text-[13vw] lg:text-[12vw] xl:text-[10vw] font-black tracking-wide select-none whitespace-nowrap" style={{
-              background: 'linear-gradient(180deg, #c8c9cb 0%, #e9eaec 50%, rgba(255,255,255,0.75) 100%)',
+              background: 'linear-gradient(to bottom, #c5c6c8, #dedee0, #f6f6f7)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              opacity: '0.12',
+              opacity: '0.20',
               filter: 'blur(2px)',
-              transform: 'scaleY(1.4)',
-              maskImage: 'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0) 100%)',
-              WebkitMaskImage: 'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0) 100%)'
+              transform: 'scaleY(1.4)'
             }}>
               ETERNIZE
             </h2>
