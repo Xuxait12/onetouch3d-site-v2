@@ -59,7 +59,7 @@ const Corrida = () => {
           {/* Giant RUN text in background - rotated vertically on the right edge */}
           <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none z-0">
             <h2 className="text-[28vw] sm:text-[24vw] md:text-[20vw] lg:text-[16vw] font-black tracking-tighter select-none whitespace-nowrap" style={{
-              background: 'linear-gradient(180deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.04) 40%, rgba(0,0,0,0.01) 70%, rgba(0,0,0,0) 100%)',
+              background: 'linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.08) 40%, rgba(0,0,0,0.02) 70%, rgba(0,0,0,0) 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -121,7 +121,7 @@ const Corrida = () => {
         <div className="relative h-32 md:h-40 lg:h-48 flex items-center justify-center overflow-hidden px-4">
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
             <h2 className="text-[15vw] sm:text-[14vw] md:text-[13vw] lg:text-[12vw] xl:text-[10vw] font-black tracking-tighter select-none whitespace-nowrap" style={{
-              background: 'linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.06) 30%, rgba(0,0,0,0.02) 60%, rgba(0,0,0,0) 100%)',
+              background: 'linear-gradient(180deg, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.10) 30%, rgba(0,0,0,0.03) 60%, rgba(0,0,0,0) 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -143,7 +143,7 @@ const Corrida = () => {
         <div className="relative h-32 md:h-40 lg:h-48 flex items-center justify-center overflow-visible px-4 -mb-6 md:-mb-8 lg:-mb-10">
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
             <h2 className="text-[15vw] sm:text-[14vw] md:text-[13vw] lg:text-[12vw] xl:text-[10vw] font-black tracking-tighter select-none whitespace-nowrap" style={{
-              background: 'linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.06) 30%, rgba(0,0,0,0.02) 60%, rgba(0,0,0,0) 100%)',
+              background: 'linear-gradient(180deg, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.10) 30%, rgba(0,0,0,0.03) 60%, rgba(0,0,0,0) 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
