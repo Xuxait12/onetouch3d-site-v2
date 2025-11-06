@@ -115,15 +115,15 @@ const Corrida = () => {
         <HowItWorksTabs />
         
         {/* Section with CONQUISTA background text spanning two sections */}
-        <div className="relative overflow-hidden">
+        <div className="relative">
           {/* Giant CONQUISTA text in background */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-            <h2 className="text-[18vw] sm:text-[16vw] md:text-[14vw] lg:text-[12vw] font-black tracking-tighter select-none whitespace-nowrap" style={{
-              background: 'linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.06) 50%, rgba(0,0,0,0.02) 100%)',
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 w-full">
+            <h2 className="text-[20vw] sm:text-[18vw] md:text-[16vw] lg:text-[14vw] xl:text-[12vw] font-black tracking-tighter select-none whitespace-nowrap text-center" style={{
+              background: 'linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0.03) 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              filter: 'blur(0.8px)'
+              filter: 'blur(1px)'
             }}>
               CONQUISTA
             </h2>
