@@ -110,10 +110,10 @@ const ProductSection = () => {
   };
 
   return (
-    <section id="nossa-loja" data-section="nossa-loja" className="pt-2 md:pt-16 pb-16 bg-background product-section">
+    <section id="nossa-loja" data-section="nossa-loja" className="pb-16 bg-background product-section">
       <div className="max-w-7xl mx-auto px-6">
-        {/* Título da Seção - movido para depois da palavra ETERNIZE */}
-        <div className="text-center mb-8">
+        {/* Título da Seção - posicionado logo após ETERNIZE */}
+        <div className="text-center mb-12 -mt-2">
           <h2 className="text-4xl font-bold text-foreground">NOSSA LOJA</h2>
         </div>
         
