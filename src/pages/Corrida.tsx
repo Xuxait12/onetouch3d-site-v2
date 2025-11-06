@@ -54,21 +54,34 @@ const Corrida = () => {
           imageOnLeft={false}
         />
         
-        <FeatureSection
-          title="Suas Fotos em Destaque"
-          description="Escolha as melhores fotos da sua corrida e veja sua história ganhar vida em um quadro que une emoção, lembrança e design moderno."
-          imageSrc="/images/fotos-scrapbook.webp"
-          imageAlt="Fotos em destaque estilo scrapbook"
-          imageOnLeft={true}
-        />
-        
-        <FeatureSection
-          title="Seus Dados de Prova Personalizados"
-          description="Incluímos informações como seu nome, distância, tempo oficial e pace – para eternizar cada detalhe da sua conquista."
-          imageSrc="/images/dados-prova.webp"
-          imageAlt="Dados da prova"
-          imageOnLeft={false}
-        />
+        {/* Section with RUN background text */}
+        <div className="relative overflow-hidden">
+          {/* Giant RUN text in background */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+            <h2 className="text-[20vw] md:text-[18vw] lg:text-[16vw] font-black tracking-tighter opacity-[0.03] bg-gradient-to-b from-black/80 via-black/40 to-transparent bg-clip-text text-transparent select-none blur-[0.5px]">
+              RUN
+            </h2>
+          </div>
+          
+          {/* Content sections on top */}
+          <div className="relative z-10">
+            <FeatureSection
+              title="Suas Fotos em Destaque"
+              description="Escolha as melhores fotos da sua corrida e veja sua história ganhar vida em um quadro que une emoção, lembrança e design moderno."
+              imageSrc="/images/fotos-scrapbook.webp"
+              imageAlt="Fotos em destaque estilo scrapbook"
+              imageOnLeft={true}
+            />
+            
+            <FeatureSection
+              title="Seus Dados de Prova Personalizados"
+              description="Incluímos informações como seu nome, distância, tempo oficial e pace – para eternizar cada detalhe da sua conquista."
+              imageSrc="/images/dados-prova.webp"
+              imageAlt="Dados da prova"
+              imageOnLeft={false}
+            />
+          </div>
+        </div>
         
         <FeatureSection
           title="Design Moderno e Exclusivo"
