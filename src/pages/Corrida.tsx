@@ -113,11 +113,11 @@ const Corrida = () => {
         />
         
         <HowItWorksTabs />
+        <WhyChooseUsTabs />
         
-        {/* Section with CONQUISTA background text */}
-        <div className="relative py-8">
-          {/* Giant CONQUISTA text in background - positioned between tabs content and carousel */}
-          <div className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0">
+        {/* CONQUISTA background text positioned between sections */}
+        <div className="relative h-32 md:h-40 lg:h-48 flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
             <h2 className="text-[20vw] sm:text-[18vw] md:text-[16vw] lg:text-[14vw] xl:text-[12vw] font-black tracking-tighter select-none whitespace-nowrap" style={{
               background: 'linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0.03) 100%)',
               WebkitBackgroundClip: 'text',
@@ -127,11 +127,6 @@ const Corrida = () => {
             }}>
               CONQUISTA
             </h2>
-          </div>
-          
-          {/* Content sections on top */}
-          <div className="relative z-10">
-            <WhyChooseUsTabs />
           </div>
         </div>
         
