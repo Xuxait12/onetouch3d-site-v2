@@ -57,8 +57,14 @@ const Corrida = () => {
         {/* Section with RUN background text */}
         <div className="relative overflow-hidden">
           {/* Giant RUN text in background */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-            <h2 className="text-[20vw] md:text-[18vw] lg:text-[16vw] font-black tracking-tighter opacity-[0.03] bg-gradient-to-b from-black/80 via-black/40 to-transparent bg-clip-text text-transparent select-none blur-[0.5px]">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 -mt-20">
+            <h2 className="text-[25vw] md:text-[22vw] lg:text-[20vw] font-black tracking-tighter select-none" style={{
+              background: 'linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.06) 50%, rgba(0,0,0,0.02) 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              filter: 'blur(0.8px)'
+            }}>
               RUN
             </h2>
           </div>
