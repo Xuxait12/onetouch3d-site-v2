@@ -119,11 +119,11 @@ const Corrida = () => {
         <div className="relative h-32 md:h-40 lg:h-48 flex items-center justify-center overflow-hidden px-4">
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
             <h2 className="text-[18vw] sm:text-[16vw] md:text-[14vw] lg:text-[12vw] xl:text-[10vw] font-black tracking-tighter select-none whitespace-nowrap" style={{
-              background: 'linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.12) 30%, rgba(0,0,0,0.05) 60%, rgba(0,0,0,0) 100%)',
+              background: 'linear-gradient(180deg, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.18) 25%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0.02) 75%, rgba(0,0,0,0) 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              filter: 'blur(1px)'
+              filter: 'blur(0.8px)'
             }}>
               CONQUISTA
             </h2>
