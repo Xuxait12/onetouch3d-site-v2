@@ -160,7 +160,10 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply text-foreground font-sans antialiased;
+    background: linear-gradient(180deg, #f7fafd 0%, #ffffff 50%, #f7fafd 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
   }
 
   .scrollbar-hide::-webkit-scrollbar {
