@@ -64,7 +64,7 @@ const Corrida = () => {
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               filter: 'blur(0.8px)',
-              transform: 'rotate(90deg)',
+              transform: 'rotate(90deg) scaleY(1.4)',
               transformOrigin: 'center center',
               maskImage: 'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
               WebkitMaskImage: 'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)'
@@ -126,6 +126,7 @@ const Corrida = () => {
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               filter: 'blur(0.8px)',
+              transform: 'scaleY(1.4)',
               maskImage: 'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0) 100%)',
               WebkitMaskImage: 'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0) 100%)'
             }}>
@@ -148,6 +149,7 @@ const Corrida = () => {
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               filter: 'blur(0.8px)',
+              transform: 'scaleY(1.4)',
               maskImage: 'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0) 100%)',
               WebkitMaskImage: 'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0) 100%)'
             }}>
