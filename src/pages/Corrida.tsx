@@ -113,8 +113,28 @@ const Corrida = () => {
         />
         
         <HowItWorksTabs />
-        <WhyChooseUsTabs />
-        <InfiniteLogoCarousel />
+        
+        {/* Section with CONQUISTA background text spanning two sections */}
+        <div className="relative overflow-hidden">
+          {/* Giant CONQUISTA text in background */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+            <h2 className="text-[18vw] sm:text-[16vw] md:text-[14vw] lg:text-[12vw] font-black tracking-tighter select-none whitespace-nowrap" style={{
+              background: 'linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.06) 50%, rgba(0,0,0,0.02) 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              filter: 'blur(0.8px)'
+            }}>
+              CONQUISTA
+            </h2>
+          </div>
+          
+          {/* Content sections on top */}
+          <div className="relative z-10">
+            <WhyChooseUsTabs />
+            <InfiniteLogoCarousel />
+          </div>
+        </div>
         <LifestyleHeroSection />
         <GallerySection />
         <TestimonialsSection />
