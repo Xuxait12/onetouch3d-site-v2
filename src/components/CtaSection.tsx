@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 const CtaSection = () => {
   return (
-    <section className="section-spacing bg-gradient-cta">
+    <section className="section-spacing" style={{ background: 'transparent !important' }}>
       <div className="max-w-4xl mx-auto px-6 text-center text-white">
         <div className="animate-fade-up">
           <h2 className="section-text mb-6">

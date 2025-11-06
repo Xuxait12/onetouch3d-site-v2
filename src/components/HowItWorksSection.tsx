@@ -18,7 +18,7 @@ const steps = [{
 }];
 const HowItWorksSection = () => {
   return (
-    <section className="py-20 bg-gradient-to-br from-secondary/30 via-background to-secondary/10">
+    <section className="py-20" style={{ background: 'transparent !important' }}>
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16 animate-fade-up">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent relative">

@@ -161,7 +161,7 @@ All colors MUST be HSL.
 
   body {
     @apply text-foreground font-sans antialiased;
-    background: linear-gradient(180deg, #f7fafd 0%, #ffffff 50%, #f7fafd 100%);
+    background: linear-gradient(to bottom, #f5f8fc 0%, #ffffff 40%, #f5f8fc 100%) !important;
     background-attachment: fixed;
     min-height: 100vh;
   }

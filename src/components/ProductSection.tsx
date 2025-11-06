@@ -110,10 +110,10 @@ const ProductSection = () => {
   };
 
   return (
-    <section id="nossa-loja" data-section="nossa-loja" className="pb-16 bg-background product-section">
+    <section id="nossa-loja" data-section="nossa-loja" className="pb-16 product-section" style={{ background: 'transparent !important' }}>
       <div className="max-w-7xl mx-auto px-6">
         {/* Container Principal */}
-        <div className="bg-white rounded-2xl shadow-lg p-8">
+        <div className="rounded-2xl shadow-lg p-8" style={{ background: 'transparent !important' }}>
           {/* Título da Seção movido para dentro do container */}
           <div className="text-center mb-8">
             <h2 className="text-4xl font-bold text-foreground">NOSSA LOJA</h2>

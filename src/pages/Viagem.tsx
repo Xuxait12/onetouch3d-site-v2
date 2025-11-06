@@ -3,11 +3,11 @@ import GlobalFooter from "@/components/GlobalFooter";
 
 const Viagem = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen" style={{ background: 'transparent !important' }}>
       <GlobalHeader />
       
       <main className="flex-1">
-        <section className="relative min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-orange-50 via-white to-orange-50">
+        <section className="relative min-h-[80vh] flex items-center justify-center" style={{ background: 'transparent !important' }}>
           <div className="container mx-auto px-4 text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
               Viagem

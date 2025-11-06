@@ -38,7 +38,7 @@ const faqData = [
 
 const FAQSection = () => {
   return (
-    <section className="section-spacing bg-background">
+    <section className="section-spacing" style={{ background: 'transparent !important' }}>
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="section-text animate-fade-up">
