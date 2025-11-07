@@ -58,12 +58,12 @@ const Corrida = () => {
         <div className="relative">
           {/* Giant RUN text in background - rotated vertically on the right edge */}
           <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none z-0">
-            <h2 className="text-[28vw] sm:text-[24vw] md:text-[20vw] lg:text-[16vw] font-black tracking-tighter select-none whitespace-nowrap" style={{
-              background: 'linear-gradient(to bottom, #b8b8b8, #d3d3d3)',
+            <h2 className="text-[28vw] sm:text-[24vw] md:text-[20vw] lg:text-[16vw] font-black tracking-wider select-none whitespace-nowrap" style={{
+              background: 'linear-gradient(180deg, #000000 0%, #1a1a1a 20%, #4a4a4a 35%, #e5e5e5 55%, #ffffff 80%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              opacity: '0.40',
+              opacity: '0.55',
               filter: 'none',
               transform: 'rotate(90deg) scaleY(1.4)',
               transformOrigin: 'center center',
@@ -145,12 +145,12 @@ const Corrida = () => {
         {/* ETERNIZE background text positioned above Nossa loja section */}
         <div className="relative h-48 md:h-56 lg:h-64 flex items-center justify-center overflow-hidden px-4 mb-4 md:mb-6 lg:mb-8">
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-            <h2 className="text-[15vw] sm:text-[14vw] md:text-[13vw] lg:text-[12vw] xl:text-[10vw] font-black tracking-wide select-none whitespace-nowrap" style={{
-              background: 'linear-gradient(to bottom, #b8b8b8, #d3d3d3)',
+            <h2 className="text-[15vw] sm:text-[14vw] md:text-[13vw] lg:text-[12vw] xl:text-[10vw] font-black tracking-wider select-none whitespace-nowrap" style={{
+              background: 'linear-gradient(180deg, #000000 0%, #1a1a1a 20%, #4a4a4a 35%, #e5e5e5 55%, #ffffff 80%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              opacity: '0.40',
+              opacity: '0.55',
               filter: 'none',
               transform: 'scaleY(1.4)',
               position: 'relative',
