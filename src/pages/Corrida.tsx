@@ -68,7 +68,7 @@ const Corrida = () => {
               transform: 'rotate(90deg) scaleY(1.4)',
               transformOrigin: 'center center',
               position: 'relative',
-              zIndex: '1'
+              zIndex: '-1'
             }}>
               RUN
             </h2>
