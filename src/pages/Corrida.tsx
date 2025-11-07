@@ -122,7 +122,7 @@ const Corrida = () => {
         <div className="relative h-32 md:h-40 lg:h-48 flex items-center justify-center overflow-hidden px-4">
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
             <h2 className="text-[12vw] sm:text-[11vw] md:text-[10vw] lg:text-[9vw] xl:text-[8vw] font-black tracking-tighter select-none whitespace-nowrap" style={{
-              background: 'linear-gradient(to bottom, #b8b8b8, #d3d3d3)',
+              background: 'linear-gradient(to bottom, #8a8a8a 0%, #b8b8b8 50%, #e0e0e0 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
