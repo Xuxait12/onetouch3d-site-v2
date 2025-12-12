@@ -1,10 +1,7 @@
-// TODO: Atualizar imagem heroRunnerFinish para imagem específica de ciclismo
-// TODO: Atualizar título e descrição para modalidade ciclismo
-
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
-const heroRunnerFinish = "/images/ciclismo-hero.webp";
+const heroCiclismo = "/images/ciclismo-hero-2.webp";
 
 const LETTER_VARIANTS = {
   hidden: { y: 24, opacity: 0 },
@@ -19,7 +16,7 @@ const WORD_VARIANTS = {
 const HeroSectionCiclismo = () => {
   const shouldReduceMotion = useReducedMotion();
 
-  const title = "Eternize Sua Prova com um Quadro Personalizado";
+  const title = "Eternize Seu Pedal com um Quadro Personalizado";
   const [firstWord, ...restWords] = title.split(" ");
   const restText = restWords.join(" ");
 
@@ -60,7 +57,7 @@ const HeroSectionCiclismo = () => {
       <div 
         className="absolute inset-0 bg-cover bg-no-repeat opacity-0 animate-[fadeIn_1.5s_ease-out_0.1s_forwards]"
         style={{ 
-          backgroundImage: `url(${heroRunnerFinish})`,
+          backgroundImage: `url(${heroCiclismo})`,
           backgroundPosition: 'center 30%'
         }}
       >
@@ -124,7 +121,7 @@ const HeroSectionCiclismo = () => {
             animate={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
             transition={shouldReduceMotion ? {} : { delay: 0.6, duration: 0.6, ease: "easeOut" }}
           >
-            Deixe sua medalha em destaque! Personalize com percurso 3D, fotos e dados da prova para criar uma lembrança inesquecível.
+            Deixe sua medalha em destaque! Personalize com percurso 3D, fotos e dados do seu pedal para criar uma lembrança inesquecível.
           </motion.p>
 
           {/* CTA com fade-up e zoom */}
