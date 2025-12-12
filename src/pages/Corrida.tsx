@@ -51,8 +51,8 @@ const Corrida = () => {
         <div className="relative overflow-hidden">
           {/* Giant RUN text in background - spans multiple sections */}
           <div 
-            className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none"
-            style={{ zIndex: -1 }}
+            className="absolute top-1/2 -translate-y-1/2 pointer-events-none"
+            style={{ zIndex: -1, right: '-8vw' }}
           >
             <h2 className="text-[28vw] sm:text-[24vw] md:text-[20vw] lg:text-[16vw] font-black tracking-wider select-none whitespace-nowrap" style={{
               color: '#000000',
