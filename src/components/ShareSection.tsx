@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 
 const ShareSection = () => {
   const [copied, setCopied] = useState(false);
-  const shareSupported = typeof navigator !== "undefined" && typeof navigator.share === "function";
+  const shareSupported =
+    typeof navigator !== "undefined" && typeof navigator.share === "function";
 
-  const currentUrl = typeof window !== "undefined" ? window.location.href : "";
+  const currentUrl =
+    typeof window !== "undefined" ? window.location.href : "";
 
   const shareData = {
     title: "OneTouch3D – Quadros Personalizados",
@@ -19,9 +21,7 @@ const ShareSection = () => {
       if (navigator.share) {
         await navigator.share(shareData);
       }
-    } catch (err) {
-      console.log("Share cancelado ou falhou");
-    }
+    } catch {}
   };
 
   const handleCopyLink = async () => {
@@ -29,9 +29,7 @@ const ShareSection = () => {
       await navigator.clipboard.writeText(currentUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Falha ao copiar o link");
-    }
+    } catch {}
   };
 
   return (
@@ -39,21 +37,21 @@ const ShareSection = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
           <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8 md:p-12 text-center">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-4">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
               Compartilhe Essa Energia!
             </h2>
 
             <p className="text-muted-foreground text-base md:text-lg mb-8 max-w-md mx-auto">
-              Indique o site para um amigo que também vive o esporte. Pequenos gestos inspiram grandes conquistas.
+              Indique o site para um amigo que também vive o esporte. Pequenos
+              gestos inspiram grandes conquistas.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               {shareSupported && (
                 <Button
                   onClick={handleShare}
-                  variant="default"
                   size="lg"
-                  className="w-full sm:w-auto min-w-[200px] rounded-full font-medium"
+                  className="w-full sm:w-auto min-w-[200px] rounded-full font-medium bg-primary text-primary-foreground hover:opacity-90"
                 >
                   <Share2 className="w-5 h-5 mr-2" />
                   Compartilhar Agora
