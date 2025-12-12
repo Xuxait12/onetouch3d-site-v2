@@ -56,9 +56,12 @@ const Corrida = () => {
         />
         
         {/* Section with RUN background text */}
-        <div className="relative">
+        <div className="relative overflow-hidden">
           {/* Giant RUN text in background - rotated vertically on the right edge */}
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none z-0">
+          <div 
+            className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none"
+            style={{ zIndex: 0 }}
+          >
             <h2 className="text-[28vw] sm:text-[24vw] md:text-[20vw] lg:text-[16vw] font-black tracking-wider select-none whitespace-nowrap" style={{
               background: 'linear-gradient(180deg, #000000 0%, #1a1a1a 20%, #4a4a4a 35%, #e5e5e5 55%, #ffffff 80%)',
               WebkitBackgroundClip: 'text',
@@ -67,21 +70,21 @@ const Corrida = () => {
               opacity: '0.55',
               filter: 'none',
               transform: 'rotate(90deg) scaleY(1.4)',
-              transformOrigin: 'center center',
-              position: 'relative',
-              zIndex: '-1'
+              transformOrigin: 'center center'
             }}>
               RUN
             </h2>
           </div>
           
-          <FeatureSection
-            title="Suas Fotos em Destaque"
-            description="Escolha as melhores fotos da sua corrida e veja sua história ganhar vida em um quadro que une emoção, lembrança e design moderno."
-            imageSrc="/images/fotos-scrapbook.webp"
-            imageAlt="Fotos em destaque estilo scrapbook"
-            imageOnLeft={true}
-          />
+          <div className="relative" style={{ zIndex: 10 }}>
+            <FeatureSection
+              title="Suas Fotos em Destaque"
+              description="Escolha as melhores fotos da sua corrida e veja sua história ganhar vida em um quadro que une emoção, lembrança e design moderno."
+              imageSrc="/images/fotos-scrapbook.webp"
+              imageAlt="Fotos em destaque estilo scrapbook"
+              imageOnLeft={true}
+            />
+          </div>
         </div>
         
         <FeatureSection
