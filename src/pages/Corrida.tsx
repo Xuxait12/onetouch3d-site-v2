@@ -47,17 +47,9 @@ const Corrida = () => {
           imageOnLeft={true}
         />
         
-        <FeatureSection
-          title="Percurso 3D Exclusivo"
-          description="Recriamos o trajeto da sua corrida em 3D com precisão, tornando cada quadro único e totalmente personalizado com a sua conquista."
-          imageSrc="/images/percurso-3d.webp"
-          imageAlt="Percurso 3D da prova"
-          imageOnLeft={false}
-        />
-        
-        {/* Section with RUN background text */}
+        {/* Wrapper for multiple sections with RUN background text */}
         <div className="relative overflow-hidden">
-          {/* Giant RUN text in background - rotated vertically on the right edge */}
+          {/* Giant RUN text in background - spans multiple sections */}
           <div 
             className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none"
             style={{ zIndex: 0 }}
@@ -78,30 +70,38 @@ const Corrida = () => {
           
           <div className="relative" style={{ zIndex: 10 }}>
             <FeatureSection
+              title="Percurso 3D Exclusivo"
+              description="Recriamos o trajeto da sua corrida em 3D com precisão, tornando cada quadro único e totalmente personalizado com a sua conquista."
+              imageSrc="/images/percurso-3d.webp"
+              imageAlt="Percurso 3D da prova"
+              imageOnLeft={false}
+            />
+            
+            <FeatureSection
               title="Suas Fotos em Destaque"
               description="Escolha as melhores fotos da sua corrida e veja sua história ganhar vida em um quadro que une emoção, lembrança e design moderno."
               imageSrc="/images/fotos-scrapbook.webp"
               imageAlt="Fotos em destaque estilo scrapbook"
               imageOnLeft={true}
             />
+            
+            <FeatureSection
+              title="Seus Dados de Prova Personalizados"
+              description="Incluímos informações como seu nome, distância, tempo oficial e pace – para eternizar cada detalhe da sua conquista."
+              imageSrc="/images/dados-prova.webp"
+              imageAlt="Dados da prova"
+              imageOnLeft={false}
+            />
+            
+            <FeatureSection
+              title="Design Moderno e Exclusivo"
+              description="Um layout pensado para destacar sua corrida com estilo. Seu quadro combina com qualquer ambiente, do quarto à sala de estar."
+              imageSrc="/images/quadro-moderno.webp"
+              imageAlt="Layout moderno e exclusivo"
+              imageOnLeft={true}
+            />
           </div>
         </div>
-        
-        <FeatureSection
-          title="Seus Dados de Prova Personalizados"
-          description="Incluímos informações como seu nome, distância, tempo oficial e pace – para eternizar cada detalhe da sua conquista."
-          imageSrc="/images/dados-prova.webp"
-          imageAlt="Dados da prova"
-          imageOnLeft={false}
-        />
-        
-        <FeatureSection
-          title="Design Moderno e Exclusivo"
-          description="Um layout pensado para destacar sua corrida com estilo. Seu quadro combina com qualquer ambiente, do quarto à sala de estar."
-          imageSrc="/images/quadro-moderno.webp"
-          imageAlt="Layout moderno e exclusivo"
-          imageOnLeft={true}
-        />
         
         <FeatureSection
           title="Entrega Segura em Todo Brasil"
