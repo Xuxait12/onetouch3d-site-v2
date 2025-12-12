@@ -1,77 +1,70 @@
-import { useState } from 'react';
-import { Share2, Copy, Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { Share2, Copy, Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const ShareSection = () => {
   const [copied, setCopied] = useState(false);
-  const [shareSupported] = useState(() => typeof navigator !== 'undefined' && !!navigator.share);
+  const shareSupported = typeof navigator !== "undefined" && typeof navigator.share === "function";
+
+  const currentUrl = typeof window !== "undefined" ? window.location.href : "";
 
   const shareData = {
-    title: 'OneTouch3D – Quadros Personalizados',
-    text: 'Conheça a OneTouch3D e eternize suas conquistas esportivas!',
-    url: typeof window !== 'undefined' ? window.location.href : '',
+    title: "OneTouch3D – Quadros Personalizados",
+    text: "Conheça a OneTouch3D e eternize suas conquistas esportivas!",
+    url: currentUrl,
   };
 
   const handleShare = async () => {
-    if (navigator.share) {
-      try {
+    try {
+      if (navigator.share) {
         await navigator.share(shareData);
-      } catch (err) {
-        // User cancelled or error occurred
-        console.log('Share cancelled or failed');
       }
+    } catch (err) {
+      console.log("Share cancelado ou falhou");
     }
   };
 
   const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.href);
+      await navigator.clipboard.writeText(currentUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy link');
+      console.error("Falha ao copiar o link");
     }
   };
 
   return (
-    <section className="py-16 md:py-20 lg:py-24 bg-[#F7F7F7]">
+    <section className="py-16 md:py-20 lg:py-24 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
-          {/* Card with white background and shadow */}
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 md:p-12 text-center">
-            {/* Title */}
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8 md:p-12 text-center">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-4">
               Compartilhe Essa Energia!
             </h2>
-            
-            {/* Subtitle */}
+
             <p className="text-muted-foreground text-base md:text-lg mb-8 max-w-md mx-auto">
               Indique o site para um amigo que também vive o esporte. Pequenos gestos inspiram grandes conquistas.
             </p>
-            
-            {/* Buttons */}
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              {/* Mobile: Share button (shown when Web Share API is supported) */}
               {shareSupported && (
                 <Button
                   onClick={handleShare}
-                  variant="cta"
+                  variant="default"
                   size="lg"
-                  className="w-full sm:w-auto min-w-[200px]"
+                  className="w-full sm:w-auto min-w-[200px] rounded-full font-medium"
                 >
                   <Share2 className="w-5 h-5 mr-2" />
                   Compartilhar Agora
                 </Button>
               )}
-              
-              {/* Desktop: Copy link button (always shown, primary on desktop when share not supported) */}
+
               <Button
                 onClick={handleCopyLink}
-                variant={shareSupported ? "outline" : "cta"}
+                variant="outline"
                 size="lg"
-                className={`w-full sm:w-auto min-w-[200px] ${
-                  !shareSupported ? '' : 'border-primary text-primary hover:bg-primary hover:text-primary-foreground'
-                }`}
+                className="w-full sm:w-auto min-w-[200px] rounded-full font-medium"
               >
                 {copied ? (
                   <>
