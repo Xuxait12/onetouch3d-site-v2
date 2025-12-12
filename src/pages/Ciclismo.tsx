@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
-import HeroSection from "@/components/HeroSection";
+import HeroSectionCiclismo from "@/components/HeroSectionCiclismo";
 import FeatureSection from "@/components/FeatureSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import ProductSection from "@/components/ProductSection";
@@ -37,7 +37,7 @@ const Ciclismo = () => {
       <GlobalHeader />
       
       <main>
-        <HeroSection />
+        <HeroSectionCiclismo />
         
         <FeatureSection
           title="Moldura Premium e Durável"
