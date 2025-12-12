@@ -52,15 +52,12 @@ const Corrida = () => {
           {/* Giant RUN text in background - spans multiple sections */}
           <div 
             className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none"
-            style={{ zIndex: 0 }}
+            style={{ zIndex: -1 }}
           >
             <h2 className="text-[28vw] sm:text-[24vw] md:text-[20vw] lg:text-[16vw] font-black tracking-wider select-none whitespace-nowrap" style={{
-              background: 'linear-gradient(180deg, #000000 0%, #1a1a1a 20%, #4a4a4a 35%, #e5e5e5 55%, #ffffff 80%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              opacity: '0.55',
-              filter: 'none',
+              color: '#000000',
+              opacity: 0.08,
+              filter: 'blur(5px)',
               transform: 'rotate(90deg) scaleY(1.4)',
               transformOrigin: 'center center'
             }}>
@@ -68,7 +65,7 @@ const Corrida = () => {
             </h2>
           </div>
           
-          <div className="relative" style={{ zIndex: 10 }}>
+          <div className="relative" style={{ zIndex: 5 }}>
             <FeatureSection
               title="Percurso 3D Exclusivo"
               description="Recriamos o trajeto da sua corrida em 3D com precisão, tornando cada quadro único e totalmente personalizado com a sua conquista."
