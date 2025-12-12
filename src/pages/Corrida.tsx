@@ -57,7 +57,7 @@ const Corrida = () => {
             <h2 className="text-[28vw] sm:text-[24vw] md:text-[20vw] lg:text-[16vw] font-black tracking-wider select-none whitespace-nowrap" style={{
               color: '#000000',
               opacity: 0.08,
-              filter: 'blur(5px)',
+              filter: 'blur(2.5px)',
               transform: 'rotate(90deg) scaleY(1.4)',
               transformOrigin: 'center center'
             }}>
