@@ -41,7 +41,7 @@ const Viagem = () => {
         
         <FeatureSection
           title="Moldura Premium e Durável"
-          description="Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado. Seu quadro não apenas valoriza suas memórias, mas também se torna parte da decoração."
+          description="Nossa moldura é produzida com material de alta resistência e acabamento refinado, perfeitas para valorizar fotos, rotas e memórias de viagem. Um quadro que não só decora — mas preserva emoções."
           imageSrc="/images/quadro-moderno.gif"
           imageAlt="Moldura premium personalizada"
           imageOnLeft={true}
