@@ -147,7 +147,13 @@ const Viagem = () => {
         
         <FeatureSection
           title="Sua Aventura em Destaque"
-          description="Existem viagens que merecem um destaque especial. Dê vida às suas memórias emoldurando seu momento mais inesquecível."
+          description={
+            <>
+              <p className="mb-2">Existem viagens que mudam quem você é.</p>
+              <p className="mb-2">Essas viagens merecem ser eternizadas.</p>
+              <p>Transformamos sua rota, fotos e história em um quadro único — feito especialmente para você.</p>
+            </>
+          }
           imageSrc="/images/medalhas.gif"
           imageAlt="Lembranças emolduradas"
           imageOnLeft={true}
