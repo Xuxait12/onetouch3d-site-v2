@@ -84,7 +84,7 @@ const Viagem = () => {
             
             <FeatureSection
               title="Seus Dados de Viagem Personalizados"
-              description="Incluímos informações como destinos visitados, datas e distâncias percorridas – para eternizar cada detalhe da sua aventura."
+              description="Incluímos as principais informações da sua viagem, como: Países ou cidades percorridas, Datas, Kilometragem total, Título da sua viagem e Estilo da aventura (carro, moto ou motorhome). Cada detalhe ajuda a contar sua história da forma mais completa possível."
               imageSrc="/images/dados-prova.webp"
               imageAlt="Dados da viagem"
               imageOnLeft={false}
