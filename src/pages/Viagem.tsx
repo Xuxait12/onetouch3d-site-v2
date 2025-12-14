@@ -83,18 +83,17 @@ const Viagem = () => {
             />
             
             <FeatureSection
-              title="Seus Dados de Viagem Personalizados"
+              title="Detalhes da Sua Viagem"
               description={
                 <>
                   <p className="mb-3">Incluímos as principais informações da sua viagem, como:</p>
-                  <ul className="list-disc list-inside space-y-1 mb-3 text-left">
+                  <ul className="list-disc list-inside space-y-1 text-left">
                     <li>Países ou cidades percorridas</li>
                     <li>Datas</li>
                     <li>Kilometragem total</li>
                     <li>Título da sua viagem</li>
                     <li>Estilo da aventura (carro, moto ou motorhome)</li>
                   </ul>
-                  <p>Cada detalhe ajuda a contar sua história da forma mais completa possível.</p>
                 </>
               }
               imageSrc="/images/dados-prova.webp"
