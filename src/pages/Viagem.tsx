@@ -5,7 +5,7 @@ import GlobalFooter from "@/components/GlobalFooter";
 import HeroSectionViagem from "@/components/HeroSectionViagem";
 import FeatureSection from "@/components/FeatureSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import ProductSection from "@/components/ProductSection";
+import ProductSectionViagem from "@/components/ProductSectionViagem";
 import HowItWorksTabsViagem from "@/components/HowItWorksTabsViagem";
 import WhyChooseUsTabsViagem from "@/components/WhyChooseUsTabsViagem";
 import FAQSectionViagem from "@/components/FAQSectionViagem";
@@ -207,7 +207,7 @@ const Viagem = () => {
           </div>
         </div>
         
-        <ProductSection />
+        <ProductSectionViagem />
         <FAQSectionViagem />
         
         
