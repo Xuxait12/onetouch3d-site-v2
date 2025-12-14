@@ -19,7 +19,7 @@ const faqData = [
     )
   },
   {
-    question: "Como envio detalhes do trajeto da minha viagem?",
+    question: "Como envio detalhes do PERCURSO da minha viagem?",
     answer: "Sim! Oferecemos diferentes opções de layout, incluindo modelos que comportam várias fotos. É só nos informar quantas imagens deseja utilizar e criaremos um design exclusivo para você."
   },
   {
