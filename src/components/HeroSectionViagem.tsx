@@ -67,81 +67,79 @@ const HeroSectionViagem = () => {
       
       {/* Content */}
       <div className="relative z-10 h-full flex items-center justify-center px-4 sm:px-6">
-        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl px-6 py-8 sm:px-10 sm:py-12 md:px-16 md:py-14 max-w-4xl mx-auto">
-          <div className="text-center">
-            {/* H1 com animação letter-by-letter */}
-            <motion.h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900 drop-shadow-sm"
-              initial="hidden"
-              animate="visible"
-              variants={shouldReduceMotion ? {} : containerVariants}
-            >
-              {/* Eternize - letter by letter */}
-              <span className="inline-block mr-2 sm:mr-3 align-middle">
-                <motion.span
-                  aria-hidden
-                  className="inline-flex"
-                  variants={shouldReduceMotion ? {} : letterContainerVariants}
-                >
-                  {firstWord.split("").map((char, i) => (
-                    <motion.span
-                      key={`letter-${i}`}
-                      className="inline-block text-blue-600"
-                      variants={shouldReduceMotion ? {} : LETTER_VARIANTS}
-                      style={{ display: "inline-block" }}
-                    >
-                      {char}
-                    </motion.span>
-                  ))}
-                </motion.span>
-              </span>
-
-              {/* Resto do H1 */}
+        <div className="text-center text-white max-w-5xl mx-auto">
+          {/* H1 com animação letter-by-letter */}
+          <motion.h1
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-2xl"
+            initial="hidden"
+            animate="visible"
+            variants={shouldReduceMotion ? {} : containerVariants}
+          >
+            {/* Eternize - letter by letter */}
+            <span className="inline-block mr-3 align-middle">
               <motion.span
-                className="inline-block align-middle text-gray-900"
-                variants={shouldReduceMotion ? {} : wordContainerVariants}
+                aria-hidden
+                className="inline-flex"
+                variants={shouldReduceMotion ? {} : letterContainerVariants}
               >
-                {restText.split(" ").map((word, wi) => (
+                {firstWord.split("").map((char, i) => (
                   <motion.span
-                    key={`word-${wi}`}
-                    className="inline-block ml-1"
-                    variants={shouldReduceMotion ? {} : WORD_VARIANTS}
+                    key={`letter-${i}`}
+                    className="inline-block text-blue-400"
+                    variants={shouldReduceMotion ? {} : LETTER_VARIANTS}
                     style={{ display: "inline-block" }}
                   >
-                    {word}
-                    {wi < restText.split(" ").length - 1 ? "\u00A0" : ""}
+                    {char}
                   </motion.span>
                 ))}
               </motion.span>
-            </motion.h1>
+            </span>
 
-            {/* P com fade-up */}
-            <motion.p
-              className="text-base sm:text-lg md:text-xl mb-8 text-gray-700 max-w-3xl mx-auto"
-              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-              animate={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-              transition={shouldReduceMotion ? {} : { delay: 0.6, duration: 0.6, ease: "easeOut" }}
+            {/* Resto do H1 */}
+            <motion.span
+              className="inline-block align-middle text-white"
+              variants={shouldReduceMotion ? {} : wordContainerVariants}
             >
-              Personalize com percurso 3D, fotos e dados da sua aventura para criar uma lembrança inesquecível.
-            </motion.p>
+              {restText.split(" ").map((word, wi) => (
+                <motion.span
+                  key={`word-${wi}`}
+                  className="inline-block ml-1"
+                  variants={shouldReduceMotion ? {} : WORD_VARIANTS}
+                  style={{ display: "inline-block" }}
+                >
+                  {word}
+                  {wi < restText.split(" ").length - 1 ? "\u00A0" : ""}
+                </motion.span>
+              ))}
+            </motion.span>
+          </motion.h1>
 
-            {/* CTA com fade-up e zoom */}
-            <motion.div
-              className="mt-6"
-              initial={shouldReduceMotion ? {} : { opacity: 0, y: 10, scale: 0.98 }}
-              animate={shouldReduceMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
-              transition={shouldReduceMotion ? {} : { delay: 1.05, duration: 0.5, ease: "easeOut" }}
+          {/* P com fade-up */}
+          <motion.p
+            className="text-lg sm:text-xl md:text-2xl mb-8 opacity-90 max-w-4xl mx-auto text-white/95 drop-shadow-lg"
+            initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            animate={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+            transition={shouldReduceMotion ? {} : { delay: 0.6, duration: 0.6, ease: "easeOut" }}
+          >
+            Personalize com percurso 3D, fotos e dados da sua aventura para criar uma lembrança inesquecível.
+          </motion.p>
+
+          {/* CTA com fade-up e zoom */}
+          <motion.div
+            className="mt-6"
+            initial={shouldReduceMotion ? {} : { opacity: 0, y: 10, scale: 0.98 }}
+            animate={shouldReduceMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
+            transition={shouldReduceMotion ? {} : { delay: 1.05, duration: 0.5, ease: "easeOut" }}
+          >
+            <motion.a
+              href="#nossa-loja"
+              aria-label="Personalize seu quadro agora"
+              whileHover={shouldReduceMotion ? {} : { scale: 1.03 }}
+              className="neu-button inline-flex items-center justify-center"
             >
-              <motion.a
-                href="#nossa-loja"
-                aria-label="Personalize seu quadro agora"
-                whileHover={shouldReduceMotion ? {} : { scale: 1.03 }}
-                className="neu-button inline-flex items-center justify-center"
-              >
-                Personalize seu quadro agora
-              </motion.a>
-            </motion.div>
-          </div>
+              Personalize seu quadro agora
+            </motion.a>
+          </motion.div>
         </div>
       </div>
     </section>
