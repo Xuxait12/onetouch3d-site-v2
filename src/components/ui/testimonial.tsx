@@ -45,7 +45,7 @@ const testimonials = [
       "É gratificante ver uma experiência ser transformada em algo eterno. A personalização, o carinho no processo e a qualidade final fazem toda a diferença. Um trabalho que vale muito a pena e que recomendo.",
     name: "PC Escudero",
     designation: "Guia Moto Turismo",
-    src: "/lovable-uploads/d5e84784-9d28-408e-8efa-08cd6e04b5be.png",
+    src: "/lovable-uploads/pc-escudero-moto-turismo.webp",
   },
   {
     quote:
