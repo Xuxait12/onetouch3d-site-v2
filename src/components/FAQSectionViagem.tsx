@@ -32,8 +32,8 @@ const faqData = [
     )
   },
   {
-    question: "É possível personalizar a arte antes da produção?",
-    answer: "Sim. Antes de iniciarmos a produção, enviamos a arte digital para a sua aprovação. Só depois da sua confirmação o quadro segue para fabricação. Assim, garantimos que o resultado final fique exatamente como você deseja."
+    question: "É possível editar a arte antes da produção?",
+    answer: "Sim. Antes de iniciarmos a produção, enviamos a arte digital para a sua aprovação. Só depois da sua APROVAÇÃO o quadro segue para fabricação. Assim, garantimos que o resultado final fique exatamente como você deseja."
   },
   {
     question: "Qual o prazo de produção e entrega?",
