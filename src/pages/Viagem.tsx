@@ -103,7 +103,17 @@ const Viagem = () => {
             
             <FeatureSection
               title="Design Moderno e Exclusivo"
-              description="Um layout pensado para destacar sua viagem com estilo. Seu quadro combina com qualquer ambiente, do quarto à sala de estar."
+              description={
+                <>
+                  <p className="mb-3">Mais do que um quadro, uma representação fiel da sua jornada. Cada elemento é personalizado para destacar:</p>
+                  <ul className="list-disc list-inside space-y-1 text-left">
+                    <li>O caminho percorrido</li>
+                    <li>As paisagens que ficaram na memória</li>
+                    <li>As emoções vividas ao longo da viagem</li>
+                    <li>A identidade de quem escolheu explorar</li>
+                  </ul>
+                </>
+              }
               imageSrc="/images/quadro-moderno.webp"
               imageAlt="Layout moderno e exclusivo"
               imageOnLeft={true}
