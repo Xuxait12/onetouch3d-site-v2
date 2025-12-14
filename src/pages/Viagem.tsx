@@ -138,14 +138,6 @@ const Viagem = () => {
         </div>
         
         <FeatureSection
-          title="Entrega Segura em Todo Brasil"
-          description="Seu quadro é embalado com proteção reforçada, garantindo que chegue impecável até você, independente da cidade."
-          imageSrc="/images/embalagem-segura.webp"
-          imageAlt="Embalagem segura"
-          imageOnLeft={false}
-        />
-        
-        <FeatureSection
           title="Sua Aventura em Destaque"
           description={
             <>
@@ -208,6 +200,15 @@ const Viagem = () => {
         </div>
         
         <ProductSectionViagem />
+        
+        <FeatureSection
+          title="Entrega Segura em Todo Brasil"
+          description="Seu quadro é embalado com proteção reforçada, garantindo que chegue impecável até você, independente da cidade."
+          imageSrc="/images/embalagem-segura.webp"
+          imageAlt="Embalagem segura"
+          imageOnLeft={false}
+        />
+        
         <FAQSectionViagem />
         
         
