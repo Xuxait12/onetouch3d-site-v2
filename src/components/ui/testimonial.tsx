@@ -49,9 +49,9 @@ const testimonials = [
   },
   {
     quote:
-      "A OneTouch3D transformou meus 82KM no Rio do Rastro em uma lembrança inesquecível. Foi uma satisfação enorme eternizar minha maior conquista com um quadro de muita qualidade e cheio de detalhes.",
-    name: "Rodrigo Nicoloso",
-    designation: "Uphill Desafio Shogun",
+      "Iniciei recentemente minhas viagens de moto e realizei meu sonho de explorar a América do Sul, especialmente o Chile. Agradeço à Onetouch3d pela qualidade e rapidez na entrega do belo quadro que eterniza esse momento especial.",
+    name: "Paulo Cesar Nogueira",
+    designation: "Expedição Atacama",
     src: "/lovable-uploads/e062d32b-d2bd-4a30-9716-980aa7576edf.png",
   },
 ];
