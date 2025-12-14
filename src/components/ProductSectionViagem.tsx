@@ -12,7 +12,7 @@ const ProductSectionViagem = () => {
   const navigate = useNavigate();
   const { addItem } = useCart();
   const [selectedColor, setSelectedColor] = useState("preta-branca");
-  const [selectedSize, setSelectedSize] = useState("33x33cm");
+  const [selectedSize, setSelectedSize] = useState("33x43cm");
   const [cep, setCep] = useState("");
 
   const colorOptions = [
@@ -20,13 +20,12 @@ const ProductSectionViagem = () => {
   ];
 
   const sizeOptions = [
-    { size: "33x33cm", fullPrice: 330, pixPrice: 309.50 },
-    { size: "33x43cm", fullPrice: 359, pixPrice: 332.50 },
-    { size: "37x48cm", fullPrice: 390, pixPrice: 363.00 },
-    { size: "43x43cm", fullPrice: 385, pixPrice: 386.00 },
-    { size: "43x53cm", fullPrice: 439, pixPrice: 414.50 },
-    { size: "43x63cm", fullPrice: 560, pixPrice: 517.50 },
-    { size: "53x53cm", fullPrice: 510, pixPrice: 493.50 }
+    { size: "33x43cm", fullPrice: 390, pixPrice: 370.50, isQuote: false },
+    { size: "37x48cm", fullPrice: 420, pixPrice: 399.00, isQuote: false },
+    { size: "43x53cm", fullPrice: 470, pixPrice: 446.50, isQuote: false },
+    { size: "53x73cm", fullPrice: 640, pixPrice: 608.00, isQuote: false },
+    { size: "63x83cm", fullPrice: 0, pixPrice: 0, isQuote: true },
+    { size: "83x103cm", fullPrice: 0, pixPrice: 0, isQuote: true }
   ];
 
   const currentSizeOption = sizeOptions.find(option => option.size === selectedSize) || sizeOptions[0];
@@ -115,11 +114,6 @@ const ProductSectionViagem = () => {
                   </li>
                 </ul>
                 
-                <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <p className="text-blue-600 font-semibold text-center">
-                    NÃO NECESSITA ENVIO DA MEDALHA
-                  </p>
-                </div>
               </Card>
             </div>
 
@@ -182,24 +176,41 @@ const ProductSectionViagem = () => {
 
               {/* Preço */}
               <div className="bg-muted/50 p-4 rounded-lg">
-                <div className="text-sm text-muted-foreground mb-1">
-                  De <span className="line-through">R$ {fullPrice.toFixed(2).replace('.', ',')}</span> por:
-                </div>
-                <div className="text-3xl font-bold text-green-600 mb-2">
-                  R$ {finalPrice.toFixed(2).replace('.', ',')}
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  5% de desconto no PIX ou parcele em até 12 vezes
-                </div>
+                {currentSizeOption.isQuote ? (
+                  <div className="text-2xl font-bold text-primary">
+                    Solicitar orçamento
+                  </div>
+                ) : (
+                  <>
+                    <div className="text-sm text-muted-foreground mb-1">
+                      De <span className="line-through">R$ {fullPrice.toFixed(2).replace('.', ',')}</span> por:
+                    </div>
+                    <div className="text-3xl font-bold text-green-600 mb-2">
+                      R$ {finalPrice.toFixed(2).replace('.', ',')}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      5% de desconto no PIX ou parcele em até 12 vezes
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* Botão de Compra */}
-              <Button 
-                onClick={handleAddToCart}
-                className="w-full bg-black hover:bg-black/90 text-white py-3 text-lg font-medium"
-              >
-                Adicionar ao carrinho
-              </Button>
+              {currentSizeOption.isQuote ? (
+                <Button 
+                  onClick={() => window.open('https://wa.me/5511999999999?text=Olá! Gostaria de solicitar um orçamento para o quadro de viagem no tamanho ' + selectedSize, '_blank')}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-medium"
+                >
+                  Solicitar orçamento via WhatsApp
+                </Button>
+              ) : (
+                <Button 
+                  onClick={handleAddToCart}
+                  className="w-full bg-black hover:bg-black/90 text-white py-3 text-lg font-medium"
+                >
+                  Adicionar ao carrinho
+                </Button>
+              )}
 
               {/* Consulta de Frete */}
               <div>
