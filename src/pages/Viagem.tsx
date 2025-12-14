@@ -151,7 +151,8 @@ const Viagem = () => {
             <>
               <p className="mb-2">Existem viagens que mudam quem você é.</p>
               <p className="mb-2">Essas viagens merecem ser eternizadas.</p>
-              <p>Transformamos sua rota, fotos e história em um quadro único — feito especialmente para você.</p>
+              <p className="mb-2">Transformamos sua rota, fotos e história em um quadro</p>
+              <p>único — feito especialmente para você.</p>
             </>
           }
           imageSrc="/images/medalhas.gif"
