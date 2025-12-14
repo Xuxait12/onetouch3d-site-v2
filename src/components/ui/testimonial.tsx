@@ -35,9 +35,9 @@ const TestimonialQuote = ({ quote }: { quote: string }) => {
 const testimonials = [
   {
     quote:
-      "Corro há 10 anos e sempre quis eternizar minhas provas. Encontrei a Onetouch3d com um atendimento personalizado e com muita qualidade, tornando esses momentos memoráveis.",
-    name: "Joel Pistore",
-    designation: "Maratona Rio",
+      "Foi eternizar nosso sonho em um quadro e poder relembrar e reviver todos os dias os momentos únicos que vivemos em cima da nosso moto. Momentos que nos encorajam e motivam para as próximas aventuras.",
+    name: "Alex & Vandressa",
+    designation: "Expedição Atacama",
     src: "/lovable-uploads/e21d216e-e0f1-4ea6-91dd-d3799b85aee3.png",
   },
   {
