@@ -106,7 +106,7 @@ const Viagem = () => {
                   <ul className="list-disc list-inside space-y-1 text-left">
                     <li>Países ou cidades percorridas</li>
                     <li>Datas</li>
-                    <li>Kilometragem total</li>
+                    <li>Quilometragem total</li>
                     <li>Título da sua viagem</li>
                     <li>Estilo da aventura (carro, moto ou motorhome)</li>
                   </ul>
