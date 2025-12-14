@@ -39,6 +39,7 @@ const Viagem = () => {
       <main>
         <HeroSectionViagem />
         
+        {/* Seção 1 - imagem à esquerda */}
         <FeatureSection
           title="Moldura Premium e Durável"
           description={
@@ -71,6 +72,7 @@ const Viagem = () => {
           </div>
           
           <div className="relative" style={{ zIndex: 5 }}>
+            {/* Seção 2 - imagem à direita */}
             <FeatureSection
               title="Percurso 3D Exclusivo"
               description={
@@ -85,6 +87,7 @@ const Viagem = () => {
               imageOnLeft={false}
             />
             
+            {/* Seção 3 - imagem à esquerda */}
             <FeatureSection
               title="Suas Fotos em Destaque"
               description={
@@ -98,6 +101,7 @@ const Viagem = () => {
               imageOnLeft={true}
             />
             
+            {/* Seção 4 - imagem à direita */}
             <FeatureSection
               title="Detalhes da Sua Viagem"
               description={
@@ -117,6 +121,7 @@ const Viagem = () => {
               imageOnLeft={false}
             />
             
+            {/* Seção 5 - imagem à esquerda */}
             <FeatureSection
               title="Design Moderno e Exclusivo"
               description={
@@ -137,6 +142,7 @@ const Viagem = () => {
           </div>
         </div>
         
+        {/* Entrega Segura - entre as 2 últimas seções (imagem à direita) */}
         <FeatureSection
           title="Entrega Segura em Todo Brasil"
           description="Seu quadro é embalado com proteção reforçada, garantindo que chegue impecável até você, independente da cidade."
@@ -145,6 +151,7 @@ const Viagem = () => {
           imageOnLeft={false}
         />
         
+        {/* Seção 6 - imagem à esquerda */}
         <FeatureSection
           title="Sua Aventura em Destaque"
           description={
