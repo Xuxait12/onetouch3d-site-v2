@@ -10,7 +10,7 @@ import HowItWorksTabsViagem from "@/components/HowItWorksTabsViagem";
 import WhyChooseUsTabsViagem from "@/components/WhyChooseUsTabsViagem";
 import FAQSection from "@/components/FAQSection";
 import CtaSection from "@/components/CtaSection";
-import GallerySection from "@/components/GallerySection";
+import GallerySectionViagem from "@/components/GallerySectionViagem";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import WhyChooseSection from "@/components/WhyChooseSection";
 import InfiniteLogoCarousel from "@/components/ui/infinite-logo-carousel";
@@ -184,7 +184,7 @@ const Viagem = () => {
         
         
         <LifestyleHeroSection />
-        <GallerySection />
+        <GallerySectionViagem />
         <TestimonialsSection />
         <ShareSection />
         
