@@ -47,7 +47,7 @@ const Viagem = () => {
               <p>Um quadro que não só decora — mas preserva emoções.</p>
             </>
           }
-          imageSrc="/images/quadro-moderno.gif"
+          imageSrc="/images/moldura-premium-viagem.webp"
           imageAlt="Moldura premium personalizada"
           imageOnLeft={true}
         />
