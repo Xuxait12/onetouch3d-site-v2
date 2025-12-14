@@ -39,17 +39,17 @@ const Viagem = () => {
       <main>
         <HeroSectionViagem />
         
-        {/* Seção 1 - imagem à esquerda */}
+        {/* Seção 1 (antiga 3) - imagem à esquerda */}
         <FeatureSection
-          title="Moldura Premium e Durável"
+          title="Suas Fotos em Destaque"
           description={
             <>
-              <p className="mb-2">Nossa moldura é produzida com material de alta resistência e acabamento refinado, perfeitas para valorizar fotos, rotas e memórias de viagem.</p>
-              <p>Um quadro que não só decora — mas preserva emoções.</p>
+              <p className="mb-2">Selecione as melhores imagens da sua expedição: paisagens, trechos, marcos históricos ou momentos especiais.</p>
+              <p>Nós transformamos tudo em um design moderno, estilo scrapbook, que representa cada etapa vivida.</p>
             </>
           }
-          imageSrc="/images/moldura-premium-viagem.webp"
-          imageAlt="Moldura premium personalizada"
+          imageSrc="/images/fotos-scrapbook.webp"
+          imageAlt="Fotos em destaque estilo scrapbook"
           imageOnLeft={true}
         />
         
@@ -72,56 +72,37 @@ const Viagem = () => {
           </div>
           
           <div className="relative" style={{ zIndex: 5 }}>
-            {/* Seção 2 - imagem à direita */}
+            {/* Seção 2 (antiga 7) - imagem à direita */}
             <FeatureSection
-              title="Percurso 3D Exclusivo"
+              title="Sua Aventura em Destaque"
               description={
                 <>
-                  <p className="mb-2">Recriamos sua rota em alto relevo 3D, transformando cada quilômetro da sua jornada em uma experiência visual única.</p>
-                  <p className="mb-2">Um mapa que ganha forma, relembra histórias e eterniza tudo o que você viveu.</p>
-                  <p>Sua jornada merece ser vista todos os dias.</p>
+                  <p className="mb-2">Existem viagens que mudam quem você é.</p>
+                  <p className="mb-2">Essas viagens merecem ser eternizadas.</p>
+                  <p>Transformamos sua rota, fotos e história em um quadro</p>
+                  <p>único — feito especialmente para você.</p>
                 </>
               }
-              imageSrc="/images/percurso-3d.webp"
-              imageAlt="Percurso 3D da viagem"
+              imageSrc="/images/medalhas.gif"
+              imageAlt="Lembranças emolduradas"
               imageOnLeft={false}
             />
             
-            {/* Seção 3 - imagem à esquerda */}
+            {/* Seção 3 (antiga 1) - imagem à esquerda */}
             <FeatureSection
-              title="Suas Fotos em Destaque"
+              title="Moldura Premium e Durável"
               description={
                 <>
-                  <p className="mb-2">Selecione as melhores imagens da sua expedição: paisagens, trechos, marcos históricos ou momentos especiais.</p>
-                  <p>Nós transformamos tudo em um design moderno, estilo scrapbook, que representa cada etapa vivida.</p>
+                  <p className="mb-2">Nossa moldura é produzida com material de alta resistência e acabamento refinado, perfeitas para valorizar fotos, rotas e memórias de viagem.</p>
+                  <p>Um quadro que não só decora — mas preserva emoções.</p>
                 </>
               }
-              imageSrc="/images/fotos-scrapbook.webp"
-              imageAlt="Fotos em destaque estilo scrapbook"
+              imageSrc="/images/moldura-premium-viagem.webp"
+              imageAlt="Moldura premium personalizada"
               imageOnLeft={true}
             />
             
-            {/* Seção 4 - imagem à direita */}
-            <FeatureSection
-              title="Detalhes da Sua Viagem"
-              description={
-                <>
-                  <p className="mb-3">Incluímos as principais informações da sua viagem, como:</p>
-                  <ul className="list-disc list-inside space-y-1 text-left">
-                    <li>Países ou cidades percorridas</li>
-                    <li>Datas</li>
-                    <li>Quilometragem total</li>
-                    <li>Título da sua viagem</li>
-                    <li>Estilo da aventura (carro, moto ou motorhome)</li>
-                  </ul>
-                </>
-              }
-              imageSrc="/images/dados-prova.webp"
-              imageAlt="Dados da viagem"
-              imageOnLeft={false}
-            />
-            
-            {/* Seção 5 - imagem à esquerda */}
+            {/* Seção 4 (antiga 5) - imagem à direita */}
             <FeatureSection
               title="Design Moderno e Exclusivo"
               description={
@@ -137,33 +118,52 @@ const Viagem = () => {
               }
               imageSrc="/images/quadro-moderno.webp"
               imageAlt="Layout moderno e exclusivo"
+              imageOnLeft={false}
+            />
+            
+            {/* Seção 5 (antiga 2) - imagem à esquerda */}
+            <FeatureSection
+              title="Percurso 3D Exclusivo"
+              description={
+                <>
+                  <p className="mb-2">Recriamos sua rota em alto relevo 3D, transformando cada quilômetro da sua jornada em uma experiência visual única.</p>
+                  <p className="mb-2">Um mapa que ganha forma, relembra histórias e eterniza tudo o que você viveu.</p>
+                  <p>Sua jornada merece ser vista todos os dias.</p>
+                </>
+              }
+              imageSrc="/images/percurso-3d.webp"
+              imageAlt="Percurso 3D da viagem"
               imageOnLeft={true}
             />
           </div>
         </div>
         
-        {/* Entrega Segura - entre as 2 últimas seções (imagem à direita) */}
+        {/* Seção 6 (antiga 4) - imagem à direita */}
+        <FeatureSection
+          title="Detalhes da Sua Viagem"
+          description={
+            <>
+              <p className="mb-3">Incluímos as principais informações da sua viagem, como:</p>
+              <ul className="list-disc list-inside space-y-1 text-left">
+                <li>Países ou cidades percorridas</li>
+                <li>Datas</li>
+                <li>Quilometragem total</li>
+                <li>Título da sua viagem</li>
+                <li>Estilo da aventura (carro, moto ou motorhome)</li>
+              </ul>
+            </>
+          }
+          imageSrc="/images/dados-prova.webp"
+          imageAlt="Dados da viagem"
+          imageOnLeft={false}
+        />
+        
+        {/* Seção 7 (antiga 6) - imagem à esquerda */}
         <FeatureSection
           title="Entrega Segura em Todo Brasil"
           description="Seu quadro é embalado com proteção reforçada, garantindo que chegue impecável até você, independente da cidade."
           imageSrc="/images/embalagem-segura.webp"
           imageAlt="Embalagem segura"
-          imageOnLeft={false}
-        />
-        
-        {/* Seção 6 - imagem à esquerda */}
-        <FeatureSection
-          title="Sua Aventura em Destaque"
-          description={
-            <>
-              <p className="mb-2">Existem viagens que mudam quem você é.</p>
-              <p className="mb-2">Essas viagens merecem ser eternizadas.</p>
-              <p>Transformamos sua rota, fotos e história em um quadro</p>
-              <p>único — feito especialmente para você.</p>
-            </>
-          }
-          imageSrc="/images/medalhas.gif"
-          imageAlt="Lembranças emolduradas"
           imageOnLeft={true}
         />
         
