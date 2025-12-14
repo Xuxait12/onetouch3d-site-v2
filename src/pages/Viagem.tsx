@@ -68,7 +68,7 @@ const Viagem = () => {
           <div className="relative" style={{ zIndex: 5 }}>
             <FeatureSection
               title="Percurso 3D Exclusivo"
-              description="Recriamos o trajeto da sua viagem em 3D com precisão, tornando cada quadro único e totalmente personalizado com a sua aventura."
+              description="Recriamos sua rota em alto relevo 3D, transformando cada quilômetro da sua jornada em uma experiência visual única. Um mapa que ganha forma, relembra histórias e eterniza tudo o que você viveu. Sua jornada merece ser vista todos os dias."
               imageSrc="/images/percurso-3d.webp"
               imageAlt="Percurso 3D da viagem"
               imageOnLeft={false}
