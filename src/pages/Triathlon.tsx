@@ -39,11 +39,12 @@ const Triathlon = () => {
       <main>
         <HeroSectionTriathlon />
         
+        {/* Seção 1 (antiga 4) - imagem à esquerda */}
         <FeatureSection
-          title="Moldura Premium e Durável"
-          description="Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado. Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração."
-          imageSrc="/images/quadro-moderno.gif"
-          imageAlt="Moldura premium personalizada"
+          title="Seus Dados de Prova Personalizados"
+          description="Incluímos informações como seu nome, distância, tempo oficial e pace – para eternizar cada detalhe da sua conquista."
+          imageSrc="/images/dados-prova.webp"
+          imageAlt="Dados da prova"
           imageOnLeft={true}
         />
         
@@ -66,53 +67,59 @@ const Triathlon = () => {
           </div>
           
           <div className="relative" style={{ zIndex: 5 }}>
+            {/* Seção 2 (antiga 6) - imagem à direita */}
+            <FeatureSection
+              title="Entrega Segura em Todo Brasil"
+              description="Seus quadros são embalados com proteção reforçada, garantindo que cheguem em perfeito estado até a sua casa, em qualquer lugar do Brasil."
+              imageSrc="/images/embalagem-segura.webp"
+              imageAlt="Embalagem segura"
+              imageOnLeft={false}
+            />
+            
+            {/* Seção 3 (antiga 2) - imagem à esquerda */}
             <FeatureSection
               title="Percurso 3D Exclusivo"
               description="Recriamos o trajeto da sua prova em 3D com precisão, tornando cada quadro único e totalmente personalizado com a sua conquista."
               imageSrc="/images/percurso-3d.webp"
               imageAlt="Percurso 3D da prova"
-              imageOnLeft={false}
-            />
-            
-            <FeatureSection
-              title="Suas Fotos em Destaque"
-              description="Escolha as melhores fotos do seu triathlon e veja sua história ganhar vida em um quadro que une emoção, lembrança e design moderno."
-              imageSrc="/images/fotos-scrapbook.webp"
-              imageAlt="Fotos em destaque estilo scrapbook"
               imageOnLeft={true}
             />
             
+            {/* Seção 4 (antiga 1) - imagem à direita */}
             <FeatureSection
-              title="Seus Dados de Prova Personalizados"
-              description="Incluímos informações como seu nome, distância, tempo oficial e pace – para eternizar cada detalhe da sua conquista."
-              imageSrc="/images/dados-prova.webp"
-              imageAlt="Dados da prova"
+              title="Moldura Premium e Durável"
+              description="Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado. Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração."
+              imageSrc="/images/quadro-moderno.gif"
+              imageAlt="Moldura premium personalizada"
               imageOnLeft={false}
             />
             
+            {/* Seção 5 (antiga 7) - imagem à esquerda */}
             <FeatureSection
-              title="Design Moderno e Exclusivo"
-              description="Um layout pensado para destacar sua prova com estilo. Seu quadro combina com qualquer ambiente, do quarto à sala de estar."
-              imageSrc="/images/quadro-moderno.webp"
-              imageAlt="Layout moderno e exclusivo"
+              title="Sua Conquista em Destaque"
+              description="Existem conquistas que merecem um destaque especial. Dê vida as suas conquistas emoldurando seu momento mais inesquecível."
+              imageSrc="/images/medalhas.gif"
+              imageAlt="Medalhas emolduradas"
               imageOnLeft={true}
             />
           </div>
         </div>
         
+        {/* Seção 6 (antiga 3) - imagem à direita */}
         <FeatureSection
-          title="Entrega Segura em Todo Brasil"
-          description="Seus quadros são embalados com proteção reforçada, garantindo que cheguem em perfeito estado até a sua casa, em qualquer lugar do Brasil."
-          imageSrc="/images/embalagem-segura.webp"
-          imageAlt="Embalagem segura"
+          title="Suas Fotos em Destaque"
+          description="Escolha as melhores fotos do seu triathlon e veja sua história ganhar vida em um quadro que une emoção, lembrança e design moderno."
+          imageSrc="/images/fotos-scrapbook.webp"
+          imageAlt="Fotos em destaque estilo scrapbook"
           imageOnLeft={false}
         />
         
+        {/* Seção 7 (antiga 5) - imagem à esquerda */}
         <FeatureSection
-          title="Sua Conquista em Destaque"
-          description="Existem conquistas que merecem um destaque especial. Dê vida as suas conquistas emoldurando seu momento mais inesquecível."
-          imageSrc="/images/medalhas.gif"
-          imageAlt="Medalhas emolduradas"
+          title="Design Moderno e Exclusivo"
+          description="Um layout pensado para destacar sua prova com estilo. Seu quadro combina com qualquer ambiente, do quarto à sala de estar."
+          imageSrc="/images/quadro-moderno.webp"
+          imageAlt="Layout moderno e exclusivo"
           imageOnLeft={true}
         />
         

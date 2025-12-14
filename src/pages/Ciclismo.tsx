@@ -39,11 +39,12 @@ const Ciclismo = () => {
       <main>
         <HeroSectionCiclismo />
         
+        {/* Seção 1 (antiga 5) - imagem à esquerda */}
         <FeatureSection
-          title="Moldura Premium e Durável"
-          description="Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado. Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração."
-          imageSrc="/images/quadro-moderno.gif"
-          imageAlt="Moldura premium personalizada"
+          title="Design Moderno e Exclusivo"
+          description="Um layout pensado para destacar seu pedal com estilo. Seu quadro combina com qualquer ambiente, do quarto à sala de estar."
+          imageSrc="/images/quadro-moderno.webp"
+          imageAlt="Layout moderno e exclusivo"
           imageOnLeft={true}
         />
         
@@ -66,6 +67,7 @@ const Ciclismo = () => {
           </div>
           
           <div className="relative" style={{ zIndex: 5 }}>
+            {/* Seção 2 (antiga 2) - imagem à direita */}
             <FeatureSection
               title="Percurso 3D Exclusivo"
               description="Recriamos o trajeto do seu pedal em 3D com precisão, tornando cada quadro único e totalmente personalizado com a sua conquista."
@@ -74,14 +76,16 @@ const Ciclismo = () => {
               imageOnLeft={false}
             />
             
+            {/* Seção 3 (antiga 7) - imagem à esquerda */}
             <FeatureSection
-              title="Suas Fotos em Destaque"
-              description="Escolha as melhores fotos do seu pedal e veja sua história ganhar vida em um quadro que une emoção, lembrança e design moderno."
-              imageSrc="/images/fotos-scrapbook.webp"
-              imageAlt="Fotos em destaque estilo scrapbook"
+              title="Sua Conquista em Destaque"
+              description="Existem conquistas que merecem um destaque especial. Dê vida as suas conquistas emoldurando seu momento mais inesquecível."
+              imageSrc="/images/medalhas.gif"
+              imageAlt="Medalhas emolduradas"
               imageOnLeft={true}
             />
             
+            {/* Seção 4 (antiga 4) - imagem à direita */}
             <FeatureSection
               title="Seus Dados de Prova Personalizados"
               description="Incluímos informações como seu nome, distância, tempo oficial e velocidade média – para eternizar cada detalhe da sua conquista."
@@ -90,16 +94,18 @@ const Ciclismo = () => {
               imageOnLeft={false}
             />
             
+            {/* Seção 5 (antiga 1) - imagem à esquerda */}
             <FeatureSection
-              title="Design Moderno e Exclusivo"
-              description="Um layout pensado para destacar seu pedal com estilo. Seu quadro combina com qualquer ambiente, do quarto à sala de estar."
-              imageSrc="/images/quadro-moderno.webp"
-              imageAlt="Layout moderno e exclusivo"
+              title="Moldura Premium e Durável"
+              description="Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado. Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração."
+              imageSrc="/images/quadro-moderno.gif"
+              imageAlt="Moldura premium personalizada"
               imageOnLeft={true}
             />
           </div>
         </div>
         
+        {/* Seção 6 (antiga 6) - imagem à direita */}
         <FeatureSection
           title="Entrega Segura em Todo Brasil"
           description="Seus quadros são embalados com proteção reforçada, garantindo que cheguem em perfeito estado até a sua casa, em qualquer lugar do Brasil."
@@ -108,11 +114,12 @@ const Ciclismo = () => {
           imageOnLeft={false}
         />
         
+        {/* Seção 7 (antiga 3) - imagem à esquerda */}
         <FeatureSection
-          title="Sua Conquista em Destaque"
-          description="Existem conquistas que merecem um destaque especial. Dê vida as suas conquistas emoldurando seu momento mais inesquecível."
-          imageSrc="/images/medalhas.gif"
-          imageAlt="Medalhas emolduradas"
+          title="Suas Fotos em Destaque"
+          description="Escolha as melhores fotos do seu pedal e veja sua história ganhar vida em um quadro que une emoção, lembrança e design moderno."
+          imageSrc="/images/fotos-scrapbook.webp"
+          imageAlt="Fotos em destaque estilo scrapbook"
           imageOnLeft={true}
         />
         
