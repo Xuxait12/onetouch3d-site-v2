@@ -73,8 +73,8 @@ const ProductSectionViagem = () => {
             <div className="space-y-8">
               <div className="relative">
                 <img 
-                  src="/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png"
-                  alt="Quadro personalizado de viagem"
+                  src="/images/moldura-premium-viagem.webp"
+                  alt="Moldura Premium para viagem"
                   className="w-full rounded-lg shadow-lg"
                 />
               </div>
