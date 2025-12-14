@@ -41,7 +41,12 @@ const Viagem = () => {
         
         <FeatureSection
           title="Moldura Premium e Durável"
-          description="Nossa moldura é produzida com material de alta resistência e acabamento refinado, perfeitas para valorizar fotos, rotas e memórias de viagem. Um quadro que não só decora — mas preserva emoções."
+          description={
+            <>
+              <p className="mb-2">Nossa moldura é produzida com material de alta resistência e acabamento refinado, perfeitas para valorizar fotos, rotas e memórias de viagem.</p>
+              <p>Um quadro que não só decora — mas preserva emoções.</p>
+            </>
+          }
           imageSrc="/images/quadro-moderno.gif"
           imageAlt="Moldura premium personalizada"
           imageOnLeft={true}
@@ -68,7 +73,13 @@ const Viagem = () => {
           <div className="relative" style={{ zIndex: 5 }}>
             <FeatureSection
               title="Percurso 3D Exclusivo"
-              description="Recriamos sua rota em alto relevo 3D, transformando cada quilômetro da sua jornada em uma experiência visual única. Um mapa que ganha forma, relembra histórias e eterniza tudo o que você viveu. Sua jornada merece ser vista todos os dias."
+              description={
+                <>
+                  <p className="mb-2">Recriamos sua rota em alto relevo 3D, transformando cada quilômetro da sua jornada em uma experiência visual única.</p>
+                  <p className="mb-2">Um mapa que ganha forma, relembra histórias e eterniza tudo o que você viveu.</p>
+                  <p>Sua jornada merece ser vista todos os dias.</p>
+                </>
+              }
               imageSrc="/images/percurso-3d.webp"
               imageAlt="Percurso 3D da viagem"
               imageOnLeft={false}
@@ -76,7 +87,12 @@ const Viagem = () => {
             
             <FeatureSection
               title="Suas Fotos em Destaque"
-              description="Selecione as melhores imagens da sua expedição: paisagens, trechos, marcos históricos ou momentos especiais. Nós transformamos tudo em um design moderno, estilo scrapbook, que representa cada etapa vivida."
+              description={
+                <>
+                  <p className="mb-2">Selecione as melhores imagens da sua expedição: paisagens, trechos, marcos históricos ou momentos especiais.</p>
+                  <p>Nós transformamos tudo em um design moderno, estilo scrapbook, que representa cada etapa vivida.</p>
+                </>
+              }
               imageSrc="/images/fotos-scrapbook.webp"
               imageAlt="Fotos em destaque estilo scrapbook"
               imageOnLeft={true}
