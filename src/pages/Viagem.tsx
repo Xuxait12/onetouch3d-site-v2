@@ -8,7 +8,7 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import ProductSection from "@/components/ProductSection";
 import HowItWorksTabsViagem from "@/components/HowItWorksTabsViagem";
 import WhyChooseUsTabsViagem from "@/components/WhyChooseUsTabsViagem";
-import FAQSection from "@/components/FAQSection";
+import FAQSectionViagem from "@/components/FAQSectionViagem";
 import CtaSection from "@/components/CtaSection";
 import GallerySectionViagem from "@/components/GallerySectionViagem";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -208,7 +208,7 @@ const Viagem = () => {
         </div>
         
         <ProductSection />
-        <FAQSection />
+        <FAQSectionViagem />
         
         
       </main>
