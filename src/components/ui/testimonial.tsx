@@ -50,7 +50,7 @@ const testimonials = [
   {
     quote:
       "Iniciei recentemente minhas viagens de moto e realizei meu sonho de explorar a América do Sul, especialmente o Chile. Agradeço à Onetouch3d pela qualidade e rapidez na entrega do belo quadro que eterniza esse momento especial.",
-    name: "Paulo Cesar Nogueira",
+    name: "Paulo Celso Nogueira",
     designation: "Expedição Atacama",
     src: "/lovable-uploads/paulo-cesar-nogueira-atacama.webp",
   },
