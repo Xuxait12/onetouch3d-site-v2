@@ -139,7 +139,7 @@ const Viagem = () => {
         
         <FeatureSection
           title="Entrega Segura em Todo Brasil"
-          description="Seus quadros são embalados com proteção reforçada, garantindo que cheguem em perfeito estado até a sua casa, em qualquer lugar do Brasil."
+          description="Seu quadro é embalado com proteção reforçada, garantindo que chegue impecável até você, independente da cidade."
           imageSrc="/images/embalagem-segura.webp"
           imageAlt="Embalagem segura"
           imageOnLeft={false}
