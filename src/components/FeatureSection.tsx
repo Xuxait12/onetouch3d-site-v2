@@ -1,6 +1,8 @@
+import { ReactNode } from "react";
+
 interface FeatureSectionProps {
   title: string;
-  description: string;
+  description: string | ReactNode;
   imageSrc: string;
   imageAlt: string;
   imageOnLeft?: boolean;
@@ -25,9 +27,9 @@ const FeatureSection = ({
           <h2 className="section-text mb-6">
             {title}
           </h2>
-          <p className="body-large text-muted-foreground max-w-xl mx-auto lg:mx-0">
+          <div className="body-large text-muted-foreground max-w-xl mx-auto lg:mx-0">
             {description}
-          </p>
+          </div>
         </div>
 
         {/* Image */}
