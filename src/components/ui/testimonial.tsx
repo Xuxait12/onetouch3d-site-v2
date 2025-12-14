@@ -13,8 +13,8 @@ const TestimonialQuote = ({ quote }: { quote: string }) => {
     : quote;
   
   return (
-    <div className="mt-8">
-      <motion.p className="text-lg text-slate-700 dark:text-slate-300">
+    <div className="mt-4 sm:mt-6 md:mt-8">
+      <motion.p className="text-base sm:text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
         "{displayText}"
       </motion.p>
       {shouldTruncate && (
@@ -93,11 +93,11 @@ const AnimatedTestimonials = ({
   const randomRotate = () => `${Math.floor(Math.random() * 16) - 8}deg`;
 
   return (
-    <div className="mx-auto max-w-sm px-4 py-2 md:py-6 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
-      <div className="relative grid grid-cols-1 gap-y-6 md:gap-y-10 md:grid-cols-2 md:gap-x-20">
+    <div className="mx-auto w-full max-w-sm px-4 py-2 md:py-6 font-sans antialiased sm:max-w-md md:max-w-4xl md:px-8 lg:px-12">
+      <div className="relative grid grid-cols-1 gap-y-4 sm:gap-y-6 md:gap-y-10 md:grid-cols-2 md:gap-x-20">
         {/* Image Section */}
         <div className="flex items-center justify-center">
-            <div className="relative h-64 md:h-80 w-full max-w-xs">
+            <div className="relative h-56 sm:h-64 md:h-80 w-full max-w-[280px] sm:max-w-xs">
               <AnimatePresence>
                 {testimonials.map((testimonial, index) => (
                   <motion.div
@@ -135,7 +135,7 @@ const AnimatedTestimonials = ({
         </div>
 
         {/* Text and Controls Section */}
-        <div className="flex flex-col justify-center py-2 md:py-4 h-auto md:h-[400px]">
+        <div className="flex flex-col justify-center py-2 md:py-4 h-auto md:h-[400px] text-center md:text-left">
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
@@ -147,7 +147,7 @@ const AnimatedTestimonials = ({
               className="flex flex-col justify-between h-full"
             >
                 <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+                    <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-50">
                         {testimonials[active].name}
                     </h3>
                     <p className="text-sm text-slate-600 dark:text-slate-400">
@@ -157,7 +157,7 @@ const AnimatedTestimonials = ({
                 </div>
             </motion.div>
           </AnimatePresence>
-          <div className="flex gap-4 pt-4 md:pt-8">
+          <div className="flex gap-4 pt-4 md:pt-8 justify-center md:justify-start">
             <button
               onClick={handlePrev}
               aria-label="Previous testimonial"
