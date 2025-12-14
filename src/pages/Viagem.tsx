@@ -182,7 +182,7 @@ const Viagem = () => {
           </div>
         </div>
         
-        <InfiniteLogoCarousel />
+        
         <LifestyleHeroSection />
         <GallerySection />
         <TestimonialsSection />
