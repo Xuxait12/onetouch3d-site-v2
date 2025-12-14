@@ -76,7 +76,7 @@ const Viagem = () => {
             
             <FeatureSection
               title="Suas Fotos em Destaque"
-              description="Escolha as melhores fotos da sua viagem e veja sua história ganhar vida em um quadro que une emoção, lembrança e design moderno."
+              description="Selecione as melhores imagens da sua expedição: paisagens, trechos, marcos históricos ou momentos especiais. Nós transformamos tudo em um design moderno, estilo scrapbook, que representa cada etapa vivida."
               imageSrc="/images/fotos-scrapbook.webp"
               imageAlt="Fotos em destaque estilo scrapbook"
               imageOnLeft={true}
