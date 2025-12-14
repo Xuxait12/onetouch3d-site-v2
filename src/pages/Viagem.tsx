@@ -7,7 +7,7 @@ import FeatureSection from "@/components/FeatureSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import ProductSection from "@/components/ProductSection";
 import HowItWorksTabsViagem from "@/components/HowItWorksTabsViagem";
-import WhyChooseUsTabs from "@/components/WhyChooseUsTabs";
+import WhyChooseUsTabsViagem from "@/components/WhyChooseUsTabsViagem";
 import FAQSection from "@/components/FAQSection";
 import CtaSection from "@/components/CtaSection";
 import GallerySection from "@/components/GallerySection";
@@ -161,7 +161,7 @@ const Viagem = () => {
         />
         
         <HowItWorksTabsViagem />
-        <WhyChooseUsTabs />
+        <WhyChooseUsTabsViagem />
         
         {/* CONQUISTA background text positioned between sections */}
         <div className="relative h-32 md:h-40 lg:h-48 flex items-center justify-center overflow-hidden px-4">
