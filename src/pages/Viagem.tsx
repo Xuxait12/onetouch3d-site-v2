@@ -48,7 +48,7 @@ const Viagem = () => {
               <p>Nós transformamos tudo em um design moderno, estilo scrapbook, que representa cada etapa vivida.</p>
             </>
           }
-          imageSrc="/images/fotos-scrapbook.webp"
+          imageSrc="/images/scrapbook-moto-viagem.webp"
           imageAlt="Fotos em destaque estilo scrapbook"
           imageOnLeft={true}
         />
