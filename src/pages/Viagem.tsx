@@ -70,8 +70,8 @@ const Viagem = () => {
             
             {/* Seção 3 (antiga 1) - imagem à esquerda */}
             <FeatureSection title="Moldura Premium e Durável" description={<>
-                  <p className="mb-2">Nossa moldura é produzida com material de alta resistência e acabamento refinado, perfeitas para valorizar fotos, rotas e memórias de viagem.</p>
-                  <p>Um quadro que não só decora — mas preserva emoções.</p>
+                  <p className="mb-4">Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado.</p>
+                  <p>Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração.</p>
                 </>} imageSrc="/images/moldura-premium-viagem.webp" imageAlt="Moldura premium personalizada" imageOnLeft={true} />
             
             {/* Seção 4 (antiga 5) - imagem à direita */}
