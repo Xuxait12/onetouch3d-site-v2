@@ -75,14 +75,7 @@ const Viagem = () => {
             {/* Seção 2 (antiga 7) - imagem à direita */}
             <FeatureSection
               title={<>A Aventura Termina… Mas a<br />Sensação Não Precisa Acabar.</>}
-              description={
-                <>
-                  <p className="mb-2">Existem viagens que mudam quem você é.</p>
-                  <p className="mb-2">Essas viagens merecem ser eternizadas.</p>
-                  <p>Transformamos sua rota, fotos e história em um quadro</p>
-                  <p>único — feito especialmente para você.</p>
-                </>
-              }
+              description="Guarde sua jornada em um quadro 3D feito exclusivamente para você — um registro fiel do caminho que mudou sua forma de ver o mundo."
               imageSrc="/images/medalhas.gif"
               imageAlt="Lembranças emolduradas"
               imageOnLeft={false}
