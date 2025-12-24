@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 interface FeatureSectionProps {
-  title: string;
+  title: string | ReactNode;
   description: string | ReactNode;
   imageSrc: string;
   imageAlt: string;
