@@ -74,7 +74,7 @@ const Viagem = () => {
           <div className="relative" style={{ zIndex: 5 }}>
             {/* Seção 2 (antiga 7) - imagem à direita */}
             <FeatureSection
-              title="A aventura termina… mas a sensação não precisa acabar."
+              title={<>A Aventura Termina… Mas a<br />Sensação Não Precisa Acabar.</>}
               description={
                 <>
                   <p className="mb-2">Existem viagens que mudam quem você é.</p>
