@@ -118,8 +118,8 @@ const Ciclismo = () => {
         <FeatureSection
           title="Suas Fotos em Destaque"
           description={<>
-            <p className="mb-4">Escolha as melhores fotos do seu pedal e veja sua história ganhar vida.</p>
-            <p>Um quadro que une emoção, lembrança e design moderno.</p>
+            <p className="mb-4">Cada foto do seu pedal carrega um sentimento — e agora pode ganhar um lugar especial.</p>
+            <p>Componha seu quadro e veja sua jornada se transformar em uma peça marcante e cheia de identidade.</p>
           </>}
           imageSrc="/images/fotos-scrapbook.webp"
           imageAlt="Fotos em destaque estilo scrapbook"
