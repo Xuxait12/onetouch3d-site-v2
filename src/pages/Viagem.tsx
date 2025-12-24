@@ -76,8 +76,8 @@ const Viagem = () => {
             <FeatureSection
               title={<>A Aventura Termina… Mas a<br />Sensação Não Precisa Acabar.</>}
               description={<>Eternize sua jornada em um quadro personalizado<br />com o percurso em 3D feito exclusivamente para você —<br />um registro fiel do caminho que mudou sua forma de ver o mundo.</>}
-              imageSrc="/images/medalhas.gif"
-              imageAlt="Lembranças emolduradas"
+              imageSrc="/images/motociclistas-ruta40.webp"
+              imageAlt="Motociclistas na Ruta 40 Argentina"
               imageOnLeft={false}
             />
             
