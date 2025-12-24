@@ -109,8 +109,8 @@ const Viagem = () => {
                   </ul>
                 </>
               }
-              imageSrc="/images/quadro-moderno.webp"
-              imageAlt="Layout moderno e exclusivo"
+              imageSrc="/images/quadro-sala-moto.webp"
+              imageAlt="Quadro de viagem de moto na sala"
               imageOnLeft={false}
             />
             
