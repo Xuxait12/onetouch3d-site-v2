@@ -146,8 +146,8 @@ const Viagem = () => {
               </ul>
             </>
           }
-          imageSrc="/images/dados-prova.webp"
-          imageAlt="Dados da viagem"
+          imageSrc="/images/dados-viagem-moto.webp"
+          imageAlt="Detalhes da viagem de moto"
           imageOnLeft={false}
         />
         
