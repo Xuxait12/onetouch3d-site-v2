@@ -70,7 +70,7 @@ const ShareSection = () => {
               Compartilhe Essa Energia!
             </h2>
 
-            <p className="text-muted-foreground text-base md:text-lg mb-8 max-w-md mx-auto">
+            <p className="text-muted-foreground text-base md:text-lg mb-8 max-w-md mx-px text-center">
               Indique o site para um amigo que também vive de aventuras.  
 Pequenos gestos inspiram grandes conquistas.
             </p>
