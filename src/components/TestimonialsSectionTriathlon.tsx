@@ -47,10 +47,10 @@ const testimonialsTriathlon = [
   },
   {
     quote:
-      "É gratificante ver uma experiência ser transformada em algo eterno. A personalização, o carinho no processo e a qualidade final fazem toda a diferença. Um trabalho que vale muito a pena e que recomendo.",
-    name: "PC Escudero",
-    designation: "Guia Moto Turismo",
-    src: "/lovable-uploads/pc-escudero-moto-turismo.webp",
+      "Receber em casa esse belíssimo quadro recordação da minha primeira prova de Triathlon foi incrível e eternizou para sempre essa experiência. Tenho na sala de casa como meu troféu! Parabéns, Onetouch3d, ficou lindo demais.",
+    name: "Fabiano Agostinho Perreira",
+    designation: "Try Day Series",
+    src: "/lovable-uploads/fabiano-agostinho-triathlon.webp",
   },
 ];
 
