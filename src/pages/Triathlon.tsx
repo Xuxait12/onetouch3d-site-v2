@@ -19,116 +19,60 @@ import ShareSection from "@/components/ShareSection";
 
 // Import images
 import premiumFrame from "@/assets/premium-frame.jpg";
-
 const Triathlon = () => {
   const location = useLocation();
-
   useEffect(() => {
-    const stateAny = (window.history.state && window.history.state.usr) || {};
-    const anchor = stateAny.anchor || (window.location.hash ? window.location.hash.replace('#','') : '');
+    const stateAny = window.history.state && window.history.state.usr || {};
+    const anchor = stateAny.anchor || (window.location.hash ? window.location.hash.replace('#', '') : '');
     if (anchor) {
       requestAnimationFrame(() => {
-        document.getElementById(anchor)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.getElementById(anchor)?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
       });
     }
   }, [location]);
-  return (
-    <div className="min-h-screen bg-transparent">
+  return <div className="min-h-screen bg-transparent">
       <GlobalHeader />
       
       <main>
         <HeroSectionTriathlon />
         
         {/* Seção 1 (antiga 4) - imagem à esquerda */}
-        <FeatureSection
-          title="Números Que Contam Sua História"
-          description={<>Cada detalhe importa. E aqui, todos ganham vida.<br /><br />Seu nome, tempo oficial, tempo por modalidade e transição — tudo apresentado com clareza e elegância. Porque o triathlon é feito de números que contam histórias.</>}
-          imageSrc="/images/dados-prova.webp"
-          imageAlt="Dados da prova"
-          imageOnLeft={true}
-        />
+        <FeatureSection title="Números Que Contam Sua História" description={<>Cada detalhe importa. E aqui, todos ganham vida.<br /><br />Seu nome, tempo oficial, tempo por modalidade e transição — tudo apresentado com clareza e elegância. Porque o triathlon é feito de números que contam histórias.</>} imageSrc="/images/dados-prova.webp" imageAlt="Dados da prova" imageOnLeft={true} />
         
         {/* Wrapper for multiple sections */}
         <div className="relative overflow-hidden">
           
-          <div className="relative" style={{ zIndex: 5 }}>
+          <div className="relative" style={{
+          zIndex: 5
+        }}>
             {/* Seção 2 - Imagens Que Contam Sua Jornada - imagem à direita */}
-            <FeatureSection
-              title="Emoções Registradas para Sempre"
-              description={<>A emoção da prova em um lugar especial.<br /><br />Aquele registro na transição, o sorriso na corrida, o esforço na bike, o mergulho inicial.<br /><br />Suas fotos ganham um espaço pensado para transmitir a intensidade e o orgulho desse dia inesquecível.</>}
-              imageSrc="/images/fotos-scrapbook.webp"
-              imageAlt="Fotos em destaque estilo scrapbook"
-              imageOnLeft={false}
-            />
+            <FeatureSection title="Emoções Registradas para Sempre" description={<>A emoção da prova em um lugar especial.<br /><br />Aquele registro na transição, o sorriso na corrida, o esforço na bike, o mergulho inicial.<br /><br />Suas fotos ganham um espaço pensado para transmitir a intensidade e o orgulho desse dia inesquecível.</>} imageSrc="/images/fotos-scrapbook.webp" imageAlt="Fotos em destaque estilo scrapbook" imageOnLeft={false} />
             
             {/* Seção 3 (antiga 2) - imagem à esquerda */}
-            <FeatureSection
-              title="Sua Prova Reconstruída em Detalhes"
-              description={<>Reconstruímos seus percursos com precisão em 3D(miniatura) — natação, ciclismo e corrida — criando um registro único da sua prova.<br /><br />Um quadro que vai muito além de decoração: é a representação visual da sua superação.</>}
-              imageSrc="/images/percurso-3d.webp"
-              imageAlt="Percurso 3D da prova"
-              imageOnLeft={true}
-            />
+            <FeatureSection title="Sua Prova Reconstruída em Detalhes" description={<>Reconstruímos seus percursos com precisão em 3D(miniatura) — natação, ciclismo e corrida — criando um registro único da sua prova.<br /><br />Um quadro que vai muito além de decoração: é a representação visual da sua superação.</>} imageSrc="/images/percurso-3d.webp" imageAlt="Percurso 3D da prova" imageOnLeft={true} />
             
             {/* Seção 4 (antiga 1) - imagem à direita */}
-            <FeatureSection
-              title="Elegância e Durabilidade"
-              description={<>Acabamento à altura da sua conquista.<br /><br />Molduras resistentes, sofisticadas e com padrão profissional.<br /><br />Seu quadro não apenas valoriza sua medalha, mas se torna uma peça de destaque na decoração, com durabilidade e presença.</>}
-              imageSrc="/images/quadro-moderno.gif"
-              imageAlt="Moldura premium personalizada"
-              imageOnLeft={false}
-            />
+            <FeatureSection title="Elegância e Durabilidade" description={<>Acabamento à altura da sua conquista.<br /><br />Molduras resistentes, sofisticadas e com padrão profissional.<br /><br />Seu quadro não apenas valoriza sua medalha, mas se torna uma peça de destaque na decoração, com durabilidade e presença.</>} imageSrc="/images/quadro-moderno.gif" imageAlt="Moldura premium personalizada" imageOnLeft={false} />
             
             {/* Seção 5 (antiga 7) - imagem à esquerda */}
-            <FeatureSection
-              title="A Sua Vitória Merece Destaque"
-              description={<>Triathlon não é só uma prova. É uma jornada. Existem conquistas que mudam quem você é.<br /><br />O seu quadro coloca esse momento em evidência, eternizando a linha de chegada que você conquistou com foco, disciplina e coragem.</>}
-              imageSrc="/images/medalhas.gif"
-              imageAlt="Medalhas emolduradas"
-              imageOnLeft={true}
-            />
+            <FeatureSection title="A Sua Vitória Merece Destaque" description={<>Triathlon não é só uma prova. É uma jornada. Existem conquistas que mudam quem você é.<br /><br />O seu quadro coloca esse momento em evidência, eternizando a linha de chegada que você conquistou com foco, disciplina e coragem.</>} imageSrc="/images/medalhas.gif" imageAlt="Medalhas emolduradas" imageOnLeft={true} />
           </div>
         </div>
         
         {/* Seção 6 - Entrega Segura em Todo Brasil - imagem à direita */}
-        <FeatureSection
-          title="Entrega Segura em Todo Brasil"
-          description={<>Da Onetouch3D até você — com cuidado absoluto.<br /><br />Cada quadro é embalado com proteção reforçada para chegar perfeito, independentemente do estado onde você mora.<br />Segurança e qualidade da produção até a sua porta.</>}
-          imageSrc="/images/embalagem-segura.webp"
-          imageAlt="Embalagem segura"
-          imageOnLeft={false}
-        />
+        <FeatureSection title="Entrega Segura em Todo Brasil" description={<>Da Onetouch3D até você — com cuidado absoluto.<br /><br />Cada quadro é embalado com proteção reforçada para chegar perfeito, independentemente do estado onde você mora.<br />Segurança e qualidade da produção até a sua porta.</>} imageSrc="/images/embalagem-segura.webp" imageAlt="Embalagem segura" imageOnLeft={false} />
         
         {/* Seção 7 (antiga 5) - imagem à esquerda */}
-        <FeatureSection
-          title="Beleza e Força em um Só Quadro"
-          description={<>Criado para destacar a sua dedicação.<br />Cada quadro nasce para valorizar sua trajetória no esporte mais desafiador do mundo.<br />Um layout elegante, equilibrado e impactante — perfeito para qualquer ambiente, do escritório ao espaço de casa.</>}
-          imageSrc="/images/quadro-moderno.webp"
-          imageAlt="Layout moderno e exclusivo"
-          imageOnLeft={true}
-        />
+        <FeatureSection title="Beleza e Força em um Só Quadro" description={<>Criado para destacar a sua dedicação.<br />Cada quadro nasce para valorizar sua trajetória no esporte mais desafiador do mundo.<br />Um layout elegante, equilibrado e impactante — perfeito para qualquer ambiente, do escritório ao espaço de casa.</>} imageSrc="/images/quadro-moderno.webp" imageAlt="Layout moderno e exclusivo" imageOnLeft={true} />
         
         <HowItWorksTabs />
         <WhyChooseUsTabs />
         
         {/* CONQUISTA background text positioned between sections */}
-        <div className="relative h-32 md:h-40 lg:h-48 flex items-center justify-center overflow-hidden px-4">
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-            <h2 className="text-[12vw] sm:text-[11vw] md:text-[10vw] lg:text-[9vw] xl:text-[8vw] font-black tracking-wider select-none whitespace-nowrap" style={{
-              background: 'linear-gradient(180deg, #000000 0%, #1a1a1a 20%, #4a4a4a 35%, #e5e5e5 55%, #ffffff 80%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              opacity: '0.55',
-              filter: 'none',
-              transform: 'scaleY(1.4)',
-              position: 'relative',
-              zIndex: '1'
-            }}>
-              CONQUISTA
-            </h2>
-          </div>
-        </div>
+        
         
         <InfiniteLogoCarousel />
         <LifestyleHeroSection />
@@ -140,16 +84,16 @@ const Triathlon = () => {
         <div className="relative h-48 md:h-56 lg:h-64 flex items-center justify-center overflow-hidden px-4 mb-4 md:mb-6 lg:mb-8">
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
             <h2 className="text-[15vw] sm:text-[14vw] md:text-[13vw] lg:text-[12vw] xl:text-[10vw] font-black tracking-wider select-none whitespace-nowrap" style={{
-              background: 'linear-gradient(180deg, #000000 0%, #1a1a1a 20%, #4a4a4a 35%, #e5e5e5 55%, #ffffff 80%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              opacity: '0.55',
-              filter: 'none',
-              transform: 'scaleY(1.4)',
-              position: 'relative',
-              zIndex: '1'
-            }}>
+            background: 'linear-gradient(180deg, #000000 0%, #1a1a1a 20%, #4a4a4a 35%, #e5e5e5 55%, #ffffff 80%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            opacity: '0.55',
+            filter: 'none',
+            transform: 'scaleY(1.4)',
+            position: 'relative',
+            zIndex: '1'
+          }}>
               ETERNIZE
             </h2>
           </div>
@@ -163,8 +107,6 @@ const Triathlon = () => {
 
       <GlobalFooter />
       <WhatsAppButton />
-    </div>
-  );
+    </div>;
 };
-
 export default Triathlon;
