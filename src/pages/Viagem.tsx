@@ -45,54 +45,32 @@ const Viagem = () => {
               <p>Nós transformamos tudo em um design moderno, estilo scrapbook, que representa cada etapa vivida.</p>
             </>} imageSrc="/images/scrapbook-moto-viagem.webp" imageAlt="Fotos em destaque estilo scrapbook" imageOnLeft={true} />
         
-        {/* Wrapper for multiple sections with TRIP background text */}
-        <div className="relative overflow-hidden">
-          {/* Giant TRIP text in background - spans multiple sections */}
-          <div className="absolute top-1/2 -translate-y-1/2 pointer-events-none hidden sm:block sm:right-[-10vw] md:right-[-8vw]" style={{
-          zIndex: -1
-        }}>
-            <h2 className="text-[28vw] sm:text-[24vw] md:text-[20vw] lg:text-[16vw] font-black tracking-wider select-none whitespace-nowrap" style={{
-            color: '#000000',
-            opacity: 0.08,
-            filter: 'blur(2.5px)',
-            transform: 'rotate(90deg) scaleY(1.4)',
-            transformOrigin: 'center center'
-          }}>
-              TRIP
-            </h2>
-          </div>
-          
-          <div className="relative" style={{
-          zIndex: 5
-        }}>
-            {/* Seção 2 (antiga 7) - imagem à direita */}
-            <FeatureSection title={<>A Aventura Termina… Mas a<br />Sensação Não Precisa Acabar.</>} description={<>Eternize sua jornada em um quadro personalizado<br />com o percurso em 3D feito exclusivamente para você —<br />um registro fiel do caminho que mudou sua forma de ver o mundo.</>} imageSrc="/images/motociclistas-ruta40.webp" imageAlt="Motociclistas na Ruta 40 Argentina" imageOnLeft={false} />
-            
-            {/* Seção 3 (antiga 1) - imagem à esquerda */}
-            <FeatureSection title="Moldura Premium e Durável" description={<>
-                  <p className="mb-4">Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado.</p>
-                  <p>Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração.</p>
-                </>} imageSrc="/images/moldura-premium-viagem.webp" imageAlt="Moldura premium personalizada" imageOnLeft={true} />
-            
-            {/* Seção 4 (antiga 5) - imagem à direita */}
-            <FeatureSection title="Design Moderno e Exclusivo" description={<>
-                  <p className="mb-3">Mais do que um quadro, uma representação fiel da sua jornada. Cada elemento é personalizado para destacar:</p>
-                  <ul className="list-disc list-inside space-y-1 text-left">
-                    <li>O caminho percorrido</li>
-                    <li>As paisagens que ficaram na memória</li>
-                    <li>As emoções vividas ao longo da viagem</li>
-                    <li>A identidade de quem escolheu explorar</li>
-                  </ul>
-                </>} imageSrc="/images/quadro-sala-moto.webp" imageAlt="Quadro de viagem de moto na sala" imageOnLeft={false} />
-            
-            {/* Seção 5 (antiga 2) - imagem à esquerda */}
-            <FeatureSection title="Percurso 3D Exclusivo" description={<>
-                  <p className="mb-2">Recriamos sua rota em alto relevo 3D, transformando cada quilômetro da sua jornada em uma experiência visual única.</p>
-                  <p className="mb-2">Um mapa que ganha forma, relembra histórias e eterniza tudo o que você viveu.</p>
-                  <p>Sua jornada merece ser vista todos os dias.</p>
-                </>} imageSrc="/images/percurso-3d.webp" imageAlt="Percurso 3D da viagem" imageOnLeft={true} />
-          </div>
-        </div>
+        {/* Seção 2 (antiga 7) - imagem à direita */}
+        <FeatureSection title={<>A Aventura Termina… Mas a<br />Sensação Não Precisa Acabar.</>} description={<>Eternize sua jornada em um quadro personalizado<br />com o percurso em 3D feito exclusivamente para você —<br />um registro fiel do caminho que mudou sua forma de ver o mundo.</>} imageSrc="/images/motociclistas-ruta40.webp" imageAlt="Motociclistas na Ruta 40 Argentina" imageOnLeft={false} />
+        
+        {/* Seção 3 (antiga 1) - imagem à esquerda */}
+        <FeatureSection title="Moldura Premium e Durável" description={<>
+              <p className="mb-4">Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado.</p>
+              <p>Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração.</p>
+            </>} imageSrc="/images/moldura-premium-viagem.webp" imageAlt="Moldura premium personalizada" imageOnLeft={true} />
+        
+        {/* Seção 4 (antiga 5) - imagem à direita */}
+        <FeatureSection title="Design Moderno e Exclusivo" description={<>
+              <p className="mb-3">Mais do que um quadro, uma representação fiel da sua jornada. Cada elemento é personalizado para destacar:</p>
+              <ul className="list-disc list-inside space-y-1 text-left">
+                <li>O caminho percorrido</li>
+                <li>As paisagens que ficaram na memória</li>
+                <li>As emoções vividas ao longo da viagem</li>
+                <li>A identidade de quem escolheu explorar</li>
+              </ul>
+            </>} imageSrc="/images/quadro-sala-moto.webp" imageAlt="Quadro de viagem de moto na sala" imageOnLeft={false} />
+        
+        {/* Seção 5 (antiga 2) - imagem à esquerda */}
+        <FeatureSection title="Percurso 3D Exclusivo" description={<>
+              <p className="mb-2">Recriamos sua rota em alto relevo 3D, transformando cada quilômetro da sua jornada em uma experiência visual única.</p>
+              <p className="mb-2">Um mapa que ganha forma, relembra histórias e eterniza tudo o que você viveu.</p>
+              <p>Sua jornada merece ser vista todos os dias.</p>
+            </>} imageSrc="/images/percurso-3d.webp" imageAlt="Percurso 3D da viagem" imageOnLeft={true} />
         
         {/* Seção 6 (antiga 4) - imagem à direita */}
         <FeatureSection title="Detalhes da Sua Viagem" description={<>
@@ -125,7 +103,7 @@ const Viagem = () => {
         
         
         <ProductSectionViagem />
-        <FAQSectionViagem className="py-[3px]" />
+        <FAQSectionViagem />
         
         
       </main>
