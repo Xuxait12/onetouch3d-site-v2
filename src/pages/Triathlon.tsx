@@ -88,7 +88,7 @@ const Triathlon = () => {
             {/* Seção 4 (antiga 1) - imagem à direita */}
             <FeatureSection
               title="Moldura Premium e Durável"
-              description="Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado. Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração."
+              description={<>Acabamento à altura da sua conquista.<br /><br />Molduras resistentes, sofisticadas e com padrão profissional.<br /><br />Seu quadro não apenas valoriza sua medalha, mas se torna uma peça de destaque na decoração, com durabilidade e presença.</>}
               imageSrc="/images/quadro-moderno.gif"
               imageAlt="Moldura premium personalizada"
               imageOnLeft={false}
