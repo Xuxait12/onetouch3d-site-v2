@@ -35,7 +35,7 @@ const testimonialsTriathlon = [
     quote:
       "Representa mais que uma conquista, a eternização de um sonho que começou ainda na pandemia e com essa bela arte, realizada por vocês da OneTouch3D. Superou todas as minhas expectativas. Sou cliente exigente e a entrega de vocês corresponde em 120%.",
     name: "Giovanny Marchi",
-    designation: "Ironman Maceió",
+    designation: "Ironman Maceió 70.3",
     src: "/lovable-uploads/giovanny-marchi-ironman.webp",
   },
   {
