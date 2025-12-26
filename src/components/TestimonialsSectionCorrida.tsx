@@ -33,10 +33,10 @@ const TestimonialQuote = ({ quote }: { quote: string }) => {
 const testimonials = [
   {
     quote:
-      "Foi eternizar nosso sonho em um quadro e poder relembrar e reviver todos os dias os momentos únicos que vivemos em cima da nosso moto. Momentos que nos encorajam e motivam para as próximas aventuras.",
-    name: "Alex & Vandressa",
-    designation: "Expedição Atacama",
-    src: "/lovable-uploads/alex-vandressa-atacama.webp",
+      "Uma experiência maravilhosa porque foi um complemento de uma grande conquista pessoal. A Onetouch3D fez parte desse sonho!",
+    name: "Verinaldo Chicuta",
+    designation: "Maratona Chicago",
+    src: "/lovable-uploads/verinaldo-chicuta-maratona-chicago.webp",
   },
   {
     quote:
