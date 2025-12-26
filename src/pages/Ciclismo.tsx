@@ -42,23 +42,8 @@ const Ciclismo = () => {
         {/* Seção 1 (antiga 5) - imagem à esquerda */}
         <FeatureSection title="Design Moderno e Exclusivo" description="Um layout pensado para destacar seu pedal com estilo. Seu quadro combina com qualquer ambiente, do quarto à sala de estar." imageSrc="/images/quadro-moderno.webp" imageAlt="Layout moderno e exclusivo" imageOnLeft={true} />
         
-        {/* Wrapper for multiple sections with BIKE background text */}
+        {/* Wrapper for multiple sections */}
         <div className="relative overflow-hidden">
-          {/* Giant BIKE text in background - spans multiple sections */}
-          <div className="absolute top-1/2 -translate-y-1/2 pointer-events-none hidden sm:block sm:right-[-10vw] md:right-[-8vw]" style={{
-          zIndex: -1
-        }}>
-            <h2 className="text-[28vw] sm:text-[24vw] md:text-[20vw] lg:text-[16vw] font-black tracking-wider select-none whitespace-nowrap" style={{
-            color: '#000000',
-            opacity: 0.08,
-            filter: 'blur(2.5px)',
-            transform: 'rotate(90deg) scaleY(1.4)',
-            transformOrigin: 'center center'
-          }}>
-              BIKE
-            </h2>
-          </div>
-          
           <div className="relative" style={{
           zIndex: 5
         }}>
