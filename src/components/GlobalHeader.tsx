@@ -7,7 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/contexts/CartContext";
 import { useCartPanel } from "@/hooks/useCartPanel";
 import CartPanel from "@/components/CartPanel";
-import { User, LogOut, ShoppingBag, Menu, X, Settings } from "lucide-react";
+import { User, LogOut, ShoppingBag, Menu, X } from "lucide-react";
 
 const GlobalHeader = () => {
   const navigate = useNavigate();
@@ -120,12 +120,6 @@ const GlobalHeader = () => {
                       <ShoppingBag className="w-4 h-4 mr-2" />
                       Meus Pedidos
                     </DropdownMenuItem>
-                    {user?.email === 'onetouch3dbrasil@gmail.com' && (
-                      <DropdownMenuItem onClick={() => navigate('/painel')}>
-                        <Settings className="w-4 h-4 mr-2" />
-                        Painel
-                      </DropdownMenuItem>
-                    )}
                     <DropdownMenuItem onClick={handleSignOut}>
                       <LogOut className="w-4 h-4 mr-2" />
                       Sair
@@ -216,17 +210,6 @@ const GlobalHeader = () => {
                     >
                       Meus Pedidos
                     </button>
-                    {user?.email === 'onetouch3dbrasil@gmail.com' && (
-                      <button
-                        onClick={() => {
-                          navigate('/painel');
-                          setMobileMenuOpen(false);
-                        }}
-                        className="block w-full text-left py-2 text-sm text-muted-foreground hover:text-foreground"
-                      >
-                        Painel
-                      </button>
-                    )}
                     <button
                       onClick={() => {
                         handleSignOut();
