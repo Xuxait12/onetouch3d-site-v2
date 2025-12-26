@@ -7,7 +7,7 @@ import {
 
 const faqData = [
   {
-    question: "Como envio minhas fotos e dados da corrida?",
+    question: "Como envio minhas fotos e dados da minha prova?",
     answer: "Você pode enviar tudo de forma rápida e prática pelo WhatsApp. Basta clicar no ícone disponível em nossa página e compartilhar as fotos e informações diretamente com nossa equipe."
   },
   {
