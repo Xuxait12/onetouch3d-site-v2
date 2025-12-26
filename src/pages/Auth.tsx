@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from 'react-router-dom';
+import { Eye, EyeOff } from 'lucide-react';
 import googleLogo from '@/assets/google-logo.png';
 
 const Auth = () => {
@@ -15,6 +16,8 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -29,6 +32,43 @@ const Auth = () => {
     checkAuth();
   }, [navigate]);
 
+  // Helper function to check if profile is complete
+  const checkProfileAndRedirect = async (userId: string) => {
+    try {
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('full_name, cpf_cnpj, cep, address, number, neighborhood, city, state, phone')
+        .eq('user_id', userId)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Error checking profile:', error);
+        navigate('/perfil');
+        return;
+      }
+
+      // Check if profile exists AND has all required fields filled
+      const hasCompleteProfile = profile && 
+        profile.full_name && profile.full_name.trim() !== '' &&
+        profile.cpf_cnpj && profile.cpf_cnpj.trim() !== '' &&
+        profile.cep && profile.cep.trim() !== '' &&
+        profile.address && profile.address.trim() !== '' &&
+        profile.number && profile.number.trim() !== '' &&
+        profile.neighborhood && profile.neighborhood.trim() !== '' &&
+        profile.city && profile.city.trim() !== '' &&
+        profile.state && profile.state.trim() !== '' &&
+        profile.phone && profile.phone.trim() !== '';
+
+      if (hasCompleteProfile) {
+        navigate('/');
+      } else {
+        navigate('/perfil');
+      }
+    } catch (error) {
+      console.error('Error during profile check:', error);
+      navigate('/perfil');
+    }
+  };
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +83,7 @@ const Auth = () => {
 
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
@@ -67,7 +107,11 @@ const Auth = () => {
           title: "Login realizado!",
           description: "Bem-vindo de volta!",
         });
-        navigate('/auth-redirect');
+        if (data.user) {
+          await checkProfileAndRedirect(data.user.id);
+        } else {
+          navigate('/auth-redirect');
+        }
       }
     } catch (error) {
       toast({
@@ -102,7 +146,7 @@ const Auth = () => {
 
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -116,12 +160,22 @@ const Auth = () => {
           description: error.message,
           variant: "destructive",
         });
-      } else {
-        toast({
-          title: "Cadastro realizado!",
-          description: "Verifique seu email para confirmar a conta.",
-        });
-        navigate('/auth-redirect');
+      } else if (data.user) {
+        // Check if user needs email confirmation
+        if (data.session) {
+          // User is logged in immediately (email confirmation disabled)
+          toast({
+            title: "Cadastro realizado!",
+            description: "Bem-vindo!",
+          });
+          await checkProfileAndRedirect(data.user.id);
+        } else {
+          // User needs to confirm email
+          toast({
+            title: "Cadastro realizado!",
+            description: "Verifique seu email para confirmar a conta.",
+          });
+        }
       }
     } catch (error) {
       toast({
@@ -214,14 +268,24 @@ const Auth = () => {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="password">Senha</Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      placeholder="Sua senha"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Sua senha"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        className="pr-10"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
                   </div>
                   <Button type="submit" className="w-full" disabled={loading}>
                     {loading ? "Entrando..." : "Entrar"}
@@ -252,25 +316,45 @@ const Auth = () => {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="signup-password">Senha</Label>
-                    <Input
-                      id="signup-password"
-                      type="password"
-                      placeholder="Sua senha"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
+                    <div className="relative">
+                      <Input
+                        id="signup-password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Sua senha"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        className="pr-10"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="confirm-password">Confirmar Senha</Label>
-                    <Input
-                      id="confirm-password"
-                      type="password"
-                      placeholder="Confirme sua senha"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      required
-                    />
+                    <div className="relative">
+                      <Input
+                        id="confirm-password"
+                        type={showConfirmPassword ? "text" : "password"}
+                        placeholder="Confirme sua senha"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
+                        className="pr-10"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
                   </div>
                   <Button type="submit" className="w-full" disabled={loading}>
                     {loading ? "Cadastrando..." : "Cadastrar"}
