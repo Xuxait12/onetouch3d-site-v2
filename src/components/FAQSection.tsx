@@ -20,7 +20,7 @@ const faqData = [
   },
   {
     question: "Qual o prazo de produção e entrega?",
-    answer: "Após a sua aprovação da arte, iniciamos a produção, que leva de 5 a 7 dias úteis. Em seguida, o quadro é enviado de acordo com a modalidade de frete escolhida. O prazo de entrega pode variar conforme a sua região e a forma de envio selecionada."
+    answer: "Após a sua aprovação da arte, iniciamos a produção, que leva de 5 a 10 dias úteis. Em seguida, o quadro é enviado de acordo com a modalidade de frete escolhida. O prazo de entrega pode variar conforme a sua região e a forma de envio selecionada."
   },
   {
     question: "Vocês adicionam a medalha?",
