@@ -37,7 +37,7 @@ const ShareSection = () => {
       duration: 0.25
     }
   };
-  return <motion.section className="py-16 md:py-20 lg:py-24 bg-white" initial={{
+  return <motion.section initial={{
     opacity: 0,
     y: 12
   }} whileInView={{
@@ -49,7 +49,7 @@ const ShareSection = () => {
   }} transition={{
     duration: 0.6,
     ease: [0.4, 0.0, 0.2, 1]
-  }}>
+  }} className="py-16 md:py-20 bg-white my-0 mx-0 lg:py-[24px]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
           <motion.div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8 md:p-12 text-center" initial={{
