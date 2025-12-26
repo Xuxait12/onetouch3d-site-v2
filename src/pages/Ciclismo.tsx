@@ -108,16 +108,7 @@ const Ciclismo = () => {
           </div>
         </div>
         
-        {/* Seção 6 (antiga 6) - imagem à direita */}
-        <FeatureSection
-          title="Entrega Segura em Todo Brasil"
-          description="Seus quadros são embalados com proteção reforçada, garantindo que cheguem em perfeito estado até a sua casa, em qualquer lugar do Brasil."
-          imageSrc="/images/embalagem-segura.webp"
-          imageAlt="Embalagem segura"
-          imageOnLeft={false}
-        />
-        
-        {/* Seção 7 (antiga 3) - imagem à esquerda */}
+        {/* Seção 6 - Suas Fotos em Destaque - imagem à direita */}
         <FeatureSection
           title="Suas Fotos em Destaque"
           description={<>
@@ -126,6 +117,15 @@ const Ciclismo = () => {
           </>}
           imageSrc="/images/fotos-scrapbook.webp"
           imageAlt="Fotos em destaque estilo scrapbook"
+          imageOnLeft={false}
+        />
+        
+        {/* Seção 7 - Entrega Segura em Todo Brasil - imagem à esquerda */}
+        <FeatureSection
+          title="Entrega Segura em Todo Brasil"
+          description="Seus quadros são embalados com proteção reforçada, garantindo que cheguem em perfeito estado até a sua casa, em qualquer lugar do Brasil."
+          imageSrc="/images/embalagem-segura.webp"
+          imageAlt="Embalagem segura"
           imageOnLeft={true}
         />
         
