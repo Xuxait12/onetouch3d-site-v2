@@ -22,7 +22,7 @@ const ProductSectionTriathlon = () => {
     if (value === "caixa-alta") {
       setSelectedColor("preta-branca");
     } else {
-      setSelectedColor("branca");
+      setSelectedColor("preta");
     }
   };
   const [cep, setCep] = useState("");
@@ -37,7 +37,6 @@ const ProductSectionTriathlon = () => {
   ];
 
   const colorOptionsCaixaBaixa = [
-    { value: "branca", label: "Branca" },
     { value: "preta", label: "Preta" }
   ];
 
@@ -72,13 +71,10 @@ const ProductSectionTriathlon = () => {
 
   const handleAddToCart = () => {
     const productName = selectedType === "caixa-alta" ? "Quadro Caixa Alta" : "Quadro Caixa Baixa";
-    const colorDisplay = selectedColor === "preta-branca" ? "Preta/Branca" : 
-                        selectedColor === "preta" ? "Preta" : "Branca";
+    const colorDisplay = selectedColor === "preta-branca" ? "Preta/Branca" : "Preta";
     
     const productImage = selectedType === "caixa-alta" 
       ? "/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png" 
-      : selectedType === "caixa-baixa" && selectedColor === "branca"
-      ? "/lovable-uploads/9a113f39-ed59-40e5-97f4-b4589f60aa35.png"
       : "/lovable-uploads/5eab4c9e-14d7-460b-bc61-945f92a65e4e.png";
     
     addItem({
@@ -121,8 +117,6 @@ const ProductSectionTriathlon = () => {
                 src={
                   selectedType === "caixa-alta" 
                     ? "/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png" 
-                    : selectedType === "caixa-baixa" && selectedColor === "branca"
-                    ? "/lovable-uploads/9a113f39-ed59-40e5-97f4-b4589f60aa35.png"
                     : "/lovable-uploads/5eab4c9e-14d7-460b-bc61-945f92a65e4e.png"
                 }
                 alt="Quadro personalizado de triathlon"
@@ -198,7 +192,7 @@ const ProductSectionTriathlon = () => {
                       <span><strong>Kit instalação:</strong> Pendurador, parafuso, bucha e fita 3M.</span>
                     </li>
                   </>
-                ) : selectedColor === "preta" ? (
+                ) : (
                   <>
                     <li className="flex items-start gap-2">
                       <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
@@ -215,37 +209,6 @@ const ProductSectionTriathlon = () => {
                     <li className="flex items-start gap-2">
                       <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
                       <span><strong>Design moderno:</strong> Moldura preta premium.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                      <span><strong>Proteção:</strong> Vidro 3mm no tamanho da imagem.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                      <span><strong>Envio seguro:</strong> Embalagem reforçada com papelão e isopor.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                      <span><strong>Kit instalação:</strong> Pendurador, parafuso, bucha e fita 3M.</span>
-                    </li>
-                  </>
-                ) : (
-                  <>
-                    <li className="flex items-start gap-2">
-                      <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                      <span><strong>Acabamento sofisticado:</strong> Madeira com revestimento PET branco liso.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                      <span><strong>Dimensões:</strong> Espessura 3,2cm (distância da parede) e largura 2cm (frontal).</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                      <span><strong>Materiais de qualidade:</strong> Madeira + fundo em MDF 3mm.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                      <span><strong>Design moderno:</strong> Moldura branca premium.</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
