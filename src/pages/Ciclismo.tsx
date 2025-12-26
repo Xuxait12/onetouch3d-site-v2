@@ -89,13 +89,13 @@ const Ciclismo = () => {
         <FeatureSection title="Entrega Segura em Todo Brasil" description="Seus quadros são embalados com proteção reforçada, garantindo que cheguem em perfeito estado até a sua casa, em qualquer lugar do Brasil." imageSrc="/images/embalagem-segura.webp" imageAlt="Embalagem segura" imageOnLeft={true} />
         
         <HowItWorksTabsCiclismo />
-        <WhyChooseUsTabs className="py-[2px]" />
+        <WhyChooseUsTabs className="py-[52px]" />
         
         {/* CONQUISTA background text positioned between sections */}
         
         
         
-        <LifestyleHeroSection />
+        <LifestyleHeroSection className="py-0" />
         <GallerySection />
         <TestimonialsSectionCiclismo />
         <ShareSection />
