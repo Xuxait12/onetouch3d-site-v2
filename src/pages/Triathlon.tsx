@@ -67,12 +67,12 @@ const Triathlon = () => {
           </div>
           
           <div className="relative" style={{ zIndex: 5 }}>
-            {/* Seção 2 (antiga 6) - imagem à direita */}
+            {/* Seção 2 - Imagens Que Contam Sua Jornada - imagem à direita */}
             <FeatureSection
-              title="Entrega Segura em Todo Brasil"
-              description={<>Da Onetouch3D até você — com cuidado absoluto.<br /><br />Cada quadro é embalado com proteção reforçada para chegar perfeito, independentemente do estado onde você mora.<br />Segurança e qualidade da produção até a sua porta.</>}
-              imageSrc="/images/embalagem-segura.webp"
-              imageAlt="Embalagem segura"
+              title="Imagens Que Contam Sua Jornada"
+              description={<>A emoção da prova em um lugar especial.<br /><br />Aquele registro na transição, o sorriso na corrida, o esforço na bike, o mergulho inicial… Suas fotos ganham um espaço pensado para transmitir a intensidade e o orgulho desse dia inesquecível.</>}
+              imageSrc="/images/fotos-scrapbook.webp"
+              imageAlt="Fotos em destaque estilo scrapbook"
               imageOnLeft={false}
             />
             
@@ -105,12 +105,12 @@ const Triathlon = () => {
           </div>
         </div>
         
-        {/* Seção 6 (antiga 3) - imagem à direita */}
+        {/* Seção 6 - Entrega Segura em Todo Brasil - imagem à direita */}
         <FeatureSection
-          title="Imagens Que Contam Sua Jornada"
-          description={<>A emoção da prova em um lugar especial.<br /><br />Aquele registro na transição, o sorriso na corrida, o esforço na bike, o mergulho inicial… Suas fotos ganham um espaço pensado para transmitir a intensidade e o orgulho desse dia inesquecível.</>}
-          imageSrc="/images/fotos-scrapbook.webp"
-          imageAlt="Fotos em destaque estilo scrapbook"
+          title="Entrega Segura em Todo Brasil"
+          description={<>Da Onetouch3D até você — com cuidado absoluto.<br /><br />Cada quadro é embalado com proteção reforçada para chegar perfeito, independentemente do estado onde você mora.<br />Segurança e qualidade da produção até a sua porta.</>}
+          imageSrc="/images/embalagem-segura.webp"
+          imageAlt="Embalagem segura"
           imageOnLeft={false}
         />
         
