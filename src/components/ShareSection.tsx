@@ -70,9 +70,10 @@ const ShareSection = () => {
               Compartilhe Essa Energia!
             </h2>
 
-            <p className="text-muted-foreground text-base md:text-lg mb-8 max-w-md mx-px text-center">
-              Indique o site para um amigo que também vive de aventuras. 
-Pequenos gestos inspiram grandes conquistas.
+            <p className="text-muted-foreground text-base md:text-lg mb-8 max-w-lg mx-auto text-center">
+              Indique o site para um amigo que também vive de aventuras.
+              <br />
+              Pequenos gestos inspiram grandes conquistas.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
