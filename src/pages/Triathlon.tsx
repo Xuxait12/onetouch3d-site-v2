@@ -74,7 +74,7 @@ const Triathlon = () => {
         {/* CONQUISTA background text positioned between sections */}
         
         
-        <InfiniteLogoCarousel />
+        
         <LifestyleHeroSection />
         <GallerySection />
         <TestimonialsSection />
