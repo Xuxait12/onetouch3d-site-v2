@@ -40,10 +40,10 @@ const testimonials = [
   },
   {
     quote:
-      "É gratificante ver uma experiência ser transformada em algo eterno. A personalização, o carinho no processo e a qualidade final fazem toda a diferença. Um trabalho que vale muito a pena e que recomendo.",
-    name: "PC Escudero",
-    designation: "Guia Moto Turismo",
-    src: "/lovable-uploads/pc-escudero-moto-turismo.webp",
+      "Corro há 10 anos e sempre quis eternizar minhas provas. Encontrei a Onetouch3d com um atendimento personalizado e com muita qualidade, tornando esses momentos memoráveis.",
+    name: "Joel Pistore",
+    designation: "Maratona Rio",
+    src: "/lovable-uploads/joel-pistore-maratona-rio.webp",
   },
   {
     quote:
