@@ -36,9 +36,13 @@ const faqData = [
   }
 ];
 
-const FAQSection = () => {
+interface FAQSectionProps {
+  className?: string;
+}
+
+const FAQSection = ({ className = "" }: FAQSectionProps) => {
   return (
-    <section className="section-spacing" style={{ background: 'transparent !important' }}>
+    <section className={`section-spacing ${className}`} style={{ background: 'transparent !important' }}>
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="section-text animate-fade-up">

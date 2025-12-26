@@ -4,7 +4,7 @@ import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
 import HeroSectionTriathlon from "@/components/HeroSectionTriathlon";
 import FeatureSection from "@/components/FeatureSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
+import TestimonialsSectionTriathlon from "@/components/TestimonialsSectionTriathlon";
 import ProductSectionTriathlon from "@/components/ProductSectionTriathlon";
 import HowItWorksTabs from "@/components/HowItWorksTabs";
 import WhyChooseUsTabs from "@/components/WhyChooseUsTabs";
@@ -77,7 +77,7 @@ const Triathlon = () => {
         
         <LifestyleHeroSection />
         <GallerySection />
-        <TestimonialsSection />
+        <TestimonialsSectionTriathlon />
         <ShareSection />
         
         {/* ETERNIZE background text positioned above Nossa loja section */}
