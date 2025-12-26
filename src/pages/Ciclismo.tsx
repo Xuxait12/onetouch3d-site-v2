@@ -104,7 +104,7 @@ const Ciclismo = () => {
         
         
         <ProductSectionCiclismo />
-        <FAQSectionCiclismo />
+        <FAQSectionCiclismo className="py-0" />
         
 
       </main>
