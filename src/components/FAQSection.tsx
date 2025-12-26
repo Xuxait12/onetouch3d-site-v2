@@ -15,7 +15,7 @@ const faqData = [
     answer: "São no mínimo 3 fotos (uma de cada modalidade), porém você pode escolher conforme as opções de layout que oferecemos."
   },
   {
-    question: "É possível personalizar a arte antes da produção?",
+    question: "Quais provas vocês fazem?",
     answer: "Sim. Antes de iniciarmos a produção, enviamos a arte digital para a sua aprovação. Só depois da sua confirmação o quadro segue para fabricação. Assim, garantimos que o resultado final fique exatamente como você deseja."
   },
   {
