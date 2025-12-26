@@ -108,10 +108,7 @@ const HeroSectionCiclismo = () => {
           delay: 0.6,
           duration: 0.6,
           ease: "easeOut"
-        }} className="text-lg sm:text-xl md:text-2xl mb-8 opacity-90 max-w-4xl mx-auto text-white/95 drop-shadow-lg text-center">
-            Deixe sua medalha em destaque! 
-Personalize com percurso 3D, fotos e dados do seu PEDAL para criar uma lembrança inesquecível.
-          </motion.p>
+        }} className="text-lg sm:text-xl md:text-2xl mb-8 opacity-90 max-w-4xl mx-auto text-white/95 drop-shadow-lg text-center"> Personalize com percurso 3D, fotos e dados do seu PEDAL/PROVA para criar uma lembrança inesquecível.</motion.p>
 
           {/* CTA com fade-up e zoom */}
           <motion.div className="mt-6" initial={shouldReduceMotion ? {} : {
