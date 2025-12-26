@@ -67,7 +67,7 @@ const ShareSectionCorrida = () => {
 
             <p className="text-muted-foreground text-base md:text-lg mb-8 max-w-lg mx-auto text-center">
               Indique o site para um amigo que também vive de aventuras.
-              <br /><br />
+              <br />
               Pequenos gestos inspiram grandes conquistas.
             </p>
 
