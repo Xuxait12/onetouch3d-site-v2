@@ -84,7 +84,7 @@ const Triathlon = () => {
         
         
         <ProductSectionTriathlon />
-        <FAQSection />
+        <FAQSection className="py-0" />
         
         
       </main>
