@@ -67,10 +67,10 @@ const GlobalHeader = () => {
                 <button
                   key={item.path}
                   onClick={() => navigate(item.path)}
-                  className={`text-sm font-medium transition-colors duration-200 ${
+                  className={`text-sm font-medium px-4 py-2 rounded-md transition-all duration-200 ease-in-out ${
                     isActive(item.path)
-                      ? "text-primary"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "bg-[#005BFF] text-white"
+                      : "text-muted-foreground hover:text-[#005BFF]"
                   }`}
                 >
                   {item.name}
@@ -169,10 +169,10 @@ const GlobalHeader = () => {
                     navigate(item.path);
                     setMobileMenuOpen(false);
                   }}
-                  className={`text-left py-2 text-sm font-medium transition-colors duration-200 ${
+                  className={`text-left py-2 px-3 rounded-md text-sm font-medium transition-all duration-200 ease-in-out ${
                     isActive(item.path)
-                      ? "text-primary"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "bg-[#005BFF] text-white"
+                      : "text-muted-foreground hover:text-[#005BFF]"
                   }`}
                 >
                   {item.name}
