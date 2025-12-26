@@ -23,7 +23,7 @@ const faqData = [
     answer: "Após a sua aprovação da arte, iniciamos a produção, que leva de 5 a 7 dias úteis. Em seguida, o quadro é enviado de acordo com a modalidade de frete escolhida. O prazo de entrega pode variar conforme a sua região e a forma de envio selecionada."
   },
   {
-    question: "Vocês entregam em todo o Brasil?",
+    question: "Vocês adicionam a medalha?",
     answer: "Sim, realizamos entregas para todo o território nacional. Depois da aprovação da arte, apresentamos as opções de frete disponíveis para que você escolha a que melhor se adapta às suas necessidades."
   },
   {
