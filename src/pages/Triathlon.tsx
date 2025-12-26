@@ -116,7 +116,7 @@ const Triathlon = () => {
         
         {/* Seção 7 (antiga 5) - imagem à esquerda */}
         <FeatureSection
-          title="Design Moderno e Exclusivo"
+          title="Beleza e Força em um Só Quadro"
           description={<>Criado para destacar a sua dedicação.<br />Cada quadro nasce para valorizar sua trajetória no esporte mais desafiador do mundo.<br />Um layout elegante, equilibrado e impactante — perfeito para qualquer ambiente, do escritório ao espaço de casa.</>}
           imageSrc="/images/quadro-moderno.webp"
           imageAlt="Layout moderno e exclusivo"
