@@ -119,24 +119,6 @@ const Corrida = () => {
         <HowItWorksTabs />
         <WhyChooseUsTabs />
         
-        {/* CONQUISTA background text positioned between sections */}
-        <div className="relative h-32 md:h-40 lg:h-48 flex items-center justify-center overflow-hidden px-4">
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-            <h2 className="text-[12vw] sm:text-[11vw] md:text-[10vw] lg:text-[9vw] xl:text-[8vw] font-black tracking-wider select-none whitespace-nowrap" style={{
-              background: 'linear-gradient(180deg, #000000 0%, #1a1a1a 20%, #4a4a4a 35%, #e5e5e5 55%, #ffffff 80%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              opacity: '0.55',
-              filter: 'none',
-              transform: 'scaleY(1.4)',
-              position: 'relative',
-              zIndex: '1'
-            }}>
-              CONQUISTA
-            </h2>
-          </div>
-        </div>
         
         <InfiniteLogoCarousel />
         <LifestyleHeroSection />
@@ -144,24 +126,6 @@ const Corrida = () => {
         <TestimonialsSection />
         <ShareSection />
         
-        {/* ETERNIZE background text positioned above Nossa loja section */}
-        <div className="relative h-48 md:h-56 lg:h-64 flex items-center justify-center overflow-hidden px-4 mb-4 md:mb-6 lg:mb-8">
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-            <h2 className="text-[15vw] sm:text-[14vw] md:text-[13vw] lg:text-[12vw] xl:text-[10vw] font-black tracking-wider select-none whitespace-nowrap" style={{
-              background: 'linear-gradient(180deg, #000000 0%, #1a1a1a 20%, #4a4a4a 35%, #e5e5e5 55%, #ffffff 80%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              opacity: '0.55',
-              filter: 'none',
-              transform: 'scaleY(1.4)',
-              position: 'relative',
-              zIndex: '1'
-            }}>
-              ETERNIZE
-            </h2>
-          </div>
-        </div>
         
         <ProductSection />
         <FAQSection />
