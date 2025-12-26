@@ -48,23 +48,8 @@ const Triathlon = () => {
           imageOnLeft={true}
         />
         
-        {/* Wrapper for multiple sections with TRI background text */}
+        {/* Wrapper for multiple sections */}
         <div className="relative overflow-hidden">
-          {/* Giant TRI text in background - spans multiple sections */}
-          <div 
-            className="absolute top-1/2 -translate-y-1/2 pointer-events-none hidden sm:block sm:right-[-10vw] md:right-[-8vw]"
-            style={{ zIndex: -1 }}
-          >
-            <h2 className="text-[28vw] sm:text-[24vw] md:text-[20vw] lg:text-[16vw] font-black tracking-wider select-none whitespace-nowrap" style={{
-              color: '#000000',
-              opacity: 0.08,
-              filter: 'blur(2.5px)',
-              transform: 'rotate(90deg) scaleY(1.4)',
-              transformOrigin: 'center center'
-            }}>
-              TRI
-            </h2>
-          </div>
           
           <div className="relative" style={{ zIndex: 5 }}>
             {/* Seção 2 - Imagens Que Contam Sua Jornada - imagem à direita */}
