@@ -96,7 +96,7 @@ const Triathlon = () => {
             
             {/* Seção 5 (antiga 7) - imagem à esquerda */}
             <FeatureSection
-              title="Sua Conquista em Destaque"
+              title="A Sua Vitória Merece Destaque"
               description={<>Triathlon não é só uma prova. É uma jornada. Existem conquistas que mudam quem você é.<br /><br />O seu quadro coloca esse momento em evidência, eternizando a linha de chegada que você conquistou com foco, disciplina e coragem.</>}
               imageSrc="/images/medalhas.gif"
               imageAlt="Medalhas emolduradas"
