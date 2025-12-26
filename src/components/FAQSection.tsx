@@ -24,7 +24,7 @@ const faqData = [
   },
   {
     question: "Vocês adicionam a medalha?",
-    answer: "Sim, realizamos entregas para todo o território nacional. Depois da aprovação da arte, apresentamos as opções de frete disponíveis para que você escolha a que melhor se adapta às suas necessidades."
+    answer: "Sim, criamos um espaço exclusivo para ela no quadro."
   },
   {
     question: "E se meu quadro chegar danificado?",
