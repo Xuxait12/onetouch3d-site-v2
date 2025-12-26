@@ -8,7 +8,7 @@ import TestimonialsSectionCiclismo from "@/components/TestimonialsSectionCiclism
 import ProductSectionCiclismo from "@/components/ProductSectionCiclismo";
 import HowItWorksTabsCiclismo from "@/components/HowItWorksTabsCiclismo";
 import WhyChooseUsTabs from "@/components/WhyChooseUsTabs";
-import FAQSection from "@/components/FAQSection";
+import FAQSectionCiclismo from "@/components/FAQSectionCiclismo";
 import CtaSection from "@/components/CtaSection";
 import GallerySection from "@/components/GallerySection";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -104,9 +104,9 @@ const Ciclismo = () => {
         
         
         <ProductSectionCiclismo />
-        <FAQSection />
+        <FAQSectionCiclismo />
         
-        
+
       </main>
 
       <GlobalFooter />
