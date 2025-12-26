@@ -15,7 +15,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import WhyChooseSection from "@/components/WhyChooseSection";
 import InfiniteLogoCarousel from "@/components/ui/infinite-logo-carousel";
 import LifestyleHeroSection from "@/components/LifestyleHeroSection";
-import ShareSection from "@/components/ShareSection";
+import ShareSectionCiclismo from "@/components/ShareSectionCiclismo";
 
 // Import images
 import premiumFrame from "@/assets/premium-frame.jpg";
@@ -98,7 +98,7 @@ const Ciclismo = () => {
         <LifestyleHeroSection />
         <GallerySection />
         <TestimonialsSectionCiclismo />
-        <ShareSection />
+        <ShareSectionCiclismo />
         
         {/* ETERNIZE background text positioned above Nossa loja section */}
         
