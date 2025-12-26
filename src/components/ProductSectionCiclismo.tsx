@@ -10,65 +10,79 @@ import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "@/components/ui/use-toast";
-
 const ProductSectionCiclismo = () => {
   const navigate = useNavigate();
-  const { addItem } = useCart();
+  const {
+    addItem
+  } = useCart();
   const [selectedColor, setSelectedColor] = useState("preta-branca");
   const [selectedSize, setSelectedSize] = useState("33x33cm");
   const [cep, setCep] = useState("");
-
-  const colorOptions = [
-    { value: "preta-branca", label: "Preta/branca" }
-  ];
+  const colorOptions = [{
+    value: "preta-branca",
+    label: "Preta/branca"
+  }];
 
   // Pricing table for Caixa Alta
-  const sizeOptions = [
-    { size: "33x33cm", fullPrice: 330, pixPrice: 309.50 },
-    { size: "33x43cm", fullPrice: 359, pixPrice: 332.50 },
-    { size: "37x48cm", fullPrice: 390, pixPrice: 363.00 },
-    { size: "43x43cm", fullPrice: 385, pixPrice: 386.00 },
-    { size: "43x53cm", fullPrice: 439, pixPrice: 414.50 },
-    { size: "43x63cm", fullPrice: 560, pixPrice: 517.50 },
-    { size: "53x53cm", fullPrice: 510, pixPrice: 493.50 }
-  ];
-
+  const sizeOptions = [{
+    size: "33x33cm",
+    fullPrice: 330,
+    pixPrice: 309.50
+  }, {
+    size: "33x43cm",
+    fullPrice: 359,
+    pixPrice: 332.50
+  }, {
+    size: "37x48cm",
+    fullPrice: 390,
+    pixPrice: 363.00
+  }, {
+    size: "43x43cm",
+    fullPrice: 385,
+    pixPrice: 386.00
+  }, {
+    size: "43x53cm",
+    fullPrice: 439,
+    pixPrice: 414.50
+  }, {
+    size: "43x63cm",
+    fullPrice: 560,
+    pixPrice: 517.50
+  }, {
+    size: "53x53cm",
+    fullPrice: 510,
+    pixPrice: 493.50
+  }];
   const currentSizeOption = sizeOptions.find(option => option.size === selectedSize) || sizeOptions[0];
-  
+
   // Calculate prices
   const fullPrice = currentSizeOption.fullPrice;
   const finalPrice = currentSizeOption.pixPrice;
   const installmentPrice = (fullPrice / 12).toFixed(2);
-
   const handleAddToCart = () => {
     const productName = "Quadro Caixa Alta - Ciclismo";
     const colorDisplay = "Preta/Branca";
     const productImage = "/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png";
-    
     addItem({
       nome: productName,
       cor: colorDisplay,
       tamanho: selectedSize,
       quantidade: 1,
       precoUnitario: finalPrice,
-      imagem: productImage,
+      imagem: productImage
     });
-
     toast({
       title: "Produto adicionado ao carrinho!",
-      description: `${productName} ${selectedSize} ${colorDisplay}`,
+      description: `${productName} ${selectedSize} ${colorDisplay}`
     });
   };
-
   const handleCalculateFrete = () => {
     if (cep) {
       console.log("Calculando frete para CEP:", cep);
       // Implementar lógica de cálculo de frete
     }
   };
-
-  return (
-    <section id="nossa-loja-ciclismo" data-section="nossa-loja-ciclismo" className="pt-2 md:pt-16 pb-16 bg-background product-section">
+  return <section id="nossa-loja-ciclismo" data-section="nossa-loja-ciclismo" className="pt-2 md:pt-16 pb-16 bg-background product-section">
       <div className="max-w-7xl mx-auto px-6">
         {/* Título da Seção */}
         <div className="text-center mb-12">
@@ -82,11 +96,7 @@ const ProductSectionCiclismo = () => {
           <div className="space-y-8">
             {/* Imagem do Produto */}
             <div className="relative">
-              <img 
-                src="/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png"
-                alt="Quadro personalizado de ciclismo"
-                className="w-full rounded-lg shadow-lg"
-              />
+              <img src="/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png" alt="Quadro personalizado de ciclismo" className="w-full rounded-lg shadow-lg" />
             </div>
 
             {/* Características da Moldura */}
@@ -125,11 +135,7 @@ const ProductSectionCiclismo = () => {
                 </li>
               </ul>
               
-              <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <p className="text-blue-600 font-semibold text-center">
-                  NÃO NECESSITA ENVIO DA MEDALHA
-                </p>
-              </div>
+              
             </Card>
           </div>
 
@@ -150,14 +156,12 @@ const ProductSectionCiclismo = () => {
               <Label className="text-base font-medium mb-3 block">Cor da Moldura</Label>
               <RadioGroup value={selectedColor} onValueChange={setSelectedColor}>
                 <div className="flex gap-3">
-                  {colorOptions.map((option) => (
-                    <div key={option.value} className="flex items-center space-x-2">
+                  {colorOptions.map(option => <div key={option.value} className="flex items-center space-x-2">
                       <RadioGroupItem value={option.value} id={`ciclismo-color-${option.value}`} />
                       <Label htmlFor={`ciclismo-color-${option.value}`} className="cursor-pointer">
                         {option.label}
                       </Label>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </RadioGroup>
             </div>
@@ -167,14 +171,12 @@ const ProductSectionCiclismo = () => {
               <Label className="text-base font-medium mb-3 block">Tamanho</Label>
               <RadioGroup value={selectedSize} onValueChange={setSelectedSize}>
                 <div className="grid grid-cols-2 gap-3">
-                  {sizeOptions.map((option) => (
-                    <div key={option.size} className="flex items-center space-x-2">
+                  {sizeOptions.map(option => <div key={option.size} className="flex items-center space-x-2">
                       <RadioGroupItem value={option.size} id={`ciclismo-size-${option.size}`} />
                       <Label htmlFor={`ciclismo-size-${option.size}`} className="cursor-pointer text-sm">
                         {option.size}
                       </Label>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </RadioGroup>
             </div>
@@ -209,10 +211,7 @@ const ProductSectionCiclismo = () => {
             </div>
 
             {/* Botão de Compra */}
-            <Button 
-              onClick={handleAddToCart}
-              className="w-full bg-black hover:bg-black/90 text-white py-3 text-lg font-medium"
-            >
+            <Button onClick={handleAddToCart} className="w-full bg-black hover:bg-black/90 text-white py-3 text-lg font-medium">
               Adicionar ao carrinho
             </Button>
 
@@ -220,18 +219,8 @@ const ProductSectionCiclismo = () => {
             <div>
               <Label className="text-base font-medium mb-3 block">Consultar Frete</Label>
               <div className="flex gap-2">
-                <Input
-                  type="text"
-                  placeholder="Digite seu CEP"
-                  value={cep}
-                  onChange={(e) => setCep(e.target.value)}
-                  className="flex-1"
-                />
-                <Button 
-                  onClick={handleCalculateFrete}
-                  variant="outline"
-                  className="px-6"
-                >
+                <Input type="text" placeholder="Digite seu CEP" value={cep} onChange={e => setCep(e.target.value)} className="flex-1" />
+                <Button onClick={handleCalculateFrete} variant="outline" className="px-6">
                   Calcular
                 </Button>
               </div>
@@ -240,8 +229,6 @@ const ProductSectionCiclismo = () => {
         </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default ProductSectionCiclismo;
