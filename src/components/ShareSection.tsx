@@ -71,7 +71,7 @@ const ShareSection = () => {
             </h2>
 
             <p className="text-muted-foreground text-base md:text-lg mb-8 max-w-md mx-px text-center">
-              Indique o site para um amigo que também vive de aventuras.  
+              Indique o site para um amigo que também vive de aventuras. 
 Pequenos gestos inspiram grandes conquistas.
             </p>
 
