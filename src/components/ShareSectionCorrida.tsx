@@ -65,7 +65,7 @@ const ShareSectionCorrida = () => {
               Compartilhe Essa Energia!
             </h2>
 
-            <p className="text-muted-foreground text-base md:text-lg mb-8 max-w-md mx-auto text-center">
+            <p className="text-muted-foreground text-base md:text-lg mb-8 max-w-lg mx-auto text-center">
               Indique o site para um amigo que também vive de aventuras.
               <br /><br />
               Pequenos gestos inspiram grandes conquistas.
