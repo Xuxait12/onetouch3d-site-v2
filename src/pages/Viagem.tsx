@@ -103,7 +103,7 @@ const Viagem = () => {
         
         
         <ProductSectionViagem />
-        <FAQSectionViagem className="py-px" />
+        <FAQSectionViagem />
         
         
       </main>
