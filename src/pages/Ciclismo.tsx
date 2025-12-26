@@ -5,7 +5,7 @@ import GlobalFooter from "@/components/GlobalFooter";
 import HeroSectionCiclismo from "@/components/HeroSectionCiclismo";
 import FeatureSection from "@/components/FeatureSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import ProductSection from "@/components/ProductSection";
+import ProductSectionCiclismo from "@/components/ProductSectionCiclismo";
 import HowItWorksTabs from "@/components/HowItWorksTabs";
 import WhyChooseUsTabs from "@/components/WhyChooseUsTabs";
 import FAQSection from "@/components/FAQSection";
@@ -103,7 +103,7 @@ const Ciclismo = () => {
         {/* ETERNIZE background text positioned above Nossa loja section */}
         
         
-        <ProductSection />
+        <ProductSectionCiclismo />
         <FAQSection />
         
         
