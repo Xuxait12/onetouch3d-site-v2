@@ -24,7 +24,7 @@ const faqData = [
   },
   {
     question: "Vocês adicionam a medalha?",
-    answer: "Sim, criamos um espaço exclusivo para ela no quadro."
+    answer: "Sim, criamos um espaço exclusivo para ela no quadro. Você não precisa enviar a medalha, faremos uma simulação dela na arte com uma imagem."
   },
   {
     question: "E se meu quadro chegar danificado?",
