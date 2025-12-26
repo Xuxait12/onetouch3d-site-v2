@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import {
-  Layers,
   MessageSquare,
   Brush,
   ThumbsUp,
@@ -12,14 +11,6 @@ import {
 const steps = [
   {
     id: 1,
-    label: "Modelo",
-    title: "Escolha seu modelo",
-    description:
-      "Escolha a moldura que representa a grandeza da sua conquista. Cada detalhe é pensado para dar o destaque que sua vitória merece. Sua conquista é única — e seu quadro também deve ser.",
-    icon: <Layers size={40} />
-  },
-  {
-    id: 2,
     label: "Informações",
     title: "Envie suas informações",
     description:
@@ -27,7 +18,7 @@ const steps = [
     icon: <MessageSquare size={40} />
   },
   {
-    id: 3,
+    id: 2,
     label: "Personalização",
     title: "Produção personalizada",
     description:
@@ -35,7 +26,7 @@ const steps = [
     icon: <Brush size={40} />
   },
   {
-    id: 4,
+    id: 3,
     label: "Aprovar",
     title: "Aprovar sua arte",
     description:
@@ -43,7 +34,7 @@ const steps = [
     icon: <ThumbsUp size={40} />
   },
   {
-    id: 5,
+    id: 4,
     label: "Envio",
     title: "Receba em casa",
     description:
