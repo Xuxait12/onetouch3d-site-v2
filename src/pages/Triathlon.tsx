@@ -54,7 +54,7 @@ const Triathlon = () => {
           <div className="relative" style={{ zIndex: 5 }}>
             {/* Seção 2 - Imagens Que Contam Sua Jornada - imagem à direita */}
             <FeatureSection
-              title="Imagens Que Contam Sua Jornada"
+              title="Emoções Registradas para Sempre"
               description={<>A emoção da prova em um lugar especial.<br /><br />Aquele registro na transição, o sorriso na corrida, o esforço na bike, o mergulho inicial.<br /><br />Suas fotos ganham um espaço pensado para transmitir a intensidade e o orgulho desse dia inesquecível.</>}
               imageSrc="/images/fotos-scrapbook.webp"
               imageAlt="Fotos em destaque estilo scrapbook"
