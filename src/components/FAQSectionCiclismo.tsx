@@ -7,6 +7,19 @@ import {
 
 const faqData = [
   {
+    question: "Como envio informações do PERCURSO da minha pedalada?",
+    answer: (
+      <>
+        <p className="mb-3">Para enviar as informações do percurso da sua pedalada, você tem três maneiras:</p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Lista das cidades que fez sua aventura (arquivo word com as principais cidades).</li>
+          <li>Uma imagem do desenho (Google Maps) com o percurso percorrido.</li>
+          <li>GPS/GPX do percurso da sua pedalada.</li>
+        </ul>
+      </>
+    )
+  },
+  {
     question: "Como envio minhas fotos e dados da minha pedalada/prova?",
     answer: "Você pode enviar tudo de forma rápida e prática pelo WhatsApp. Basta clicar no ícone disponível em nossa página e compartilhar as fotos e informações diretamente com nossa equipe."
   },
