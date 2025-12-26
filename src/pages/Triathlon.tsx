@@ -41,7 +41,7 @@ const Triathlon = () => {
         
         {/* Seção 1 (antiga 4) - imagem à esquerda */}
         <FeatureSection
-          title="Seus Dados de Prova Personalizados"
+          title="Números Que Contam Sua História"
           description={<>Cada detalhe importa. E aqui, todos ganham vida.<br /><br />Seu nome, tempo oficial, tempo por modalidade e transição — tudo apresentado com clareza e elegância. Porque o triathlon é feito de números que contam histórias.</>}
           imageSrc="/images/dados-prova.webp"
           imageAlt="Dados da prova"
