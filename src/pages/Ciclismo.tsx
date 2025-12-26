@@ -97,7 +97,10 @@ const Ciclismo = () => {
             {/* Seção 5 (antiga 1) - imagem à esquerda */}
             <FeatureSection
               title="Moldura Premium"
-              description="Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado. Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração."
+              description={<>
+                <p className="mb-4">Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado.</p>
+                <p>Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração.</p>
+              </>}
               imageSrc="/images/quadro-moderno.gif"
               imageAlt="Moldura premium personalizada"
               imageOnLeft={true}
