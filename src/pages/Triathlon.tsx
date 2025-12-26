@@ -79,7 +79,7 @@ const Triathlon = () => {
             {/* Seção 3 (antiga 2) - imagem à esquerda */}
             <FeatureSection
               title="Percurso 3D Exclusivo"
-              description="Reconstruímos seus percursos com precisão em 3D(miniatura) — natação, ciclismo e corrida — criando um registro único da sua prova. Um quadro que vai muito além de decoração: é a representação visual da sua superação."
+              description={<>Reconstruímos seus percursos com precisão em 3D(miniatura) — natação, ciclismo e corrida — criando um registro único da sua prova.<br /><br />Um quadro que vai muito além de decoração: é a representação visual da sua superação.</>}
               imageSrc="/images/percurso-3d.webp"
               imageAlt="Percurso 3D da prova"
               imageOnLeft={true}
