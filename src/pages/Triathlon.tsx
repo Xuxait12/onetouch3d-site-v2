@@ -108,7 +108,7 @@ const Triathlon = () => {
         {/* Seção 6 (antiga 3) - imagem à direita */}
         <FeatureSection
           title="Suas Fotos em Destaque"
-          description="Escolha as melhores fotos do seu triathlon e veja sua história ganhar vida em um quadro que une emoção, lembrança e design moderno."
+          description={<>A emoção da prova em um lugar especial.<br /><br />Aquele registro na transição, o sorriso na corrida, o esforço na bike, o mergulho inicial… Suas fotos ganham um espaço pensado para transmitir a intensidade e o orgulho desse dia inesquecível.</>}
           imageSrc="/images/fotos-scrapbook.webp"
           imageAlt="Fotos em destaque estilo scrapbook"
           imageOnLeft={false}
