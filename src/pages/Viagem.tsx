@@ -125,7 +125,7 @@ const Viagem = () => {
         
         
         <ProductSectionViagem />
-        <FAQSectionViagem className="py-[2px]" />
+        <FAQSectionViagem className="py-[3px]" />
         
         
       </main>
