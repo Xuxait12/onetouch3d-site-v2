@@ -5,7 +5,7 @@ const faqData = [{
         <p className="mb-3">Para enviar as informações do percurso da sua pedalada, você tem duas maneiras:</p>
         <ul className="list-disc pl-5 space-y-1">
           <li>Lista das cidades que fez sua aventura (arquivo word com as principais cidades).</li>
-          <li>Uma imagem do desenho (Google Maps) com o percurso percorrido.</li>
+          <li>Compartilhe conosco a atividade registrada do seu aplicativo. (Strava, Garmin)</li>
           <li>Envie o GPS/GPX do percurso da sua pedalada. (Strava, Garmin)</li>
         </ul>
       </>
