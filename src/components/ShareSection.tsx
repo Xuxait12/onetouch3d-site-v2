@@ -70,8 +70,7 @@ const ShareSection = () => {
               Compartilhe Essa Energia!
             </h2>
 
-            <p className="text-muted-foreground text-base md:text-lg mb-8 max-w-lg mx-auto text-center">Indique o site para um amigo que também é triatleta.
-Pequenos gestos inspiram grandes conquistas.<br />
+            <p className="text-muted-foreground text-base md:text-lg mb-8 max-w-lg mx-auto text-center">Indique o site para um amigo que também é triatleta. <br />
               Pequenos gestos inspiram grandes conquistas.
             </p>
 
