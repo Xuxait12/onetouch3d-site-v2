@@ -4,7 +4,7 @@ import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
 import HeroSectionCiclismo from "@/components/HeroSectionCiclismo";
 import FeatureSection from "@/components/FeatureSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
+import TestimonialsSectionCiclismo from "@/components/TestimonialsSectionCiclismo";
 import ProductSectionCiclismo from "@/components/ProductSectionCiclismo";
 import HowItWorksTabsCiclismo from "@/components/HowItWorksTabsCiclismo";
 import WhyChooseUsTabs from "@/components/WhyChooseUsTabs";
@@ -97,7 +97,7 @@ const Ciclismo = () => {
         
         <LifestyleHeroSection />
         <GallerySection />
-        <TestimonialsSection />
+        <TestimonialsSectionCiclismo />
         <ShareSection />
         
         {/* ETERNIZE background text positioned above Nossa loja section */}
