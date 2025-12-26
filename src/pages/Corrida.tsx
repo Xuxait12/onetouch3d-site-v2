@@ -4,7 +4,7 @@ import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
 import HeroSection from "@/components/HeroSection";
 import FeatureSection from "@/components/FeatureSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
+import TestimonialsSectionCorrida from "@/components/TestimonialsSectionCorrida";
 import ProductSection from "@/components/ProductSection";
 import HowItWorksTabs from "@/components/HowItWorksTabs";
 import WhyChooseUsTabs from "@/components/WhyChooseUsTabs";
@@ -107,7 +107,7 @@ const Corrida = () => {
         <InfiniteLogoCarousel />
         <LifestyleHeroSection />
         <GallerySection />
-        <TestimonialsSection />
+        <TestimonialsSectionCorrida />
         <ShareSection />
         
         
