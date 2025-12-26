@@ -6,7 +6,7 @@ const faqData = [{
         <ul className="list-disc pl-5 space-y-1">
           <li>Lista das cidades que fez sua aventura (arquivo word com as principais cidades).</li>
           <li>Uma imagem do desenho (Google Maps) com o percurso percorrido.</li>
-          <li>GPS/GPX do percurso da sua pedalada.</li>
+          <li>Envie o GPS/GPX do percurso da sua pedalada. (Strava, Garmin)</li>
         </ul>
       </>
 }, {
