@@ -12,7 +12,7 @@ const faqData = [
   },
   {
     question: "Quantas fotos posso colocar na arte do quadro?",
-    answer: "Sim! Oferecemos diferentes opções de layout, incluindo modelos que comportam várias fotos. É só nos informar quantas imagens deseja utilizar e criaremos um design exclusivo para você."
+    answer: "São no mínimo 3 fotos (uma de cada modalidade), porém você pode escolher conforme as opções de layout que oferecemos."
   },
   {
     question: "É possível personalizar a arte antes da produção?",
