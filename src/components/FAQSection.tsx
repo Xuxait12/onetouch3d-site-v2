@@ -11,7 +11,7 @@ const faqData = [
     answer: "Você pode enviar tudo de forma rápida e prática pelo WhatsApp. Basta clicar no ícone disponível em nossa página e compartilhar as fotos e informações diretamente com nossa equipe."
   },
   {
-    question: "Posso incluir mais de uma foto no quadro?",
+    question: "Quantas fotos posso colocar na arte do quadro?",
     answer: "Sim! Oferecemos diferentes opções de layout, incluindo modelos que comportam várias fotos. É só nos informar quantas imagens deseja utilizar e criaremos um design exclusivo para você."
   },
   {
