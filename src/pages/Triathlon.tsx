@@ -70,7 +70,7 @@ const Triathlon = () => {
             {/* Seção 2 (antiga 6) - imagem à direita */}
             <FeatureSection
               title="Entrega Segura em Todo Brasil"
-              description="Seus quadros são embalados com proteção reforçada, garantindo que cheguem em perfeito estado até a sua casa, em qualquer lugar do Brasil."
+              description={<>Da Onetouch3D até você — com cuidado absoluto.<br /><br />Cada quadro é embalado com proteção reforçada para chegar perfeito, independentemente do estado onde você mora.<br />Segurança e qualidade da produção até a sua porta.</>}
               imageSrc="/images/embalagem-segura.webp"
               imageAlt="Embalagem segura"
               imageOnLeft={false}
