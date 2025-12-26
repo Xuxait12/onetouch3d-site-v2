@@ -16,7 +16,7 @@ const faqData = [
   },
   {
     question: "Quais provas vocês fazem?",
-    answer: "Sim. Antes de iniciarmos a produção, enviamos a arte digital para a sua aprovação. Só depois da sua confirmação o quadro segue para fabricação. Assim, garantimos que o resultado final fique exatamente como você deseja."
+    answer: "Todas: Ironman, 70.3, SPRINT e provas independentes. Caso não tenhamos arte pronta da sua prova, faremos ela para você."
   },
   {
     question: "Qual o prazo de produção e entrega?",
