@@ -14,7 +14,7 @@ const steps = [
     label: "Informações",
     title: "Envie suas informações",
     description:
-      "Envie suas fotos, tempo oficial, nome e uma imagem da medalha pelo WhatsApp. Nossa equipe cuida do resto! Quanto mais detalhes você enviar, mais completa fica sua conquista.",
+      "Envie suas fotos, tempo oficial, nome e uma imagem da medalha(se houver) pelo WhatsApp. Nossa equipe cuida do resto! Quanto mais detalhes você enviar, mais completa ficará sua conquista.",
     icon: <MessageSquare size={40} />
   },
   {
