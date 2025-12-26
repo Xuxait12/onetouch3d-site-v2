@@ -87,7 +87,7 @@ const Ciclismo = () => {
             
             {/* Seção 4 (antiga 4) - imagem à direita */}
             <FeatureSection
-              title="Seus Dados de Prova Personalizados"
+              title="Dados do Seu Pedal/Prova Personalizados"
               description="Incluímos informações como seu nome, distância, tempo oficial e velocidade média – para eternizar cada detalhe da sua conquista."
               imageSrc="/images/dados-prova.webp"
               imageAlt="Dados da prova"
