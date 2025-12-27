@@ -10,7 +10,7 @@ import HowItWorksTabsCiclismo from "@/components/HowItWorksTabsCiclismo";
 import WhyChooseUsTabs from "@/components/WhyChooseUsTabs";
 import FAQSectionCiclismo from "@/components/FAQSectionCiclismo";
 import CtaSection from "@/components/CtaSection";
-import GallerySection from "@/components/GallerySection";
+import GallerySectionCiclismo from "@/components/GallerySectionCiclismo";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import WhyChooseSection from "@/components/WhyChooseSection";
 import InfiniteLogoCarousel from "@/components/ui/infinite-logo-carousel";
@@ -81,7 +81,7 @@ const Ciclismo = () => {
         
         
         <LifestyleHeroSection />
-        <GallerySection />
+        <GallerySectionCiclismo />
         <TestimonialsSectionCiclismo />
         <ShareSectionCiclismo />
         
