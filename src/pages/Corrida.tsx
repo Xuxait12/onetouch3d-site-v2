@@ -60,7 +60,7 @@ const Corrida = () => {
             
             <FeatureSection
               title="Suas Fotos em Destaque"
-              description="Escolha as melhores fotos da sua corrida e veja sua história ganhar vida em um quadro que une emoção, lembrança e design moderno."
+              description={<>Escolha as melhores fotos da sua corrida.<br /><br />Veja sua história ganhar vida em um quadro que une emoção, lembrança e design moderno.</>}
               imageSrc="/images/fotos-scrapbook.webp"
               imageAlt="Fotos em destaque estilo scrapbook"
               imageOnLeft={true}
