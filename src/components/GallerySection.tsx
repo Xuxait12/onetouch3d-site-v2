@@ -5,7 +5,7 @@ const GallerySection = () => {
         <h2 className="section-text mb-4">Galeria de Inspiração</h2>
         <p className="body-large text-muted-foreground text-center">Inspire-se e transforme sua pedalada em arte também! 
 
-Deixe suas próprias vitórias ganharem vida em um quadro feito só para você.<br /><br />​</p>
+        <br /><br />Deixe suas próprias vitórias ganharem vida em um quadro feito só para você.</p>
         <p className="text-sm md:text-base text-muted-foreground/80 italic mt-2">clique sobre a imagem para ampliar</p>
       </div>
       
