@@ -48,7 +48,7 @@ const Ciclismo = () => {
           zIndex: 5
         }}>
             {/* Seção 2 (antiga 2) - imagem à direita */}
-            <FeatureSection title="Percurso 3D Exclusivo" description="Recriamos o trajeto do seu pedal em 3D com precisão, tornando cada quadro único e totalmente personalizado com a sua conquista." imageSrc="/images/percurso-3d.webp" imageAlt="Percurso 3D da prova" imageOnLeft={false} />
+            <FeatureSection title="Percurso 3D Exclusivo" description={<>Transformamos o trajeto completo da sua prova em um percurso 3D preciso e cheio de presença, recriando cada curva, cada subida e cada quilômetro que você venceu.<br /><br />É a sua jornada ganhando forma, textura e profundidade, eternizada em um quadro que destaca visualmente tudo o que você conquistou com esforço, disciplina e paixão pela bike.</>} imageSrc="/images/percurso-3d.webp" imageAlt="Percurso 3D da prova" imageOnLeft={false} />
             
             {/* Seção 3 (antiga 7) - imagem à esquerda */}
             <FeatureSection title="Sua Conquista em Destaque" description="Existem conquistas que merecem um destaque especial. Dê vida as suas conquistas emoldurando seu momento mais inesquecível." imageSrc="/images/medalhas.gif" imageAlt="Medalhas emolduradas" imageOnLeft={true} />
