@@ -36,25 +36,25 @@ const GalleryCarouselViagem = () => {
       gallery: "/images/galeria-viagem-foto5-thumb.webp",
       popup: "/images/galeria-viagem-foto5-popup.webp",
       alt: "Viagem - Galeria 5",
-      description: "Quadro de Viagem 5"
+      description: "Caixa Alta - 43x53cm"
     },
     {
       gallery: "/images/galeria-viagem-foto6-thumb.webp",
       popup: "/images/galeria-viagem-foto6-popup.webp",
       alt: "Viagem - Galeria 6",
-      description: "Quadro de Viagem 6"
+      description: "Caixa Alta - 43x53cm"
     },
     {
       gallery: "/images/galeria-viagem-foto7-thumb.webp",
       popup: "/images/galeria-viagem-foto7-popup.webp",
       alt: "Viagem - Galeria 7",
-      description: "Quadro de Viagem 7"
+      description: "Caixa Alta - 53x73cm"
     },
     {
       gallery: "/images/galeria-viagem-foto8-thumb.webp",
       popup: "/images/galeria-viagem-foto8-popup.webp",
       alt: "Viagem - Galeria 8",
-      description: "Quadro de Viagem 8"
+      description: "Caixa Alta - 103x83cm"
     }
   ];
 
