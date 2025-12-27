@@ -38,16 +38,16 @@ const GalleryCarousel = () => {
       description: "Mold. Caixa Alta / 37x48cm / COM IMPRESSÃO 3D"
     },
     {
-      gallery: "/lovable-uploads/114898e8-9402-4c4b-bf2a-e497158f1af0.png",
-      popup: "/lovable-uploads/114898e8-9402-4c4b-bf2a-e497158f1af0.png",
-      alt: "Moldura Caixa Alta - Galeria 7",
-      description: "Mold. Caixa Alta / 53x73cm / COM IMPRESSÃO 3D"
+      gallery: "/images/galeria-uphill-thumb.webp",
+      popup: "/images/galeria-uphill-popup.webp",
+      alt: "Caixa Alta - Galeria 6",
+      description: "Caixa Alta - 53x73cm"
     },
     {
-      gallery: "/lovable-uploads/7459cbb0-20da-4c0c-ba44-f730e14b1c7d.png",
-      popup: "/lovable-uploads/7459cbb0-20da-4c0c-ba44-f730e14b1c7d.png",
-      alt: "Moldura Caixa Alta - Galeria 8",
-      description: "Mold. Caixa Alta / 43x63cm / COM IMPRESSÃO 3D"
+      gallery: "/images/galeria-maratona-poa-thumb.webp",
+      popup: "/images/galeria-maratona-poa-popup.webp",
+      alt: "Caixa Alta - Galeria 7",
+      description: "Caixa Alta - 43x43cm"
     },
     {
       gallery: "/images/galeria-berlim-thumb.webp",
