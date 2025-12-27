@@ -54,6 +54,12 @@ const GalleryCarousel = () => {
       popup: "/lovable-uploads/7459cbb0-20da-4c0c-ba44-f730e14b1c7d.png",
       alt: "Moldura Caixa Alta - Galeria 8",
       description: "Mold. Caixa Alta / 43x63cm / COM IMPRESSÃO 3D"
+    },
+    {
+      gallery: "/images/galeria-berlim-thumb.webp",
+      popup: "/images/galeria-berlim-popup.webp",
+      alt: "BMW Berlin Marathon - Galeria 9",
+      description: "BMW Berlin Marathon / 42.195m / COM IMPRESSÃO 3D"
     }
   ];
 
