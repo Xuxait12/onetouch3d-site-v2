@@ -32,12 +32,6 @@ const GalleryCarousel = () => {
       description: "Mold. Caixa Alta / 33x43cm / COM IMPRESSÃO 3D"
     },
     {
-      gallery: "/lovable-uploads/0b291526-4b05-4021-bd4f-9efe62223abb.png",
-      popup: "/lovable-uploads/0b291526-4b05-4021-bd4f-9efe62223abb.png",
-      alt: "Moldura Caixa Alta - Galeria 5",
-      description: "Mold. Caixa Alta / 33x43cm / COM IMPRESSÃO 3D"
-    },
-    {
       gallery: "/lovable-uploads/fbca9a8b-84d2-48b5-9087-2c9c9fbc591c.png",
       popup: "/lovable-uploads/fbca9a8b-84d2-48b5-9087-2c9c9fbc591c.png",
       alt: "Moldura Caixa Alta - Galeria 6",
