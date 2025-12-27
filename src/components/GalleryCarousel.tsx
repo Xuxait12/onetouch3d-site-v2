@@ -38,15 +38,15 @@ const GalleryCarousel = () => {
       description: "Caixa Alta - 33x43cm"
     },
     {
-      gallery: "/images/galeria-maratona-poa-thumb.webp",
-      popup: "/images/galeria-maratona-poa-popup.webp",
-      alt: "Caixa Alta - Galeria 7",
-      description: "Caixa Alta - 43x43cm"
-    },
-    {
       gallery: "/images/galeria-foto6-thumb.webp",
       popup: "/images/galeria-foto6-popup.webp",
       alt: "Caixa Alta - Galeria 6",
+      description: "Caixa Alta - 43x43cm"
+    },
+    {
+      gallery: "/images/galeria-maratona-poa-thumb.webp",
+      popup: "/images/galeria-maratona-poa-popup.webp",
+      alt: "Caixa Alta - Galeria 7",
       description: "Caixa Alta - 43x43cm"
     },
     {
