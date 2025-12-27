@@ -44,10 +44,10 @@ const GalleryCarousel = () => {
       description: "Caixa Alta - 43x43cm"
     },
     {
-      gallery: "/images/galeria-maratona-poa-thumb.webp",
-      popup: "/images/galeria-maratona-poa-popup.webp",
-      alt: "Caixa Alta - Galeria 7",
-      description: "Caixa Alta - 43x43cm"
+      gallery: "/images/galeria-foto5-thumb.webp",
+      popup: "/images/galeria-foto5-popup.webp",
+      alt: "Caixa Alta - Galeria 5",
+      description: "Caixa Alta - 43x53cm"
     },
     {
       gallery: "/images/galeria-uphill-thumb.webp",
