@@ -7,31 +7,30 @@ const GalleryCarouselCiclismo = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
-  // PLACEHOLDER - mesmas imagens de corrida
   const galleryImages = [
     {
-      gallery: "/lovable-uploads/970a032a-e271-4125-b5b8-b5180ea30ca7.png",
-      popup: "/lovable-uploads/970a032a-e271-4125-b5b8-b5180ea30ca7.png",
-      alt: "Moldura Caixa Baixa - Galeria 1",
-      description: "Mold. Caixa Baixa / 33x33cm / SEM IMPRESSÃO 3D"
+      gallery: "/images/galeria-ciclismo-foto1-thumb.webp",
+      popup: "/images/galeria-ciclismo-foto1-popup.webp",
+      alt: "Caixa Baixa - Galeria 1",
+      description: "Caixa Baixa - 43x33cm"
     },
     {
-      gallery: "/lovable-uploads/ecfecaac-bd4d-4e16-b2b4-be323cb5c221.png",
-      popup: "/lovable-uploads/ecfecaac-bd4d-4e16-b2b4-be323cb5c221.png",
-      alt: "Moldura Caixa Alta - Galeria 2",
-      description: "Mold. Caixa Alta / 33x33cm / COM IMPRESSÃO 3D"
+      gallery: "/images/galeria-ciclismo-foto2-thumb.webp",
+      popup: "/images/galeria-ciclismo-foto2-popup.webp",
+      alt: "Caixa Alta - Galeria 2",
+      description: "Caixa Alta - 48x37cm"
     },
     {
-      gallery: "/images/foto-qw.jpg",
-      popup: "/images/foto-qw_alta.jpg",
-      alt: "Cassino Ultra Race 2025 - 135K",
-      description: "Campeão Cassino Ultra Race 2025 - 135K"
+      gallery: "/images/galeria-ciclismo-foto3-thumb.webp",
+      popup: "/images/galeria-ciclismo-foto3-popup.webp",
+      alt: "Caixa Alta - Galeria 3",
+      description: "Caixa Alta - 33x43cm"
     },
     {
-      gallery: "/lovable-uploads/b70e7132-d5b6-4171-a63a-48754c5e7455.png",
-      popup: "/lovable-uploads/b70e7132-d5b6-4171-a63a-48754c5e7455.png",
-      alt: "Moldura Caixa Alta - Galeria 4",
-      description: "Mold. Caixa Alta / 33x43cm / COM IMPRESSÃO 3D"
+      gallery: "/images/galeria-ciclismo-foto4-thumb.webp",
+      popup: "/images/galeria-ciclismo-foto4-popup.webp",
+      alt: "Caixa Alta - Galeria 4",
+      description: "Caixa Alta - 48x37cm"
     },
     {
       gallery: "/lovable-uploads/0b291526-4b05-4021-bd4f-9efe62223abb.png",
