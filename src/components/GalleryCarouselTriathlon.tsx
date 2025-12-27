@@ -12,25 +12,25 @@ const GalleryCarouselTriathlon = () => {
       gallery: "/images/galeria-triathlon-foto1-thumb.webp",
       popup: "/images/galeria-triathlon-foto1-popup.webp",
       alt: "Triathlon - Galeria 1",
-      description: "Quadro de Triathlon 1"
+      description: "Caixa Baixa - 33x43cm"
     },
     {
       gallery: "/images/galeria-triathlon-foto2-thumb.webp",
       popup: "/images/galeria-triathlon-foto2-popup.webp",
       alt: "Triathlon - Galeria 2",
-      description: "Quadro de Triathlon 2"
+      description: "Caixa Alta - 43x43cm"
     },
     {
       gallery: "/images/galeria-triathlon-foto3-thumb.webp",
       popup: "/images/galeria-triathlon-foto3-popup.webp",
       alt: "Triathlon - Galeria 3",
-      description: "Quadro de Triathlon 3"
+      description: "Caixa Alta - 53x43cm"
     },
     {
       gallery: "/images/galeria-triathlon-foto4-thumb.webp",
       popup: "/images/galeria-triathlon-foto4-popup.webp",
       alt: "Triathlon - Galeria 4",
-      description: "Quadro de Triathlon 4"
+      description: "Caixa Alta - 43x53cm"
     },
     {
       gallery: "/images/galeria-triathlon-foto5-thumb.webp",
