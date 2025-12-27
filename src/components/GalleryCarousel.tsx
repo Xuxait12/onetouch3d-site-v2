@@ -58,8 +58,8 @@ const GalleryCarousel = () => {
     {
       gallery: "/images/galeria-berlim-thumb.webp",
       popup: "/images/galeria-berlim-popup.webp",
-      alt: "BMW Berlin Marathon - Galeria 9",
-      description: "BMW Berlin Marathon / 42.195m / COM IMPRESSÃO 3D"
+      alt: "Caixa Alta - Galeria 9",
+      description: "Caixa Alta - 33x43cm"
     }
   ];
 
