@@ -14,10 +14,10 @@ const GalleryCarousel = () => {
       description: "Mold. Caixa Baixa / 33x33cm / SEM IMPRESSÃO 3D"
     },
     {
-      gallery: "/lovable-uploads/ecfecaac-bd4d-4e16-b2b4-be323cb5c221.png",
-      popup: "/lovable-uploads/ecfecaac-bd4d-4e16-b2b4-be323cb5c221.png",
-      alt: "Moldura Caixa Alta - Galeria 2",
-      description: "Mold. Caixa Alta / 33x33cm / COM IMPRESSÃO 3D"
+      gallery: "/images/galeria-foto4-thumb.webp",
+      popup: "/images/galeria-foto4-popup.webp",
+      alt: "Caixa Alta - Galeria 2",
+      description: "Caixa Alta - 33x43cm"
     },
     {
       gallery: "/images/foto-qw.jpg",
@@ -32,10 +32,10 @@ const GalleryCarousel = () => {
       description: "Mold. Caixa Alta / 33x43cm / COM IMPRESSÃO 3D"
     },
     {
-      gallery: "/lovable-uploads/fbca9a8b-84d2-48b5-9087-2c9c9fbc591c.png",
-      popup: "/lovable-uploads/fbca9a8b-84d2-48b5-9087-2c9c9fbc591c.png",
-      alt: "Moldura Caixa Alta - Galeria 6",
-      description: "Mold. Caixa Alta / 37x48cm / COM IMPRESSÃO 3D"
+      gallery: "/images/galeria-foto5-thumb.webp",
+      popup: "/images/galeria-foto5-popup.webp",
+      alt: "Caixa Alta - Galeria 5",
+      description: "Caixa Alta - 43x53cm"
     },
     {
       gallery: "/images/galeria-uphill-thumb.webp",
