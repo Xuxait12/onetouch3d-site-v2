@@ -54,7 +54,7 @@ const GalleryCarouselViagem = () => {
       gallery: "/images/galeria-viagem-foto8-thumb.webp",
       popup: "/images/galeria-viagem-foto8-popup.webp",
       alt: "Viagem - Galeria 8",
-      description: "Caixa Alta - 103x83cm"
+      description: "Caixa Alta - 43x53cm"
     }
   ];
 
