@@ -33,28 +33,28 @@ const GalleryCarouselCiclismo = () => {
       description: "Caixa Alta - 48x37cm"
     },
     {
-      gallery: "/lovable-uploads/0b291526-4b05-4021-bd4f-9efe62223abb.png",
-      popup: "/lovable-uploads/0b291526-4b05-4021-bd4f-9efe62223abb.png",
-      alt: "Moldura Caixa Alta - Galeria 5",
-      description: "Mold. Caixa Alta / 33x43cm / COM IMPRESSÃO 3D"
+      gallery: "/images/galeria-ciclismo-foto5-thumb.webp",
+      popup: "/images/galeria-ciclismo-foto5-popup.webp",
+      alt: "Caixa Alta - Galeria 5",
+      description: "Caixa Alta - 43x43cm"
     },
     {
-      gallery: "/lovable-uploads/fbca9a8b-84d2-48b5-9087-2c9c9fbc591c.png",
-      popup: "/lovable-uploads/fbca9a8b-84d2-48b5-9087-2c9c9fbc591c.png",
-      alt: "Moldura Caixa Alta - Galeria 6",
-      description: "Mold. Caixa Alta / 37x48cm / COM IMPRESSÃO 3D"
+      gallery: "/images/galeria-ciclismo-foto6-thumb.webp",
+      popup: "/images/galeria-ciclismo-foto6-popup.webp",
+      alt: "Caixa Alta - Galeria 6",
+      description: "Caixa Alta - 37x48cm"
     },
     {
-      gallery: "/lovable-uploads/114898e8-9402-4c4b-bf2a-e497158f1af0.png",
-      popup: "/lovable-uploads/114898e8-9402-4c4b-bf2a-e497158f1af0.png",
-      alt: "Moldura Caixa Alta - Galeria 7",
-      description: "Mold. Caixa Alta / 53x73cm / COM IMPRESSÃO 3D"
+      gallery: "/images/galeria-ciclismo-foto7-thumb.webp",
+      popup: "/images/galeria-ciclismo-foto7-popup.webp",
+      alt: "Caixa Alta - Galeria 7",
+      description: "Caixa Alta - 48x37cm"
     },
     {
-      gallery: "/lovable-uploads/7459cbb0-20da-4c0c-ba44-f730e14b1c7d.png",
-      popup: "/lovable-uploads/7459cbb0-20da-4c0c-ba44-f730e14b1c7d.png",
-      alt: "Moldura Caixa Alta - Galeria 8",
-      description: "Mold. Caixa Alta / 43x63cm / COM IMPRESSÃO 3D"
+      gallery: "/images/galeria-ciclismo-foto8-thumb.webp",
+      popup: "/images/galeria-ciclismo-foto8-popup.webp",
+      alt: "Caixa Alta - Galeria 8",
+      description: "Caixa Alta - 53x73cm"
     }
   ];
 
