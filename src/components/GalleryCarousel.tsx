@@ -16,14 +16,14 @@ const GalleryCarousel = () => {
     {
       gallery: "/images/galeria-foto4-thumb.webp",
       popup: "/images/galeria-foto4-popup.webp",
-      alt: "Caixa Alta - Galeria 2",
-      description: "Caixa Alta - 33x43cm"
+      alt: "Caixa baixa - Galeria 2",
+      description: "Caixa baixa - 33x43cm"
     },
     {
       gallery: "/images/foto-qw.jpg",
       popup: "/images/foto-qw_alta.jpg",
-      alt: "Cassino Ultra Race 2025 - 135K",
-      description: "Campeão Cassino Ultra Race 2025 - 135K"
+      alt: "Caixa baixa - Galeria 3",
+      description: "Caixa baixa - 43x33cm"
     },
     {
       gallery: "/lovable-uploads/b70e7132-d5b6-4171-a63a-48754c5e7455.png",
