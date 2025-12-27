@@ -32,6 +32,18 @@ const GalleryCarousel = () => {
       description: "Mold. Caixa Alta / 33x43cm / COM IMPRESSÃO 3D"
     },
     {
+      gallery: "/images/galeria-berlim-thumb.webp",
+      popup: "/images/galeria-berlim-popup.webp",
+      alt: "Caixa Alta - Galeria 9",
+      description: "Caixa Alta - 33x43cm"
+    },
+    {
+      gallery: "/images/galeria-maratona-poa-thumb.webp",
+      popup: "/images/galeria-maratona-poa-popup.webp",
+      alt: "Caixa Alta - Galeria 7",
+      description: "Caixa Alta - 43x43cm"
+    },
+    {
       gallery: "/images/galeria-foto5-thumb.webp",
       popup: "/images/galeria-foto5-popup.webp",
       alt: "Caixa Alta - Galeria 5",
@@ -42,18 +54,6 @@ const GalleryCarousel = () => {
       popup: "/images/galeria-uphill-popup.webp",
       alt: "Caixa Alta - Galeria 6",
       description: "Caixa Alta - 53x73cm"
-    },
-    {
-      gallery: "/images/galeria-maratona-poa-thumb.webp",
-      popup: "/images/galeria-maratona-poa-popup.webp",
-      alt: "Caixa Alta - Galeria 7",
-      description: "Caixa Alta - 43x43cm"
-    },
-    {
-      gallery: "/images/galeria-berlim-thumb.webp",
-      popup: "/images/galeria-berlim-popup.webp",
-      alt: "Caixa Alta - Galeria 9",
-      description: "Caixa Alta - 33x43cm"
     }
   ];
 
