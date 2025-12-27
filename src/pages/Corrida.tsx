@@ -10,7 +10,7 @@ import HowItWorksTabs from "@/components/HowItWorksTabs";
 import WhyChooseUsTabs from "@/components/WhyChooseUsTabs";
 import FAQSection from "@/components/FAQSection";
 import CtaSection from "@/components/CtaSection";
-import GallerySection from "@/components/GallerySection";
+import GallerySectionCorrida from "@/components/GallerySectionCorrida";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import WhyChooseSection from "@/components/WhyChooseSection";
 import InfiniteLogoCarousel from "@/components/ui/infinite-logo-carousel";
@@ -106,7 +106,7 @@ const Corrida = () => {
         
         <InfiniteLogoCarousel />
         <LifestyleHeroSection />
-        <GallerySection />
+        <GallerySectionCorrida />
         <TestimonialsSectionCorrida />
         <ShareSectionCorrida />
         
