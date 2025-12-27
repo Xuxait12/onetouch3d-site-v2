@@ -40,7 +40,7 @@ const Ciclismo = () => {
         <HeroSectionCiclismo />
         
         {/* Seção 1 (antiga 5) - imagem à esquerda */}
-        <FeatureSection title="Design Moderno e Exclusivo" description="Um layout pensado para destacar seu pedal com estilo. Seu quadro combina com qualquer ambiente, do quarto à sala de estar." imageSrc="/images/quadro-moderno.webp" imageAlt="Layout moderno e exclusivo" imageOnLeft={true} />
+        <FeatureSection title="Design Moderno e Exclusivo" description={<>O resultado é uma peça elegante, versátil e marcante.<br /><br />Integrando perfeitamente a qualquer ambiente — do escritório ao espaço esportivo da casa — transformando sua dedicação em arte e sua prova em decoração com propósito.</>} imageSrc="/images/quadro-moderno.webp" imageAlt="Layout moderno e exclusivo" imageOnLeft={true} />
         
         {/* Wrapper for multiple sections */}
         <div className="relative overflow-hidden">
