@@ -94,7 +94,7 @@ const Corrida = () => {
         
         <FeatureSection
           title="Sua Conquista em Destaque"
-          description="Existem conquistas que merecem um destaque especial. Dê vida as suas conquistas emoldurando seu momento mais inesquecível."
+          description={<>Existem conquistas que merecem um destaque especial.<br /><br />Dê vida as suas medalhas emoldurando em um quadro exclusivo seu momento mais inesquecível.</>}
           imageSrc="/images/medalhas.gif"
           imageAlt="Medalhas emolduradas"
           imageOnLeft={true}
