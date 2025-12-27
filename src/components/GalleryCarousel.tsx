@@ -20,10 +20,10 @@ const GalleryCarousel = () => {
       description: "Caixa baixa - 33x43cm"
     },
     {
-      gallery: "/images/foto-qw.jpg",
-      popup: "/images/foto-qw_alta.jpg",
-      alt: "Caixa baixa - Galeria 3",
-      description: "Caixa baixa - 43x33cm"
+      gallery: "/images/galeria-foto9-thumb.webp",
+      popup: "/images/galeria-foto9-popup.webp",
+      alt: "Caixa Baixa - Galeria 9",
+      description: "Caixa Baixa - 43x33cm"
     },
     {
       gallery: "/images/galeria-foto8-thumb.webp",
