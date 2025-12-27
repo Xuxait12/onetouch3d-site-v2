@@ -349,7 +349,7 @@ const ProductSection = () => {
               </p>
               <p className="flex items-center">
                 <span className="text-green-600 mr-2">•</span>
-                Percurso 3D incluso
+                {selectedType === "caixa-baixa" ? "SEM percurso 3D incluso" : "Percurso 3D incluso"}
               </p>
               <p className="flex items-center">
                 <span className="text-green-600 mr-2">•</span>
