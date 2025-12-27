@@ -8,10 +8,10 @@ const GalleryCarousel = () => {
 
   const galleryImages = [
     {
-      gallery: "/lovable-uploads/970a032a-e271-4125-b5b8-b5180ea30ca7.png",
-      popup: "/lovable-uploads/970a032a-e271-4125-b5b8-b5180ea30ca7.png",
-      alt: "Moldura Caixa Baixa - Galeria 1",
-      description: "Mold. Caixa Baixa / 33x33cm / SEM IMPRESSÃO 3D"
+      gallery: "/images/galeria-foto7-thumb.webp",
+      popup: "/images/galeria-foto7-popup.webp",
+      alt: "Caixa Baixa - Galeria 1",
+      description: "Caixa Baixa - 33x33cm"
     },
     {
       gallery: "/images/galeria-foto4-thumb.webp",
@@ -26,10 +26,10 @@ const GalleryCarousel = () => {
       description: "Caixa baixa - 43x33cm"
     },
     {
-      gallery: "/lovable-uploads/b70e7132-d5b6-4171-a63a-48754c5e7455.png",
-      popup: "/lovable-uploads/b70e7132-d5b6-4171-a63a-48754c5e7455.png",
-      alt: "Moldura Caixa Alta - Galeria 4",
-      description: "Mold. Caixa Alta / 33x43cm / COM IMPRESSÃO 3D"
+      gallery: "/images/galeria-foto8-thumb.webp",
+      popup: "/images/galeria-foto8-popup.webp",
+      alt: "Caixa baixa - Galeria 4",
+      description: "Caixa baixa - 33x43cm"
     },
     {
       gallery: "/images/galeria-berlim-thumb.webp",
@@ -44,10 +44,10 @@ const GalleryCarousel = () => {
       description: "Caixa Alta - 43x43cm"
     },
     {
-      gallery: "/images/galeria-foto5-thumb.webp",
-      popup: "/images/galeria-foto5-popup.webp",
-      alt: "Caixa Alta - Galeria 5",
-      description: "Caixa Alta - 43x53cm"
+      gallery: "/images/galeria-foto6-thumb.webp",
+      popup: "/images/galeria-foto6-popup.webp",
+      alt: "Caixa Alta - Galeria 6",
+      description: "Caixa Alta - 43x43cm"
     },
     {
       gallery: "/images/galeria-uphill-thumb.webp",
