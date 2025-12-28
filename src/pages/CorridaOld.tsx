@@ -94,7 +94,7 @@ const Index = () => {
         <HowItWorksSection />
         <TestimonialsSection />
         <GallerySection />
-        <ProductSection />
+        <ProductSectionCorridaLocal />
         <CtaSection />
         <FAQSection />
         <Footer />
