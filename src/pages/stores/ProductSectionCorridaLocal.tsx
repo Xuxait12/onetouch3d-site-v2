@@ -76,6 +76,7 @@ const ProductSectionCorridaLocal = () => {
     caixaAlta43: "/images/corrida-43x43-caixa-alta.webp",
     caixaAltaRetangular: "/images/corrida-33x43-caixa-alta.webp",
     caixaBaixaBranca: "/lovable-uploads/9a113f39-ed59-40e5-97f4-b4589f60aa35.png",
+    caixaBaixaBranca33x43: "/images/corrida-33x43-caixa-baixa-branca.webp",
     caixaBaixaPreta: "/lovable-uploads/5eab4c9e-14d7-460b-bc61-945f92a65e4e.png"
   };
 
@@ -93,6 +94,10 @@ const ProductSectionCorridaLocal = () => {
       }
       // Para outros tamanhos, usa a imagem 33 como padrão
       return productImages.caixaAlta33;
+    }
+    // Caixa baixa branca 33x43cm usa imagem específica
+    if (selectedColor === "branca" && selectedSize === "33x43cm") {
+      return productImages.caixaBaixaBranca33x43;
     }
     return selectedColor === "branca" ? productImages.caixaBaixaBranca : productImages.caixaBaixaPreta;
   };
