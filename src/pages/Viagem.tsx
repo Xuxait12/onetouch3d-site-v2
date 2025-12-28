@@ -5,7 +5,7 @@ import GlobalFooter from "@/components/GlobalFooter";
 import HeroSectionViagem from "@/components/HeroSectionViagem";
 import FeatureSection from "@/components/FeatureSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import ProductSectionViagem from "@/components/ProductSectionViagem";
+import ProductSectionViagemLocal from "@/pages/stores/ProductSectionViagemLocal";
 import HowItWorksTabsViagem from "@/components/HowItWorksTabsViagem";
 import WhyChooseUsTabsViagem from "@/components/WhyChooseUsTabsViagem";
 import FAQSectionViagem from "@/components/FAQSectionViagem";
@@ -102,7 +102,7 @@ const Viagem = () => {
         {/* ETERNIZE background text positioned above Nossa loja section */}
         
         
-        <ProductSectionViagem />
+        <ProductSectionViagemLocal />
         <FAQSectionViagem />
         
         

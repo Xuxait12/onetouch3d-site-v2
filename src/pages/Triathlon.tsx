@@ -5,7 +5,7 @@ import GlobalFooter from "@/components/GlobalFooter";
 import HeroSectionTriathlon from "@/components/HeroSectionTriathlon";
 import FeatureSection from "@/components/FeatureSection";
 import TestimonialsSectionTriathlon from "@/components/TestimonialsSectionTriathlon";
-import ProductSectionTriathlon from "@/components/ProductSectionTriathlon";
+import ProductSectionTriathlonLocal from "@/pages/stores/ProductSectionTriathlonLocal";
 import HowItWorksTabs from "@/components/HowItWorksTabs";
 import WhyChooseUsTabs from "@/components/WhyChooseUsTabs";
 import FAQSection from "@/components/FAQSection";
@@ -83,7 +83,7 @@ const Triathlon = () => {
         {/* ETERNIZE background text positioned above Nossa loja section */}
         
         
-        <ProductSectionTriathlon />
+        <ProductSectionTriathlonLocal />
         <FAQSection className="py-0" />
         
         

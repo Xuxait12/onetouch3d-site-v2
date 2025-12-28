@@ -8,36 +8,40 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "@/components/ui/use-toast";
 
-const ProductSectionViagem = () => {
+const ProductSectionCiclismoLocal = () => {
   const navigate = useNavigate();
   const { addItem } = useCart();
   const [selectedColor, setSelectedColor] = useState("preta-branca");
-  const [selectedSize, setSelectedSize] = useState("33x43cm");
+  const [selectedSize, setSelectedSize] = useState("33x33cm");
   const [cep, setCep] = useState("");
 
+  // OPÇÕES ESPECÍFICAS DA LOJA CICLISMO
   const colorOptions = [
     { value: "preta-branca", label: "Preta/branca" }
   ];
 
+  // PREÇOS ESPECÍFICOS DA LOJA CICLISMO
   const sizeOptions = [
-    { size: "33x43cm", fullPrice: 390, pixPrice: 370.50, isQuote: false },
-    { size: "37x48cm", fullPrice: 420, pixPrice: 399.00, isQuote: false },
-    { size: "43x53cm", fullPrice: 470, pixPrice: 446.50, isQuote: false },
-    { size: "53x73cm", fullPrice: 640, pixPrice: 608.00, isQuote: false },
-    { size: "63x83cm", fullPrice: 0, pixPrice: 0, isQuote: true },
-    { size: "83x103cm", fullPrice: 0, pixPrice: 0, isQuote: true }
+    { size: "33x33cm", fullPrice: 330, pixPrice: 309.50 },
+    { size: "33x43cm", fullPrice: 359, pixPrice: 332.50 },
+    { size: "37x48cm", fullPrice: 390, pixPrice: 363.00 },
+    { size: "43x43cm", fullPrice: 385, pixPrice: 386.00 },
+    { size: "43x53cm", fullPrice: 439, pixPrice: 414.50 },
+    { size: "43x63cm", fullPrice: 560, pixPrice: 517.50 },
+    { size: "53x53cm", fullPrice: 510, pixPrice: 493.50 }
   ];
 
+  // IMAGEM ESPECÍFICA DA LOJA CICLISMO
+  const productImage = "/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png";
+
   const currentSizeOption = sizeOptions.find(option => option.size === selectedSize) || sizeOptions[0];
-  
   const fullPrice = currentSizeOption.fullPrice;
   const finalPrice = currentSizeOption.pixPrice;
   const installmentPrice = (fullPrice / 12).toFixed(2);
 
   const handleAddToCart = () => {
-    const productName = "Quadro Caixa Alta";
+    const productName = "Quadro Caixa Alta - Ciclismo";
     const colorDisplay = "Preta/Branca";
-    const productImage = "/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png";
     
     addItem({
       nome: productName,
@@ -45,12 +49,12 @@ const ProductSectionViagem = () => {
       tamanho: selectedSize,
       quantidade: 1,
       precoUnitario: finalPrice,
-      imagem: productImage,
+      imagem: productImage
     });
 
     toast({
       title: "Produto adicionado ao carrinho!",
-      description: `${productName} ${selectedSize} ${colorDisplay}`,
+      description: `${productName} ${selectedSize} ${colorDisplay}`
     });
   };
 
@@ -61,21 +65,20 @@ const ProductSectionViagem = () => {
   };
 
   return (
-    <section id="nossa-loja" data-section="nossa-loja" className="pb-16 product-section" style={{ background: 'transparent !important' }}>
+    <section id="nossa-loja-ciclismo" data-section="nossa-loja-ciclismo" className="pt-2 md:pt-16 pb-16 bg-background product-section">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="rounded-2xl shadow-lg p-8" style={{ background: 'transparent !important' }}>
-          <div className="text-center mb-8">
-            <h2 className="text-4xl font-bold text-foreground">NOSSA LOJA</h2>
-          </div>
-          
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-foreground">NOSSA LOJA</h2>
+        </div>
+        
+        <div className="bg-white rounded-2xl shadow-lg p-8">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Coluna Esquerda - Imagem e Características */}
             <div className="space-y-8">
               <div className="relative">
                 <img 
-                  src="/images/moldura-premium-viagem.webp"
-                  alt="Moldura Premium para viagem"
-                  className="w-full rounded-lg shadow-lg"
+                  src={productImage} 
+                  alt="Quadro personalizado de ciclismo" 
+                  className="w-full rounded-lg shadow-lg" 
                 />
               </div>
 
@@ -113,26 +116,27 @@ const ProductSectionViagem = () => {
                     <span><strong>Kit instalação:</strong> Pendurador, parafuso, bucha e fita 3M.</span>
                   </li>
                 </ul>
-                
               </Card>
             </div>
 
-            {/* Coluna Direita - Seleções e Compra */}
             <div className="space-y-6">
               <div>
-                <h2 className="text-3xl font-bold mb-2">Quadro Caixa Alta</h2>
-                <p className="text-blue-600 font-medium">COM percurso em alto relevo (3D)</p>
+                <h2 className="text-3xl font-bold mb-2">
+                  Quadro Caixa Alta
+                </h2>
+                <p className="text-blue-600 font-medium">
+                  COM percurso em alto relevo (3D)
+                </p>
               </div>
 
-              {/* Cor da Moldura */}
               <div>
                 <Label className="text-base font-medium mb-3 block">Cor da Moldura</Label>
                 <RadioGroup value={selectedColor} onValueChange={setSelectedColor}>
                   <div className="flex gap-3">
-                    {colorOptions.map((option) => (
+                    {colorOptions.map(option => (
                       <div key={option.value} className="flex items-center space-x-2">
-                        <RadioGroupItem value={option.value} id={`viagem-${option.value}`} />
-                        <Label htmlFor={`viagem-${option.value}`} className="cursor-pointer">
+                        <RadioGroupItem value={option.value} id={`ciclismo-color-${option.value}`} />
+                        <Label htmlFor={`ciclismo-color-${option.value}`} className="cursor-pointer">
                           {option.label}
                         </Label>
                       </div>
@@ -141,15 +145,14 @@ const ProductSectionViagem = () => {
                 </RadioGroup>
               </div>
 
-              {/* Tamanho */}
               <div>
                 <Label className="text-base font-medium mb-3 block">Tamanho</Label>
                 <RadioGroup value={selectedSize} onValueChange={setSelectedSize}>
                   <div className="grid grid-cols-2 gap-3">
-                    {sizeOptions.map((option) => (
+                    {sizeOptions.map(option => (
                       <div key={option.size} className="flex items-center space-x-2">
-                        <RadioGroupItem value={option.size} id={`viagem-${option.size}`} />
-                        <Label htmlFor={`viagem-${option.size}`} className="cursor-pointer text-sm">
+                        <RadioGroupItem value={option.size} id={`ciclismo-size-${option.size}`} />
+                        <Label htmlFor={`ciclismo-size-${option.size}`} className="cursor-pointer text-sm">
                           {option.size}
                         </Label>
                       </div>
@@ -158,7 +161,6 @@ const ProductSectionViagem = () => {
                 </RadioGroup>
               </div>
 
-              {/* Bullet points */}
               <div className="space-y-2 text-sm text-muted-foreground">
                 <p className="flex items-center">
                   <span className="text-green-600 mr-2">•</span>
@@ -174,58 +176,38 @@ const ProductSectionViagem = () => {
                 </p>
               </div>
 
-              {/* Preço */}
               <div className="bg-muted/50 p-4 rounded-lg">
-                {currentSizeOption.isQuote ? (
-                  <div className="text-2xl font-bold text-primary">
-                    Solicitar orçamento
-                  </div>
-                ) : (
-                  <>
-                    <div className="text-sm text-muted-foreground mb-1">
-                      De <span className="line-through">R$ {fullPrice.toFixed(2).replace('.', ',')}</span> por:
-                    </div>
-                    <div className="text-3xl font-bold text-green-600 mb-2">
-                      R$ {finalPrice.toFixed(2).replace('.', ',')}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      5% de desconto no PIX ou parcele em até 12 vezes
-                    </div>
-                  </>
-                )}
+                <div className="text-sm text-muted-foreground mb-1">
+                  De <span className="line-through">R$ {fullPrice.toFixed(2).replace('.', ',')}</span> por:
+                </div>
+                <div className="text-3xl font-bold text-green-600 mb-2">
+                  R$ {finalPrice.toFixed(2).replace('.', ',')}
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  5% de desconto no PIX ou parcele em até 12 vezes
+                </div>
               </div>
 
-              {/* Botão de Compra */}
-              {currentSizeOption.isQuote ? (
-                <Button 
-                  onClick={() => window.open('https://wa.me/5511999999999?text=Olá! Gostaria de solicitar um orçamento para o quadro de viagem no tamanho ' + selectedSize, '_blank')}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-medium"
-                >
-                  Solicitar orçamento via WhatsApp
-                </Button>
-              ) : (
-                <Button 
-                  onClick={handleAddToCart}
-                  className="w-full bg-black hover:bg-black/90 text-white py-3 text-lg font-medium"
-                >
-                  Adicionar ao carrinho
-                </Button>
-              )}
+              <Button 
+                onClick={handleAddToCart} 
+                className="w-full bg-black hover:bg-black/90 text-white py-3 text-lg font-medium"
+              >
+                Adicionar ao carrinho
+              </Button>
 
-              {/* Consulta de Frete */}
               <div>
                 <Label className="text-base font-medium mb-3 block">Consultar Frete</Label>
                 <div className="flex gap-2">
-                  <Input
-                    type="text"
-                    placeholder="Digite seu CEP"
-                    value={cep}
-                    onChange={(e) => setCep(e.target.value)}
-                    className="flex-1"
+                  <Input 
+                    type="text" 
+                    placeholder="Digite seu CEP" 
+                    value={cep} 
+                    onChange={e => setCep(e.target.value)} 
+                    className="flex-1" 
                   />
                   <Button 
-                    onClick={handleCalculateFrete}
-                    variant="outline"
+                    onClick={handleCalculateFrete} 
+                    variant="outline" 
                     className="px-6"
                   >
                     Calcular
@@ -240,4 +222,4 @@ const ProductSectionViagem = () => {
   );
 };
 
-export default ProductSectionViagem;
+export default ProductSectionCiclismoLocal;
