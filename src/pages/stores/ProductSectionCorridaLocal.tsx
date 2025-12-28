@@ -72,11 +72,11 @@ const ProductSectionCorridaLocal = () => {
 
   // IMAGENS ESPECÍFICAS DA LOJA CORRIDA
   const productImages = {
-    caixaAlta33: "/images/corrida-30x30-caixa-alta.webp",
-    caixaAlta43: "/images/corrida-43x43-caixa-alta.webp",
-    caixaAlta53: "/images/corrida-53x53-caixa-alta.webp",
+    caixaAlta30x30: "/images/corrida-30x30-caixa-alta.webp",
+    caixaAlta33x43: "/images/corrida-33x43-caixa-alta.webp",
     caixaAlta37x48: "/images/corrida-37x48-caixa-alta.webp",
-    caixaAltaRetangular: "/images/corrida-33x43-caixa-alta.webp",
+    caixaAlta43x43: "/images/corrida-43x43-caixa-alta.webp",
+    caixaAlta53x53: "/images/corrida-53x53-caixa-alta.webp",
     caixaBaixaBranca: "/lovable-uploads/9a113f39-ed59-40e5-97f4-b4589f60aa35.png",
     caixaBaixaBranca33x43: "/images/corrida-33x43-caixa-baixa-branca.webp",
     caixaBaixaPreta: "/lovable-uploads/5eab4c9e-14d7-460b-bc61-945f92a65e4e.png"
@@ -84,26 +84,24 @@ const ProductSectionCorridaLocal = () => {
 
   const getCurrentImage = () => {
     if (selectedType === "caixa-alta") {
-      // 37x48cm usa imagem específica
+      // Cada tamanho usa sua imagem específica
+      if (selectedSize === "33x33cm") {
+        return productImages.caixaAlta30x30;
+      }
+      if (selectedSize === "33x43cm" || selectedSize === "43x53cm" || selectedSize === "43x63cm") {
+        return productImages.caixaAlta33x43;
+      }
       if (selectedSize === "37x48cm") {
         return productImages.caixaAlta37x48;
       }
-      // 53x53cm usa imagem específica
+      if (selectedSize === "43x43cm") {
+        return productImages.caixaAlta43x43;
+      }
       if (selectedSize === "53x53cm") {
-        return productImages.caixaAlta53;
+        return productImages.caixaAlta53x53;
       }
-      // Tamanhos retangulares usam imagem específica
-      if (selectedSize === "33x43cm" || selectedSize === "43x53cm" || selectedSize === "43x63cm") {
-        return productImages.caixaAltaRetangular;
-      }
-      // 33x33cm usa imagem 30x30, 43x43cm usa imagem 43x43
-      if (selectedSize === "33x33cm") {
-        return productImages.caixaAlta33;
-      } else if (selectedSize === "43x43cm") {
-        return productImages.caixaAlta43;
-      }
-      // Para outros tamanhos, usa a imagem 33 como padrão
-      return productImages.caixaAlta33;
+      // Padrão
+      return productImages.caixaAlta30x30;
     }
     // Caixa baixa branca 33x43cm usa imagem específica
     if (selectedColor === "branca" && selectedSize === "33x43cm") {
