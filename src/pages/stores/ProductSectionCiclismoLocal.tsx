@@ -31,8 +31,39 @@ const ProductSectionCiclismoLocal = () => {
     { size: "53x53cm", fullPrice: 510, pixPrice: 493.50 }
   ];
 
-  // IMAGEM ESPECÍFICA DA LOJA CICLISMO
-  const productImage = "/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png";
+  // IMAGENS ESPECÍFICAS DA LOJA CICLISMO
+  const productImages = {
+    caixaAlta30x30: "/images/ciclismo-30x30-caixa-alta.webp",
+    caixaAlta33x43: "/images/ciclismo-33x43-caixa-alta.webp",
+    caixaAlta37x48: "/images/ciclismo-37x48-caixa-alta.webp",
+    caixaAlta40x40: "/images/ciclismo-40x40-caixa-alta.webp",
+    caixaAlta40x50: "/images/ciclismo-40x50-caixa-alta.webp",
+    caixaAlta40x60: "/images/ciclismo-40x60-caixa-alta.webp"
+  };
+
+  const getCurrentImage = () => {
+    if (selectedSize === "33x33cm") {
+      return productImages.caixaAlta30x30;
+    }
+    if (selectedSize === "33x43cm") {
+      return productImages.caixaAlta33x43;
+    }
+    if (selectedSize === "37x48cm") {
+      return productImages.caixaAlta37x48;
+    }
+    if (selectedSize === "43x43cm" || selectedSize === "53x53cm") {
+      return productImages.caixaAlta40x40;
+    }
+    if (selectedSize === "43x53cm") {
+      return productImages.caixaAlta40x50;
+    }
+    if (selectedSize === "43x63cm") {
+      return productImages.caixaAlta40x60;
+    }
+    return productImages.caixaAlta30x30;
+  };
+
+  const productImage = getCurrentImage();
 
   const currentSizeOption = sizeOptions.find(option => option.size === selectedSize) || sizeOptions[0];
   const fullPrice = currentSizeOption.fullPrice;
