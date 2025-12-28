@@ -74,6 +74,8 @@ const ProductSectionCorridaLocal = () => {
   const productImages = {
     caixaAlta33: "/images/corrida-30x30-caixa-alta.webp",
     caixaAlta43: "/images/corrida-43x43-caixa-alta.webp",
+    caixaAlta53: "/images/corrida-53x53-caixa-alta.webp",
+    caixaAlta37x48: "/images/corrida-37x48-caixa-alta.webp",
     caixaAltaRetangular: "/images/corrida-33x43-caixa-alta.webp",
     caixaBaixaBranca: "/lovable-uploads/9a113f39-ed59-40e5-97f4-b4589f60aa35.png",
     caixaBaixaBranca33x43: "/images/corrida-33x43-caixa-baixa-branca.webp",
@@ -82,14 +84,22 @@ const ProductSectionCorridaLocal = () => {
 
   const getCurrentImage = () => {
     if (selectedType === "caixa-alta") {
+      // 37x48cm usa imagem específica
+      if (selectedSize === "37x48cm") {
+        return productImages.caixaAlta37x48;
+      }
+      // 53x53cm usa imagem específica
+      if (selectedSize === "53x53cm") {
+        return productImages.caixaAlta53;
+      }
       // Tamanhos retangulares usam imagem específica
-      if (selectedSize === "33x43cm" || selectedSize === "37x48cm" || selectedSize === "43x53cm" || selectedSize === "43x63cm") {
+      if (selectedSize === "33x43cm" || selectedSize === "43x53cm" || selectedSize === "43x63cm") {
         return productImages.caixaAltaRetangular;
       }
-      // 33x33cm usa imagem 30x30, 43x43cm e 53x53cm usam imagem 43x43
+      // 33x33cm usa imagem 30x30, 43x43cm usa imagem 43x43
       if (selectedSize === "33x33cm") {
         return productImages.caixaAlta33;
-      } else if (selectedSize === "43x43cm" || selectedSize === "53x53cm") {
+      } else if (selectedSize === "43x43cm") {
         return productImages.caixaAlta43;
       }
       // Para outros tamanhos, usa a imagem 33 como padrão
