@@ -74,12 +74,17 @@ const ProductSectionCorridaLocal = () => {
   const productImages = {
     caixaAlta33: "/images/corrida-30x30-caixa-alta.webp",
     caixaAlta43: "/images/corrida-43x43-caixa-alta.webp",
+    caixaAltaRetangular: "/images/corrida-33x43-caixa-alta.webp",
     caixaBaixaBranca: "/lovable-uploads/9a113f39-ed59-40e5-97f4-b4589f60aa35.png",
     caixaBaixaPreta: "/lovable-uploads/5eab4c9e-14d7-460b-bc61-945f92a65e4e.png"
   };
 
   const getCurrentImage = () => {
     if (selectedType === "caixa-alta") {
+      // Tamanhos retangulares usam imagem específica
+      if (selectedSize === "33x43cm" || selectedSize === "37x48cm" || selectedSize === "43x53cm" || selectedSize === "43x63cm") {
+        return productImages.caixaAltaRetangular;
+      }
       // 33x33cm usa imagem 30x30, 43x43cm e 53x53cm usam imagem 43x43
       if (selectedSize === "33x33cm") {
         return productImages.caixaAlta33;
