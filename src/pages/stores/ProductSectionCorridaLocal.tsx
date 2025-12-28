@@ -72,7 +72,7 @@ const ProductSectionCorridaLocal = () => {
 
   // IMAGENS ESPECÍFICAS DA LOJA CORRIDA
   const productImages = {
-    caixaAlta: "/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png",
+    caixaAlta: "/images/corrida-33x33-caixa-alta.webp",
     caixaBaixaBranca: "/lovable-uploads/9a113f39-ed59-40e5-97f4-b4589f60aa35.png",
     caixaBaixaPreta: "/lovable-uploads/5eab4c9e-14d7-460b-bc61-945f92a65e4e.png"
   };
