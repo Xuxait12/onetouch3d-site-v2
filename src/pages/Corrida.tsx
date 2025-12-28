@@ -5,7 +5,7 @@ import GlobalFooter from "@/components/GlobalFooter";
 import HeroSection from "@/components/HeroSection";
 import FeatureSection from "@/components/FeatureSection";
 import TestimonialsSectionCorrida from "@/components/TestimonialsSectionCorrida";
-import ProductSection from "@/components/ProductSection";
+import ProductSectionCorridaLocal from "@/pages/stores/ProductSectionCorridaLocal";
 import HowItWorksTabs from "@/components/HowItWorksTabs";
 import WhyChooseUsTabs from "@/components/WhyChooseUsTabs";
 import FAQSection from "@/components/FAQSection";
@@ -111,7 +111,7 @@ const Corrida = () => {
         <ShareSectionCorrida />
         
         
-        <ProductSection />
+        <ProductSectionCorridaLocal />
         <FAQSection />
         
         
