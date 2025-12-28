@@ -30,8 +30,21 @@ const ProductSectionViagemLocal = () => {
     { size: "83x103cm", fullPrice: 0, pixPrice: 0, isQuote: true }
   ];
 
-  // IMAGEM ESPECÍFICA DA LOJA VIAGEM
-  const productImage = "/images/moldura-premium-viagem.webp";
+  // IMAGENS ESPECÍFICAS POR TAMANHO - LOJA VIAGEM
+  const productImages: Record<string, string> = {
+    "33x43cm": "/images/viagem-33x43-caixa-alta.webp",
+    "37x48cm": "/images/viagem-37x48-caixa-alta.webp",
+    "43x53cm": "/images/viagem-43x53-caixa-alta.webp",
+    "53x73cm": "/images/viagem-53x73-caixa-alta.webp",
+    "63x83cm": "/images/viagem-103x83-caixa-alta.webp",
+    "83x103cm": "/images/viagem-103x83-caixa-alta.webp",
+  };
+
+  const getCurrentImage = () => {
+    return productImages[selectedSize] || productImages["33x43cm"];
+  };
+
+  const productImage = getCurrentImage();
 
   const currentSizeOption = sizeOptions.find(option => option.size === selectedSize) || sizeOptions[0];
   
