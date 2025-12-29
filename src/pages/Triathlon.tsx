@@ -58,7 +58,7 @@ const Triathlon = () => {
             <FeatureSection title="Elegância e Durabilidade" description={<>Acabamento à altura da sua conquista.<br /><br />Molduras resistentes, sofisticadas e com padrão profissional.<br /><br />Seu quadro não apenas valoriza sua medalha, mas se torna uma peça de destaque na decoração, com durabilidade e presença.</>} imageSrc="/images/quadro-moderno.gif" imageAlt="Moldura premium personalizada" imageOnLeft={false} />
             
             {/* Seção 5 (antiga 7) - imagem à esquerda */}
-            <FeatureSection title="A Sua Vitória Merece Destaque" description={<>Triathlon não é só uma prova. É uma jornada. Existem conquistas que mudam quem você é.<br /><br />O seu quadro coloca esse momento em evidência, eternizando a linha de chegada que você conquistou com foco, disciplina e coragem.</>} imageSrc="/images/triathlon-medalhas.webp" imageAlt="Medalhas emolduradas" imageOnLeft={true} />
+            <FeatureSection title="A Sua Vitória Merece Destaque" description={<>Triathlon não é só uma prova. É uma jornada. Existem conquistas que mudam quem você é.<br /><br />A sua medalha coloca esse momento em evidência, eternizando a linha de chegada que você conquistou com foco, disciplina e coragem.</>} imageSrc="/images/triathlon-medalhas.webp" imageAlt="Medalhas emolduradas" imageOnLeft={true} />
           </div>
         </div>
         
