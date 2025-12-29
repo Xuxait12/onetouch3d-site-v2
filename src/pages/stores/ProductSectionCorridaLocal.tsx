@@ -78,7 +78,9 @@ const ProductSectionCorridaLocal = () => {
     caixaAlta33x43: "/images/corrida-33x43-caixa-alta.webp",
     caixaAlta37x48: "/images/corrida-37x48-caixa-alta.webp",
     caixaAlta43x43: "/images/corrida-43x43-caixa-alta.webp",
+    caixaAlta43x53: "/images/corrida-43x53-caixa-alta.webp",
     caixaAlta53x53: "/images/corrida-53x53-caixa-alta.webp",
+    caixaAlta53x73: "/images/corrida-53x73-caixa-alta.webp",
     caixaBaixaBranca: "/lovable-uploads/9a113f39-ed59-40e5-97f4-b4589f60aa35.png",
     caixaBaixaBranca33x43: "/images/corrida-33x43-caixa-baixa-branca.webp",
     caixaBaixaPreta: "/lovable-uploads/5eab4c9e-14d7-460b-bc61-945f92a65e4e.png"
@@ -90,7 +92,7 @@ const ProductSectionCorridaLocal = () => {
       if (selectedSize === "33x33cm") {
         return productImages.caixaAlta30x30;
       }
-      if (selectedSize === "33x43cm" || selectedSize === "43x53cm" || selectedSize === "43x63cm") {
+      if (selectedSize === "33x43cm" || selectedSize === "43x63cm") {
         return productImages.caixaAlta33x43;
       }
       if (selectedSize === "37x48cm") {
@@ -99,8 +101,14 @@ const ProductSectionCorridaLocal = () => {
       if (selectedSize === "43x43cm") {
         return productImages.caixaAlta43x43;
       }
+      if (selectedSize === "43x53cm") {
+        return productImages.caixaAlta43x53;
+      }
       if (selectedSize === "53x53cm") {
         return productImages.caixaAlta53x53;
+      }
+      if (selectedSize === "53x73cm") {
+        return productImages.caixaAlta53x73;
       }
       // Padrão
       return productImages.caixaAlta30x30;
