@@ -42,6 +42,7 @@ const ProductSectionTriathlonLocal = () => {
   const sizeOptionsCaixaAlta = [
     { size: "33x43cm", fullPrice: 359, pixPrice: 332.50 },
     { size: "37x48cm", fullPrice: 390, pixPrice: 363.00 },
+    { size: "43x43cm", fullPrice: 0, pixPrice: 0 },
     { size: "43x53cm", fullPrice: 439, pixPrice: 414.50 },
     { size: "43x63cm", fullPrice: 560, pixPrice: 517.50 },
     { size: "53x73cm", fullPrice: 650, pixPrice: 600.00 }
