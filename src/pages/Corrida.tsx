@@ -85,18 +85,18 @@ const Corrida = () => {
         </div>
         
         <FeatureSection
-          title="Entrega Segura em Todo Brasil"
-          description="Seus quadros são embalados com proteção reforçada, garantindo que cheguem em perfeito estado até a sua casa, em qualquer lugar do Brasil."
-          imageSrc="/images/embalagem-segura.webp"
-          imageAlt="Embalagem segura"
-          imageOnLeft={false}
-        />
-        
-        <FeatureSection
           title="Sua Conquista em Destaque"
           description={<>Existem conquistas que merecem um destaque especial.<br /><br />Dê vida as suas medalhas emoldurando em um quadro exclusivo seu momento mais inesquecível.</>}
           imageSrc="/images/medalhas.gif"
           imageAlt="Medalhas emolduradas"
+          imageOnLeft={false}
+        />
+        
+        <FeatureSection
+          title="Entrega Segura em Todo Brasil"
+          description="Seus quadros são embalados com proteção reforçada, garantindo que cheguem em perfeito estado até a sua casa, em qualquer lugar do Brasil."
+          imageSrc="/images/embalagem-segura.webp"
+          imageAlt="Embalagem segura"
           imageOnLeft={true}
         />
         
