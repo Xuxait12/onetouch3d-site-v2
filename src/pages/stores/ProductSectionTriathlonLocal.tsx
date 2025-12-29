@@ -67,7 +67,7 @@ const ProductSectionTriathlonLocal = () => {
       "53x73cm": "/images/triathlon-53x73-caixa-alta.webp",
       default: "/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png"
     },
-    caixaBaixa: "/lovable-uploads/5eab4c9e-14d7-460b-bc61-945f92a65e4e.png"
+    caixaBaixa: "/images/triathlon-caixa-baixa.webp"
   };
 
   const sizeOptions = selectedType === "caixa-alta" ? sizeOptionsCaixaAlta : sizeOptionsCaixaBaixa;
