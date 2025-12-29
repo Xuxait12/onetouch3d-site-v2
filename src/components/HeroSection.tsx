@@ -55,7 +55,7 @@ const HeroSection = () => {
     <section className="relative w-full h-[100vh] overflow-hidden">
       {/* Background Image */}
       <div 
-        className="absolute inset-0 bg-cover bg-no-repeat opacity-0 animate-[fadeIn_1.5s_ease-out_0.1s_forwards]"
+        className="absolute inset-0 bg-cover bg-no-repeat"
         style={{ 
           backgroundImage: `url(${heroRunnerFinish})`,
           backgroundPosition: 'center 30%'
