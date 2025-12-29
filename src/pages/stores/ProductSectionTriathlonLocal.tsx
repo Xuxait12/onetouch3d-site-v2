@@ -58,7 +58,15 @@ const ProductSectionTriathlonLocal = () => {
 
   // IMAGENS ESPECÍFICAS DA LOJA TRIATHLON
   const productImages = {
-    caixaAlta: "/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png",
+    caixaAlta: {
+      "33x43cm": "/images/triathlon-33x43-caixa-alta.webp",
+      "37x48cm": "/images/triathlon-37x48-caixa-alta.webp",
+      "43x43cm": "/images/triathlon-43x43-caixa-alta.webp",
+      "43x53cm": "/images/triathlon-43x53-caixa-alta.webp",
+      "43x63cm": "/images/triathlon-43x53-caixa-alta.webp",
+      "53x73cm": "/images/triathlon-53x73-caixa-alta.webp",
+      default: "/lovable-uploads/519a0914-d9b2-4031-8781-87e125ccc763.png"
+    },
     caixaBaixa: "/lovable-uploads/5eab4c9e-14d7-460b-bc61-945f92a65e4e.png"
   };
 
@@ -74,7 +82,11 @@ const ProductSectionTriathlonLocal = () => {
   const colorOptions = selectedType === "caixa-alta" ? colorOptionsCaixaAlta : colorOptionsCaixaBaixa;
 
   const getCurrentImage = () => {
-    return selectedType === "caixa-alta" ? productImages.caixaAlta : productImages.caixaBaixa;
+    if (selectedType === "caixa-alta") {
+      const images = productImages.caixaAlta;
+      return images[selectedSize as keyof typeof images] || images.default;
+    }
+    return productImages.caixaBaixa;
   };
 
   const handleAddToCart = () => {
