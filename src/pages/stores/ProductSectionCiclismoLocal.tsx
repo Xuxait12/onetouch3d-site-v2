@@ -27,7 +27,6 @@ const ProductSectionCiclismoLocal = () => {
     { size: "37x48cm", fullPrice: 390, pixPrice: 363.00 },
     { size: "43x43cm", fullPrice: 385, pixPrice: 386.00 },
     { size: "43x53cm", fullPrice: 439, pixPrice: 414.50 },
-    { size: "43x63cm", fullPrice: 560, pixPrice: 517.50 },
     { size: "53x53cm", fullPrice: 510, pixPrice: 493.50 }
   ];
 
@@ -56,9 +55,6 @@ const ProductSectionCiclismoLocal = () => {
     }
     if (selectedSize === "43x53cm") {
       return productImages.caixaAlta40x50;
-    }
-    if (selectedSize === "43x63cm") {
-      return productImages.caixaAlta40x60;
     }
     return productImages.caixaAlta30x30;
   };
