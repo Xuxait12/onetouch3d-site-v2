@@ -45,7 +45,6 @@ const Corrida = () => {
           imageSrc="/images/quadro-moderno.gif"
           imageAlt="Moldura premium personalizada"
           imageOnLeft={true}
-          mobileImageSrc="/images/moldura-caixa-alta-mobile.webp"
         />
         
         {/* Feature sections wrapper */}
