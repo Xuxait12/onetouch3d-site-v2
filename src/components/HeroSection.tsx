@@ -66,7 +66,7 @@ const HeroSection = () => {
       </div>
       
       {/* Content */}
-      <div className="relative z-10 h-full flex items-center justify-center px-4 sm:px-6">
+      <div className="relative z-10 h-full min-h-[100svh] flex items-end sm:items-center justify-center px-4 sm:px-6 pb-16 sm:pb-0">
         <div className="text-center text-white max-w-5xl mx-auto">
           {/* H1 com animação letter-by-letter */}
           <motion.h1
