@@ -115,15 +115,15 @@ const ProductSectionTriathlonLocal = () => {
   };
 
   return (
-    <section id="nossa-loja" data-section="nossa-loja" className="pb-16 product-section" style={{ background: 'transparent !important' }}>
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="rounded-2xl shadow-lg p-8" style={{ background: 'transparent !important' }}>
-          <div className="text-center mb-8">
-            <h2 className="text-4xl font-bold text-foreground">NOSSA LOJA</h2>
+    <section id="nossa-loja" data-section="nossa-loja" className="pb-12 sm:pb-16 product-section" style={{ background: 'transparent !important' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-8" style={{ background: 'transparent !important' }}>
+          <div className="text-center mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">NOSSA LOJA</h2>
           </div>
           
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            <div className="space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start">
+            <div className="space-y-6 sm:space-y-8">
               <div className="relative">
                 <img 
                   src={getCurrentImage()}
@@ -132,11 +132,11 @@ const ProductSectionTriathlonLocal = () => {
                 />
               </div>
 
-              <Card className="p-6">
-                <h3 className="text-xl font-semibold mb-4">
+              <Card className="p-4 sm:p-6">
+                <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
                   {selectedType === "caixa-alta" ? "Características da Moldura Caixa Alta" : "Características da Moldura"}
                 </h3>
-                <ul className="space-y-3 text-sm">
+                <ul className="space-y-2 sm:space-y-3 text-sm">
                   {selectedType === "caixa-alta" && selectedColor === "preta-branca" ? (
                     <>
                       <li className="flex items-start gap-2">

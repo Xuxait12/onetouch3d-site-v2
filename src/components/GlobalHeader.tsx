@@ -48,7 +48,7 @@ const GlobalHeader = () => {
 
   return (
     <header className="w-full bg-background/80 backdrop-blur-sm border-b border-border/40 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 py-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
@@ -141,8 +141,9 @@ const GlobalHeader = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden ml-4"
+            className="md:hidden ml-2 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Menu"
           >
             {mobileMenuOpen ? (
               <X className="h-6 w-6" />
@@ -163,7 +164,7 @@ const GlobalHeader = () => {
                     navigate(item.path);
                     setMobileMenuOpen(false);
                   }}
-                  className={`text-left py-2 px-3 rounded-md text-sm font-medium transition-all duration-200 ease-in-out ${
+                  className={`text-left py-3 px-4 rounded-md text-base font-medium transition-all duration-200 ease-in-out min-h-[44px] ${
                     isActive(item.path)
                       ? "bg-[#005BFF] text-white"
                       : "text-muted-foreground hover:text-[#005BFF]"
@@ -179,10 +180,10 @@ const GlobalHeader = () => {
                   openCart();
                   setMobileMenuOpen(false);
                 }}
-                className="flex items-center py-2 text-sm text-muted-foreground hover:text-foreground"
+                className="flex items-center py-3 px-4 text-base text-muted-foreground hover:text-foreground min-h-[44px]"
               >
-                <ShoppingBag className="w-4 h-4 mr-2" />
-                Carrinho {cartItemsCount > 0 && <span className="ml-1 bg-red-500 text-white text-xs rounded-full px-2 py-1">({cartItemsCount})</span>}
+                <ShoppingBag className="w-5 h-5 mr-3" />
+                Carrinho {cartItemsCount > 0 && <span className="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-1">({cartItemsCount})</span>}
               </button>
 
               {/* Mobile User Menu */}

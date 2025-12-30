@@ -54,7 +54,7 @@ const HeroSectionCiclismo = () => {
       }
     }
   };
-  return <section id="hero-ciclismo" className="relative w-full h-[100vh] overflow-hidden">
+  return <section id="hero-ciclismo" className="relative w-full min-h-[100svh] overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 bg-cover bg-no-repeat" style={{
       backgroundImage: `url(${heroCiclismo})`,

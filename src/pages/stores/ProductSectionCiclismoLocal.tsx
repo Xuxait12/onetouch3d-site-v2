@@ -92,15 +92,15 @@ const ProductSectionCiclismoLocal = () => {
   };
 
   return (
-    <section id="nossa-loja-ciclismo" data-section="nossa-loja-ciclismo" className="pt-2 md:pt-16 pb-16 bg-background product-section">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-foreground">NOSSA LOJA</h2>
+    <section id="nossa-loja-ciclismo" data-section="nossa-loja-ciclismo" className="pt-2 md:pt-16 pb-12 sm:pb-16 bg-background product-section">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">NOSSA LOJA</h2>
         </div>
         
-        <div className="bg-white rounded-2xl shadow-lg p-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            <div className="space-y-8">
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start">
+            <div className="space-y-6 sm:space-y-8">
               <div className="relative">
                 <img 
                   src={productImage} 
@@ -109,11 +109,11 @@ const ProductSectionCiclismoLocal = () => {
                 />
               </div>
 
-              <Card className="p-6">
-                <h3 className="text-xl font-semibold mb-4">
+              <Card className="p-4 sm:p-6">
+                <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
                   Características da Moldura Caixa Alta
                 </h3>
-                <ul className="space-y-3 text-sm">
+                <ul className="space-y-2 sm:space-y-3 text-sm">
                   <li className="flex items-start gap-2">
                     <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
                     <span><strong>Acabamento sofisticado:</strong> Madeira com revestimento PET texturizado em preto e interno liso branco.</span>
@@ -146,12 +146,12 @@ const ProductSectionCiclismoLocal = () => {
               </Card>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               <div>
-                <h2 className="text-3xl font-bold mb-2">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-2">
                   Quadro Caixa Alta
                 </h2>
-                <p className="text-blue-600 font-medium">
+                <p className="text-blue-600 font-medium text-sm sm:text-base">
                   COM percurso em alto relevo (3D)
                 </p>
               </div>
