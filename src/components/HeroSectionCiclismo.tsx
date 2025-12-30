@@ -66,7 +66,7 @@ const HeroSectionCiclismo = () => {
       
       {/* Content */}
       <div className="relative z-10 h-full min-h-[100svh] flex items-end sm:items-center justify-center px-4 sm:px-6 pb-16 sm:pb-0">
-        <div className="text-center text-white max-w-5xl mx-auto">
+        <div className="text-center text-white max-w-5xl mx-auto my-[53px]">
           {/* H1 com animação letter-by-letter */}
           <motion.h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-2xl" initial="hidden" animate="visible" variants={shouldReduceMotion ? {} : containerVariants}>
             {/* Eternize - letter by letter */}
