@@ -147,15 +147,15 @@ const ProductSectionCorridaLocal = () => {
   };
 
   return (
-    <section id="nossa-loja" data-section="nossa-loja" className="pb-16 product-section" style={{ background: 'transparent !important' }}>
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="rounded-2xl shadow-lg p-8" style={{ background: 'transparent !important' }}>
-          <div className="text-center mb-8">
-            <h2 className="text-4xl font-bold text-foreground">NOSSA LOJA</h2>
+    <section id="nossa-loja" data-section="nossa-loja" className="pb-12 sm:pb-16 product-section" style={{ background: 'transparent !important' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-8" style={{ background: 'transparent !important' }}>
+          <div className="text-center mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">NOSSA LOJA</h2>
           </div>
           
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            <div className="space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start">
+            <div className="space-y-6 sm:space-y-8">
               <div className="relative">
                 <img 
                   src={getCurrentImage()}
@@ -164,11 +164,11 @@ const ProductSectionCorridaLocal = () => {
                 />
               </div>
 
-              <Card className="p-6">
-                <h3 className="text-xl font-semibold mb-4">
+              <Card className="p-4 sm:p-6">
+                <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
                   {selectedType === "caixa-alta" ? "Características da Moldura Caixa Alta" : "Características da Moldura"}
                 </h3>
-                <ul className="space-y-3 text-sm">
+                <ul className="space-y-2 sm:space-y-3 text-sm">
                   {selectedType === "caixa-alta" && selectedColor === "preta-branca" ? (
                     <>
                       <li className="flex items-start gap-2">
@@ -304,12 +304,12 @@ const ProductSectionCorridaLocal = () => {
               </Card>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               <div>
-                <h2 className="text-3xl font-bold mb-2">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-2">
                   {selectedType === "caixa-alta" ? "Quadro Caixa Alta" : "Quadro Caixa Baixa"}
                 </h2>
-                <p className="text-blue-600 font-medium">
+                <p className="text-blue-600 font-medium text-sm sm:text-base">
                   {selectedType === "caixa-alta" ? "COM percurso em alto relevo (3D)" : "SEM percurso em alto relevo (3D)"}
                 </p>
               </div>
@@ -347,13 +347,13 @@ const ProductSectionCorridaLocal = () => {
               </div>
 
               <div>
-                <Label className="text-base font-medium mb-3 block">Tamanho</Label>
+                <Label className="text-sm sm:text-base font-medium mb-3 block">Tamanho</Label>
                 <RadioGroup value={selectedSize} onValueChange={setSelectedSize}>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-2 sm:gap-3">
                     {sizeOptions.map((option) => (
                       <div key={option.size} className="flex items-center space-x-2">
                         <RadioGroupItem value={option.size} id={`corrida-size-${option.size}`} />
-                        <Label htmlFor={`corrida-size-${option.size}`} className="cursor-pointer text-sm">
+                        <Label htmlFor={`corrida-size-${option.size}`} className="cursor-pointer text-xs sm:text-sm">
                           {option.size}
                         </Label>
                       </div>
@@ -377,39 +377,39 @@ const ProductSectionCorridaLocal = () => {
                 </p>
               </div>
 
-              <div className="bg-muted/50 p-4 rounded-lg">
-                <div className="text-sm text-muted-foreground mb-1">
+              <div className="bg-muted/50 p-3 sm:p-4 rounded-lg">
+                <div className="text-xs sm:text-sm text-muted-foreground mb-1">
                   De <span className="line-through">R$ {fullPrice.toFixed(2).replace('.', ',')}</span> por:
                 </div>
-                <div className="text-3xl font-bold text-green-600 mb-2">
+                <div className="text-2xl sm:text-3xl font-bold text-green-600 mb-2">
                   R$ {finalPrice.toFixed(2).replace('.', ',')}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-xs sm:text-sm text-muted-foreground">
                   5% de desconto no PIX ou parcele em até 12 vezes
                 </div>
               </div>
 
               <Button 
                 onClick={handleAddToCart}
-                className="w-full bg-black hover:bg-black/90 text-white py-3 text-lg font-medium"
+                className="w-full bg-black hover:bg-black/90 text-white py-3 text-base sm:text-lg font-medium min-h-[48px]"
               >
                 Adicionar ao carrinho
               </Button>
 
               <div>
-                <Label className="text-base font-medium mb-3 block">Consultar Frete</Label>
-                <div className="flex gap-2">
+                <Label className="text-sm sm:text-base font-medium mb-3 block">Consultar Frete</Label>
+                <div className="flex flex-col sm:flex-row gap-2">
                   <Input
                     type="text"
                     placeholder="Digite seu CEP"
                     value={cep}
                     onChange={(e) => setCep(e.target.value)}
-                    className="flex-1"
+                    className="flex-1 min-h-[44px]"
                   />
                   <Button 
                     onClick={handleCalculateFrete}
                     variant="outline"
-                    className="px-6"
+                    className="px-6 min-h-[44px]"
                   >
                     Calcular
                   </Button>

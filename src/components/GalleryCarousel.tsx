@@ -112,15 +112,15 @@ const GalleryCarousel = () => {
     <>
       <div 
         id="gallery-section" 
-        className={`w-full max-w-7xl mx-auto px-6 transition-all duration-700 ease-out ${
+        className={`w-full max-w-7xl mx-auto px-4 sm:px-6 transition-all duration-700 ease-out ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
           {galleryImages.map((image, index) => (
             <div
               key={index}
-              className="group cursor-pointer overflow-hidden rounded-2xl bg-card shadow-md hover:shadow-xl transition-all duration-300 ease-out"
+              className="group cursor-pointer overflow-hidden rounded-xl sm:rounded-2xl bg-card shadow-md hover:shadow-xl transition-all duration-300 ease-out"
               onClick={() => handleImageClick(index)}
             >
               <div className="relative aspect-square overflow-hidden">
@@ -133,10 +133,10 @@ const GalleryCarousel = () => {
                 {/* Overlay com escurecimento */}
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"></div>
                 
-                {/* Descrição no rodapé */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out">
-                  <div className="p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out">
-                    <p className="text-sm font-medium">{image.description}</p>
+                {/* Descrição no rodapé - hidden on mobile, visible on hover for desktop */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 ease-out">
+                  <div className="p-2 sm:p-4 text-white transform translate-y-0 sm:translate-y-4 sm:group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                    <p className="text-xs sm:text-sm font-medium">{image.description}</p>
                   </div>
                 </div>
               </div>
@@ -147,28 +147,31 @@ const GalleryCarousel = () => {
 
       {/* Enhanced Lightbox Modal */}
       <Dialog open={selectedImageIndex !== null} onOpenChange={() => setSelectedImageIndex(null)}>
-        <DialogContent className="max-w-none w-full h-full p-0 border-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', backdropFilter: 'blur(10px)' }}>
+        <DialogContent className="max-w-none w-full h-full p-0 border-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.9)', backdropFilter: 'blur(10px)' }}>
           {/* Close button */}
           <button
             onClick={() => setSelectedImageIndex(null)}
-            className="absolute top-4 right-4 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 text-white backdrop-blur-sm"
+            className="absolute top-3 right-3 sm:top-4 sm:right-4 z-50 p-2 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 text-white backdrop-blur-sm min-w-[44px] min-h-[44px] flex items-center justify-center"
           >
-            <X size={28} />
+            <X size={24} className="sm:hidden" />
+            <X size={28} className="hidden sm:block" />
           </button>
           
           {/* Navigation arrows */}
           <button
             onClick={handlePrevImage}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 text-white backdrop-blur-sm"
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-50 p-2 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 text-white backdrop-blur-sm min-w-[44px] min-h-[44px] flex items-center justify-center"
           >
-            <ChevronLeft size={32} />
+            <ChevronLeft size={28} className="sm:hidden" />
+            <ChevronLeft size={32} className="hidden sm:block" />
           </button>
           
           <button
             onClick={handleNextImage}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 text-white backdrop-blur-sm"
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-50 p-2 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 text-white backdrop-blur-sm min-w-[44px] min-h-[44px] flex items-center justify-center"
           >
-            <ChevronRight size={32} />
+            <ChevronRight size={28} className="sm:hidden" />
+            <ChevronRight size={32} className="hidden sm:block" />
           </button>
           
           {selectedImageIndex !== null && (
