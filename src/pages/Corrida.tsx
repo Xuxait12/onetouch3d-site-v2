@@ -51,7 +51,7 @@ const Corrida = () => {
         <div className="relative overflow-hidden">
           <div className="relative" style={{ zIndex: 5 }}>
             <FeatureSection
-              title="Percurso 3D Exclusivo"
+              title="Percurso 3D da Sua Corrida"
               description={<>Recriamos o trajeto da sua corrida em 3D com precisão.<br /><br />Tornando cada quadro único e totalmente personalizado com o percurso da sua conquista.</>}
               imageSrc="/images/percurso-3d.webp"
               imageAlt="Percurso 3D da prova"
