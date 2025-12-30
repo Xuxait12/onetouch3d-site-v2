@@ -19,7 +19,7 @@ const FeatureSection = ({
       <div className="grid lg:grid-cols-2 gap-12 items-center">
         {/* Text Content - Title and Description together */}
         <div className={`${imageOnLeft ? 'order-2 lg:order-2' : 'order-2 lg:order-1'} text-center lg:text-left flex flex-col justify-center`}>
-          <h2 className="section-text mb-6 font-medium text-4xl">
+          <h2 className="section-text mb-6 text-4xl font-bold">
             {title}
           </h2>
           <div className="body-large text-muted-foreground max-w-xl mx-auto lg:mx-0">
