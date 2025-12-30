@@ -68,7 +68,7 @@ const Corrida = () => {
             
             <FeatureSection
               title="Seus Dados de Prova Personalizados"
-              description={<>Transformamos seus dados de performance em parte essencial do design: nome, distância, tempo oficial e pace são cuidadosamente aplicados ao quadro para representar com fidelidade a sua jornada.<br /><br />Cada número conta uma história — e juntos, eternizam o esforço, a estratégia e a superação que marcaram sua prova.</>}
+              description={<>Transformamos seus dados — nome, distância, tempo oficial e pace — em uma composição visual que celebra cada detalhe da sua jornada.<br /><br />Cada número representa esforço, estratégia e superação.</>}
               imageSrc="/images/dados-prova.webp"
               imageAlt="Dados da prova"
               imageOnLeft={false}
