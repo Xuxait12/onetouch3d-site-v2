@@ -14,7 +14,7 @@ const tabs = [
     label: "Destaque suas conquistas",
     title: "Destaque para sua medalha",
     description: "Sua conquista e dedicação em evidência.",
-    image: "/images/medalha-destaque.gif"
+    image: "/images/destaque-ciclismo.webp"
   },
   {
     id: 3,
