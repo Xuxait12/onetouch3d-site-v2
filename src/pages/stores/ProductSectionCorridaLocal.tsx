@@ -51,14 +51,14 @@ const ProductSectionCorridaLocal = () => {
   ];
 
   const sizeOptionsCaixaBaixa = [
-    { size: "33x33cm", fullPrice: 350.50, finalPrice: 325.50 },
-    { size: "33x43cm", fullPrice: 371.50, finalPrice: 346.50 },
-    { size: "37x48cm", fullPrice: 413.00, finalPrice: 378.00 },
-    { size: "43x43cm", fullPrice: 416.00, finalPrice: 381.00 },
-    { size: "43x53cm", fullPrice: 465.50, finalPrice: 430.50 },
-    { size: "43x63cm", fullPrice: 570.50, finalPrice: 535.50 },
-    { size: "53x53cm", fullPrice: 549.50, finalPrice: 514.50 },
-    { size: "53x73cm", fullPrice: 612.50, finalPrice: 577.50 }
+    { size: "33x33cm", fullPrice: 316.90, finalPrice: 291.90 },
+    { size: "33x43cm", fullPrice: 334.70, finalPrice: 309.70 },
+    { size: "37x48cm", fullPrice: 381.50, finalPrice: 346.50 },
+    { size: "43x43cm", fullPrice: 383.90, finalPrice: 348.90 },
+    { size: "43x53cm", fullPrice: 381.50, finalPrice: 346.50 },
+    { size: "43x63cm", fullPrice: 539.00, finalPrice: 504.00 },
+    { size: "53x53cm", fullPrice: 518.00, finalPrice: 483.00 },
+    { size: "53x73cm", fullPrice: 581.00, finalPrice: 546.00 }
   ];
 
   const sizeOptions = selectedType === "caixa-alta" ? sizeOptionsCaixaAlta : sizeOptionsCaixaBaixa;
