@@ -22,12 +22,12 @@ const ProductSectionCiclismoLocal = () => {
 
   // PREÇOS ESPECÍFICOS DA LOJA CICLISMO
   const sizeOptions = [
-    { size: "33x33cm", fullPrice: 330, pixPrice: 309.50 },
-    { size: "33x43cm", fullPrice: 359, pixPrice: 332.50 },
-    { size: "37x48cm", fullPrice: 390, pixPrice: 363.00 },
-    { size: "43x43cm", fullPrice: 385, pixPrice: 386.00 },
-    { size: "43x53cm", fullPrice: 439, pixPrice: 414.50 },
-    { size: "53x53cm", fullPrice: 510, pixPrice: 493.50 }
+    { size: "33x33cm", fullPrice: 353.90, pixPrice: 328.90 },
+    { size: "33x43cm", fullPrice: 407.50, pixPrice: 382.50 },
+    { size: "37x48cm", fullPrice: 448.30, pixPrice: 413.30 },
+    { size: "43x53cm", fullPrice: 486.30, pixPrice: 451.30 },
+    { size: "43x43cm", fullPrice: 658.70, pixPrice: 623.70 },
+    { size: "53x53cm", fullPrice: 682.40, pixPrice: 647.40 }
   ];
 
   // IMAGENS ESPECÍFICAS DA LOJA CICLISMO

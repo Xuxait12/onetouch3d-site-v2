@@ -22,10 +22,10 @@ const ProductSectionViagemLocal = () => {
 
   // TAMANHOS E PREÇOS ESPECÍFICOS DA LOJA VIAGEM
   const sizeOptions = [
-    { size: "33x43cm", fullPrice: 390, pixPrice: 370.50, isQuote: false },
-    { size: "37x48cm", fullPrice: 420, pixPrice: 399.00, isQuote: false },
-    { size: "43x53cm", fullPrice: 470, pixPrice: 446.50, isQuote: false },
-    { size: "53x73cm", fullPrice: 640, pixPrice: 608.00, isQuote: false },
+    { size: "33x43cm", fullPrice: 407.50, pixPrice: 382.50, isQuote: false },
+    { size: "37x48cm", fullPrice: 438.20, pixPrice: 413.20, isQuote: false },
+    { size: "43x53cm", fullPrice: 486.30, pixPrice: 451.30, isQuote: false },
+    { size: "53x73cm", fullPrice: 658.70, pixPrice: 623.70, isQuote: false },
     { size: "63x83cm", fullPrice: 0, pixPrice: 0, isQuote: true },
     { size: "83x103cm", fullPrice: 0, pixPrice: 0, isQuote: true }
   ];
