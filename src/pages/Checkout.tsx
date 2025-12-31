@@ -8,8 +8,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
+import CouponSection from "@/components/CouponSection";
 import { useCart } from "@/contexts/CartContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ShoppingBag, ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -18,6 +19,7 @@ import { FcGoogle } from 'react-icons/fc';
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { state: cart, clearCart } = useCart();
   const { user } = useAuth();
   const [personType, setPersonType] = useState("fisica");
@@ -70,8 +72,30 @@ const Checkout = () => {
   const subtotal = cart?.total || 0;
   const frete = cart?.frete || 0;
   const cupomDesconto = cart?.cupomDesconto || 0;
-  const pixDiscount = paymentMethod === "pix" ? subtotal * 0.05 : 0;
+  const pixDiscount = paymentMethod === "pix" ? (subtotal - cupomDesconto) * 0.05 : 0;
   const total = subtotal + frete - cupomDesconto - pixDiscount;
+
+  // Determine current page from referrer or cart items
+  const getCurrentPage = (): string => {
+    // Check localStorage for last visited store page
+    const lastStorePage = localStorage.getItem('lastStorePage');
+    if (lastStorePage) {
+      return lastStorePage;
+    }
+    
+    // Try to detect from cart items
+    if (cart?.items && cart.items.length > 0) {
+      const firstItemName = cart.items[0].nome?.toLowerCase() || '';
+      if (firstItemName.includes('ciclismo')) return 'ciclismo';
+      if (firstItemName.includes('triathlon')) return 'triathlon';
+      if (firstItemName.includes('viagem')) return 'viagem';
+      if (firstItemName.includes('corrida')) return 'corrida';
+    }
+    
+    return 'all'; // Default to 'all' if we can't determine
+  };
+  
+  const currentStorePage = getCurrentPage();
 
   // Load profile data when user logs in
   const loadProfileData = async () => {
@@ -1112,6 +1136,11 @@ const Checkout = () => {
                       </div>
                     ))}
                   </div>
+
+                  {/* Cupom de Desconto */}
+                  <div className="mb-6">
+                    <CouponSection currentPage={currentStorePage} subtotal={subtotal} />
+                  </div>
                   
                   {/* Totais */}
                   <div className="space-y-3 border-t border-border/30 pt-4">
@@ -1122,7 +1151,7 @@ const Checkout = () => {
                     
                     {cupomDesconto > 0 && (
                       <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Desconto:</span>
+                        <span className="text-muted-foreground">Cupom aplicado:</span>
                         <span className="text-red-600 font-medium">- R$ {cupomDesconto.toFixed(2).replace('.', ',')}</span>
                       </div>
                     )}
