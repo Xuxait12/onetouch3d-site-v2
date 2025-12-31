@@ -7,7 +7,7 @@ import FeatureSection from "@/components/FeatureSection";
 import TestimonialsSectionTriathlon from "@/components/TestimonialsSectionTriathlon";
 import ProductSectionTriathlonLocal from "@/pages/stores/ProductSectionTriathlonLocal";
 import HowItWorksTabs from "@/components/HowItWorksTabs";
-import WhyChooseUsTabs from "@/components/WhyChooseUsTabs";
+import WhyChooseUsTabsTriathlon from "@/components/WhyChooseUsTabsTriathlon";
 import FAQSection from "@/components/FAQSection";
 import CtaSection from "@/components/CtaSection";
 import GallerySectionTriathlon from "@/components/GallerySectionTriathlon";
@@ -69,7 +69,7 @@ const Triathlon = () => {
         <FeatureSection title="Entrega Segura em Todo Brasil" description={<>Da Onetouch3D até você — com cuidado absoluto.<br /><br />Cada quadro é embalado com proteção reforçada para chegar perfeito, independentemente do estado onde você mora.<br />Segurança e qualidade da produção até a sua porta.</>} imageSrc="/images/embalagem-segura.webp" imageAlt="Embalagem segura" imageOnLeft={true} />
         
         <HowItWorksTabs />
-        <WhyChooseUsTabs />
+        <WhyChooseUsTabsTriathlon />
         
         {/* CONQUISTA background text positioned between sections */}
         
