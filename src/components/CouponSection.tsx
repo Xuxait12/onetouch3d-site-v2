@@ -36,10 +36,10 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
   const [debugInfo, setDebugInfo] = useState<DebugInfo | null>(null);
 
-  // Check if we're in preview mode (Lovable development)
-  const isPreviewMode = window.location.hostname.includes('lovableproject.com') || 
-                        window.location.hostname === 'localhost' ||
-                        window.location.hostname.includes('preview');
+  // Check if we're in debug mode (only localhost or with ?debug=true)
+  const isPreviewMode = window.location.hostname === 'localhost' || 
+                        window.location.hostname === '127.0.0.1' ||
+                        window.location.search.includes('debug=true');
 
   // Update debug info whenever relevant values change
   useEffect(() => {
