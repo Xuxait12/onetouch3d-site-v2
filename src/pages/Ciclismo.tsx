@@ -7,7 +7,7 @@ import FeatureSection from "@/components/FeatureSection";
 import TestimonialsSectionCiclismo from "@/components/TestimonialsSectionCiclismo";
 import ProductSectionCiclismoLocal from "@/pages/stores/ProductSectionCiclismoLocal";
 import HowItWorksTabsCiclismo from "@/components/HowItWorksTabsCiclismo";
-import WhyChooseUsTabs from "@/components/WhyChooseUsTabs";
+import WhyChooseUsTabsCiclismo from "@/components/WhyChooseUsTabsCiclismo";
 import FAQSectionCiclismo from "@/components/FAQSectionCiclismo";
 import CtaSection from "@/components/CtaSection";
 import GallerySectionCiclismo from "@/components/GallerySectionCiclismo";
@@ -74,7 +74,7 @@ const Ciclismo = () => {
         <FeatureSection title="Entrega Segura em Todo Brasil" description="Seus quadros são embalados com proteção reforçada, garantindo que cheguem em perfeito estado até a sua casa, em qualquer lugar do Brasil." imageSrc="/images/embalagem-segura.webp" imageAlt="Embalagem segura" imageOnLeft={true} />
         
         <HowItWorksTabsCiclismo />
-        <WhyChooseUsTabs />
+        <WhyChooseUsTabsCiclismo />
         
         {/* CONQUISTA background text positioned between sections */}
         
