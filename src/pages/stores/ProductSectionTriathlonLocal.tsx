@@ -49,11 +49,12 @@ const ProductSectionTriathlonLocal = () => {
   ];
 
   const sizeOptionsCaixaBaixa = [
-    { size: "33x43cm", fullPrice: 330, finalPrice: 305.50 },
-    { size: "37x48cm", fullPrice: 360, finalPrice: 323.50 },
-    { size: "43x53cm", fullPrice: 410, finalPrice: 393.00 },
-    { size: "43x63cm", fullPrice: 510, finalPrice: 485.50 },
-    { size: "53x73cm", fullPrice: 620, finalPrice: 575.00 }
+    { size: "33x43cm", fullPrice: 334.70, finalPrice: 309.70 },
+    { size: "37x48cm", fullPrice: 371.50, finalPrice: 346.50 },
+    { size: "43x43cm", fullPrice: 383.90, finalPrice: 348.90 },
+    { size: "43x53cm", fullPrice: 434.00, finalPrice: 399.00 },
+    { size: "43x63cm", fullPrice: 539.00, finalPrice: 504.00 },
+    { size: "53x73cm", fullPrice: 581.00, finalPrice: 546.00 }
   ];
 
   // IMAGENS ESPECÍFICAS DA LOJA TRIATHLON
