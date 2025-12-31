@@ -31,7 +31,7 @@ const Carrinho = () => {
   const handleAplicarCupom = () => {
     if (cupom.toLowerCase() === "desconto10") {
       const desconto = cart.total * 0.1;
-      applyCoupon(cupom, desconto);
+      applyCoupon(cupom, desconto, cupom, 'all');
     }
   };
 
