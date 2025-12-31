@@ -40,25 +40,25 @@ const ProductSectionCorridaLocal = () => {
   ];
 
   const sizeOptionsCaixaAlta = [
-    { size: "33x33cm", fullPrice: 330, pixPrice: 309.50 },
-    { size: "33x43cm", fullPrice: 359, pixPrice: 332.50 },
-    { size: "37x48cm", fullPrice: 390, pixPrice: 363.00 },
-    { size: "43x43cm", fullPrice: 385, pixPrice: 386.00 },
-    { size: "43x53cm", fullPrice: 439, pixPrice: 414.50 },
-    { size: "43x63cm", fullPrice: 560, pixPrice: 517.50 },
-    { size: "53x53cm", fullPrice: 510, pixPrice: 493.50 },
-    { size: "53x73cm", fullPrice: 0, pixPrice: 0 }
+    { size: "33x33cm", fullPrice: 350.50, pixPrice: 325.50 },
+    { size: "33x43cm", fullPrice: 371.50, pixPrice: 346.50 },
+    { size: "37x48cm", fullPrice: 413.00, pixPrice: 378.00 },
+    { size: "43x43cm", fullPrice: 416.00, pixPrice: 381.00 },
+    { size: "43x53cm", fullPrice: 465.50, pixPrice: 430.50 },
+    { size: "43x63cm", fullPrice: 570.50, pixPrice: 535.50 },
+    { size: "53x53cm", fullPrice: 549.50, pixPrice: 514.50 },
+    { size: "53x73cm", fullPrice: 612.50, pixPrice: 577.50 }
   ];
 
   const sizeOptionsCaixaBaixa = [
-    { size: "33x33cm", fullPrice: 310, finalPrice: 285.50 },
-    { size: "33x43cm", fullPrice: 330, finalPrice: 305.50 },
-    { size: "37x48cm", fullPrice: 360, finalPrice: 323.50 },
-    { size: "43x43cm", fullPrice: 380, finalPrice: 329.50 },
-    { size: "43x53cm", fullPrice: 410, finalPrice: 393.00 },
-    { size: "43x63cm", fullPrice: 510, finalPrice: 485.50 },
-    { size: "53x53cm", fullPrice: 490, finalPrice: 468.50 },
-    { size: "53x73cm", fullPrice: 0, finalPrice: 0 }
+    { size: "33x33cm", fullPrice: 350.50, finalPrice: 325.50 },
+    { size: "33x43cm", fullPrice: 371.50, finalPrice: 346.50 },
+    { size: "37x48cm", fullPrice: 413.00, finalPrice: 378.00 },
+    { size: "43x43cm", fullPrice: 416.00, finalPrice: 381.00 },
+    { size: "43x53cm", fullPrice: 465.50, finalPrice: 430.50 },
+    { size: "43x63cm", fullPrice: 570.50, finalPrice: 535.50 },
+    { size: "53x53cm", fullPrice: 549.50, finalPrice: 514.50 },
+    { size: "53x73cm", fullPrice: 612.50, finalPrice: 577.50 }
   ];
 
   const sizeOptions = selectedType === "caixa-alta" ? sizeOptionsCaixaAlta : sizeOptionsCaixaBaixa;
