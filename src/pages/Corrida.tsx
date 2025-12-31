@@ -7,7 +7,7 @@ import FeatureSection from "@/components/FeatureSection";
 import TestimonialsSectionCorrida from "@/components/TestimonialsSectionCorrida";
 import ProductSectionCorridaLocal from "@/pages/stores/ProductSectionCorridaLocal";
 import HowItWorksTabs from "@/components/HowItWorksTabs";
-import WhyChooseUsTabs from "@/components/WhyChooseUsTabs";
+import WhyChooseUsTabsCorrida from "@/components/WhyChooseUsTabsCorrida";
 import FAQSection from "@/components/FAQSection";
 import CtaSection from "@/components/CtaSection";
 import GallerySectionCorrida from "@/components/GallerySectionCorrida";
@@ -101,7 +101,7 @@ const Corrida = () => {
         />
         
         <HowItWorksTabs />
-        <WhyChooseUsTabs />
+        <WhyChooseUsTabsCorrida />
         
         
         <InfiniteLogoCarousel />
