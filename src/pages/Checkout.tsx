@@ -593,7 +593,8 @@ const Checkout = () => {
           total: roundedTotal,
           status: 'pendente',
           forma_pagamento: paymentMethod || 'teste',
-          shipping_address: shippingAddress
+          shipping_address: shippingAddress,
+          cupom_aplicado: cart.cupomCode || null
         })
         .select()
         .single();

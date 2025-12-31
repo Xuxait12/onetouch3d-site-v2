@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,11 @@ const ProductSectionCorridaLocal = () => {
   const [selectedType, setSelectedType] = useState("caixa-alta");
   const [selectedColor, setSelectedColor] = useState("preta-branca");
   const [selectedSize, setSelectedSize] = useState("33x33cm");
+
+  // Save current store page for coupon validation
+  useEffect(() => {
+    localStorage.setItem('lastStorePage', 'corrida');
+  }, []);
 
   const handleTypeChange = (value: string) => {
     setSelectedType(value);

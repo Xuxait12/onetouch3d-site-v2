@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,11 @@ const ProductSectionTriathlonLocal = () => {
   const [selectedColor, setSelectedColor] = useState("preta-branca");
   const [selectedSize, setSelectedSize] = useState("33x43cm");
   const [cep, setCep] = useState("");
+
+  // Save current store page for coupon validation
+  useEffect(() => {
+    localStorage.setItem('lastStorePage', 'triathlon');
+  }, []);
 
   const handleTypeChange = (value: string) => {
     setSelectedType(value);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,11 @@ const ProductSectionCiclismoLocal = () => {
   const [selectedColor, setSelectedColor] = useState("preta-branca");
   const [selectedSize, setSelectedSize] = useState("33x33cm");
   const [cep, setCep] = useState("");
+
+  // Save current store page for coupon validation
+  useEffect(() => {
+    localStorage.setItem('lastStorePage', 'ciclismo');
+  }, []);
 
   // OPÇÕES ESPECÍFICAS DA LOJA CICLISMO
   const colorOptions = [

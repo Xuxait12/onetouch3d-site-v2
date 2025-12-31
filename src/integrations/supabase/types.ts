@@ -97,6 +97,7 @@ export type Database = {
       pedidos: {
         Row: {
           created_at: string
+          cupom_aplicado: string | null
           data_pedido: string
           desconto: number
           forma_pagamento: string
@@ -112,6 +113,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          cupom_aplicado?: string | null
           data_pedido?: string
           desconto?: number
           forma_pagamento: string
@@ -127,6 +129,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          cupom_aplicado?: string | null
           data_pedido?: string
           desconto?: number
           forma_pagamento?: string
