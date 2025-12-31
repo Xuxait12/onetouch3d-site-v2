@@ -14,7 +14,8 @@ const tabs = [
     label: "Destaque suas conquistas",
     title: "Destaque para sua medalha",
     description: "Sua conquista e dedicação em evidência.",
-    image: "/images/destaque-ciclismo.webp"
+    image: "/images/destaque-ciclismo.webp",
+    imageMobile: "/images/destaque-ciclismo-mobile.jpg"
   },
   {
     id: 3,
@@ -126,11 +127,19 @@ const WhyChooseUsTabsCiclismo = () => {
 
         {/* Image */}
         <div className="mb-8 animate-fade-up">
+          {/* Desktop image */}
           <img
             src={activeContent?.image}
             alt={activeContent?.title}
-            className="w-full max-w-4xl mx-auto h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-cover rounded-3xl shadow-elegant transition-all duration-500"
-            key={activeTab}
+            className="hidden sm:block w-full max-w-4xl mx-auto h-[400px] md:h-[500px] lg:h-[600px] object-cover rounded-3xl shadow-elegant transition-all duration-500"
+            key={`desktop-${activeTab}`}
+          />
+          {/* Mobile image */}
+          <img
+            src={activeContent?.imageMobile || activeContent?.image}
+            alt={activeContent?.title}
+            className="sm:hidden w-full max-w-4xl mx-auto h-[300px] object-cover rounded-3xl shadow-elegant transition-all duration-500"
+            key={`mobile-${activeTab}`}
           />
         </div>
 
