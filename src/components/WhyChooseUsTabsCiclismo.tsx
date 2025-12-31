@@ -7,7 +7,7 @@ const tabs = [
     label: "Qualidade premium",
     title: "Qualidade premium",
     description: "Impressão 3D e molduras de alta qualidade",
-    image: "/images/qualidade-premium.gif"
+    image: "/images/qualidade-premium-ciclismo.webp"
   },
   {
     id: 2,
