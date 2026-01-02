@@ -14,7 +14,7 @@ import GallerySectionViagem from "@/components/GallerySectionViagem";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import WhyChooseSection from "@/components/WhyChooseSection";
 import InfiniteLogoCarousel from "@/components/ui/infinite-logo-carousel";
-import LifestyleHeroSection from "@/components/LifestyleHeroSection";
+import LifestyleHeroSectionViagem from "@/components/LifestyleHeroSectionViagem";
 import ShareSectionViagem from "@/components/ShareSectionViagem";
 
 // Import images
@@ -94,7 +94,7 @@ const Viagem = () => {
         
         
         
-        <LifestyleHeroSection />
+        <LifestyleHeroSectionViagem />
         <GallerySectionViagem />
         <TestimonialsSection />
         <ShareSectionViagem />
