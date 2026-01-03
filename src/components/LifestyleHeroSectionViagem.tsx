@@ -3,7 +3,7 @@ const LifestyleHeroSectionViagem = () => {
     <section className="relative w-full h-[75vh] sm:h-[85vh] md:h-[90vh] lg:h-[95vh] overflow-hidden bg-gray-900">
       {/* Imagem para Mobile/Tablet (até 1023px) */}
       <img 
-        src="/images/hero-viagem-moto-tablet.webp"
+        src="/images/hero-viagem-moto-mobile.webp"
         alt=""
         fetchPriority="high"
         loading="eager"
