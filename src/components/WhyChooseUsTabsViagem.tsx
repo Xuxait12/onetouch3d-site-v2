@@ -14,7 +14,7 @@ const tabs = [
     label: "Destaque sua viagem",
     title: "Destaque sua viagem",
     description: "Sua aventura e viagem em evidência.",
-    image: "/images/medalha-destaque.gif"
+    image: "/images/destaque-viagem.webp"
   },
   {
     id: 3,
