@@ -54,15 +54,19 @@ const HeroSectionViagem = () => {
       }
     }
   };
-  return <section id="hero-viagem" className="relative w-full min-h-[100svh] overflow-hidden">
+  return <section id="hero-viagem" className="relative w-full min-h-[100svh] overflow-hidden bg-gray-900">
       {/* Background Image */}
-      <div className="absolute inset-0 bg-cover bg-no-repeat" style={{
-      backgroundImage: `url(${heroViagem})`,
-      backgroundPosition: 'center 30%'
-    }}>
-        {/* Overlay para melhorar legibilidade */}
-        <div className="absolute inset-0 bg-black/40"></div>
-      </div>
+      <img 
+        src={heroViagem}
+        alt=""
+        fetchPriority="high"
+        loading="eager"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ objectPosition: 'center 30%' }}
+      />
+      {/* Overlay para melhorar legibilidade */}
+      <div className="absolute inset-0 bg-black/40"></div>
       
       {/* Content */}
       <div className="relative z-10 h-full min-h-[100svh] flex items-end sm:items-center justify-center px-4 sm:px-6 pb-16 sm:pb-0 my-[53px]">
