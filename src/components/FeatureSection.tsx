@@ -8,6 +8,7 @@ interface FeatureSectionProps {
   imageAnimation?: string;
   textAnimation?: string;
   mobileImageSrc?: string;
+  objectFit?: 'cover' | 'contain';
 }
 const FeatureSection = ({
   title,
@@ -15,7 +16,8 @@ const FeatureSection = ({
   imageSrc,
   imageAlt,
   imageOnLeft = false,
-  mobileImageSrc
+  mobileImageSrc,
+  objectFit = 'cover'
 }: FeatureSectionProps) => {
   return <section className="py-6 sm:py-8 max-w-7xl mx-auto px-4 sm:px-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -31,14 +33,14 @@ const FeatureSection = ({
 
         {/* Image */}
         <div className={`${imageOnLeft ? 'order-1 lg:order-1' : 'order-1 lg:order-2'}`}>
-          <div className="w-full aspect-[4/3] sm:aspect-[592/394] overflow-hidden rounded-xl sm:rounded-2xl shadow-soft">
+          <div className={`w-full aspect-[4/3] sm:aspect-[592/394] overflow-hidden rounded-xl sm:rounded-2xl shadow-soft ${objectFit === 'contain' ? 'bg-black' : ''}`}>
             {mobileImageSrc ? (
               <>
-                <img src={mobileImageSrc} alt={imageAlt} className="w-full h-full object-cover sm:hidden" />
-                <img src={imageSrc} alt={imageAlt} className="w-full h-full object-cover hidden sm:block" />
+                <img src={mobileImageSrc} alt={imageAlt} className={`w-full h-full ${objectFit === 'contain' ? 'object-contain' : 'object-cover'} sm:hidden`} />
+                <img src={imageSrc} alt={imageAlt} className={`w-full h-full ${objectFit === 'contain' ? 'object-contain' : 'object-cover'} hidden sm:block`} />
               </>
             ) : (
-              <img src={imageSrc} alt={imageAlt} className="w-full h-full object-cover" />
+              <img src={imageSrc} alt={imageAlt} className={`w-full h-full ${objectFit === 'contain' ? 'object-contain' : 'object-cover'}`} />
             )}
           </div>
         </div>
