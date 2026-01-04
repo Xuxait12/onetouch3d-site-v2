@@ -63,7 +63,7 @@ const Triathlon = () => {
         </div>
         
         {/* Seção 6 - Beleza e Força - imagem à direita */}
-        <FeatureSection title="Beleza e Força em um Só Quadro" description={<>Criado para destacar a sua dedicação.<br />Cada quadro nasce para valorizar sua trajetória no esporte mais desafiador do mundo.<br />Um layout elegante, equilibrado e impactante — perfeito para qualquer ambiente, do escritório ao espaço de casa.</>} imageSrc="/images/quadro-moderno.webp" imageAlt="Layout moderno e exclusivo" imageOnLeft={false} />
+        <FeatureSection title="Beleza e Força em um Só Quadro" description={<>Criado para destacar a sua dedicação.<br />Cada quadro nasce para valorizar sua trajetória no esporte mais desafiador do mundo.<br />Um layout elegante, equilibrado e impactante — perfeito para qualquer ambiente, do escritório ao espaço de casa.</>} imageSrc="/images/ambiente-moderno-triathlon.webp" imageAlt="Layout moderno e exclusivo" imageOnLeft={false} />
         
         {/* Seção 7 - Entrega Segura em Todo Brasil - imagem à esquerda */}
         <FeatureSection title="Entrega Segura em Todo Brasil" description={<>Da Onetouch3D até você — com cuidado absoluto.<br /><br />Cada quadro é embalado com proteção reforçada para chegar perfeito, independentemente do estado onde você mora.<br />Segurança e qualidade da produção até a sua porta.</>} imageSrc="/images/embalagem-segura.webp" imageAlt="Embalagem segura" imageOnLeft={true} />
