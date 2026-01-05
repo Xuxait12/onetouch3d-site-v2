@@ -11,19 +11,15 @@ const LifestyleHeroSectionTriathlon = () => {
         className="absolute inset-0 w-full h-full object-cover object-center sm:hidden"
       />
       
-      {/* Tablet Image - 600x500px, centralizada, object-contain */}
-      <div className="hidden sm:flex lg:hidden absolute inset-0 items-center justify-center">
-        <img 
-          src="/images/lifestyle-triathlon-tablet.webp"
-          alt="Quadro de triathlon em ambiente moderno"
-          fetchPriority="high"
-          loading="eager"
-          decoding="async"
-          width={600}
-          height={500}
-          className="max-w-[600px] w-full h-auto object-contain"
-        />
-      </div>
+      {/* Tablet Image */}
+      <img 
+        src="/images/lifestyle-triathlon-tablet.webp"
+        alt="Quadro de triathlon em ambiente moderno"
+        fetchPriority="high"
+        loading="eager"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover object-center hidden sm:block lg:hidden"
+      />
       
       {/* Desktop Image */}
       <img 
