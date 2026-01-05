@@ -1,6 +1,6 @@
 const LifestyleHeroSectionTriathlon = () => {
   return (
-    <section className="relative w-full h-[80vh] sm:h-[85vh] md:h-[90vh] lg:h-[95vh] overflow-hidden bg-gray-900">
+    <section className="relative w-full h-[80vh] sm:h-[500px] lg:h-[95vh] overflow-hidden bg-gray-900">
       {/* Mobile Image */}
       <img 
         src="/images/lifestyle-triathlon-mobile.webp"
