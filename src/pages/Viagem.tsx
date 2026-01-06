@@ -14,7 +14,7 @@ import GallerySectionViagem from "@/components/GallerySectionViagem";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import WhyChooseSection from "@/components/WhyChooseSection";
 import InfiniteLogoCarousel from "@/components/ui/infinite-logo-carousel";
-import LifestyleHeroSectionViagem from "@/components/LifestyleHeroSectionViagem";
+import EmotionalImageSection from "@/components/EmotionalImageSection";
 import ShareSectionViagem from "@/components/ShareSectionViagem";
 
 // Import images
@@ -94,7 +94,12 @@ const Viagem = () => {
         
         
         
-        <LifestyleHeroSectionViagem />
+        <EmotionalImageSection 
+          imageSrc="/images/hero-viagem-moto.webp"
+          imageAlt="Quadro de viagem de moto em ambiente moderno"
+          emotionalText="Destinos que marcam para sempre"
+          mobileImageSrc="/images/hero-viagem-moto-mobile.webp"
+        />
         <GallerySectionViagem />
         <TestimonialsSection />
         <ShareSectionViagem />
