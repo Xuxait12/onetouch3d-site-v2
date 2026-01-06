@@ -14,7 +14,7 @@ import GallerySectionCorrida from "@/components/GallerySectionCorrida";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import WhyChooseSection from "@/components/WhyChooseSection";
 import InfiniteLogoCarousel from "@/components/ui/infinite-logo-carousel";
-import LifestyleHeroSection from "@/components/LifestyleHeroSection";
+import EmotionalImageSection from "@/components/EmotionalImageSection";
 import ShareSectionCorrida from "@/components/ShareSectionCorrida";
 
 // Import images
@@ -65,7 +65,12 @@ const Corrida = () => {
         
         
         
-        <LifestyleHeroSection />
+        <EmotionalImageSection 
+          imageSrc="/images/lifestyle-desktop.gif"
+          imageAlt="Quadro de corrida em ambiente moderno"
+          emotionalText="Cada quilômetro conta uma história"
+          mobileImageSrc="/images/lifestyle-mobile.gif"
+        />
         <GallerySectionCorrida />
         <TestimonialsSectionCorrida />
         <ShareSectionCorrida />
