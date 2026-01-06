@@ -40,7 +40,7 @@ const testimonialsTriathlon = [
   },
   {
     quote:
-      "A OneTouch me ajudou a eternizar momentos de felicidade, de desafios alcançados e que farão parte da minha história. O trabalho que eles fazem é de um bom gosto, qualidade e nível de detalhes, que me impressionaram, tanto que já tenho 5 quadros, 2 de IM e 3 de Maratonas.",
+      "A OneTouch3D me ajudou a eternizar momentos de felicidade, de desafios alcançados e que farão parte da minha história. O trabalho que eles fazem é de um bom gosto, qualidade e nível de detalhes, que me impressionaram, tanto que já tenho 5 quadros, 2 de IM e 3 de Maratonas.",
     name: "André Câmara da Luz",
     designation: "Ironman 70.3 Florianópolis",
     src: "/lovable-uploads/andre-camara-ironman.webp",
