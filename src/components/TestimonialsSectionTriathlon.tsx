@@ -40,10 +40,10 @@ const testimonialsTriathlon = [
   },
   {
     quote:
-      "Foi eternizar nosso sonho em um quadro e poder relembrar e reviver todos os dias os momentos únicos que vivemos em cima da nosso moto. Momentos que nos encorajam e motivam para as próximas aventuras.",
-    name: "Alex & Vandressa",
-    designation: "Expedição Atacama",
-    src: "/lovable-uploads/alex-vandressa-atacama.webp",
+      "A OneTouch me ajudou a eternizar momentos de felicidade, de desafios alcançados e que farão parte da minha história. O trabalho que eles fazem é de um bom gosto, qualidade e nível de detalhes, que me impressionaram, tanto que já tenho 5 quadros, 2 de IM e 3 de Maratonas.",
+    name: "André Câmara da Luz",
+    designation: "Ironman 70.3 Florianópolis",
+    src: "/lovable-uploads/andre-camara-ironman.webp",
   },
   {
     quote:
