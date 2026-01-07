@@ -16,6 +16,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
 import { FcGoogle } from 'react-icons/fc';
+import { PaymentBrick } from "@/components/payment/PaymentBrick";
+import { PixPayment } from "@/components/payment/PixPayment";
+import { useOrderStatus } from "@/hooks/useOrderStatus";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -38,6 +41,11 @@ const Checkout = () => {
     password: '',
     confirmPassword: ''
   });
+
+  // Payment flow states
+  const [paymentStep, setPaymentStep] = useState<'form' | 'processing'>('form');
+  const [createdPedidoId, setCreatedPedidoId] = useState<string | null>(null);
+  const [selectedPaymentType, setSelectedPaymentType] = useState<'pix' | 'credit_card' | 'debit_card' | null>(null);
   
   // Password visibility states
   const [showLoginPassword, setShowLoginPassword] = useState(false);
@@ -477,6 +485,37 @@ const Checkout = () => {
     }
   };
 
+  // Handle payment success
+  const handlePaymentSuccess = (paymentId: string) => {
+    console.log('Payment successful:', paymentId);
+    toast({
+      title: "Pagamento aprovado!",
+      description: "Seu pedido foi confirmado.",
+    });
+
+    // Clear cart
+    clearCart();
+
+    // Navigate to confirmation page
+    if (createdPedidoId) {
+      navigate(`/confirmacao?pedido=${createdPedidoId}`);
+    }
+  };
+
+  // Handle payment error
+  const handlePaymentError = (error: Error) => {
+    console.error('Payment error:', error);
+    toast({
+      variant: "destructive",
+      title: "Erro no pagamento",
+      description: error.message || "Tente novamente.",
+    });
+
+    // Reset to form step to allow retry
+    setPaymentStep('form');
+    setIsSubmitting(false);
+  };
+
   const handleFinalizePurchase = async () => {
     // Prevent duplicate submissions
     if (isSubmitting) return;
@@ -521,7 +560,7 @@ const Checkout = () => {
       return;
     }
 
-    if (!paymentMethod) {
+    if (!selectedPaymentType && !paymentMethod) {
       toast({
         variant: "destructive",
         title: "Forma de pagamento",
@@ -531,7 +570,8 @@ const Checkout = () => {
     }
 
     // Validate payment method values
-    if (!["pix", "debito", "credito"].includes(paymentMethod)) {
+    const paymentValue = selectedPaymentType || paymentMethod;
+    if (!["pix", "credit_card", "debit_card", "debito", "credito"].includes(paymentValue)) {
       toast({
         variant: "destructive",
         title: "Forma de pagamento inválida",
@@ -582,7 +622,7 @@ const Checkout = () => {
         shippingAddress = `${address}, ${number}${complementRef.current?.value ? ', ' + complementRef.current.value : ''}, ${neighborhood}, ${city} - ${state}, CEP: ${cep}${pontoReferenciaRef.current?.value ? ', Ref: ' + pontoReferenciaRef.current.value : ''}`;
       }
 
-      // Create order in pedidos table
+      // Create order in pedidos table with status aguardando_pagamento
       const { data: pedido, error: pedidoError } = await supabase
         .from('pedidos')
         .insert({
@@ -591,8 +631,8 @@ const Checkout = () => {
           frete: roundedFrete,
           desconto: roundedDesconto,
           total: roundedTotal,
-          status: 'pendente',
-          forma_pagamento: paymentMethod || 'teste',
+          status: 'aguardando_pagamento',  // Changed from 'pendente'
+          forma_pagamento: selectedPaymentType || paymentMethod || 'pix',
           shipping_address: shippingAddress,
           cupom_aplicado: cart.cupomCode || null
         })
@@ -638,34 +678,18 @@ const Checkout = () => {
 
       console.log('Order items created:', orderItems.length, 'items');
 
-      // Enviar e-mail de confirmação (não bloquear o checkout se falhar)
-      try {
-        console.log('Sending order confirmation email for order:', pedido.numero_pedido);
-        
-        const emailResponse = await supabase.functions.invoke('send-order-confirmation', {
-          body: { pedido_id: pedido.id }
-        });
+      // Don't send email yet - will be sent after payment approval
+      // Don't clear cart yet - will be cleared after successful payment
 
-        if (emailResponse.error) {
-          console.error('Error sending confirmation email:', emailResponse.error);
-        } else {
-          console.log('Confirmation email sent successfully:', emailResponse.data);
-        }
-      } catch (emailError) {
-        console.error('Failed to send confirmation email (non-blocking):', emailError);
-      }
-
-      // Show success message with order status
+      // Show success message
       toast({
-        title: "Pedido realizado com sucesso! Status: pendente",
-        description: `Código do pedido: ${pedido.numero_pedido}. E-mail de confirmação enviado!`,
+        title: "Pedido criado!",
+        description: "Agora prossiga com o pagamento.",
       });
 
-      // Clear cart
-      clearCart();
-
-      // Navigate to order tracking page
-      navigate(`/confirmacao?pedido=${pedido.id}`);
+      // Store pedido ID and advance to payment step
+      setCreatedPedidoId(pedido.id);
+      setPaymentStep('processing');
 
     } catch (error) {
       console.error('Error creating order:', error);
@@ -1181,57 +1205,117 @@ const Checkout = () => {
                 </div>
               </Card>
 
-              {/* Formas de Pagamento */}
-              <Card className="p-6">
-                <h3 className="text-xl font-semibold mb-4">Formas de Pagamento</h3>
-                
-                <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="pix" id="pix" />
-                    <Label htmlFor="pix" className="cursor-pointer">
-                      PIX <span className="text-green-600 font-medium">(5% de desconto)</span>
-                    </Label>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="debito" id="debito" />
-                    <Label htmlFor="debito" className="cursor-pointer">Cartão de Débito</Label>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="credito" id="credito" />
-                    <Label htmlFor="credito" className="cursor-pointer">Cartão de Crédito</Label>
-                  </div>
-                </RadioGroup>
-              </Card>
+              {paymentStep === 'form' ? (
+                <>
+                  {/* Formas de Pagamento */}
+                  <Card className="p-6">
+                    <h3 className="text-xl font-semibold mb-4">Formas de Pagamento</h3>
 
-              {/* Aceite dos Termos */}
-              <Card className="p-6">
-                <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    id="terms" 
-                    checked={acceptTerms}
-                    onCheckedChange={(checked) => setAcceptTerms(checked === true)}
-                  />
-                  <Label htmlFor="terms" className="cursor-pointer">
-                    Li e aceito os termos de compra
-                  </Label>
-                </div>
-              </Card>
+                    <RadioGroup value={selectedPaymentType || paymentMethod} onValueChange={(value) => {
+                      setSelectedPaymentType(value as any);
+                      setPaymentMethod(value);
+                    }}>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="pix" id="pix" />
+                        <Label htmlFor="pix" className="cursor-pointer">
+                          PIX <span className="text-green-600 font-medium">(5% de desconto)</span>
+                        </Label>
+                      </div>
 
-              {/* Botão Finalizar */}
-              <Button 
-                onClick={handleFinalizePurchase}
-                className="w-full bg-black hover:bg-black/90 text-white py-4 text-lg font-medium"
-                disabled={!acceptTerms || !paymentMethod || isSubmitting || !user}
-              >
-                {isSubmitting ? "Processando pedido..." : "Finalizar Compra"}
-              </Button>
-              
-              {!user && (
-                <p className="text-sm text-muted-foreground text-center mt-2">
-                  É necessário fazer login para finalizar a compra
-                </p>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="debit_card" id="debit_card" />
+                        <Label htmlFor="debit_card" className="cursor-pointer">Cartão de Débito</Label>
+                      </div>
+
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="credit_card" id="credit_card" />
+                        <Label htmlFor="credit_card" className="cursor-pointer">Cartão de Crédito</Label>
+                      </div>
+                    </RadioGroup>
+                  </Card>
+
+                  {/* Aceite dos Termos */}
+                  <Card className="p-6">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="terms"
+                        checked={acceptTerms}
+                        onCheckedChange={(checked) => setAcceptTerms(checked === true)}
+                      />
+                      <Label htmlFor="terms" className="cursor-pointer">
+                        Li e aceito os termos de compra
+                      </Label>
+                    </div>
+                  </Card>
+
+                  {/* Botão Continuar */}
+                  <Button
+                    onClick={handleFinalizePurchase}
+                    className="w-full bg-black hover:bg-black/90 text-white py-4 text-lg font-medium"
+                    disabled={!acceptTerms || (!selectedPaymentType && !paymentMethod) || isSubmitting || !user}
+                  >
+                    {isSubmitting ? "Criando pedido..." : "Continuar para Pagamento"}
+                  </Button>
+
+                  {!user && (
+                    <p className="text-sm text-muted-foreground text-center mt-2">
+                      É necessário fazer login para finalizar a compra
+                    </p>
+                  )}
+                </>
+              ) : (
+                <>
+                  {/* Payment Processing Step */}
+                  <Card className="p-6">
+                    {selectedPaymentType === 'pix' && createdPedidoId && (
+                      <PixPayment
+                        pedidoId={createdPedidoId}
+                        amount={total}
+                        payer={{
+                          email: emailRef.current?.value || user?.email || '',
+                          first_name: fullNameRef.current?.value?.split(' ')[0],
+                          last_name: fullNameRef.current?.value?.split(' ').slice(1).join(' '),
+                          identification: {
+                            type: personType === 'fisica' ? 'CPF' : 'CNPJ',
+                            number: documentRef.current?.value || '',
+                          },
+                        }}
+                        onSuccess={handlePaymentSuccess}
+                        onError={handlePaymentError}
+                      />
+                    )}
+
+                    {(selectedPaymentType === 'credit_card' || selectedPaymentType === 'debit_card') && createdPedidoId && (
+                      <PaymentBrick
+                        pedidoId={createdPedidoId}
+                        amount={total}
+                        payer={{
+                          email: emailRef.current?.value || user?.email || '',
+                          first_name: fullNameRef.current?.value?.split(' ')[0],
+                          last_name: fullNameRef.current?.value?.split(' ').slice(1).join(' '),
+                          identification: {
+                            type: personType === 'fisica' ? 'CPF' : 'CNPJ',
+                            number: documentRef.current?.value || '',
+                          },
+                        }}
+                        onSuccess={handlePaymentSuccess}
+                        onError={handlePaymentError}
+                      />
+                    )}
+                  </Card>
+
+                  {/* Botão Voltar */}
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setPaymentStep('form');
+                      setCreatedPedidoId(null);
+                    }}
+                    className="w-full"
+                  >
+                    Voltar para alterar forma de pagamento
+                  </Button>
+                </>
               )}
             </div>
           </div>
