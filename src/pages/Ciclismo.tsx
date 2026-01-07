@@ -14,7 +14,6 @@ import GallerySectionCiclismo from "@/components/GallerySectionCiclismo";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import WhyChooseSection from "@/components/WhyChooseSection";
 import InfiniteLogoCarousel from "@/components/ui/infinite-logo-carousel";
-import EmotionalImageSection from "@/components/EmotionalImageSection";
 import ShareSectionCiclismo from "@/components/ShareSectionCiclismo";
 
 // Import images
@@ -80,12 +79,6 @@ const Ciclismo = () => {
         
         
         
-        <EmotionalImageSection 
-          imageSrc="/images/bikepacking-ciclismo.webp"
-          imageAlt="Quadro de ciclismo em ambiente moderno"
-          emotionalText="Sua jornada merece ser eternizada"
-          mobileImageSrc="/images/ciclismo-lifestyle-mobile.webp"
-        />
         <GallerySectionCiclismo />
         <TestimonialsSectionCiclismo />
         <ShareSectionCiclismo />

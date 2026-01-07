@@ -14,7 +14,6 @@ import GallerySectionTriathlon from "@/components/GallerySectionTriathlon";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import WhyChooseSection from "@/components/WhyChooseSection";
 import InfiniteLogoCarousel from "@/components/ui/infinite-logo-carousel";
-import EmotionalImageSection from "@/components/EmotionalImageSection";
 import ShareSection from "@/components/ShareSection";
 
 // Import images
@@ -75,12 +74,6 @@ const Triathlon = () => {
         
         
         
-        <EmotionalImageSection 
-          imageSrc="/images/lifestyle-triathlon.webp"
-          imageAlt="Quadro de triathlon em ambiente moderno"
-          emotionalText="Três esportes, uma única conquista"
-          mobileImageSrc="/images/lifestyle-triathlon-mobile.webp"
-        />
         <GallerySectionTriathlon />
         <TestimonialsSectionTriathlon />
         <ShareSection />

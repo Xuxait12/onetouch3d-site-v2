@@ -94,6 +94,56 @@ export type Database = {
           },
         ]
       }
+      payment_webhooks: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          event_data: Json
+          event_type: string
+          id: string
+          payment_id: string
+          pedido_id: string | null
+          processed: boolean | null
+          processed_at: string | null
+          request_id: string | null
+          signature: string | null
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          event_data: Json
+          event_type: string
+          id?: string
+          payment_id: string
+          pedido_id?: string | null
+          processed?: boolean | null
+          processed_at?: string | null
+          request_id?: string | null
+          signature?: string | null
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          event_data?: Json
+          event_type?: string
+          id?: string
+          payment_id?: string
+          pedido_id?: string | null
+          processed?: boolean | null
+          processed_at?: string | null
+          request_id?: string | null
+          signature?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_webhooks_pedido_id_fkey"
+            columns: ["pedido_id"]
+            isOneToOne: false
+            referencedRelation: "pedidos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pedidos: {
         Row: {
           created_at: string
@@ -103,13 +153,24 @@ export type Database = {
           forma_pagamento: string
           frete: number
           id: string
+          installments: number | null
           numero_pedido: string | null
+          payment_approved_at: string | null
+          payment_id: string | null
+          payment_metadata: Json | null
+          payment_method_id: string | null
+          payment_method_type: string | null
+          payment_status: string | null
+          pix_qr_code: string | null
+          pix_qr_code_text: string | null
+          pix_ticket_url: string | null
           shipping_address: string | null
           status: string
           subtotal: number
           total: number
           updated_at: string
           user_id: string
+          webhook_received_at: string | null
         }
         Insert: {
           created_at?: string
@@ -119,13 +180,24 @@ export type Database = {
           forma_pagamento: string
           frete?: number
           id?: string
+          installments?: number | null
           numero_pedido?: string | null
+          payment_approved_at?: string | null
+          payment_id?: string | null
+          payment_metadata?: Json | null
+          payment_method_id?: string | null
+          payment_method_type?: string | null
+          payment_status?: string | null
+          pix_qr_code?: string | null
+          pix_qr_code_text?: string | null
+          pix_ticket_url?: string | null
           shipping_address?: string | null
           status?: string
           subtotal: number
           total: number
           updated_at?: string
           user_id: string
+          webhook_received_at?: string | null
         }
         Update: {
           created_at?: string
@@ -135,13 +207,24 @@ export type Database = {
           forma_pagamento?: string
           frete?: number
           id?: string
+          installments?: number | null
           numero_pedido?: string | null
+          payment_approved_at?: string | null
+          payment_id?: string | null
+          payment_metadata?: Json | null
+          payment_method_id?: string | null
+          payment_method_type?: string | null
+          payment_status?: string | null
+          pix_qr_code?: string | null
+          pix_qr_code_text?: string | null
+          pix_ticket_url?: string | null
           shipping_address?: string | null
           status?: string
           subtotal?: number
           total?: number
           updated_at?: string
           user_id?: string
+          webhook_received_at?: string | null
         }
         Relationships: [
           {
