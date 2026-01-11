@@ -115,9 +115,7 @@ const ProductSectionTriathlonLocal = () => {
   };
 
   const handleCalculateFrete = () => {
-    if (cep) {
-      console.log("Calculando frete para CEP:", cep);
-    }
+    // Freight calculation handled by CartContext
   };
 
   return (

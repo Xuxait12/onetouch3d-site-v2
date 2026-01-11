@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -21,44 +21,11 @@ interface Coupon {
   page: string;
 }
 
-interface DebugInfo {
-  cupomDigitado: string;
-  retornoConsulta: Coupon | null | string;
-  subtotal: number;
-  descontoAplicado: number;
-  totalFinal: number;
-}
-
 const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
   const { state: cart, applyCoupon, removeCoupon } = useCart();
   const [couponCode, setCouponCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
-  const [debugInfo, setDebugInfo] = useState<DebugInfo | null>(null);
-
-  // Check if we're in debug mode (only localhost or with ?debug=true)
-  const isPreviewMode = window.location.hostname === 'localhost' || 
-                        window.location.hostname === '127.0.0.1' ||
-                        window.location.search.includes('debug=true');
-
-  // Update debug info whenever relevant values change
-  useEffect(() => {
-    if (isPreviewMode) {
-      setDebugInfo({
-        cupomDigitado: couponCode,
-        retornoConsulta: cart.cupomCode ? { 
-          id: 'applied', 
-          code: cart.cupomCode, 
-          discount_type: cart.cupomDesconto > 0 ? 'applied' : 'none',
-          discount_value: cart.cupomDesconto,
-          page: cart.cupomPage
-        } : null,
-        subtotal: subtotal,
-        descontoAplicado: cart.cupomDesconto,
-        totalFinal: subtotal - cart.cupomDesconto
-      });
-    }
-  }, [couponCode, cart.cupomCode, cart.cupomDesconto, cart.cupomPage, subtotal, isPreviewMode]);
 
   const handleApplyCoupon = async () => {
     if (!couponCode.trim()) {
@@ -81,29 +48,17 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
       if (error) {
         console.error('Error fetching coupon:', error);
         setFeedback({ type: 'error', message: 'Erro ao validar cupom. Tente novamente.' });
-        
-        if (isPreviewMode) {
-          setDebugInfo(prev => prev ? { ...prev, retornoConsulta: `Error: ${error.message}` } : null);
-        }
         return;
       }
 
       if (!data) {
         setFeedback({ type: 'error', message: 'Cupom inválido ou expirado.' });
-        
-        if (isPreviewMode) {
-          setDebugInfo(prev => prev ? { ...prev, retornoConsulta: 'Nenhum cupom encontrado' } : null);
-        }
         return;
       }
 
       // Check page validity
       if (data.page !== 'all' && data.page !== currentPage) {
         setFeedback({ type: 'error', message: `Este cupom não é válido para esta loja.` });
-        
-        if (isPreviewMode) {
-          setDebugInfo(prev => prev ? { ...prev, retornoConsulta: `Página inválida: ${data.page} ≠ ${currentPage}` } : null);
-        }
         return;
       }
 
@@ -146,17 +101,6 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
         title: "Cupom aplicado!",
         description: `Desconto de R$ ${discount.toFixed(2).replace('.', ',')} aplicado.`,
       });
-
-      // Update debug info
-      if (isPreviewMode) {
-        setDebugInfo({
-          cupomDigitado: couponCode,
-          retornoConsulta: data as Coupon,
-          subtotal: subtotal,
-          descontoAplicado: discount,
-          totalFinal: subtotal - discount
-        });
-      }
 
     } catch (err) {
       console.error('Error applying coupon:', err);
@@ -247,29 +191,6 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
           </div>
         )}
       </Card>
-
-      {/* Debug Panel - Only visible in preview mode */}
-      {isPreviewMode && debugInfo && (
-        <Card className="p-4 bg-yellow-50 border-yellow-200">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-xs font-bold text-yellow-800 bg-yellow-200 px-2 py-1 rounded">DEBUG MODE</span>
-          </div>
-          <div className="text-xs font-mono space-y-1 text-yellow-900">
-            <p><strong>Cupom digitado:</strong> {debugInfo.cupomDigitado || '(vazio)'}</p>
-            <p><strong>Retorno da consulta:</strong> {
-              typeof debugInfo.retornoConsulta === 'string' 
-                ? debugInfo.retornoConsulta 
-                : debugInfo.retornoConsulta 
-                  ? JSON.stringify(debugInfo.retornoConsulta, null, 2)
-                  : 'null'
-            }</p>
-            <p><strong>Subtotal:</strong> R$ {debugInfo.subtotal.toFixed(2).replace('.', ',')}</p>
-            <p><strong>Desconto aplicado:</strong> R$ {debugInfo.descontoAplicado.toFixed(2).replace('.', ',')}</p>
-            <p><strong>Total final:</strong> R$ {debugInfo.totalFinal.toFixed(2).replace('.', ',')}</p>
-            <p><strong>Página atual:</strong> {currentPage}</p>
-          </div>
-        </Card>
-      )}
     </div>
   );
 };

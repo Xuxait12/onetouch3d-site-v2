@@ -7,6 +7,7 @@ import GlobalFooter from "@/components/GlobalFooter";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { CheckCircle, Package, Clock } from "lucide-react";
+import { getPaymentMethodText } from "@/utils/orderUtils";
 
 interface OrderDetails {
   id: string;
@@ -123,15 +124,6 @@ const Confirmacao = () => {
     );
   }
 
-  const formatPaymentMethod = (method: string) => {
-    const methods: Record<string, string> = {
-      pix: 'PIX',
-      debit: 'Cartão de Débito', 
-      credit: 'Cartão de Crédito'
-    };
-    return methods[method] || method;
-  };
-
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('pt-BR', {
       day: '2-digit',
@@ -180,7 +172,7 @@ const Confirmacao = () => {
                   </div>
                   <div>
                     <span className="text-muted-foreground">Forma de Pagamento:</span>
-                    <p className="font-medium">{formatPaymentMethod(orderDetails.forma_pagamento)}</p>
+                    <p className="font-medium">{getPaymentMethodText(orderDetails.forma_pagamento)}</p>
                   </div>
                 </div>
 
