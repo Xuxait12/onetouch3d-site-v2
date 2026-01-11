@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { User } from '@supabase/supabase-js';
 import GlobalHeader from '@/components/GlobalHeader';
 import { Calendar, Package, Eye } from 'lucide-react';
+import { getStatusText, getStatusColor, formatDate, formatPrice } from "@/utils/orderUtils";
 
 interface Order {
   id: string;
@@ -77,55 +78,6 @@ const MyOrders = () => {
 
     getOrdersData();
   }, [navigate, toast]);
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'pendente':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'pago':
-        return 'bg-green-100 text-green-800 border-green-200';
-      case 'enviado':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'concluido':
-        return 'bg-green-100 text-green-800 border-green-200';
-      case 'cancelado':
-        return 'bg-red-100 text-red-800 border-red-200';
-      default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'pendente':
-        return 'Pendente';
-      case 'pago':
-        return 'Pago';
-      case 'enviado':
-        return 'Enviado';
-      case 'concluido':
-        return 'Concluído';
-      case 'cancelado':
-        return 'Cancelado';
-      default:
-        return status;
-    }
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
-  };
-
-  const formatPrice = (amount: number) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    }).format(amount);
-  };
 
   if (!user) {
     return null;

@@ -31,14 +31,10 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => {
-  // Initialize Mercado Pago SDK once on app load
   useEffect(() => {
     const publicKey = import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY;
     if (publicKey) {
-      console.log('Initializing Mercado Pago SDK...');
       initMercadoPago(publicKey, { locale: 'pt-BR' });
-    } else {
-      console.error('VITE_MERCADO_PAGO_PUBLIC_KEY not configured');
     }
   }, []);
 

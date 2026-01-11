@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { CardPayment } from '@mercadopago/sdk-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -31,47 +31,47 @@ export const PaymentBrick: React.FC<PaymentBrickProps> = ({
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'approved' | 'rejected'>('idle');
   const { toast } = useToast();
 
-  // Payment Brick initialization config
-  const initialization = {
+  // Create refs for callbacks to ensure stable function references
+  const onSuccessRef = useRef(onSuccess);
+  const onErrorRef = useRef(onError);
+
+  useEffect(() => {
+    onSuccessRef.current = onSuccess;
+    onErrorRef.current = onError;
+  }, [onSuccess, onError]);
+
+  const initialization = useMemo(() => ({
     amount: amount,
     payer: {
       email: payer.email,
       firstName: payer.first_name || 'Cliente',
-      lastName: payer.last_name || 'OneTouch3D',
+      lastName: payer.last_name || '',
       identification: {
         type: payer.identification?.type || 'CPF',
         number: payer.identification?.number || '',
       },
-      entityType: 'individual', // individual ou association
+      entityType: 'individual' as const,
     },
-  };
+  }), [amount, payer.email, payer.first_name, payer.last_name, payer.identification?.type, payer.identification?.number]);
 
-  // Payment Brick customization
-  const customization = {
+  const customization = useMemo(() => ({
     visual: {
       style: {
-        theme: 'default', // 'default' | 'dark' | 'bootstrap' | 'flat'
+        theme: 'default' as const,
       },
     },
-  };
+  }), []);
 
-  // Handle payment submission
-  const onSubmit = async (formData: any) => {
+  const onSubmit = useCallback(async (formData: any) => {
     setProcessing(true);
     setPaymentStatus('processing');
 
     try {
-      console.log('Payment form submitted:', {
-        payment_method_id: formData.payment_method_id,
-        installments: formData.installments,
-      });
-
-      // Call Edge Function to create payment in Mercado Pago
       const { data, error } = await supabase.functions.invoke('create-payment', {
         body: {
           pedido_id: pedidoId,
           payment_method_id: formData.payment_method_id,
-          token: formData.token, // Tokenized card data
+          token: formData.token,
           installments: formData.installments || 1,
           amount: amount,
           payer: {
@@ -82,7 +82,6 @@ export const PaymentBrick: React.FC<PaymentBrickProps> = ({
       });
 
       if (error) {
-        console.error('Error creating payment:', error);
         throw new Error(error.message || 'Erro ao processar pagamento');
       }
 
@@ -90,31 +89,27 @@ export const PaymentBrick: React.FC<PaymentBrickProps> = ({
         throw new Error(data.error || 'Erro ao processar pagamento');
       }
 
-      console.log('Payment created:', data);
-
-      // Check payment status
       if (data.status === 'approved') {
         setPaymentStatus('approved');
         toast({
           title: 'Pagamento aprovado!',
           description: 'Seu pedido foi confirmado.',
         });
-        onSuccess(data.payment_id);
+        onSuccessRef.current(data.payment_id);
       } else if (data.status === 'rejected') {
         setPaymentStatus('rejected');
 
-        // Traduzir códigos de erro do MP
         const errorMessages: Record<string, string> = {
-          'cc_rejected_other_reason': '❌ Cartão rejeitado. Para TESTES, use: Número: 5031 4332 1540 6351, CVV: 123, Titular: APRO',
-          'cc_rejected_bad_filled_card_number': 'Número do cartão inválido',
-          'cc_rejected_bad_filled_date': 'Data de validade inválida',
-          'cc_rejected_bad_filled_security_code': 'Código de segurança inválido',
-          'cc_rejected_insufficient_amount': 'Saldo insuficiente',
-          'cc_rejected_call_for_authorize': 'Contate a operadora do cartão',
-          'cc_rejected_blacklist': 'Cartão bloqueado',
+          'cc_rejected_other_reason': 'Cartão rejeitado. Tente outro cartão.',
+          'cc_rejected_bad_filled_card_number': 'Número do cartão inválido.',
+          'cc_rejected_bad_filled_date': 'Data de validade inválida.',
+          'cc_rejected_bad_filled_security_code': 'Código de segurança inválido.',
+          'cc_rejected_insufficient_amount': 'Saldo insuficiente.',
+          'cc_rejected_call_for_authorize': 'Contate a operadora do cartão.',
+          'cc_rejected_blacklist': 'Cartão bloqueado.',
         };
 
-        const errorMessage = errorMessages[data.status_detail] || data.status_detail || 'Tente novamente com outro cartão.';
+        const errorMessage = errorMessages[data.status_detail] || 'Tente novamente com outro cartão.';
 
         toast({
           variant: 'destructive',
@@ -122,54 +117,43 @@ export const PaymentBrick: React.FC<PaymentBrickProps> = ({
           description: errorMessage,
           duration: 8000,
         });
-        onError(new Error('Payment rejected: ' + data.status_detail));
+        onErrorRef.current(new Error(errorMessage));
       } else if (data.status === 'in_process' || data.status === 'pending') {
         setPaymentStatus('processing');
         toast({
           title: 'Pagamento em análise',
           description: 'Aguarde a confirmação do pagamento.',
         });
-        // Keep processing state, webhook will update later
       }
     } catch (err: any) {
-      console.error('Error in payment submission:', err);
       setPaymentStatus('rejected');
       toast({
         variant: 'destructive',
         title: 'Erro no pagamento',
         description: err.message || 'Tente novamente.',
       });
-      onError(err);
+      onErrorRef.current(err);
     } finally {
       setProcessing(false);
     }
-  };
+  }, [pedidoId, amount, toast]);
 
-  // Handle Payment Brick errors
-  const onErrorBrick = (error: any) => {
-    console.error('Payment Brick error:', error);
+  const onErrorBrick = useCallback((error: any) => {
     toast({
       variant: 'destructive',
       title: 'Erro no formulário',
       description: error.message || 'Verifique os dados do cartão.',
     });
-  };
+  }, [toast]);
 
-  // Handle Payment Brick ready state
-  const onReady = () => {
-    console.log('Payment Brick ready');
-  };
+  const onReady = useCallback(() => {}, []);
 
-  // Check if SDK is configured
   const publicKey = import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY;
   if (!publicKey) {
     return (
       <div className="p-8 text-center">
         <p className="text-red-600 font-semibold">
           Erro: Chave pública do Mercado Pago não configurada
-        </p>
-        <p className="text-sm text-gray-600 mt-2">
-          Configure VITE_MERCADO_PAGO_PUBLIC_KEY no arquivo .env
         </p>
       </div>
     );
@@ -199,7 +183,6 @@ export const PaymentBrick: React.FC<PaymentBrickProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="text-center">
         <h3 className="text-2xl font-semibold mb-2">Pagamento com Cartão</h3>
         <p className="text-gray-600">
@@ -207,7 +190,6 @@ export const PaymentBrick: React.FC<PaymentBrickProps> = ({
         </p>
       </div>
 
-      {/* Card Payment Brick */}
       <div className="bg-white rounded-lg">
         <CardPayment
           initialization={initialization}
@@ -218,7 +200,6 @@ export const PaymentBrick: React.FC<PaymentBrickProps> = ({
         />
       </div>
 
-      {/* Security Info */}
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
         <p className="text-sm text-gray-700 flex items-center gap-2">
           <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -230,25 +211,9 @@ export const PaymentBrick: React.FC<PaymentBrickProps> = ({
         </p>
       </div>
 
-      {/* Installments Info */}
       <div className="text-center text-sm text-gray-600">
         <p>Parcelamento em até <strong>12x sem juros</strong> no cartão de crédito</p>
       </div>
-
-      {/* Test Cards Info (SANDBOX ONLY) */}
-      {publicKey.startsWith('TEST-') && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-          <p className="text-sm font-semibold text-yellow-800 mb-2">
-            🧪 Ambiente de Teste - Use estes cartões:
-          </p>
-          <div className="text-xs text-yellow-700 space-y-1">
-            <p><strong>✅ APROVADO (Master):</strong> 5031 4332 1540 6351 | CVV: 123 | Titular: APRO</p>
-            <p><strong>✅ APROVADO (Visa):</strong> 4235 6477 2802 5682 | CVV: 123 | Titular: APRO</p>
-            <p><strong>❌ REJEITADO:</strong> 4509 9535 6623 3704 | CVV: 123 | Titular: OTHE</p>
-            <p className="text-xs mt-1">Validade: Qualquer data futura (ex: 11/25)</p>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

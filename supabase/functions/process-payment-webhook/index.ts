@@ -20,45 +20,34 @@ interface WebhookPayload {
   user_id: string;
 }
 
-/**
- * Validate webhook signature from Mercado Pago
- * Uses HMAC SHA-256 to verify the webhook is authentic
- */
 async function validateWebhookSignature(
   xSignature: string | null,
   xRequestId: string | null,
   dataId: string
 ): Promise<boolean> {
   if (!xSignature || !xRequestId) {
-    console.warn("Missing signature headers");
     return false;
   }
 
   const secret = Deno.env.get("MERCADO_PAGO_WEBHOOK_SECRET");
   if (!secret) {
-    console.warn("MERCADO_PAGO_WEBHOOK_SECRET not configured - skipping validation");
-    return true; // Allow in development if secret not set
+    return true;
   }
 
   try {
-    // Parse x-signature header
-    // Format: "ts=1234567890,v1=hash_value"
     const parts = xSignature.split(",");
     const tsMatch = parts.find((p) => p.startsWith("ts="));
     const v1Match = parts.find((p) => p.startsWith("v1="));
 
     if (!tsMatch || !v1Match) {
-      console.error("Invalid signature format");
       return false;
     }
 
     const ts = tsMatch.split("=")[1];
     const receivedHash = v1Match.split("=")[1];
 
-    // Build manifest string as per MP docs
     const manifest = `id:${dataId};request-id:${xRequestId};ts:${ts};`;
 
-    // Calculate HMAC SHA-256
     const encoder = new TextEncoder();
     const key = await crypto.subtle.importKey(
       "raw",
@@ -74,29 +63,16 @@ async function validateWebhookSignature(
       encoder.encode(manifest)
     );
 
-    // Convert to hex string
     const calculatedHash = Array.from(new Uint8Array(signature))
       .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
 
-    const isValid = calculatedHash === receivedHash;
-    if (!isValid) {
-      console.error("Signature validation failed:", {
-        calculated: calculatedHash,
-        received: receivedHash,
-      });
-    }
-
-    return isValid;
-  } catch (error) {
-    console.error("Error validating signature:", error);
+    return calculatedHash === receivedHash;
+  } catch {
     return false;
   }
 }
 
-/**
- * Fetch payment details from Mercado Pago API
- */
 async function fetchPaymentDetails(paymentId: string): Promise<any> {
   const isProduction = Deno.env.get("ENVIRONMENT") === "production";
   const accessToken = isProduction
@@ -104,7 +80,7 @@ async function fetchPaymentDetails(paymentId: string): Promise<any> {
     : Deno.env.get("MERCADO_PAGO_ACCESS_TOKEN");
 
   if (!accessToken) {
-    throw new Error("Mercado Pago access token not configured");
+    throw new Error("Token de acesso não configurado");
   }
 
   const response = await fetch(
@@ -119,14 +95,13 @@ async function fetchPaymentDetails(paymentId: string): Promise<any> {
 
   if (!response.ok) {
     const error = await response.text();
-    throw new Error(`Failed to fetch payment: ${response.statusText} - ${error}`);
+    throw new Error(`Falha ao buscar pagamento: ${response.statusText} - ${error}`);
   }
 
   return await response.json();
 }
 
 serve(async (req: Request) => {
-  // Handle CORS preflight
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -137,19 +112,11 @@ serve(async (req: Request) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    // Get webhook payload
     const webhookPayload: WebhookPayload = await req.json();
-    console.log("Webhook received:", {
-      type: webhookPayload.type,
-      action: webhookPayload.action,
-      payment_id: webhookPayload.data.id,
-    });
 
-    // Get signature headers
     const xSignature = req.headers.get("x-signature");
     const xRequestId = req.headers.get("x-request-id");
 
-    // Validate signature (security)
     const isValid = await validateWebhookSignature(
       xSignature,
       xRequestId,
@@ -157,9 +124,8 @@ serve(async (req: Request) => {
     );
 
     if (!isValid) {
-      console.error("Invalid webhook signature - possible fraud attempt");
       return new Response(
-        JSON.stringify({ error: "Invalid signature" }),
+        JSON.stringify({ error: "Assinatura inválida" }),
         {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
           status: 401,
@@ -167,8 +133,7 @@ serve(async (req: Request) => {
       );
     }
 
-    // Log webhook for audit
-    const { error: logError } = await supabase
+    await supabase
       .from("payment_webhooks")
       .insert({
         payment_id: webhookPayload.data.id,
@@ -179,16 +144,9 @@ serve(async (req: Request) => {
         processed: false,
       });
 
-    if (logError) {
-      console.error("Error logging webhook:", logError);
-      // Continue processing even if logging fails
-    }
-
-    // Process only payment-related webhooks
     if (webhookPayload.type !== "payment") {
-      console.log("Ignoring non-payment webhook");
       return new Response(
-        JSON.stringify({ message: "Webhook received but not processed" }),
+        JSON.stringify({ message: "Webhook recebido mas não processado" }),
         {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
           status: 200,
@@ -196,30 +154,21 @@ serve(async (req: Request) => {
       );
     }
 
-    // Fetch full payment details from Mercado Pago
     const paymentDetails = await fetchPaymentDetails(webhookPayload.data.id);
-    console.log("Payment details fetched:", {
-      id: paymentDetails.id,
-      status: paymentDetails.status,
-      status_detail: paymentDetails.status_detail,
-    });
 
-    // Find associated pedido using metadata or payment_id
     const pedidoId = paymentDetails.metadata?.pedido_id;
     if (!pedidoId) {
-      console.error("No pedido_id in payment metadata");
-      // Still mark as processed to avoid retries
       await supabase
         .from("payment_webhooks")
         .update({
           processed: true,
           processed_at: new Date().toISOString(),
-          error_message: "No pedido_id in metadata",
+          error_message: "Sem pedido_id nos metadados",
         })
         .eq("payment_id", webhookPayload.data.id);
 
       return new Response(
-        JSON.stringify({ error: "No pedido_id in payment metadata" }),
+        JSON.stringify({ error: "Sem pedido_id nos metadados do pagamento" }),
         {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
           status: 404,
@@ -227,7 +176,6 @@ serve(async (req: Request) => {
       );
     }
 
-    // Get pedido
     const { data: pedido, error: pedidoError } = await supabase
       .from("pedidos")
       .select("*")
@@ -235,18 +183,17 @@ serve(async (req: Request) => {
       .single();
 
     if (pedidoError || !pedido) {
-      console.error("Pedido not found:", pedidoId);
       await supabase
         .from("payment_webhooks")
         .update({
           processed: true,
           processed_at: new Date().toISOString(),
-          error_message: `Pedido not found: ${pedidoId}`,
+          error_message: `Pedido não encontrado: ${pedidoId}`,
         })
         .eq("payment_id", webhookPayload.data.id);
 
       return new Response(
-        JSON.stringify({ error: "Pedido not found" }),
+        JSON.stringify({ error: "Pedido não encontrado" }),
         {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
           status: 404,
@@ -254,7 +201,6 @@ serve(async (req: Request) => {
       );
     }
 
-    // Determine new status based on payment status
     let newStatus = pedido.status;
     if (paymentDetails.status === "approved") {
       newStatus = "pago";
@@ -267,7 +213,6 @@ serve(async (req: Request) => {
       newStatus = "aguardando_pagamento";
     }
 
-    // Update pedido with payment status
     const { error: updateError } = await supabase
       .from("pedidos")
       .update({
@@ -283,17 +228,9 @@ serve(async (req: Request) => {
       .eq("id", pedidoId);
 
     if (updateError) {
-      console.error("Error updating pedido:", updateError);
       throw updateError;
     }
 
-    console.log("Pedido updated successfully:", {
-      pedido_id: pedidoId,
-      new_status: newStatus,
-      payment_status: paymentDetails.status,
-    });
-
-    // Mark webhook as processed
     await supabase
       .from("payment_webhooks")
       .update({
@@ -303,24 +240,19 @@ serve(async (req: Request) => {
       })
       .eq("payment_id", webhookPayload.data.id);
 
-    // If payment approved, send confirmation email
     if (paymentDetails.status === "approved") {
       try {
-        console.log("Sending confirmation email...");
         await supabase.functions.invoke("send-order-confirmation", {
           body: {
             pedido_id: pedidoId,
             payment_confirmed: true,
           },
         });
-        console.log("Confirmation email sent");
-      } catch (emailError) {
-        console.error("Error sending confirmation email:", emailError);
-        // Don't throw - email is not critical for webhook processing
+      } catch {
+        // Email não é crítico para o processamento do webhook
       }
     }
 
-    // IMPORTANT: Return 200 within 22 seconds to avoid MP retries
     return new Response(
       JSON.stringify({
         success: true,
@@ -334,20 +266,14 @@ serve(async (req: Request) => {
       }
     );
   } catch (error: any) {
-    console.error("Error processing webhook:", error);
-
-    // IMPORTANT: Even on error, return 200 to prevent infinite retries
-    // We've logged the error in the database
     return new Response(
       JSON.stringify({
         success: false,
-        error: error.message || "Internal server error",
-        // Note: We return 200 to prevent MP from retrying
-        // Check payment_webhooks table for actual errors
+        error: error.message || "Erro interno do servidor",
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 200, // Return 200 to avoid retries
+        status: 200,
       }
     );
   }

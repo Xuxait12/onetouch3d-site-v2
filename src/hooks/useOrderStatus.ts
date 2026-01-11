@@ -11,13 +11,6 @@ interface OrderStatus {
   error: string | null;
 }
 
-/**
- * Hook to subscribe to real-time order status updates from Supabase
- * Useful for updating UI when webhook updates the order status
- *
- * @param pedidoId - ID of the order to monitor
- * @returns Order status with loading and error states
- */
 export const useOrderStatus = (pedidoId: string | null): OrderStatus => {
   const [status, setStatus] = useState<string>('aguardando_pagamento');
   const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
@@ -36,7 +29,6 @@ export const useOrderStatus = (pedidoId: string | null): OrderStatus => {
 
     const setupSubscription = async () => {
       try {
-        // Initial fetch of order status
         const { data, error: fetchError } = await supabase
           .from('pedidos')
           .select('status, payment_status, payment_approved_at, payment_method_type')
@@ -44,7 +36,6 @@ export const useOrderStatus = (pedidoId: string | null): OrderStatus => {
           .single();
 
         if (fetchError) {
-          console.error('Error fetching initial order status:', fetchError);
           setError(fetchError.message);
           setLoading(false);
           return;
@@ -59,7 +50,6 @@ export const useOrderStatus = (pedidoId: string | null): OrderStatus => {
 
         setLoading(false);
 
-        // Setup real-time subscription
         channel = supabase
           .channel(`order-${pedidoId}`)
           .on(
@@ -71,9 +61,6 @@ export const useOrderStatus = (pedidoId: string | null): OrderStatus => {
               filter: `id=eq.${pedidoId}`,
             },
             (payload) => {
-              console.log('Order status updated:', payload);
-
-              // Update state with new values
               if (payload.new) {
                 const newData = payload.new as any;
                 setStatus(newData.status || status);
@@ -83,14 +70,8 @@ export const useOrderStatus = (pedidoId: string | null): OrderStatus => {
               }
             }
           )
-          .subscribe((status) => {
-            console.log('Subscription status:', status);
-            if (status === 'SUBSCRIBED') {
-              console.log(`Subscribed to order ${pedidoId} updates`);
-            }
-          });
+          .subscribe();
       } catch (err: any) {
-        console.error('Error setting up subscription:', err);
         setError(err.message);
         setLoading(false);
       }
@@ -98,10 +79,8 @@ export const useOrderStatus = (pedidoId: string | null): OrderStatus => {
 
     setupSubscription();
 
-    // Cleanup subscription on unmount
     return () => {
       if (channel) {
-        console.log(`Unsubscribing from order ${pedidoId}`);
         supabase.removeChannel(channel);
       }
     };

@@ -8,12 +8,11 @@ const corsHeaders = {
 };
 
 interface StatusRequest {
-  payment_id?: string;  // Get status by Mercado Pago payment ID
-  pedido_id?: string;   // Or get status by pedido ID
+  payment_id?: string;
+  pedido_id?: string;
 }
 
 serve(async (req: Request) => {
-  // Handle CORS preflight
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -32,7 +31,6 @@ serve(async (req: Request) => {
 
     let paymentId = payment_id;
 
-    // If pedido_id provided, get payment_id from database
     if (pedido_id && !paymentId) {
       const { data: pedido, error: pedidoError } = await supabase
         .from("pedidos")
@@ -41,28 +39,25 @@ serve(async (req: Request) => {
         .single();
 
       if (pedidoError || !pedido || !pedido.payment_id) {
-        throw new Error("Pedido not found or no payment associated");
+        throw new Error("Pedido não encontrado ou sem pagamento associado");
       }
 
       paymentId = pedido.payment_id;
     }
 
     if (!paymentId) {
-      throw new Error("No payment_id available");
+      throw new Error("Nenhum payment_id disponível");
     }
 
-    // Get access token
     const isProduction = Deno.env.get("ENVIRONMENT") === "production";
     const accessToken = isProduction
       ? Deno.env.get("MERCADO_PAGO_ACCESS_TOKEN_PROD")
       : Deno.env.get("MERCADO_PAGO_ACCESS_TOKEN");
 
     if (!accessToken) {
-      throw new Error("Mercado Pago access token not configured");
+      throw new Error("Token de acesso não configurado");
     }
 
-    // Fetch payment status from Mercado Pago
-    console.log("Fetching payment status:", paymentId);
     const response = await fetch(
       `https://api.mercadopago.com/v1/payments/${paymentId}`,
       {
@@ -75,17 +70,11 @@ serve(async (req: Request) => {
 
     if (!response.ok) {
       const error = await response.text();
-      throw new Error(`Mercado Pago API error: ${response.statusText} - ${error}`);
+      throw new Error(`Erro na API do Mercado Pago: ${response.statusText} - ${error}`);
     }
 
     const paymentData = await response.json();
-    console.log("Payment status fetched:", {
-      id: paymentData.id,
-      status: paymentData.status,
-      status_detail: paymentData.status_detail,
-    });
 
-    // Also update our database with latest status
     if (pedido_id || paymentData.metadata?.pedido_id) {
       const targetPedidoId = pedido_id || paymentData.metadata?.pedido_id;
 
@@ -113,7 +102,6 @@ serve(async (req: Request) => {
         .eq("id", targetPedidoId);
     }
 
-    // Return simplified status info
     return new Response(
       JSON.stringify({
         success: true,
@@ -122,7 +110,6 @@ serve(async (req: Request) => {
         status_detail: paymentData.status_detail,
         payment_method: paymentData.payment_method_id,
         transaction_amount: paymentData.transaction_amount,
-        // Additional info that might be useful
         currency_id: paymentData.currency_id,
         date_created: paymentData.date_created,
         date_approved: paymentData.date_approved,
@@ -134,11 +121,10 @@ serve(async (req: Request) => {
       }
     );
   } catch (error: any) {
-    console.error("Error fetching payment status:", error);
     return new Response(
       JSON.stringify({
         success: false,
-        error: error.message || "Internal server error",
+        error: error.message || "Erro interno do servidor",
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },

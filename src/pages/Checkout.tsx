@@ -10,7 +10,7 @@ import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
 import CouponSection from "@/components/CouponSection";
 import { useCart } from "@/contexts/CartContext";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ShoppingBag, ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -18,11 +18,9 @@ import { toast } from "@/hooks/use-toast";
 import { FcGoogle } from 'react-icons/fc';
 import { PaymentBrick } from "@/components/payment/PaymentBrick";
 import { PixPayment } from "@/components/payment/PixPayment";
-import { useOrderStatus } from "@/hooks/useOrderStatus";
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { state: cart, clearCart } = useCart();
   const { user } = useAuth();
   const [personType, setPersonType] = useState("fisica");
@@ -46,6 +44,12 @@ const Checkout = () => {
   const [paymentStep, setPaymentStep] = useState<'form' | 'processing'>('form');
   const [createdPedidoId, setCreatedPedidoId] = useState<string | null>(null);
   const [selectedPaymentType, setSelectedPaymentType] = useState<'pix' | 'credit_card' | 'debit_card' | null>(null);
+  const [payerData, setPayerData] = useState<{
+    email: string;
+    first_name: string;
+    last_name: string;
+    identification: { type: string; number: string };
+  } | null>(null);
   
   // Password visibility states
   const [showLoginPassword, setShowLoginPassword] = useState(false);
@@ -134,7 +138,7 @@ const Checkout = () => {
         setPersonType(profile.person_type || 'fisica');
       }
     } catch (error) {
-      console.error('Error loading profile:', error);
+      // Error loading profile - fail silently
     }
   };
 
@@ -288,7 +292,7 @@ const Checkout = () => {
           });
 
         if (profileError) {
-          console.error('Error creating profile:', profileError);
+          // Profile creation error - non-critical
         }
 
         toast({
@@ -433,7 +437,6 @@ const Checkout = () => {
         description: "Suas informações foram salvas com sucesso.",
       });
     } catch (error) {
-      console.error('Error saving profile:', error);
       toast({
         variant: "destructive",
         title: "Erro ao salvar",
@@ -476,7 +479,6 @@ const Checkout = () => {
         description: "O endereço de entrega foi salvo e será usado no pedido.",
       });
     } catch (error) {
-      console.error('Error saving delivery address:', error);
       toast({
         variant: "destructive",
         title: "Erro ao salvar",
@@ -485,9 +487,7 @@ const Checkout = () => {
     }
   };
 
-  // Handle payment success
   const handlePaymentSuccess = (paymentId: string) => {
-    console.log('Payment successful:', paymentId);
     toast({
       title: "Pagamento aprovado!",
       description: "Seu pedido foi confirmado.",
@@ -502,9 +502,7 @@ const Checkout = () => {
     }
   };
 
-  // Handle payment error
   const handlePaymentError = (error: Error) => {
-    console.error('Payment error:', error);
     toast({
       variant: "destructive",
       title: "Erro no pagamento",
@@ -646,8 +644,6 @@ const Checkout = () => {
         throw pedidoError;
       }
 
-      console.log('Order created with ID:', pedido.id);
-
       // Create order items in itens_pedido table
       const orderItems = cart.items.map(item => ({
         pedido_id: pedido.id,
@@ -664,19 +660,16 @@ const Checkout = () => {
         .insert(orderItems);
 
       if (itemsError) {
-        // Try to delete the order if items failed to insert
         try {
           await supabase
             .from('pedidos')
             .delete()
             .eq('id', pedido.id);
-        } catch (deleteError) {
-          console.error('Failed to cleanup order after items error:', deleteError);
+        } catch {
+          // Cleanup failed - non-critical
         }
         throw itemsError;
       }
-
-      console.log('Order items created:', orderItems.length, 'items');
 
       // Don't send email yet - will be sent after payment approval
       // Don't clear cart yet - will be cleared after successful payment
@@ -687,18 +680,27 @@ const Checkout = () => {
         description: "Agora prossiga com o pagamento.",
       });
 
-      // Store pedido ID and advance to payment step
+      // Store pedido ID and payer data, then advance to payment step
+      const fullName = fullNameRef.current?.value || '';
+      const nameParts = fullName.split(' ');
+      setPayerData({
+        email: emailRef.current?.value || user?.email || '',
+        first_name: nameParts[0] || 'Cliente',
+        last_name: nameParts.slice(1).join(' ') || '',
+        identification: {
+          type: personType === 'fisica' ? 'CPF' : 'CNPJ',
+          number: documentRef.current?.value || '',
+        },
+      });
       setCreatedPedidoId(pedido.id);
       setPaymentStep('processing');
 
     } catch (error) {
-      console.error('Error creating order:', error);
-      
       let errorMessage = "Não foi possível finalizar sua compra. Tente novamente.";
       if (error instanceof Error) {
         errorMessage = error.message;
       }
-      
+
       toast({
         variant: "destructive",
         title: "Erro ao finalizar compra",
@@ -1267,37 +1269,21 @@ const Checkout = () => {
                 <>
                   {/* Payment Processing Step */}
                   <Card className="p-6">
-                    {selectedPaymentType === 'pix' && createdPedidoId && (
+                    {selectedPaymentType === 'pix' && createdPedidoId && payerData && (
                       <PixPayment
                         pedidoId={createdPedidoId}
                         amount={total}
-                        payer={{
-                          email: emailRef.current?.value || user?.email || '',
-                          first_name: fullNameRef.current?.value?.split(' ')[0],
-                          last_name: fullNameRef.current?.value?.split(' ').slice(1).join(' '),
-                          identification: {
-                            type: personType === 'fisica' ? 'CPF' : 'CNPJ',
-                            number: documentRef.current?.value || '',
-                          },
-                        }}
+                        payer={payerData}
                         onSuccess={handlePaymentSuccess}
                         onError={handlePaymentError}
                       />
                     )}
 
-                    {(selectedPaymentType === 'credit_card' || selectedPaymentType === 'debit_card') && createdPedidoId && (
+                    {(selectedPaymentType === 'credit_card' || selectedPaymentType === 'debit_card') && createdPedidoId && payerData && (
                       <PaymentBrick
                         pedidoId={createdPedidoId}
                         amount={total}
-                        payer={{
-                          email: emailRef.current?.value || user?.email || '',
-                          first_name: fullNameRef.current?.value?.split(' ')[0],
-                          last_name: fullNameRef.current?.value?.split(' ').slice(1).join(' '),
-                          identification: {
-                            type: personType === 'fisica' ? 'CPF' : 'CNPJ',
-                            number: documentRef.current?.value || '',
-                          },
-                        }}
+                        payer={payerData}
                         onSuccess={handlePaymentSuccess}
                         onError={handlePaymentError}
                       />

@@ -44,7 +44,6 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
   const [checking, setChecking] = useState<boolean>(false);
   const { toast } = useToast();
 
-  // Calculate amount with 5% discount
   const discountedAmount = Math.round(amount * 0.95 * 100) / 100;
 
   useEffect(() => {
@@ -54,16 +53,6 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
   const createPixPayment = async () => {
     try {
       setLoading(true);
-      console.log('Creating PIX payment with data:', {
-        pedido_id: pedidoId,
-        amount: discountedAmount,
-        payer: {
-          email: payer.email,
-          first_name: payer.first_name,
-          last_name: payer.last_name,
-          identification: payer.identification,
-        },
-      });
 
       const response = await supabase.functions.invoke('create-payment', {
         body: {
@@ -73,39 +62,25 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
           payer: {
             email: payer.email,
             first_name: payer.first_name || 'Cliente',
-            last_name: payer.last_name || 'OneTouch3D',
-            identification: payer.identification || {
-              type: 'CPF',
-              number: '12345678909',
-            },
+            last_name: payer.last_name || '',
+            identification: payer.identification,
           },
         },
       });
 
-      // Check for HTTP error
       if (response.error) {
-        console.error('HTTP Error:', response.error);
-
-        // Try to get error details from response data
         let errorMessage = 'Erro ao criar pagamento PIX';
         if (response.data && typeof response.data === 'object') {
           errorMessage = response.data.error || errorMessage;
-          console.error('Error from Edge Function:', response.data);
         }
-
         throw new Error(errorMessage);
       }
 
       const { data } = response;
 
       if (!data || !data.success) {
-        const errorMsg = data?.error || 'Erro ao criar pagamento PIX';
-        console.error('Edge Function returned error:', errorMsg);
-        console.error('Full response:', JSON.stringify(data, null, 2));
-        throw new Error(errorMsg);
+        throw new Error(data?.error || 'Erro ao criar pagamento PIX');
       }
-
-      console.log('PIX payment created:', data);
 
       setPixData({
         payment_id: data.payment_id,
@@ -114,7 +89,6 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
         ticket_url: data.ticket_url,
       });
 
-      // Start polling for payment status
       startPolling(data.payment_id);
 
       toast({
@@ -122,7 +96,6 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
         description: 'Escaneie o QR Code ou copie o código para pagar.',
       });
     } catch (err: any) {
-      console.error('Error in createPixPayment:', err);
       onError(err);
       toast({
         variant: 'destructive',
@@ -136,26 +109,21 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
 
   const startPolling = (paymentId: string) => {
     let attempts = 0;
-    const maxAttempts = 120; // 10 minutos (5s interval)
+    const maxAttempts = 120;
 
     const interval = setInterval(async () => {
       attempts++;
       setChecking(true);
 
       try {
-        console.log(`Checking payment status (attempt ${attempts}/${maxAttempts})...`);
-
         const { data, error } = await supabase.functions.invoke('get-payment-status', {
           body: { payment_id: paymentId },
         });
 
         if (error) {
-          console.error('Error checking payment status:', error);
           setChecking(false);
           return;
         }
-
-        console.log('Payment status:', data.status);
 
         if (data.status === 'approved') {
           clearInterval(interval);
@@ -170,12 +138,10 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
           setChecking(false);
           onError(new Error('Pagamento cancelado ou rejeitado'));
         }
-      } catch (err: any) {
-        console.error('Error in polling:', err);
+      } catch {
         setChecking(false);
       }
 
-      // Stop polling after max attempts
       if (attempts >= maxAttempts) {
         clearInterval(interval);
         setChecking(false);
@@ -184,11 +150,10 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
           title: 'Tempo esgotado',
           description: 'O tempo para pagamento expirou. Tente novamente.',
         });
-        onError(new Error('Timeout: PIX payment expired'));
+        onError(new Error('Tempo para pagamento expirou'));
       }
-    }, 5000); // Check every 5 seconds
+    }, 5000);
 
-    // Cleanup on unmount
     return () => clearInterval(interval);
   };
 
@@ -204,8 +169,7 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
       });
 
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error('Error copying to clipboard:', err);
+    } catch {
       toast({
         variant: 'destructive',
         title: 'Erro ao copiar',
@@ -235,7 +199,6 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="text-center">
         <h3 className="text-2xl font-semibold mb-2">Pague com PIX</h3>
         <div className="flex flex-col gap-1">
@@ -248,14 +211,12 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
         </div>
       </div>
 
-      {/* QR Code */}
       <div className="flex justify-center">
         <div className="bg-white p-6 rounded-lg shadow-md border-2 border-gray-200">
           <QRCodeSVG value={pixData.qr_code} size={256} level="H" />
         </div>
       </div>
 
-      {/* Copy and Paste Code */}
       <div className="space-y-2">
         <Label htmlFor="pix-code" className="text-base font-medium">
           Ou copie o código PIX:
@@ -283,7 +244,6 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
         </div>
       </div>
 
-      {/* Open in App */}
       <Button
         onClick={() => window.open(pixData.ticket_url, '_blank')}
         className="w-full"
@@ -293,7 +253,6 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
         Abrir no app do banco
       </Button>
 
-      {/* Status Indicator */}
       <div className="text-center pt-4 border-t border-gray-200">
         {checking ? (
           <div className="flex items-center justify-center gap-2 text-blue-600">
@@ -311,7 +270,6 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
         </p>
       </div>
 
-      {/* Instructions */}
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <h4 className="font-semibold text-blue-900 mb-2">Como pagar:</h4>
         <ol className="list-decimal list-inside space-y-1 text-sm text-blue-800">

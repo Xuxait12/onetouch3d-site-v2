@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
+import { getStatusText, getStatusColor, getPaymentMethodText } from "@/utils/orderUtils";
 
 interface OrderItem {
   id: string;
@@ -136,23 +137,6 @@ const OrderDetails = () => {
     );
   }
 
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'pendente':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'processando':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'enviado':
-        return 'bg-purple-100 text-purple-800 border-purple-200';
-      case 'entregue':
-        return 'bg-green-100 text-green-800 border-green-200';
-      case 'cancelado':
-        return 'bg-red-100 text-red-800 border-red-200';
-      default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/20">
       <GlobalHeader />
@@ -180,7 +164,7 @@ const OrderDetails = () => {
                     Pedido #{order.numero_pedido}
                   </CardTitle>
                   <Badge className={getStatusColor(order.status)}>
-                    {order.status.toUpperCase()}
+                    {getStatusText(order.status)}
                   </Badge>
                 </div>
                 <p className="text-sm text-muted-foreground">
@@ -196,7 +180,7 @@ const OrderDetails = () => {
                     </div>
                     <div>
                       <span className="text-muted-foreground">Pagamento:</span>
-                      <p className="font-medium">{order.forma_pagamento}</p>
+                      <p className="font-medium">{getPaymentMethodText(order.forma_pagamento)}</p>
                     </div>
                   </div>
                 </div>
