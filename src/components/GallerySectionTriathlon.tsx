@@ -8,7 +8,8 @@ const GallerySectionTriathlon = () => {
           Galeria de Quadros
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto px-6">
-          Veja alguns dos nossos trabalhos e inspire-se para criar o seu quadro personalizado
+          Momentos que marcaram provas inesquecíveis, transformados em quadros cheios de significado.<br />
+          Veja alguns exemplos e eternize o seu.
         </p>
       </div>
       
