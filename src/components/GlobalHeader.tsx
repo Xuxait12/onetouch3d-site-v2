@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/contexts/CartContext";
 import { useCartPanel } from "@/hooks/useCartPanel";
 import CartPanel from "@/components/CartPanel";
+import { supabase } from "@/integrations/supabase/client";
 import { User, LogOut, ShoppingBag, Menu, X } from "lucide-react";
 
 const GlobalHeader = () => {
@@ -17,6 +18,41 @@ const GlobalHeader = () => {
   const { state: cart } = useCart();
   const { isOpen: isCartOpen, openPanel: openCart, closePanel: closeCart } = useCartPanel();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [displayName, setDisplayName] = useState<string>("");
+
+  // Fetch user display name with priority: profiles.full_name > user_metadata.full_name > email
+  useEffect(() => {
+    const fetchDisplayName = async () => {
+      if (!user) {
+        setDisplayName("");
+        return;
+      }
+
+      // 1. Try to get full_name from profiles table
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("full_name")
+        .eq("user_id", user.id)
+        .single();
+
+      if (profile?.full_name && profile.full_name.trim() !== "") {
+        setDisplayName(profile.full_name.split(" ")[0]); // First name only
+        return;
+      }
+
+      // 2. Try to get name from Google metadata
+      const metadataName = user.user_metadata?.full_name || user.user_metadata?.name;
+      if (metadataName && metadataName.trim() !== "") {
+        setDisplayName(metadataName.split(" ")[0]); // First name only
+        return;
+      }
+
+      // 3. Fallback to email prefix
+      setDisplayName(user.email?.split("@")[0] || "Usuário");
+    };
+
+    fetchDisplayName();
+  }, [user]);
 
   // Safe calculation of cart items count with proper fallbacks
   const cartItemsCount = cart?.items?.reduce((total, item) => total + (item?.quantidade || 0), 0) || 0;
@@ -107,7 +143,7 @@ const GlobalHeader = () => {
                     <Button variant="outline" className="flex items-center gap-2">
                       <User className="w-4 h-4" />
                       <span className="hidden sm:inline">
-                        {user.email?.split('@')[0] || 'Usuário'}
+                        {displayName || "Usuário"}
                       </span>
                     </Button>
                   </DropdownMenuTrigger>
@@ -191,7 +227,7 @@ const GlobalHeader = () => {
                 {user ? (
                   <div className="space-y-2">
                     <div className="text-sm font-medium text-foreground">
-                      {user.email?.split('@')[0] || 'Usuário'}
+                      {displayName || "Usuário"}
                     </div>
                     <button
                       onClick={() => {
