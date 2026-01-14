@@ -8,7 +8,8 @@ const GallerySectionTriathlon = () => {
           Galeria de Quadros
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto px-6">
-          Momentos que marcaram provas inesquecíveis, transformados em quadros cheios de significado.<br />
+          Momentos que marcaram provas inesquecíveis, transformados em quadros cheios de significado.
+          <br />
           Veja alguns exemplos e eternize o seu.
         </p>
       </div>
