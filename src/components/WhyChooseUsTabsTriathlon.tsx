@@ -7,14 +7,14 @@ const tabs = [
     label: "Qualidade premium",
     title: "Qualidade premium",
     description: "Impressão 3D e molduras de alta qualidade",
-    image: "/images/qualidade-premium.gif"
+    image: "/images/ambiente-triathlon-premium.webp"
   },
   {
     id: 2,
     label: "Destaque para sua medalha",
     title: "Destaque para sua medalha",
     description: "Sua conquista e dedicação em evidência.",
-    image: "/images/medalha-destaque.gif"
+    image: "/images/triathlon-harmonioso.webp"
   },
   {
     id: 3,
