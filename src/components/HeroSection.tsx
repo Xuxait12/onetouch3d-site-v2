@@ -1,5 +1,6 @@
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import heroBackgroundVideo from "@/assets/hero-corrida-background.mp4";
 const heroRunnerFinish = "/images/corrida-hero.webp";
 const LETTER_VARIANTS = {
   hidden: {
@@ -55,16 +56,18 @@ const HeroSection = () => {
     }
   };
   return <section className="relative w-full min-h-[100svh] overflow-hidden bg-gray-900">
-      {/* Background Image */}
-      <img 
-        src={heroRunnerFinish}
-        alt=""
-        fetchPriority="high"
-        loading="eager"
-        decoding="async"
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
         className="absolute inset-0 w-full h-full object-cover"
         style={{ objectPosition: 'center 30%' }}
-      />
+        poster={heroRunnerFinish}
+      >
+        <source src={heroBackgroundVideo} type="video/mp4" />
+      </video>
       {/* Overlay para melhorar legibilidade */}
       <div className="absolute inset-0 bg-black/40"></div>
       
