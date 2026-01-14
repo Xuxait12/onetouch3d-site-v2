@@ -6,8 +6,8 @@ const GallerySectionViagem = () => {
       <div className="text-center mb-16 animate-fade-up max-w-7xl mx-auto px-6">
         <h2 className="section-text mb-4">Galeria de Inspiração</h2>
         <p className="body-large text-muted-foreground">
-          Veja como outros aventureiros transformaram suas viagens em quadros únicos. 
-          Inspire-se e personalize o seu também!
+          Histórias reais, viagens inesquecíveis e quadros cheios de significado. 
+          Explore as criações de quem já eternizou suas aventuras.
         </p>
         <p className="text-sm md:text-base text-muted-foreground/80 italic mt-2">
           clique sobre a imagem para ampliar
