@@ -51,7 +51,7 @@ const Corrida = () => {
             
             <FeatureSection title="Dados da Prova Integrados ao Design" description={<>Transformamos seus dados — nome, distância, tempo oficial e pace — em uma composição visual que celebra cada detalhe da sua jornada.<br /><br />Cada número representa esforço, estratégia e superação.</>} imageSrc="/images/dados-prova.webp" imageAlt="Dados da prova" imageOnLeft={false} />
             
-            <FeatureSection title="Design Moderno e Exclusivo" description={<>Um layout pensado para destacar sua corrida com estilo.<br /><br />Seu quadro combina com qualquer ambiente, do quarto à sala de estar.</>} imageSrc="/images/quadro-moderno-corrida.webp" imageAlt="Layout moderno e exclusivo" imageOnLeft={true} />
+            <FeatureSection title="Quadros para Medalha" description={<>Um layout pensado para destacar sua corrida com estilo.<br /><br />Seu quadro combina com qualquer ambiente, do quarto à sala de estar.</>} imageSrc="/images/quadro-moderno-corrida.webp" imageAlt="Layout moderno e exclusivo" imageOnLeft={true} />
           </div>
         </div>
         
