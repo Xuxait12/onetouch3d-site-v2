@@ -33,10 +33,10 @@ const TestimonialQuote = ({ quote }: { quote: string }) => {
 const testimonialsCiclismo = [
   {
     quote:
-      "Foi eternizar nosso sonho em um quadro e poder relembrar e reviver todos os dias os momentos únicos que vivemos em cima da nosso moto. Momentos que nos encorajam e motivam para as próximas aventuras.",
-    name: "Alex & Vandressa",
-    designation: "Expedição Atacama",
-    src: "/lovable-uploads/alex-vandressa-atacama.webp",
+      "Concluir um pedal épico e poder materializar essa conquista em um quadro 3D torna a experiência de fazer um pedal longo ainda mais especial. Estou muito feliz pois a qualidade do trabalho feito pela Onetouch3D….é nota 10. Recomendo!",
+    name: "Paulo Reis",
+    designation: "Mountain Bike",
+    src: "/lovable-uploads/paulo-reis-mountain-bike.jpg",
   },
   {
     quote:
