@@ -33,17 +33,17 @@ const TestimonialQuote = ({ quote }: { quote: string }) => {
 const testimonialsCiclismo = [
   {
     quote:
+      "Participei de duas provas de gravel que marcaram minha trajetória: o 3º lugar no Gravelland e o 7º lugar no Mundial. Cada resultado carrega uma história de treino, esforço e superação — e poder eternizar essas conquistas em dois quadros foi especial demais. A OneTouch3D conseguiu transformar números e percursos em algo visual, elegante e cheio de significado. Hoje, minhas conquistas não ficam só na memória — elas fazem parte do meu dia a dia.",
+    name: "Ivan Sparrenberger",
+    designation: "Mundial Gravel Camboriu",
+    src: "/lovable-uploads/ivan-sparrenberger-mundial-gravel.webp",
+  },
+  {
+    quote:
       "Concluir um pedal épico e poder materializar essa conquista em um quadro 3D torna a experiência de fazer um pedal longo ainda mais especial. Estou muito feliz pois a qualidade do trabalho feito pela Onetouch3D….é nota 10. Recomendo!",
     name: "Paulo Reis",
     designation: "Mountain Bike",
     src: "/lovable-uploads/paulo-reis-mountain-bike.jpg",
-  },
-  {
-    quote:
-      "É gratificante ver uma experiência ser transformada em algo eterno. A personalização, o carinho no processo e a qualidade final fazem toda a diferença. Um trabalho que vale muito a pena e que recomendo.",
-    name: "PC Escudero",
-    designation: "Guia Moto Turismo",
-    src: "/lovable-uploads/pc-escudero-moto-turismo.webp",
   },
   {
     quote:
@@ -69,7 +69,7 @@ const AnimatedTestimonials = ({
   testimonials: Testimonial[];
   autoplay?: boolean;
 }) => {
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(0);
 
   const handleNext = React.useCallback(() => {
     setActive((prev) => (prev + 1) % testimonials.length);
