@@ -9,7 +9,8 @@ const GallerySectionTriathlon = () => {
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto px-6">
           Momentos que marcaram provas inesquecíveis, transformados em quadros cheios de significado.
-          <br />
+        </p>
+        <p className="text-muted-foreground max-w-2xl mx-auto px-6 mt-1">
           Veja alguns exemplos e eternize o seu.
         </p>
       </div>
