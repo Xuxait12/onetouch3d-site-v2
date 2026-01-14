@@ -40,10 +40,10 @@ const testimonials = [
   },
   {
     quote:
-      "Corro há 10 anos e sempre quis eternizar minhas provas. Encontrei a Onetouch3d com um atendimento personalizado e com muita qualidade, tornando esses momentos memoráveis.",
-    name: "Joel Pistore",
-    designation: "Maratona Rio",
-    src: "/lovable-uploads/joel-pistore-maratona-rio.webp",
+      "Ter minhas medalhas expostas na parede não representa apenas a alegria da conquista, mas revive toda a memória do caminho percorrido até cada chegada. A Onetouch consegue transformar essa história em emoção, presente em cada quadro produzido.",
+    name: "Everaldo Bonani",
+    designation: "Boston Marathon",
+    src: "/lovable-uploads/everaldo-bonani-boston-marathon.webp",
   },
   {
     quote:
