@@ -4,6 +4,7 @@ import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
 import HeroSectionCiclismo from "@/components/HeroSectionCiclismo";
 import FeatureSection from "@/components/FeatureSection";
+import FeatureSectionCiclismo from "@/components/FeatureSectionCiclismo";
 import TestimonialsSectionCiclismo from "@/components/TestimonialsSectionCiclismo";
 import ProductSectionCiclismoLocal from "@/pages/stores/ProductSectionCiclismoLocal";
 import HowItWorksTabsCiclismo from "@/components/HowItWorksTabsCiclismo";
@@ -39,7 +40,7 @@ const Ciclismo = () => {
         <HeroSectionCiclismo />
         
         {/* Seção 1 (antiga 5) - imagem à esquerda */}
-        <FeatureSection title="Quadros para Medalha" description={<>O resultado é uma peça elegante, versátil e marcante.<br /><br />Integrando perfeitamente a qualquer ambiente — do escritório ao espaço esportivo da casa — transformando sua dedicação em arte e sua prova em decoração com propósito.</>} imageSrc="/images/quadro-moderno.webp" imageAlt="Layout moderno e exclusivo" imageOnLeft={true} />
+        <FeatureSectionCiclismo title="Sua História Eternizada" description={<>O resultado é uma peça elegante, versátil e marcante.<br /><br />Integrando perfeitamente a qualquer ambiente — do escritório ao espaço esportivo da casa — transformando sua dedicação em arte e sua prova em decoração com propósito.</>} imageSrc="/images/quadro-moderno.webp" imageAlt="Layout moderno e exclusivo" imageOnLeft={true} />
         
         {/* Wrapper for multiple sections */}
         <div className="relative overflow-hidden">
