@@ -8,7 +8,7 @@ import TestimonialsSectionTriathlon from "@/components/TestimonialsSectionTriath
 import ProductSectionTriathlonLocal from "@/pages/stores/ProductSectionTriathlonLocal";
 import HowItWorksTabs from "@/components/HowItWorksTabs";
 import WhyChooseUsTabsTriathlon from "@/components/WhyChooseUsTabsTriathlon";
-import FAQSection from "@/components/FAQSection";
+import FAQSectionTriathlon from "@/components/FAQSectionTriathlon";
 import CtaSection from "@/components/CtaSection";
 import GallerySectionTriathlon from "@/components/GallerySectionTriathlon";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -82,7 +82,7 @@ const Triathlon = () => {
         
         
         <ProductSectionTriathlonLocal />
-        <FAQSection className="py-0" />
+        <FAQSectionTriathlon className="py-0" />
         
         
       </main>
