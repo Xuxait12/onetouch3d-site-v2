@@ -7,8 +7,9 @@ const GallerySectionTriathlon = () => {
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
           Galeria de Quadros
         </h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto px-6">
-          Momentos que marcaram provas inesquecíveis, transformados em quadros cheios de significado.
+        <p className="text-muted-foreground max-w-2xl md:max-w-3xl mx-auto px-6 text-pretty">
+          Momentos que marcaram provas inesquecíveis, transformados em quadros{" "}
+          <span className="whitespace-nowrap">cheios de significado.</span>
         </p>
         <p className="text-muted-foreground max-w-2xl mx-auto px-6 mt-1">
           Veja alguns exemplos e eternize o seu.
