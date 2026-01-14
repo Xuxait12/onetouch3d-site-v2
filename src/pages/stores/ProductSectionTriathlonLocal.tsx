@@ -49,7 +49,7 @@ const ProductSectionTriathlonLocal = () => {
     { size: "37x48cm", fullPrice: 433.40, pixPrice: 408.40 },
     { size: "43x43cm", fullPrice: 447.80, pixPrice: 412.80 },
     { size: "43x53cm", fullPrice: 480.90, pixPrice: 445.90 },
-    { size: "43x63cm", fullPrice: 540.20, pixPrice: 505.20 },
+    { size: "43x63cm", fullPrice: 540.20, pixPrice: 479.25 },
     { size: "53x73cm", fullPrice: 610.00, pixPrice: 575.00 }
   ];
 
