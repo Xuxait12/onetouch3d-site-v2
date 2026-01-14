@@ -6,7 +6,8 @@ const GallerySectionViagem = () => {
       <div className="text-center mb-16 animate-fade-up max-w-7xl mx-auto px-6">
         <h2 className="section-text mb-4">Galeria de Inspiração</h2>
         <p className="body-large text-muted-foreground">
-          Histórias reais, viagens inesquecíveis e quadros cheios de significado. 
+          Histórias reais, viagens inesquecíveis e quadros cheios de significado.
+          <br />
           Explore as criações de quem já eternizou suas aventuras.
         </p>
         <p className="text-sm md:text-base text-muted-foreground/80 italic mt-2">
