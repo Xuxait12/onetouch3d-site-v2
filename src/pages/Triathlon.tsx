@@ -4,20 +4,16 @@ import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
 import HeroSectionTriathlon from "@/components/HeroSectionTriathlon";
 import FeatureSection from "@/components/FeatureSection";
+import EmotionalSectionTriathlon from "@/components/EmotionalSectionTriathlon";
 import TestimonialsSectionTriathlon from "@/components/TestimonialsSectionTriathlon";
 import ProductSectionTriathlonLocal from "@/pages/stores/ProductSectionTriathlonLocal";
 import HowItWorksTabs from "@/components/HowItWorksTabs";
 import WhyChooseUsTabsTriathlon from "@/components/WhyChooseUsTabsTriathlon";
 import FAQSectionTriathlon from "@/components/FAQSectionTriathlon";
-import CtaSection from "@/components/CtaSection";
 import GallerySectionTriathlon from "@/components/GallerySectionTriathlon";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import WhyChooseSection from "@/components/WhyChooseSection";
-import InfiniteLogoCarousel from "@/components/ui/infinite-logo-carousel";
 import ShareSection from "@/components/ShareSection";
 
-// Import images
-import premiumFrame from "@/assets/premium-frame.jpg";
 const Triathlon = () => {
   const location = useLocation();
   useEffect(() => {
@@ -47,8 +43,8 @@ const Triathlon = () => {
           <div className="relative" style={{
           zIndex: 5
         }}>
-            {/* Seção 2 - Imagens Que Contam Sua Jornada - imagem à direita */}
-            <FeatureSection title="Emoções Registradas para Sempre" description={<>A emoção da prova em um lugar especial.<br /><br />Aquele registro na transição, o sorriso na corrida, o esforço na bike, o mergulho inicial.<br /><br />Suas fotos ganham um espaço pensado para transmitir a intensidade e o orgulho desse dia inesquecível.</>} imageSrc="/images/fotos-scrapbook.webp" imageAlt="Fotos em destaque estilo scrapbook" imageOnLeft={false} />
+            {/* Seção 2 - Suas Fotos contam Sua História - imagem à direita */}
+            <EmotionalSectionTriathlon />
             
             {/* Seção 3 (antiga 2) - imagem à esquerda */}
             <FeatureSection title="Sua Prova Reconstruída em Detalhes" description={<>Reconstruímos seus percursos com precisão em 3D(miniatura) — natação, ciclismo e corrida — criando um registro único da sua prova.<br /><br />Um quadro que vai muito além de decoração: é a representação visual da sua superação.</>} imageSrc="/images/percurso-3d.webp" imageAlt="Percurso 3D da prova" imageOnLeft={true} />
