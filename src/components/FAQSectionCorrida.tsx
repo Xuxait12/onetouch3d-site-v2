@@ -15,8 +15,8 @@ const faqData = [
     answer: "Sim, o quadro já vai montado com um vidro do tamanho do quadro comprado e com a espessura de 3mm."
   },
   {
-    question: "Quais provas vocês fazem?",
-    answer: "Todas: Ironman, 70.3, SPRINT e provas independentes. Caso não tenhamos arte pronta da sua prova, faremos ela para você."
+    question: "Vocês fazem quadros de quais provas?",
+    answer: "Fizemos quadros de qualquer prova que desejar. Caso a gente não tenha nenhum modelo pronto... criamos uma arte exclusiva para você."
   },
   {
     question: "Qual o prazo de produção e entrega?",
