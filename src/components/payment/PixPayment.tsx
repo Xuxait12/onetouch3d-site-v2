@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { QRCodeSVG } from 'react-qr-code';
+import QRCode from 'react-qr-code';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -213,7 +213,7 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
 
       <div className="flex justify-center">
         <div className="bg-white p-6 rounded-lg shadow-md border-2 border-gray-200">
-          <QRCodeSVG value={pixData.qr_code} size={256} level="H" />
+          <QRCode value={pixData.qr_code} size={256} level="H" />
         </div>
       </div>
 
