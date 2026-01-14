@@ -4,7 +4,7 @@ const faqData = [{
   answer: <>
         <p className="mb-3">Você pode enviar tudo de forma rápida e prática pelo WhatsApp. Basta clicar no ícone disponível em nossa página e compartilhar as fotos e informações diretamente com nossa equipe.</p>
         <ul className="list-disc list-inside space-y-1">
-          <li><strong>Fotos</strong>Fotos = envie a quantidade de fotos que deseja, quanto mais fotos maior terá que ser o seu quadro.</li>
+          <li><strong>Fotos</strong>Fotos = envie a quantidade de fotos que deseja, quanto mais fotos maior terá que ser o seu quadro.</li>
           <li><strong>Dados</strong> = envie seu nome completo, duração da viagem, quilometragem e nome/modelo do seu veículo.</li>
         </ul>
       </>
