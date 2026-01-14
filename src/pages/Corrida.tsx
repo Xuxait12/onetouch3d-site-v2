@@ -8,7 +8,7 @@ import TestimonialsSectionCorrida from "@/components/TestimonialsSectionCorrida"
 import ProductSectionCorridaLocal from "@/pages/stores/ProductSectionCorridaLocal";
 import HowItWorksTabs from "@/components/HowItWorksTabs";
 import WhyChooseUsTabsCorrida from "@/components/WhyChooseUsTabsCorrida";
-import FAQSection from "@/components/FAQSection";
+import FAQSectionCorrida from "@/components/FAQSectionCorrida";
 import CtaSection from "@/components/CtaSection";
 import GallerySectionCorrida from "@/components/GallerySectionCorrida";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -70,7 +70,7 @@ const Corrida = () => {
         
         
         <ProductSectionCorridaLocal />
-        <FAQSection />
+        <FAQSectionCorrida />
         
         
       </main>
