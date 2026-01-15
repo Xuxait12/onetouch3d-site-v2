@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
-const heroFallbackImage = "/images/corrida-hero.webp";
 const heroVideo = "/videos/run_hero.mp4";
 
 const LETTER_VARIANTS = {
@@ -28,7 +27,7 @@ const WORD_VARIANTS = {
 
 const HeroSectionCorrida = () => {
   const shouldReduceMotion = useReducedMotion();
-  const [videoError, setVideoError] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
   
   const title = "Eternize Sua Prova com um Quadro Personalizado";
   const [firstWord, ...restWords] = title.split(" ");
@@ -67,33 +66,19 @@ const HeroSectionCorrida = () => {
 
   return (
     <section className="relative w-full min-h-[100svh] overflow-hidden bg-gray-900">
-      {/* Fallback Image - shows while video loads or on error */}
-      <img 
-        src={heroFallbackImage}
-        alt=""
-        fetchPriority="high"
-        loading="eager"
-        decoding="async"
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ objectPosition: 'center 30%' }}
-      />
-
       {/* Background Video */}
-      {!videoError && (
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          onError={() => setVideoError(true)}
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: 'center center' }}
-          poster={heroFallbackImage}
-        >
-          <source src={heroVideo} type="video/mp4" />
-        </video>
-      )}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        onCanPlayThrough={() => setVideoReady(true)}
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${videoReady ? 'opacity-100' : 'opacity-0'}`}
+        style={{ objectPosition: 'center center' }}
+      >
+        <source src={heroVideo} type="video/mp4" />
+      </video>
 
       {/* Overlay para melhorar legibilidade */}
       <div className="absolute inset-0 bg-black/40 pointer-events-none"></div>
