@@ -5,6 +5,7 @@ interface EmotionalImageSectionProps {
   line2?: string;
   mobileImageSrc?: string;
   textAlign?: 'left' | 'right';
+  mobileObjectPosition?: string;
 }
 
 const EmotionalImageSection = ({
@@ -14,6 +15,7 @@ const EmotionalImageSection = ({
   line2 = "É a prova de que você foi até o limite.",
   mobileImageSrc,
   textAlign = 'left',
+  mobileObjectPosition,
 }: EmotionalImageSectionProps) => {
   const isRight = textAlign === 'right';
   return (
@@ -39,7 +41,7 @@ const EmotionalImageSection = ({
         decoding="async"
         width={1600}
         height={900}
-        className={`absolute inset-0 w-full h-full object-cover object-top ${
+        className={`absolute inset-0 w-full h-full object-cover ${mobileObjectPosition || 'object-top'} sm:object-top ${
           mobileImageSrc ? 'hidden sm:block' : ''
         }`}
       />
