@@ -8,7 +8,8 @@ const EmotionalSectionTriathlon = () => {
             Suas Fotos contam Sua História
           </h2>
           <p className="body-large text-muted-foreground max-w-xl mx-auto lg:mx-0 text-base sm:text-lg">
-            A emoção da prova em um lugar especial. Suas fotos representam momentos de tamanho dedicação.
+            A emoção da prova em um lugar especial.<br />
+            Suas fotos representam momentos de tamanho dedicação.
           </p>
         </div>
 
@@ -16,7 +17,7 @@ const EmotionalSectionTriathlon = () => {
         <div className="order-1 lg:order-2">
           <div className="w-full aspect-[4/3] sm:aspect-[592/394] overflow-hidden rounded-xl sm:rounded-2xl shadow-soft">
             <img 
-              src="/images/triathlon-fotos-historia-new.webp" 
+              src="/images/triathlon-fotos-historia.webp" 
               alt="Atleta de triathlon cruzando a linha de chegada"
               className="w-full h-full object-cover"
               loading="lazy"
