@@ -1,41 +1,26 @@
 const EmotionalSectionTriathlon = () => {
   return (
-    <section className="relative w-full h-[60vh] sm:h-[70vh] md:h-[80vh] overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <img
-          src="/images/triathlon-fotos-historia.webp"
-          alt="Atleta de triathlon cruzando a linha de chegada"
-          className="w-full h-full object-cover"
-          loading="lazy"
-        />
-      </div>
-      
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-      
-      {/* Text Content - Bottom Left */}
-      <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 md:p-12 lg:p-16">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col items-start text-left">
-            <p 
-              className="text-white font-normal leading-tight text-left"
-              style={{ 
-                fontFamily: "'Linik Sans', sans-serif",
-                fontSize: 'clamp(1.1rem, 3vw + 0.5rem, 2.5rem)'
-              }}
-            >
-              Suas Fotos contam Sua História
-            </p>
-            <p 
-              className="text-white font-bold leading-tight text-left"
-              style={{ 
-                fontFamily: "'Linik Sans', sans-serif",
-                fontSize: 'clamp(1.5rem, 4vw + 0.5rem, 3.5rem)'
-              }}
-            >
-              A emoção da prova em um lugar especial.
-            </p>
+    <section className="py-6 sm:py-8 max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        {/* Text Content - Left */}
+        <div className="order-2 lg:order-1 text-center lg:text-left flex flex-col justify-center">
+          <h2 className="section-text mb-4 sm:mb-6 text-2xl sm:text-3xl lg:text-4xl font-bold">
+            Suas Fotos contam Sua História
+          </h2>
+          <p className="body-large text-muted-foreground max-w-xl mx-auto lg:mx-0 text-base sm:text-lg">
+            A emoção da prova em um lugar especial. Suas fotos representam momentos de tamanho dedicação.
+          </p>
+        </div>
+
+        {/* Image - Right */}
+        <div className="order-1 lg:order-2">
+          <div className="w-full aspect-[4/3] sm:aspect-[592/394] overflow-hidden rounded-xl sm:rounded-2xl shadow-soft">
+            <img 
+              src="/images/triathlon-fotos-historia-new.webp" 
+              alt="Atleta de triathlon cruzando a linha de chegada"
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
           </div>
         </div>
       </div>
