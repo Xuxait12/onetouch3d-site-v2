@@ -6,6 +6,7 @@ interface EmotionalImageSectionProps {
   mobileImageSrc?: string;
   textAlign?: 'left' | 'right';
   mobileObjectPosition?: string;
+  mobileLine2FontSize?: string;
 }
 
 const EmotionalImageSection = ({
@@ -16,6 +17,7 @@ const EmotionalImageSection = ({
   mobileImageSrc,
   textAlign = 'left',
   mobileObjectPosition,
+  mobileLine2FontSize,
 }: EmotionalImageSectionProps) => {
   const isRight = textAlign === 'right';
   return (
@@ -69,7 +71,9 @@ const EmotionalImageSection = ({
             className={`text-white font-bold leading-tight ${isRight ? 'text-right' : 'text-left'}`}
             style={{ 
               fontFamily: "'Linik Sans', sans-serif",
-              fontSize: 'clamp(1.375rem, 3vw + 0.5rem, 2.5rem)'
+              fontSize: mobileLine2FontSize 
+                ? `clamp(${mobileLine2FontSize}, 3vw + 0.5rem, 2.5rem)` 
+                : 'clamp(1.375rem, 3vw + 0.5rem, 2.5rem)'
             }}
           >
             {line2}
