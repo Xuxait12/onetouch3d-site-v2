@@ -17,7 +17,7 @@ const EmotionalImageSection = ({
 }: EmotionalImageSectionProps) => {
   const isRight = textAlign === 'right';
   return (
-    <section className="relative w-full h-[300px] sm:h-[360px] md:h-[400px] lg:h-[520px] xl:h-[580px] overflow-hidden">
+    <section className="relative w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[640px] xl:h-[720px] overflow-hidden">
       {/* Mobile Image (if provided) */}
       {mobileImageSrc && (
         <img
