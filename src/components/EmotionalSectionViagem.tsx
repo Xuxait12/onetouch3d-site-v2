@@ -19,12 +19,14 @@ const EmotionalSectionViagem = () => {
           
           {/* Image */}
           <div className="order-1 lg:order-2">
-            <img
-              src="/images/emotional-viagem.webp"
-              alt="Motociclistas em viagem com vista para lago e montanhas"
-              className="w-full h-auto rounded-lg shadow-lg object-cover"
-              loading="lazy"
-            />
+            <div className="relative w-full h-64 sm:h-80 lg:h-96 rounded-lg shadow-lg overflow-hidden">
+              <img
+                src="/images/emotional-viagem.webp"
+                alt="Motociclistas em viagem com vista para lago e montanhas"
+                className="absolute inset-0 w-full h-full object-cover object-bottom"
+                loading="lazy"
+              />
+            </div>
           </div>
         </div>
       </div>
