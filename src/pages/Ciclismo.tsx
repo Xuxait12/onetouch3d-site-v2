@@ -72,10 +72,10 @@ const Ciclismo = () => {
         <WhyChooseUsTabsCiclismo />
         
         <EmotionalImageSection 
-          imageSrc="/images/destaque-ciclismo.webp"
-          imageAlt="Quadro personalizado de ciclismo em ambiente moderno"
-          line1="Não é apenas um quadro."
-          line2="É a prova de que você foi até o limite."
+          imageSrc="/images/emotional-ciclismo.webp"
+          imageAlt="Ciclista em estrada de montanha ao pôr do sol"
+          line1="Há estradas que mudam a rota."
+          line2="E há viagens que mudam a gente."
         />
         
         <GallerySectionCiclismo />
