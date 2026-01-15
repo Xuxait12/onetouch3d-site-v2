@@ -23,23 +23,75 @@ serve(async (req: Request) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
+    // Verify authentication
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+    if (authError || !user) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Invalid token' }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const { payment_id, pedido_id }: StatusRequest = await req.json();
 
     if (!payment_id && !pedido_id) {
       throw new Error("Either payment_id or pedido_id is required");
     }
 
+    // Validate pedido_id format (UUID) if provided
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (pedido_id && !uuidRegex.test(pedido_id)) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'ID do pedido inválido' }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Check if user is admin
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("is_admin")
+      .eq("user_id", user.id)
+      .single();
+
+    const isAdmin = profile?.is_admin || false;
+
     let paymentId = payment_id;
+    let targetPedidoId = pedido_id;
 
     if (pedido_id && !paymentId) {
-      const { data: pedido, error: pedidoError } = await supabase
+      // Verify ownership when looking up by pedido_id
+      let query = supabase
         .from("pedidos")
-        .select("payment_id")
-        .eq("id", pedido_id)
-        .single();
+        .select("payment_id, user_id")
+        .eq("id", pedido_id);
+      
+      // Non-admins can only access their own orders
+      if (!isAdmin) {
+        query = query.eq("user_id", user.id);
+      }
 
-      if (pedidoError || !pedido || !pedido.payment_id) {
-        throw new Error("Pedido não encontrado ou sem pagamento associado");
+      const { data: pedido, error: pedidoError } = await query.single();
+
+      if (pedidoError || !pedido) {
+        return new Response(
+          JSON.stringify({ success: false, error: 'Pedido não encontrado ou acesso não autorizado' }),
+          { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      if (!pedido.payment_id) {
+        throw new Error("Pedido sem pagamento associado");
       }
 
       paymentId = pedido.payment_id;
@@ -70,36 +122,50 @@ serve(async (req: Request) => {
 
     if (!response.ok) {
       const error = await response.text();
-      throw new Error(`Erro na API do Mercado Pago: ${response.statusText} - ${error}`);
+      throw new Error(`Erro na API do Mercado Pago: ${response.statusText}`);
     }
 
     const paymentData = await response.json();
 
-    if (pedido_id || paymentData.metadata?.pedido_id) {
-      const targetPedidoId = pedido_id || paymentData.metadata?.pedido_id;
+    if (targetPedidoId || paymentData.metadata?.pedido_id) {
+      const updatePedidoId = targetPedidoId || paymentData.metadata?.pedido_id;
 
-      let newStatus = "aguardando_pagamento";
-      if (paymentData.status === "approved") {
-        newStatus = "pago";
-      } else if (
-        paymentData.status === "rejected" ||
-        paymentData.status === "cancelled"
-      ) {
-        newStatus = "rejeitado";
+      // Verify ownership before updating
+      let updateQuery = supabase
+        .from("pedidos")
+        .select("user_id")
+        .eq("id", updatePedidoId);
+      
+      if (!isAdmin) {
+        updateQuery = updateQuery.eq("user_id", user.id);
       }
 
-      await supabase
-        .from("pedidos")
-        .update({
-          payment_status: paymentData.status,
-          status: newStatus,
-          payment_approved_at:
-            paymentData.status === "approved"
-              ? new Date().toISOString()
-              : null,
-          payment_metadata: paymentData,
-        })
-        .eq("id", targetPedidoId);
+      const { data: updatePedido, error: updateCheckError } = await updateQuery.single();
+
+      if (!updateCheckError && updatePedido) {
+        let newStatus = "aguardando_pagamento";
+        if (paymentData.status === "approved") {
+          newStatus = "pago";
+        } else if (
+          paymentData.status === "rejected" ||
+          paymentData.status === "cancelled"
+        ) {
+          newStatus = "rejeitado";
+        }
+
+        await supabase
+          .from("pedidos")
+          .update({
+            payment_status: paymentData.status,
+            status: newStatus,
+            payment_approved_at:
+              paymentData.status === "approved"
+                ? new Date().toISOString()
+                : null,
+            payment_metadata: paymentData,
+          })
+          .eq("id", updatePedidoId);
+      }
     }
 
     return new Response(

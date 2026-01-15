@@ -59,8 +59,14 @@ const OrderDetails = () => {
       if (!id || !user) return;
 
       try {
-        // Check if user is admin
-        const isAdmin = user.email === 'onetouch3dbrasil@gmail.com';
+        // Check if user is admin from database
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('user_id', user.id)
+          .single();
+        
+        const isAdmin = profile?.is_admin || false;
 
         // Load order
         let orderQuery = supabase

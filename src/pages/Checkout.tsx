@@ -18,6 +18,8 @@ import { toast } from "@/hooks/use-toast";
 import { FcGoogle } from 'react-icons/fc';
 import { PaymentBrick } from "@/components/payment/PaymentBrick";
 import { PixPayment } from "@/components/payment/PixPayment";
+import { profileSchema, orderSchema, orderItemSchema, getValidationErrors } from "@/lib/validation";
+import { z } from "zod";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -620,19 +622,60 @@ const Checkout = () => {
         shippingAddress = `${address}, ${number}${complementRef.current?.value ? ', ' + complementRef.current.value : ''}, ${neighborhood}, ${city} - ${state}, CEP: ${cep}${pontoReferenciaRef.current?.value ? ', Ref: ' + pontoReferenciaRef.current.value : ''}`;
       }
 
+      // Validate order data with zod schema
+      const orderData = {
+        subtotal: roundedSubtotal,
+        frete: roundedFrete,
+        desconto: roundedDesconto,
+        total: roundedTotal,
+        forma_pagamento: selectedPaymentType || paymentMethod || 'pix',
+        shipping_address: shippingAddress.substring(0, 500), // Limit length
+        cupom_aplicado: cart.cupomCode?.substring(0, 50) || null,
+      };
+
+      try {
+        orderSchema.parse(orderData);
+      } catch (validationError) {
+        if (validationError instanceof z.ZodError) {
+          const errors = getValidationErrors(validationError);
+          throw new Error(`Dados do pedido inválidos: ${errors.join(', ')}`);
+        }
+        throw validationError;
+      }
+
+      // Validate order items
+      const orderItemsData = cart.items.map(item => ({
+        produto_nome: (item.nome || '').substring(0, 200),
+        moldura_tipo: (item.cor || '').substring(0, 100),
+        tamanho: (item.tamanho || '').substring(0, 50),
+        quantidade: item.quantidade,
+        valor_unitario: Math.round(item.precoUnitario * 100) / 100,
+        subtotal: Math.round(item.subtotal * 100) / 100
+      }));
+
+      try {
+        orderItemsData.forEach(item => orderItemSchema.parse(item));
+      } catch (validationError) {
+        if (validationError instanceof z.ZodError) {
+          const errors = getValidationErrors(validationError);
+          throw new Error(`Dados dos itens inválidos: ${errors.join(', ')}`);
+        }
+        throw validationError;
+      }
+
       // Create order in pedidos table with status aguardando_pagamento
       const { data: pedido, error: pedidoError } = await supabase
         .from('pedidos')
         .insert({
           user_id: user.id,
-          subtotal: roundedSubtotal,
-          frete: roundedFrete,
-          desconto: roundedDesconto,
-          total: roundedTotal,
-          status: 'aguardando_pagamento',  // Changed from 'pendente'
-          forma_pagamento: selectedPaymentType || paymentMethod || 'pix',
-          shipping_address: shippingAddress,
-          cupom_aplicado: cart.cupomCode || null
+          subtotal: orderData.subtotal,
+          frete: orderData.frete,
+          desconto: orderData.desconto,
+          total: orderData.total,
+          status: 'aguardando_pagamento',
+          forma_pagamento: orderData.forma_pagamento,
+          shipping_address: orderData.shipping_address,
+          cupom_aplicado: orderData.cupom_aplicado
         })
         .select()
         .single();
@@ -645,14 +688,9 @@ const Checkout = () => {
       }
 
       // Create order items in itens_pedido table
-      const orderItems = cart.items.map(item => ({
+      const orderItems = orderItemsData.map(item => ({
         pedido_id: pedido.id,
-        produto_nome: item.nome,
-        moldura_tipo: item.cor,
-        tamanho: item.tamanho,
-        quantidade: item.quantidade,
-        valor_unitario: Math.round(item.precoUnitario * 100) / 100,
-        subtotal: Math.round(item.subtotal * 100) / 100
+        ...item
       }));
 
       const { error: itemsError } = await supabase

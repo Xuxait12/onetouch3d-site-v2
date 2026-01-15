@@ -9,11 +9,6 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const supabase = createClient(
-  Deno.env.get("SUPABASE_URL") ?? "",
-  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
-);
-
 interface OrderData {
   pedido_id: string;
 }
@@ -24,8 +19,51 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+    );
+
+    // Verify authentication
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+    if (authError || !user) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Invalid token' }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const { pedido_id }: OrderData = await req.json();
 
+    // Validate pedido_id format (UUID)
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!pedido_id || !uuidRegex.test(pedido_id)) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'ID do pedido inválido' }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Check if user is admin
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("is_admin")
+      .eq("user_id", user.id)
+      .single();
+
+    const isAdmin = profile?.is_admin || false;
+
+    // Verify ownership OR admin access
     const { data: pedido, error: pedidoError } = await supabase
       .from("pedidos")
       .select("*")
@@ -33,16 +71,27 @@ const handler = async (req: Request): Promise<Response> => {
       .single();
 
     if (pedidoError || !pedido) {
-      throw new Error("Pedido não encontrado");
+      return new Response(
+        JSON.stringify({ success: false, error: 'Pedido não encontrado' }),
+        { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
 
-    const { data: profile, error: profileError } = await supabase
+    // Check ownership: user must own the order OR be admin
+    if (pedido.user_id !== user.id && !isAdmin) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Acesso não autorizado a este pedido' }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const { data: profileData, error: profileError } = await supabase
       .from("profiles")
       .select("*")
       .eq("user_id", pedido.user_id)
       .single();
 
-    if (profileError || !profile) {
+    if (profileError || !profileData) {
       throw new Error("Perfil do cliente não encontrado");
     }
 
@@ -86,7 +135,7 @@ const handler = async (req: Request): Promise<Response> => {
 
           <div style="background: white; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
 
-            <h2 style="color: #1f2937; margin: 0 0 20px 0;">Olá, ${profile.full_name}! Obrigado por sua compra na OneTouch3D.</h2>
+            <h2 style="color: #1f2937; margin: 0 0 20px 0;">Olá, ${profileData.full_name}! Obrigado por sua compra na OneTouch3D.</h2>
 
             <p style="font-size: 16px; margin-bottom: 25px;">
               Seu pedido nº <strong style="color: #667eea;">${pedido.numero_pedido}</strong> foi registrado com sucesso e já está em processamento.
@@ -258,22 +307,22 @@ const handler = async (req: Request): Promise<Response> => {
 
               <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                 <span style="color: #6b7280;">Nome:</span>
-                <span style="color: #1f2937;">${profile.full_name}</span>
+                <span style="color: #1f2937;">${profileData.full_name}</span>
               </div>
 
               <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                 <span style="color: #6b7280;">E-mail:</span>
-                <span style="color: #1f2937;">${profile.email}</span>
+                <span style="color: #1f2937;">${profileData.email}</span>
               </div>
 
               <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                 <span style="color: #6b7280;">Telefone:</span>
-                <span style="color: #1f2937;">${profile.phone}</span>
+                <span style="color: #1f2937;">${profileData.phone}</span>
               </div>
 
               <div style="display: flex; justify-content: space-between;">
                 <span style="color: #6b7280;">Documento:</span>
-                <span style="color: #1f2937;">${profile.cpf_cnpj}</span>
+                <span style="color: #1f2937;">${profileData.cpf_cnpj}</span>
               </div>
             </div>
 
@@ -331,7 +380,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailResponse = await resend.emails.send({
       from: "OneTouch3D <contato@onetouch3d.com.br>",
-      to: [profile.email],
+      to: [profileData.email],
       subject: `Confirmação do seu pedido nº ${pedido.numero_pedido}`,
       html: emailHtml,
     });
@@ -339,7 +388,7 @@ const handler = async (req: Request): Promise<Response> => {
     await resend.emails.send({
       from: "OneTouch3D <contato@onetouch3d.com.br>",
       to: ["contato@onetouch3d.com.br"],
-      subject: `[ADMIN] Novo pedido nº ${pedido.numero_pedido} - ${profile.full_name}`,
+      subject: `[ADMIN] Novo pedido nº ${pedido.numero_pedido} - ${profileData.full_name}`,
       html: adminEmailHtml,
     });
 
