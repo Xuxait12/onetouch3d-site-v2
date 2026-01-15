@@ -68,10 +68,11 @@ const Triathlon = () => {
         <WhyChooseUsTabsTriathlon />
         
         <EmotionalImageSection 
-          imageSrc="/images/lifestyle-triathlon.webp"
-          imageAlt="Quadro personalizado de triathlon em ambiente moderno"
+          imageSrc="/images/emotional-triathlon.webp"
+          imageAlt="Quadro personalizado de triathlon Ironman em ambiente moderno"
           line1="Não é apenas um quadro."
           line2="É a prova de que você foi até o limite."
+          textAlign="right"
         />
         
         <GallerySectionTriathlon />
