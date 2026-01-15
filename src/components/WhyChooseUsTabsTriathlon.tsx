@@ -7,14 +7,16 @@ const tabs = [
     label: "Qualidade premium",
     title: "Qualidade premium",
     description: "Impressão 3D e molduras de alta qualidade",
-    image: "/images/ambiente-triathlon-premium.webp"
+    image: "/images/ambiente-triathlon-premium.webp",
+    mobileImage: "/images/triathlon-qualidade-premium-mobile.webp"
   },
   {
     id: 2,
     label: "Destaque para sua medalha",
     title: "Destaque para sua medalha",
     description: "Sua conquista e dedicação em evidência.",
-    image: "/images/triathlon-harmonioso.webp"
+    image: "/images/triathlon-harmonioso.webp",
+    mobileImage: "/images/triathlon-destaque-medalha-mobile.webp"
   },
   {
     id: 3,
@@ -126,10 +128,22 @@ const WhyChooseUsTabsTriathlon = () => {
 
         {/* Image */}
         <div className="mb-8 animate-fade-up">
+          {/* Mobile Image */}
+          {activeContent?.mobileImage && (
+            <img
+              src={activeContent.mobileImage}
+              alt={activeContent?.title}
+              className="sm:hidden w-full max-w-4xl mx-auto h-[300px] object-cover rounded-3xl shadow-elegant transition-all duration-500"
+              key={`mobile-${activeTab}`}
+            />
+          )}
+          {/* Desktop Image (or fallback on mobile if no mobileImage) */}
           <img
             src={activeContent?.image}
             alt={activeContent?.title}
-            className="w-full max-w-4xl mx-auto h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-cover rounded-3xl shadow-elegant transition-all duration-500"
+            className={`w-full max-w-4xl mx-auto h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-cover rounded-3xl shadow-elegant transition-all duration-500 ${
+              activeContent?.mobileImage ? 'hidden sm:block' : ''
+            }`}
             key={activeTab}
           />
         </div>
