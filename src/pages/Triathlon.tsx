@@ -35,7 +35,7 @@ const Triathlon = () => {
         <HeroSectionTriathlon />
         
         {/* Seção 1 (antiga 4) - imagem à esquerda */}
-        <FeatureSection title="Números Que Contam Sua História" description={<>Cada detalhe importa. E aqui, todos ganham vida.<br /><br />Seu nome, tempo oficial, tempo por modalidade e transição — tudo apresentado com clareza e elegância.<br /><br />Porque o triathlon é feito de números que contam histórias.</>} imageSrc="/images/dados-triathlon.webp" imageAlt="Tempos do triathlon - Swim, Bike, Run" imageOnLeft={true} />
+        <FeatureSection title="Números Que Contam Sua História" description={<>Cada detalhe importa. E aqui, todos ganham vida.<br /><br />Seu nome, tempo oficial, tempo por modalidade e transição — tudo apresentado com clareza e elegância.<br /><br />Porque o triathlon é feito de números que contam histórias.</>} imageSrc="/images/dados-triathlon.webp" mobileImageSrc="/images/dados-triathlon-mobile.webp" imageAlt="Tempos do triathlon - Swim, Bike, Run" imageOnLeft={true} />
         
         {/* Wrapper for multiple sections */}
         <div className="relative overflow-hidden">
