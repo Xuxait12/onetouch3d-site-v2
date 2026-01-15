@@ -60,9 +60,9 @@ const Corrida = () => {
         
         <EmotionalImageSection 
           imageSrc="/images/emotional-corrida.webp"
-          imageAlt="Quadro personalizado de corrida em ambiente moderno"
-          line1="Não é apenas um quadro."
-          line2="É a prova de que você foi até o limite."
+          imageAlt="Corredor ultrapassando seus limites em uma maratona"
+          line1="Não é sobre o quadro."
+          line2="É sobre quem você se tornou."
         />
         
         <GallerySectionCorrida />
