@@ -85,10 +85,11 @@ const Viagem = () => {
         <WhyChooseUsTabsViagem />
         
         <EmotionalImageSection 
-          imageSrc="/images/destaque-viagem.webp"
-          imageAlt="Quadro personalizado de viagem em ambiente moderno"
-          line1="Não é apenas um quadro."
-          line2="É a prova de que você foi até o limite."
+          imageSrc="/images/emotional-viagem.webp"
+          imageAlt="Motociclistas em viagem com vista para lago e montanhas"
+          line1="Sua rota. Seu momento."
+          line2="A viagem acaba. A memória vira arte."
+          textAlign="left"
         />
         
         <GallerySectionViagem />
