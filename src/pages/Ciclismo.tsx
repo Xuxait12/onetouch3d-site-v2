@@ -76,6 +76,7 @@ const Ciclismo = () => {
           imageAlt="Ciclista em estrada de montanha ao pôr do sol"
           line1="Há estradas que mudam a rota."
           line2="E há viagens que mudam a gente."
+          textAlign="right"
         />
         
         <GallerySectionCiclismo />

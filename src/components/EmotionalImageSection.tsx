@@ -4,6 +4,7 @@ interface EmotionalImageSectionProps {
   line1?: string;
   line2?: string;
   mobileImageSrc?: string;
+  textAlign?: 'left' | 'right';
 }
 
 const EmotionalImageSection = ({
@@ -12,7 +13,9 @@ const EmotionalImageSection = ({
   line1 = "Não é apenas um quadro.",
   line2 = "É a prova de que você foi até o limite.",
   mobileImageSrc,
+  textAlign = 'left',
 }: EmotionalImageSectionProps) => {
+  const isRight = textAlign === 'right';
   return (
     <section className="relative w-full h-[300px] sm:h-[360px] md:h-[400px] lg:h-[420px] xl:h-[480px] overflow-hidden">
       {/* Mobile Image (if provided) */}
@@ -45,12 +48,12 @@ const EmotionalImageSection = ({
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
       <div className="absolute inset-0 bg-black/20" />
       
-      {/* Text Overlay - positioned at bottom left */}
-      <div className="absolute inset-0 flex items-end">
-        <div className="px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 pb-8 sm:pb-10 md:pb-12 lg:pb-14 xl:pb-16 max-w-4xl">
+      {/* Text Overlay - positioned at bottom left or right */}
+      <div className={`absolute inset-0 flex items-end ${isRight ? 'justify-end' : 'justify-start'}`}>
+        <div className={`px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 pb-8 sm:pb-10 md:pb-12 lg:pb-14 xl:pb-16 max-w-4xl ${isRight ? 'text-right' : 'text-left'}`}>
           {/* Line 1 - Regular */}
           <p 
-            className="text-white/85 text-left font-normal leading-tight mb-1 sm:mb-2"
+            className={`text-white/85 font-normal leading-tight mb-1 sm:mb-2 ${isRight ? 'text-right' : 'text-left'}`}
             style={{ 
               fontFamily: "'Linik Sans', sans-serif",
               fontSize: 'clamp(1.125rem, 2.5vw + 0.5rem, 2rem)'
@@ -61,7 +64,7 @@ const EmotionalImageSection = ({
           
           {/* Line 2 - Bold */}
           <p 
-            className="text-white text-left font-bold leading-tight"
+            className={`text-white font-bold leading-tight ${isRight ? 'text-right' : 'text-left'}`}
             style={{ 
               fontFamily: "'Linik Sans', sans-serif",
               fontSize: 'clamp(1.375rem, 3vw + 0.5rem, 2.5rem)'
