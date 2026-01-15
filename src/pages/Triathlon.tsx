@@ -74,6 +74,7 @@ const Triathlon = () => {
           line2="É a prova de que você foi até o limite."
           textAlign="right"
           mobileObjectPosition="object-left-top"
+          mobileLine2FontSize="1.1rem"
         />
         
         <GallerySectionTriathlon />

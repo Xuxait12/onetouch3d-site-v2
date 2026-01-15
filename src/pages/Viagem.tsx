@@ -90,6 +90,7 @@ const Viagem = () => {
           line1="Sua rota. Seu momento."
           line2="A viagem acaba. A memória vira arte."
           textAlign="left"
+          mobileLine2FontSize="1.1rem"
         />
         
         <GallerySectionViagem />
