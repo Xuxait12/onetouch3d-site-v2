@@ -8,8 +8,7 @@ const EmotionalSectionTriathlon = () => {
             Suas Fotos contam Sua História
           </h2>
           <p className="body-large text-muted-foreground max-w-xl mx-auto lg:mx-0 text-base sm:text-lg">
-            A emoção da prova em um lugar especial.<br />
-            Suas fotos representam momentos de tamanho dedicação.
+            Selecione os momentos mais marcantes da sua prova e veja sua história ganhar vida em um quadro moderno, emocionante e totalmente personalizado.
           </p>
         </div>
 
