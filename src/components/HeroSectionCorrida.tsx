@@ -66,8 +66,15 @@ const HeroSectionCorrida = () => {
   };
 
   return (
-    <section className="relative w-full min-h-[100svh] overflow-hidden bg-gray-900">
-      {/* Background Video with poster for instant display */}
+    <section className="relative w-full min-h-[100svh] overflow-hidden">
+      {/* Fallback Image Layer - always visible until video is ready */}
+      <div 
+        className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 ${videoReady ? 'opacity-0' : 'opacity-100'}`}
+        style={{ backgroundImage: `url(${heroPoster})` }}
+        aria-hidden="true"
+      />
+
+      {/* Background Video - fades in when ready */}
       <video
         autoPlay
         loop
@@ -75,8 +82,8 @@ const HeroSectionCorrida = () => {
         playsInline
         preload="auto"
         poster={heroPoster}
-        onCanPlayThrough={() => setVideoReady(true)}
-        className="absolute inset-0 w-full h-full object-cover"
+        onCanPlay={() => setVideoReady(true)}
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${videoReady ? 'opacity-100' : 'opacity-0'}`}
         style={{ objectPosition: 'center center' }}
       >
         <source src={heroVideo} type="video/mp4" />
