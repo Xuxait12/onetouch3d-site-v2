@@ -19,10 +19,10 @@ const EmotionalSectionCorrida = () => {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col items-start text-left">
             <p 
-              className="text-white font-bold leading-tight text-left"
+              className="text-white font-normal leading-tight text-left"
               style={{ 
                 fontFamily: "'Linik Sans', sans-serif",
-                fontSize: 'clamp(1.5rem, 4vw + 0.5rem, 3.5rem)'
+                fontSize: 'clamp(1.1rem, 3vw + 0.5rem, 2.5rem)'
               }}
             >
               Não é sobre o quadro.
@@ -31,7 +31,7 @@ const EmotionalSectionCorrida = () => {
               className="text-white font-bold leading-tight text-left"
               style={{ 
                 fontFamily: "'Linik Sans', sans-serif",
-                fontSize: 'clamp(1.1rem, 3vw + 0.5rem, 2.5rem)'
+                fontSize: 'clamp(1.5rem, 4vw + 0.5rem, 3.5rem)'
               }}
             >
               É sobre quem você se tornou.
