@@ -48,9 +48,9 @@ const EmotionalImageSection = ({
       {/* Text Overlay - positioned at bottom left */}
       <div className="absolute inset-0 flex items-end">
         <div className="px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 pb-8 sm:pb-10 md:pb-12 lg:pb-14 xl:pb-16 max-w-4xl">
-          {/* Line 1 - Light */}
+          {/* Line 1 - Regular */}
           <p 
-            className="text-white/85 text-left font-light leading-tight mb-1 sm:mb-2"
+            className="text-white/85 text-left font-normal leading-tight mb-1 sm:mb-2"
             style={{ 
               fontFamily: "'Linik Sans', sans-serif",
               fontSize: 'clamp(1.125rem, 2.5vw + 0.5rem, 2rem)'
