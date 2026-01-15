@@ -1,30 +1,41 @@
 const EmotionalSectionTriathlon = () => {
   return (
-    <section className="section-spacing">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Text Content */}
-          <div className="order-2 lg:order-1 text-center lg:text-left">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
+    <section className="relative w-full h-[60vh] sm:h-[70vh] md:h-[80vh] overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <img
+          src="/images/triathlon-fotos-historia.webp"
+          alt="Atleta de triathlon cruzando a linha de chegada"
+          className="w-full h-full object-cover"
+          loading="lazy"
+        />
+      </div>
+      
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+      
+      {/* Text Content - Bottom Left */}
+      <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 md:p-12 lg:p-16">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col items-start text-left">
+            <p 
+              className="text-white font-normal leading-tight text-left"
+              style={{ 
+                fontFamily: "'Linik Sans', sans-serif",
+                fontSize: 'clamp(1.1rem, 3vw + 0.5rem, 2.5rem)'
+              }}
+            >
               Suas Fotos contam Sua História
-            </h1>
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-              A emoção da prova em um lugar especial.
-              <br /><br />
-              Aquele registro na transição, o sorriso na corrida, o esforço na bike, o mergulho inicial.
-              <br /><br />
-              Suas fotos ganham um espaço pensado para transmitir a intensidade e o orgulho desse dia inesquecível.
             </p>
-          </div>
-          
-          {/* Image */}
-          <div className="order-1 lg:order-2">
-            <img
-              src="/images/triathlon-fotos-historia.webp"
-              alt="Fotos de triathlon contando sua história"
-              className="w-full h-auto rounded-lg shadow-lg object-cover"
-              loading="lazy"
-            />
+            <p 
+              className="text-white font-bold leading-tight text-left"
+              style={{ 
+                fontFamily: "'Linik Sans', sans-serif",
+                fontSize: 'clamp(1.5rem, 4vw + 0.5rem, 3.5rem)'
+              }}
+            >
+              A emoção da prova em um lugar especial.
+            </p>
           </div>
         </div>
       </div>
