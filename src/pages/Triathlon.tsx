@@ -13,6 +13,7 @@ import FAQSectionTriathlon from "@/components/FAQSectionTriathlon";
 import GallerySectionTriathlon from "@/components/GallerySectionTriathlon";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ShareSection from "@/components/ShareSection";
+import EmotionalImageSection from "@/components/EmotionalImageSection";
 
 const Triathlon = () => {
   const location = useLocation();
@@ -66,9 +67,12 @@ const Triathlon = () => {
         <HowItWorksTabs />
         <WhyChooseUsTabsTriathlon />
         
-        {/* CONQUISTA background text positioned between sections */}
-        
-        
+        <EmotionalImageSection 
+          imageSrc="/images/lifestyle-triathlon.webp"
+          imageAlt="Quadro personalizado de triathlon em ambiente moderno"
+          line1="Não é apenas um quadro."
+          line2="É a prova de que você foi até o limite."
+        />
         
         <GallerySectionTriathlon />
         <TestimonialsSectionTriathlon />

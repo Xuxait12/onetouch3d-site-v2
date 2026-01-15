@@ -9,15 +9,10 @@ import ProductSectionViagemLocal from "@/pages/stores/ProductSectionViagemLocal"
 import HowItWorksTabsViagem from "@/components/HowItWorksTabsViagem";
 import WhyChooseUsTabsViagem from "@/components/WhyChooseUsTabsViagem";
 import FAQSectionViagem from "@/components/FAQSectionViagem";
-import CtaSection from "@/components/CtaSection";
 import GallerySectionViagem from "@/components/GallerySectionViagem";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import WhyChooseSection from "@/components/WhyChooseSection";
-import InfiniteLogoCarousel from "@/components/ui/infinite-logo-carousel";
 import ShareSectionViagem from "@/components/ShareSectionViagem";
-
-// Import images
-import premiumFrame from "@/assets/premium-frame.jpg";
+import EmotionalImageSection from "@/components/EmotionalImageSection";
 const Viagem = () => {
   const location = useLocation();
   useEffect(() => {
@@ -89,9 +84,12 @@ const Viagem = () => {
         <HowItWorksTabsViagem />
         <WhyChooseUsTabsViagem />
         
-        {/* CONQUISTA background text positioned between sections */}
-        
-        
+        <EmotionalImageSection 
+          imageSrc="/images/destaque-viagem.webp"
+          imageAlt="Quadro personalizado de viagem em ambiente moderno"
+          line1="Não é apenas um quadro."
+          line2="É a prova de que você foi até o limite."
+        />
         
         <GallerySectionViagem />
         <TestimonialsSection />

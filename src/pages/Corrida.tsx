@@ -9,15 +9,11 @@ import ProductSectionCorridaLocal from "@/pages/stores/ProductSectionCorridaLoca
 import HowItWorksTabs from "@/components/HowItWorksTabs";
 import WhyChooseUsTabsCorrida from "@/components/WhyChooseUsTabsCorrida";
 import FAQSectionCorrida from "@/components/FAQSectionCorrida";
-import CtaSection from "@/components/CtaSection";
 import GallerySectionCorrida from "@/components/GallerySectionCorrida";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import WhyChooseSection from "@/components/WhyChooseSection";
-import InfiniteLogoCarousel from "@/components/ui/infinite-logo-carousel";
 import ShareSectionCorrida from "@/components/ShareSectionCorrida";
+import EmotionalImageSection from "@/components/EmotionalImageSection";
 
-// Import images
-import premiumFrame from "@/assets/premium-frame.jpg";
 const Corrida = () => {
   const location = useLocation();
   useEffect(() => {
@@ -62,7 +58,12 @@ const Corrida = () => {
         <HowItWorksTabs />
         <WhyChooseUsTabsCorrida />
         
-        
+        <EmotionalImageSection 
+          imageSrc="/images/emotional-corrida.webp"
+          imageAlt="Quadro personalizado de corrida em ambiente moderno"
+          line1="Não é apenas um quadro."
+          line2="É a prova de que você foi até o limite."
+        />
         
         <GallerySectionCorrida />
         <TestimonialsSectionCorrida />
