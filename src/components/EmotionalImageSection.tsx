@@ -27,7 +27,7 @@ const EmotionalImageSection = ({
           decoding="async"
           width={1600}
           height={900}
-          className="sm:hidden absolute inset-0 w-full h-full object-cover object-center"
+          className="sm:hidden absolute inset-0 w-full h-full object-cover object-top"
         />
       )}
       
@@ -39,7 +39,7 @@ const EmotionalImageSection = ({
         decoding="async"
         width={1600}
         height={900}
-        className={`absolute inset-0 w-full h-full object-cover object-center ${
+        className={`absolute inset-0 w-full h-full object-cover object-top ${
           mobileImageSrc ? 'hidden sm:block' : ''
         }`}
       />
