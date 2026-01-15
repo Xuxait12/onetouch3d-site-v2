@@ -12,7 +12,7 @@ import FAQSectionCorrida from "@/components/FAQSectionCorrida";
 import GallerySectionCorrida from "@/components/GallerySectionCorrida";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ShareSectionCorrida from "@/components/ShareSectionCorrida";
-import EmotionalImageSection from "@/components/EmotionalImageSection";
+import EmotionalSectionCorrida from "@/components/EmotionalSectionCorrida";
 
 const Corrida = () => {
   const location = useLocation();
@@ -58,12 +58,7 @@ const Corrida = () => {
         <HowItWorksTabs />
         <WhyChooseUsTabsCorrida />
         
-        <EmotionalImageSection 
-          imageSrc="/images/emotional-corrida.webp"
-          imageAlt="Corredor ultrapassando seus limites em uma maratona"
-          line1="Não é sobre o quadro."
-          line2="É sobre quem você se tornou."
-        />
+        <EmotionalSectionCorrida />
         
         <GallerySectionCorrida />
         <TestimonialsSectionCorrida />
