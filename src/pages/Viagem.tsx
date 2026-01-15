@@ -12,7 +12,7 @@ import FAQSectionViagem from "@/components/FAQSectionViagem";
 import GallerySectionViagem from "@/components/GallerySectionViagem";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ShareSectionViagem from "@/components/ShareSectionViagem";
-import EmotionalImageSection from "@/components/EmotionalImageSection";
+import EmotionalSectionViagem from "@/components/EmotionalSectionViagem";
 const Viagem = () => {
   const location = useLocation();
   useEffect(() => {
@@ -84,14 +84,7 @@ const Viagem = () => {
         <HowItWorksTabsViagem />
         <WhyChooseUsTabsViagem />
         
-        <EmotionalImageSection 
-          imageSrc="/images/emotional-viagem.webp"
-          imageAlt="Motociclistas em viagem com vista para lago e montanhas"
-          line1="Sua rota. Seu momento."
-          line2="A viagem acaba. A memória vira arte."
-          textAlign="left"
-          mobileLine2FontSize="1.1rem"
-        />
+        <EmotionalSectionViagem />
         
         <GallerySectionViagem />
         <TestimonialsSection />

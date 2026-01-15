@@ -13,7 +13,7 @@ import FAQSectionCiclismo from "@/components/FAQSectionCiclismo";
 import GallerySectionCiclismo from "@/components/GallerySectionCiclismo";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ShareSectionCiclismo from "@/components/ShareSectionCiclismo";
-import EmotionalImageSection from "@/components/EmotionalImageSection";
+import EmotionalSectionCiclismo from "@/components/EmotionalSectionCiclismo";
 const Ciclismo = () => {
   const location = useLocation();
   useEffect(() => {
@@ -71,13 +71,7 @@ const Ciclismo = () => {
         <HowItWorksTabsCiclismo />
         <WhyChooseUsTabsCiclismo />
         
-        <EmotionalImageSection 
-          imageSrc="/images/emotional-ciclismo.webp"
-          imageAlt="Ciclista em estrada de montanha ao pôr do sol"
-          line1="Há estradas que mudam a rota."
-          line2="E há viagens que mudam a gente."
-          textAlign="right"
-        />
+        <EmotionalSectionCiclismo />
         
         <GallerySectionCiclismo />
         <TestimonialsSectionCiclismo />

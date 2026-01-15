@@ -13,7 +13,7 @@ import FAQSectionTriathlon from "@/components/FAQSectionTriathlon";
 import GallerySectionTriathlon from "@/components/GallerySectionTriathlon";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ShareSection from "@/components/ShareSection";
-import EmotionalImageSection from "@/components/EmotionalImageSection";
+import EmotionalImageSectionTriathlon from "@/components/EmotionalImageSectionTriathlon";
 
 const Triathlon = () => {
   const location = useLocation();
@@ -67,15 +67,7 @@ const Triathlon = () => {
         <HowItWorksTabs />
         <WhyChooseUsTabsTriathlon />
         
-        <EmotionalImageSection 
-          imageSrc="/images/emotional-triathlon.webp"
-          imageAlt="Quadro personalizado de triathlon Ironman em ambiente moderno"
-          line1="Não é apenas um quadro."
-          line2="É a prova de que você foi até o limite."
-          textAlign="right"
-          mobileObjectPosition="object-left-top"
-          mobileLine2FontSize="1.1rem"
-        />
+        <EmotionalImageSectionTriathlon />
         
         <GallerySectionTriathlon />
         <TestimonialsSectionTriathlon />
