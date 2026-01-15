@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
-import HeroSection from "@/components/HeroSection";
+import HeroSectionCorrida from "@/components/HeroSectionCorrida";
 import FeatureSection from "@/components/FeatureSection";
 import TestimonialsSectionCorrida from "@/components/TestimonialsSectionCorrida";
 import ProductSectionCorridaLocal from "@/pages/stores/ProductSectionCorridaLocal";
@@ -32,7 +32,7 @@ const Corrida = () => {
       <GlobalHeader />
       
       <main>
-        <HeroSection />
+        <HeroSectionCorrida />
         
         <FeatureSection title="Moldura Premium para Quadros de Corrida" description={<>Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado.<br /><br />Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração.</>} imageSrc="/images/quadro-moderno.gif" mobileImageSrc="/images/moldura-premium-corrida-mobile.webp" imageAlt="Moldura premium personalizada" imageOnLeft={true} />
         
