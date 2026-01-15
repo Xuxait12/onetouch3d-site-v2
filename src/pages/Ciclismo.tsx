@@ -10,15 +10,10 @@ import ProductSectionCiclismoLocal from "@/pages/stores/ProductSectionCiclismoLo
 import HowItWorksTabsCiclismo from "@/components/HowItWorksTabsCiclismo";
 import WhyChooseUsTabsCiclismo from "@/components/WhyChooseUsTabsCiclismo";
 import FAQSectionCiclismo from "@/components/FAQSectionCiclismo";
-import CtaSection from "@/components/CtaSection";
 import GallerySectionCiclismo from "@/components/GallerySectionCiclismo";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import WhyChooseSection from "@/components/WhyChooseSection";
-import InfiniteLogoCarousel from "@/components/ui/infinite-logo-carousel";
 import ShareSectionCiclismo from "@/components/ShareSectionCiclismo";
-
-// Import images
-import premiumFrame from "@/assets/premium-frame.jpg";
+import EmotionalImageSection from "@/components/EmotionalImageSection";
 const Ciclismo = () => {
   const location = useLocation();
   useEffect(() => {
@@ -76,9 +71,12 @@ const Ciclismo = () => {
         <HowItWorksTabsCiclismo />
         <WhyChooseUsTabsCiclismo />
         
-        {/* CONQUISTA background text positioned between sections */}
-        
-        
+        <EmotionalImageSection 
+          imageSrc="/images/destaque-ciclismo.webp"
+          imageAlt="Quadro personalizado de ciclismo em ambiente moderno"
+          line1="Não é apenas um quadro."
+          line2="É a prova de que você foi até o limite."
+        />
         
         <GallerySectionCiclismo />
         <TestimonialsSectionCiclismo />
