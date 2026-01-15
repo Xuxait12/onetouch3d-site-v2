@@ -38,7 +38,7 @@ const Corrida = () => {
       <main>
         <HeroSection />
         
-        <FeatureSection title="Moldura Premium para Quadros de Corrida" description={<>Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado.<br /><br />Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração.</>} imageSrc="/images/quadro-moderno.gif" imageAlt="Moldura premium personalizada" imageOnLeft={true} />
+        <FeatureSection title="Moldura Premium para Quadros de Corrida" description={<>Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado.<br /><br />Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração.</>} imageSrc="/images/quadro-moderno.gif" mobileImageSrc="/images/moldura-premium-corrida-mobile.webp" imageAlt="Moldura premium personalizada" imageOnLeft={true} />
         
         {/* Feature sections wrapper */}
         <div className="relative overflow-hidden">
