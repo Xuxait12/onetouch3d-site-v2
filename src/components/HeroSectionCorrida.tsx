@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
+const heroPoster = "/images/corrida-hero.webp";
 const heroVideo = "/videos/run_hero.mp4";
 
 const LETTER_VARIANTS = {
@@ -66,15 +67,16 @@ const HeroSectionCorrida = () => {
 
   return (
     <section className="relative w-full min-h-[100svh] overflow-hidden bg-gray-900">
-      {/* Background Video */}
+      {/* Background Video with poster for instant display */}
       <video
         autoPlay
         loop
         muted
         playsInline
         preload="auto"
+        poster={heroPoster}
         onCanPlayThrough={() => setVideoReady(true)}
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${videoReady ? 'opacity-100' : 'opacity-0'}`}
+        className="absolute inset-0 w-full h-full object-cover"
         style={{ objectPosition: 'center center' }}
       >
         <source src={heroVideo} type="video/mp4" />
