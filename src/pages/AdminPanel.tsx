@@ -59,16 +59,51 @@ const AdminPanel = () => {
   const [periodFilter, setPeriodFilter] = useState('todos');
   const [customStartDate, setCustomStartDate] = useState<Date>();
   const [customEndDate, setCustomEndDate] = useState<Date>();
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+  const [checkingAdmin, setCheckingAdmin] = useState(true);
+
+  // Check admin status from database
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      if (!user) {
+        setCheckingAdmin(false);
+        setIsAdmin(false);
+        return;
+      }
+
+      try {
+        const { data: profile, error } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('user_id', user.id)
+          .single();
+
+        if (error || !profile) {
+          setIsAdmin(false);
+        } else {
+          setIsAdmin(profile.is_admin || false);
+        }
+      } catch {
+        setIsAdmin(false);
+      } finally {
+        setCheckingAdmin(false);
+      }
+    };
+
+    if (!loading) {
+      checkAdminStatus();
+    }
+  }, [user, loading]);
 
   // Verificar autenticação e autorização
   useEffect(() => {
-    if (!loading) {
+    if (!loading && !checkingAdmin) {
       if (!user) {
         navigate('/auth');
         return;
       }
       
-      if (user.email !== 'onetouch3dbrasil@gmail.com') {
+      if (isAdmin === false) {
         toast({
           title: "Acesso restrito",
           description: "Apenas administradores autorizados podem acessar este painel.",
@@ -78,7 +113,7 @@ const AdminPanel = () => {
         return;
       }
     }
-  }, [user, loading, navigate, toast]);
+  }, [user, loading, checkingAdmin, isAdmin, navigate, toast]);
 
   // Carregar dados dos pedidos
   const loadOrders = async () => {
@@ -161,11 +196,11 @@ const AdminPanel = () => {
   };
 
   useEffect(() => {
-    if (user?.email === 'onetouch3dbrasil@gmail.com') {
+    if (isAdmin === true) {
       loadOrders();
       loadProfiles();
     }
-  }, [user]);
+  }, [isAdmin]);
 
   const handleLogout = async () => {
     try {
@@ -264,7 +299,7 @@ const AdminPanel = () => {
     totalCustomers: profiles.length
   };
 
-  if (loading) {
+  if (loading || checkingAdmin) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
@@ -275,7 +310,7 @@ const AdminPanel = () => {
     );
   }
 
-  if (!user || user.email !== 'onetouch3dbrasil@gmail.com') {
+  if (!user || isAdmin !== true) {
     return null;
   }
 

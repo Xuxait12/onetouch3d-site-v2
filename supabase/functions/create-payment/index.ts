@@ -53,6 +53,25 @@ serve(async (req: Request) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
+    // Verify authentication
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+    if (authError || !user) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Invalid token' }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const paymentRequest: PaymentRequest = await req.json();
 
     if (
@@ -63,14 +82,36 @@ serve(async (req: Request) => {
       throw new Error("Campos obrigatórios faltando");
     }
 
+    // Validate pedido_id format (UUID)
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(paymentRequest.pedido_id)) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'ID do pedido inválido' }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Validate amount is positive and within reasonable limits
+    if (paymentRequest.amount <= 0 || paymentRequest.amount > 1000000) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Valor do pagamento inválido' }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Verify ownership: user must own the order
     const { data: pedido, error: pedidoError } = await supabase
       .from("pedidos")
       .select("*")
       .eq("id", paymentRequest.pedido_id)
+      .eq("user_id", user.id) // Only allow payment for own orders
       .single();
 
     if (pedidoError || !pedido) {
-      throw new Error("Pedido não encontrado");
+      return new Response(
+        JSON.stringify({ success: false, error: 'Pedido não encontrado ou acesso não autorizado' }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
 
     const expectedAmount =
@@ -196,7 +237,8 @@ serve(async (req: Request) => {
     await supabase
       .from("pedidos")
       .update(updateData)
-      .eq("id", paymentRequest.pedido_id);
+      .eq("id", paymentRequest.pedido_id)
+      .eq("user_id", user.id); // Double-check ownership on update
 
     if (paymentData.status === "approved") {
       try {

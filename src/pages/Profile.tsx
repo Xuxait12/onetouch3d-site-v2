@@ -9,6 +9,8 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from '@supabase/supabase-js';
 import GlobalHeader from '@/components/GlobalHeader';
+import { profileSchema, getValidationErrors } from "@/lib/validation";
+import { z } from "zod";
 
 const Profile = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -105,24 +107,58 @@ const Profile = () => {
 
     setLoading(true);
     try {
+      // Validate profile data with zod schema
+      const profileData = {
+        full_name: fullName.substring(0, 100),
+        cpf_cnpj: cpfCnpj.substring(0, 18),
+        birth_date: birthDate,
+        cep: cep.substring(0, 10),
+        address: address.substring(0, 200),
+        number: number.substring(0, 20),
+        complement: complement?.substring(0, 100) || null,
+        neighborhood: neighborhood.substring(0, 100),
+        city: city.substring(0, 100),
+        state: state.substring(0, 50),
+        phone: phone.substring(0, 20),
+        email: user.email || '',
+        person_type: personType,
+        country: country.substring(0, 100),
+      };
+
+      try {
+        profileSchema.parse(profileData);
+      } catch (validationError) {
+        if (validationError instanceof z.ZodError) {
+          const errors = getValidationErrors(validationError);
+          toast({
+            title: "Dados inválidos",
+            description: errors[0] || "Verifique os campos informados.",
+            variant: "destructive",
+          });
+          setLoading(false);
+          return;
+        }
+        throw validationError;
+      }
+
       const { error } = await supabase
         .from('profiles')
         .upsert({
           user_id: user.id,
-          email: user.email,
-          full_name: fullName,
-          person_type: personType,
-          cpf_cnpj: cpfCnpj,
-          birth_date: birthDate,
-          country: country,
-          cep: cep,
-          address: address,
-          number: number,
-          complement: complement || null,
-          neighborhood: neighborhood,
-          city: city,
-          state: state,
-          phone: phone,
+          email: profileData.email,
+          full_name: profileData.full_name,
+          person_type: profileData.person_type,
+          cpf_cnpj: profileData.cpf_cnpj,
+          birth_date: profileData.birth_date,
+          country: profileData.country,
+          cep: profileData.cep,
+          address: profileData.address,
+          number: profileData.number,
+          complement: profileData.complement,
+          neighborhood: profileData.neighborhood,
+          city: profileData.city,
+          state: profileData.state,
+          phone: profileData.phone,
         }, {
           onConflict: 'user_id'
         });
