@@ -5,14 +5,12 @@ const EmotionalSectionCiclismo = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Image - Left on desktop */}
           <div className="order-1">
-            <div className="relative w-full h-64 sm:h-80 lg:h-96 rounded-lg shadow-lg overflow-hidden">
-              <img
-                src="/images/emotional-ciclismo.webp"
-                alt="Ciclista em estrada de montanha ao pôr do sol"
-                className="absolute inset-0 w-full h-full object-cover object-bottom"
-                loading="lazy"
-              />
-            </div>
+            <img
+              src="/images/emotional-ciclismo.webp"
+              alt="Ciclista em estrada de montanha ao pôr do sol"
+              className="w-full h-auto rounded-lg shadow-lg object-cover"
+              loading="lazy"
+            />
           </div>
           
           {/* Text Content - Right on desktop */}
