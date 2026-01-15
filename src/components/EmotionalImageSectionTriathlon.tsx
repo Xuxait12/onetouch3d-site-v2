@@ -19,10 +19,10 @@ const EmotionalImageSectionTriathlon = () => {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col items-end text-right">
             <p 
-              className="text-white font-bold leading-tight text-right"
+              className="text-white font-normal leading-tight text-right"
               style={{ 
                 fontFamily: "'Linik Sans', sans-serif",
-                fontSize: 'clamp(1.5rem, 4vw + 0.5rem, 3.5rem)'
+                fontSize: 'clamp(1.1rem, 3vw + 0.5rem, 2.5rem)'
               }}
             >
               Não é apenas um quadro.
@@ -31,7 +31,7 @@ const EmotionalImageSectionTriathlon = () => {
               className="text-white font-bold leading-tight text-right"
               style={{ 
                 fontFamily: "'Linik Sans', sans-serif",
-                fontSize: 'clamp(1.1rem, 3vw + 0.5rem, 2.5rem)'
+                fontSize: 'clamp(1.5rem, 4vw + 0.5rem, 3.5rem)'
               }}
             >
               É a prova de que você foi até o limite.
