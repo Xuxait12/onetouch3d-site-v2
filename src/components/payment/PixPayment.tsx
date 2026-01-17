@@ -44,7 +44,9 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
   const [checking, setChecking] = useState<boolean>(false);
   const { toast } = useToast();
 
-  const discountedAmount = Math.round(amount * 0.95 * 100) / 100;
+  // O valor 'amount' já vem com o desconto PIX aplicado do Checkout
+  // Apenas garantir que tenha 2 casas decimais
+  const finalAmount = Math.round(amount * 100) / 100;
 
   useEffect(() => {
     createPixPayment();
@@ -58,7 +60,7 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
         body: {
           pedido_id: pedidoId,
           payment_method_id: 'pix',
-          amount: discountedAmount,
+          amount: finalAmount,
           payer: {
             email: payer.email,
             first_name: payer.first_name || 'Cliente',
@@ -201,14 +203,9 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
     <div className="space-y-6">
       <div className="text-center">
         <h3 className="text-2xl font-semibold mb-2">Pague com PIX</h3>
-        <div className="flex flex-col gap-1">
-          <p className="text-gray-600">
-            Valor original: <span className="line-through">R$ {amount.toFixed(2)}</span>
-          </p>
-          <p className="text-green-600 font-semibold text-xl">
-            Total com 5% de desconto: R$ {discountedAmount.toFixed(2)}
-          </p>
-        </div>
+        <p className="text-green-600 font-semibold text-xl">
+          Total a pagar: R$ {finalAmount.toFixed(2)}
+        </p>
       </div>
 
       <div className="flex justify-center">
