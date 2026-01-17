@@ -31,7 +31,7 @@ const ProductSectionCiclismoLocal = () => {
     { size: "33x43cm", fullPrice: 407.50, pixPrice: 382.50 },
     { size: "37x48cm", fullPrice: 448.30, pixPrice: 413.30 },
     { size: "43x53cm", fullPrice: 486.30, pixPrice: 451.30 },
-    { size: "43x43cm", fullPrice: 456.40, pixPrice: 421.40 },
+    { size: "43x43cm", fullPrice: 1.00, pixPrice: 1.00 },
     { size: "53x53cm", fullPrice: 518.70, pixPrice: 483.70 }
   ];
 
