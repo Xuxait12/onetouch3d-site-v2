@@ -114,14 +114,14 @@ serve(async (req: Request) => {
       );
     }
 
-    const expectedAmount =
-      paymentRequest.payment_method_id === "pix"
-        ? Math.round(pedido.total * 0.95 * 100) / 100
-        : pedido.total;
+    // O valor total do pedido já inclui o desconto PIX quando aplicável
+    // Não aplicar desconto novamente aqui para evitar desconto duplicado
+    const expectedAmount = pedido.total;
 
     const amountDifference = Math.abs(expectedAmount - paymentRequest.amount);
 
     if (amountDifference > 0.02) {
+      console.log(`Validação de valor: esperado=${expectedAmount}, recebido=${paymentRequest.amount}, diferença=${amountDifference}`);
       throw new Error("Valor do pagamento inválido");
     }
 
