@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Link } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import googleLogo from '@/assets/google-logo.png';
+import onetouchLogo from '@/assets/onetouch-logo.png';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -217,9 +218,11 @@ const Auth = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">
-            OneTouch<span className="text-accent">3D</span>
-          </CardTitle>
+          <img 
+            src={onetouchLogo} 
+            alt="OneTouch3D" 
+            className="h-10 mx-auto mb-2"
+          />
           <CardDescription>
             Entre ou crie sua conta
           </CardDescription>
