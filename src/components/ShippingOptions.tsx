@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Loader2, Package, Clock } from "lucide-react";
+import { Loader2, Package, Clock, MapPin } from "lucide-react";
 import { ShippingOption } from "@/types/shipping";
 
 interface ShippingOptionsProps {
@@ -9,28 +9,49 @@ interface ShippingOptionsProps {
   selectedOption: ShippingOption | null;
   onSelect: (option: ShippingOption) => void;
   isLoading?: boolean;
+  showPickup?: boolean;
 }
+
+const PICKUP_OPTION: ShippingOption = {
+  id: -1,
+  name: "Retirar no local",
+  price: 0,
+  custom_price: 0,
+  currency: "R$",
+  delivery_time: 0,
+  custom_delivery_time: 0,
+  delivery_range: { min: 0, max: 0 },
+  company: {
+    id: -1,
+    name: "Loja Física",
+    picture: ""
+  },
+  packages: []
+};
+
+export { PICKUP_OPTION };
 
 export function ShippingOptions({
   options,
   selectedOption,
   onSelect,
-  isLoading = false
+  isLoading = false,
+  showPickup = true
 }: ShippingOptionsProps) {
   if (isLoading) {
     return (
-      <Card className="p-6">
-        <div className="flex items-center justify-center gap-2 text-muted-foreground">
-          <Loader2 className="w-4 h-4 animate-spin" />
-          <span>Calculando opções de frete...</span>
-        </div>
-      </Card>
+      <div className="flex items-center justify-center gap-2 text-muted-foreground py-4">
+        <Loader2 className="w-4 h-4 animate-spin" />
+        <span>Calculando opções de frete...</span>
+      </div>
     );
   }
 
   if (!options || options.length === 0) {
     return null;
   }
+
+  const allOptions = showPickup ? [PICKUP_OPTION, ...options] : options;
 
   return (
     <div className="space-y-3">
@@ -42,88 +63,91 @@ export function ShippingOptions({
       <RadioGroup
         value={selectedOption?.id.toString()}
         onValueChange={(value) => {
-          const option = options.find(o => o.id.toString() === value);
-          if (option) onSelect(option);
+          if (value === "-1") {
+            onSelect(PICKUP_OPTION);
+          } else {
+            const option = options.find(o => o.id.toString() === value);
+            if (option) onSelect(option);
+          }
         }}
       >
         <div className="space-y-2">
-          {options.map((option) => (
-            <Card
-              key={option.id}
-              className={`p-4 cursor-pointer transition-all hover:border-primary ${
-                selectedOption?.id === option.id ? 'border-primary bg-primary/5' : ''
-              }`}
-              onClick={() => onSelect(option)}
-            >
-              <div className="flex items-center space-x-3">
-                <RadioGroupItem
-                  value={option.id.toString()}
-                  id={`shipping-option-${option.id}`}
-                />
+          {allOptions.map((option) => {
+            const isPickup = option.id === -1;
+            const isSelected = selectedOption?.id === option.id;
 
-                <div className="flex-1">
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-3 flex-1">
-                      {option.company.picture && (
+            return (
+              <Card
+                key={option.id}
+                className={`p-3 cursor-pointer transition-all hover:border-primary ${
+                  isSelected ? 'border-primary bg-primary/5' : ''
+                }`}
+                onClick={() => onSelect(option)}
+              >
+                <div className="flex items-center gap-3">
+                  <RadioGroupItem
+                    value={option.id.toString()}
+                    id={`shipping-option-${option.id}`}
+                    className="shrink-0"
+                  />
+
+                  <div className="flex items-center justify-between w-full min-w-0">
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                      {isPickup ? (
+                        <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                          <MapPin className="w-6 h-6 text-green-600" />
+                        </div>
+                      ) : option.company.picture ? (
                         <img
                           src={option.company.picture}
                           alt={option.company.name}
-                          className="w-10 h-10 object-contain"
+                          className="w-12 h-12 object-contain shrink-0"
                           onError={(e) => {
                             e.currentTarget.style.display = 'none';
                           }}
                         />
+                      ) : (
+                        <div className="w-12 h-12 rounded bg-muted flex items-center justify-center shrink-0">
+                          <Package className="w-6 h-6 text-muted-foreground" />
+                        </div>
                       )}
 
-                      <div className="flex flex-col">
-                        <div className="flex items-center gap-2">
-                          <span className="font-semibold text-foreground">
-                            {option.name}
-                          </span>
-                          <span className="text-xs text-muted-foreground">
-                            - {option.company.name}
-                          </span>
-                        </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="font-semibold text-foreground text-sm">
+                          {option.name}
+                        </span>
 
-                        <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
-                          <Clock className="w-3 h-3" />
-                          <span>
-                            {option.custom_delivery_time} dia
-                            {option.custom_delivery_time !== 1 ? 's' : ''} útei
-                            {option.custom_delivery_time !== 1 ? 's' : ''}
-                          </span>
-                          {option.delivery_range && (
-                            <span className="text-xs">
-                              ({option.delivery_range.min}-{option.delivery_range.max} dias)
+                        {!isPickup && (
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <Clock className="w-3 h-3 shrink-0" />
+                            <span>
+                              {option.custom_delivery_time} dia{option.custom_delivery_time !== 1 ? 's' : ''} útei{option.custom_delivery_time !== 1 ? 's' : ''}
                             </span>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
                     </div>
 
-                    <div className="text-right">
-                      <div className="font-bold text-lg text-green-600">
-                        R$ {Number(option.custom_price).toFixed(2).replace('.', ',')}
+                    <div className="text-right shrink-0 ml-2">
+                      <div className={`font-bold ${isPickup ? 'text-green-600' : 'text-foreground'}`}>
+                        {isPickup ? (
+                          "Grátis"
+                        ) : (
+                          `R$ ${Number(option.custom_price).toFixed(2).replace('.', ',')}`
+                        )}
                       </div>
-                      {option.discount && option.discount !== "0%" && (
-                        <div className="text-xs text-muted-foreground">
-                          {option.discount} de desconto
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>
-              </div>
-            </Card>
-          ))}
+              </Card>
+            );
+          })}
         </div>
       </RadioGroup>
 
-      {options.length > 0 && (
-        <p className="text-xs text-muted-foreground mt-2">
-          * Prazo de entrega em dias úteis a partir da confirmação do pagamento
-        </p>
-      )}
+      <p className="text-xs text-muted-foreground">
+        * Prazo de entrega em dias úteis a partir da confirmação do envio
+      </p>
     </div>
   );
 }
