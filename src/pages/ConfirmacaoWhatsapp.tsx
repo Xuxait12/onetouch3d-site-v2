@@ -380,28 +380,36 @@ const ConfirmacaoWhatsapp = () => {
       }
 
       // Create preliminary order (no payment, manual finalization)
+      const orderPayload = {
+        user_id: userId,
+        subtotal: 0,
+        frete: 0,
+        desconto: 0,
+        total: 0,
+        status: 'aguardando_pagamento',
+        forma_pagamento: 'pix',
+        shipping_address: enderecoCompleto,
+        payment_metadata: {
+          origem: 'whatsapp'
+        }
+      };
+      
+      console.log('📦 [DEBUG] Criando pedido com payload:', JSON.stringify(orderPayload, null, 2));
+      
       const { data: pedido, error: pedidoError } = await supabase
         .from('pedidos')
-        .insert({
-          user_id: userId,
-          subtotal: 0,
-          frete: 0,
-          desconto: 0,
-          total: 0,
-          status: 'aguardando_pagamento',
-          forma_pagamento: 'pix',
-          shipping_address: enderecoCompleto,
-          payment_metadata: {
-            origem: 'whatsapp'
-          }
-        })
+        .insert(orderPayload)
         .select()
         .single();
 
       if (pedidoError) {
-        console.error('Order error:', pedidoError);
+        console.error('❌ [DEBUG] Erro ao criar pedido:', pedidoError);
+        console.error('❌ [DEBUG] Código do erro:', pedidoError.code);
+        console.error('❌ [DEBUG] Detalhes:', pedidoError.details);
         throw new Error(pedidoError.message || 'Erro ao criar pedido');
       }
+      
+      console.log('✅ [DEBUG] Pedido criado com sucesso:', pedido.id);
 
       // Create order item
       const { error: itemError } = await supabase
