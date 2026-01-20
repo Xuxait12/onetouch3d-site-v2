@@ -379,7 +379,7 @@ const ConfirmacaoWhatsapp = () => {
         throw new Error('Erro ao salvar perfil');
       }
 
-      // Create order
+      // Create preliminary order (no payment, manual finalization)
       const { data: pedido, error: pedidoError } = await supabase
         .from('pedidos')
         .insert({
@@ -389,7 +389,7 @@ const ConfirmacaoWhatsapp = () => {
           desconto: 0,
           total: 0,
           status: 'confirmacao_whatsapp',
-          forma_pagamento: 'pix',
+          forma_pagamento: 'pix_manual',
           shipping_address: enderecoCompleto,
           payment_metadata: {
             origem: 'whatsapp'
@@ -400,7 +400,7 @@ const ConfirmacaoWhatsapp = () => {
 
       if (pedidoError) {
         console.error('Order error:', pedidoError);
-        throw new Error('Erro ao criar pedido');
+        throw new Error(pedidoError.message || 'Erro ao criar pedido');
       }
 
       // Create order item
