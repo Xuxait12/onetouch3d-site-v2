@@ -8,11 +8,21 @@ import GlobalFooter from "@/components/GlobalFooter";
 import { Minus, Plus, X, ShoppingBag } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useNavigate } from "react-router-dom";
+import { ShippingOptions } from "@/components/ShippingOptions";
+import { toast } from "@/components/ui/use-toast";
+import { isValidCep } from "@/utils/cepValidator";
 
 const Carrinho = () => {
   const navigate = useNavigate();
-  const { state: cart, updateQuantity: updateCartQuantity, removeItem: removeCartItem, applyCoupon, calculateShipping } = useCart();
-  
+  const {
+    state: cart,
+    updateQuantity: updateCartQuantity,
+    removeItem: removeCartItem,
+    applyCoupon,
+    calculateShipping,
+    selectShippingOption
+  } = useCart();
+
   const [cupom, setCupom] = useState(cart.cupom || "");
   const [cep, setCep] = useState(cart.cep || "");
 
@@ -35,10 +45,29 @@ const Carrinho = () => {
     }
   };
 
-  const handleCalcularFrete = () => {
-    if (cep) {
-      const freteCalculado = 15.90; // Valor exemplo
-      calculateShipping(cep, freteCalculado);
+  const handleCalcularFrete = async () => {
+    if (!cep || !isValidCep(cep)) {
+      toast({
+        variant: "destructive",
+        title: "CEP inválido",
+        description: "Digite um CEP válido com 8 dígitos"
+      });
+      return;
+    }
+
+    await calculateShipping(cep);
+
+    if (cart.shippingError) {
+      toast({
+        variant: "destructive",
+        title: "Erro ao calcular frete",
+        description: cart.shippingError
+      });
+    } else if (cart.shippingOptions && cart.shippingOptions.length > 0) {
+      toast({
+        title: "Frete calculado!",
+        description: `${cart.shippingOptions.length} opção(ões) de envio disponível(eis)`
+      });
     }
   };
 
@@ -200,25 +229,46 @@ const Carrinho = () => {
                   <div className="flex gap-2">
                     <Input
                       type="text"
-                      placeholder="Digite seu CEP"
+                      placeholder="Digite seu CEP (ex: 01310-100)"
                       value={cep}
                       onChange={(e) => setCep(e.target.value)}
                       className="flex-1"
+                      maxLength={9}
                     />
-                    <Button 
+                    <Button
                       onClick={handleCalcularFrete}
                       variant="outline"
                       className="px-6"
+                      disabled={cart.isCalculatingShipping}
                     >
-                      Calcular
+                      {cart.isCalculatingShipping ? "Calculando..." : "Calcular"}
                     </Button>
                   </div>
-                  {cart.frete > 0 && (
-                    <p className="text-green-600 text-sm mt-2">
-                      Frete: R$ {cart.frete.toFixed(2).replace('.', ',')}
+
+                  {cart.shippingError && (
+                    <p className="text-red-600 text-sm mt-2">
+                      {cart.shippingError}
                     </p>
                   )}
                 </Card>
+
+                {/* Opções de Frete */}
+                {cart.shippingOptions && cart.shippingOptions.length > 0 && (
+                  <Card className="p-4">
+                    <ShippingOptions
+                      options={cart.shippingOptions}
+                      selectedOption={cart.selectedShippingOption}
+                      onSelect={selectShippingOption}
+                      isLoading={cart.isCalculatingShipping}
+                    />
+                  </Card>
+                )}
+
+                {cart.selectedShippingOption && (
+                  <div className="text-sm text-green-600 font-medium">
+                    ✓ Frete selecionado: {cart.selectedShippingOption.name} - R$ {Number(cart.selectedShippingOption.custom_price).toFixed(2).replace('.', ',')}
+                  </div>
+                )}
               </div>
 
               {/* Coluna Direita - Resumo do Carrinho */}
@@ -279,12 +329,28 @@ const Carrinho = () => {
                       </div>
                     </div>
 
-                    <Button 
+                    <Button
                       className="w-full mt-6 bg-black hover:bg-black/90 text-white py-3 text-lg font-medium rounded-lg"
-                      onClick={() => navigate("/checkout")}
+                      onClick={() => {
+                        if (!cart.selectedShippingOption) {
+                          toast({
+                            variant: "destructive",
+                            title: "Frete não selecionado",
+                            description: "Calcule o frete e selecione uma opção de envio para continuar."
+                          });
+                          return;
+                        }
+                        navigate("/checkout");
+                      }}
                     >
                       Finalizar Compra
                     </Button>
+
+                    {!cart.selectedShippingOption && (
+                      <p className="text-xs text-muted-foreground text-center mt-2">
+                        * Calcule o frete antes de finalizar
+                      </p>
+                    )}
                   </div>
                 </Card>
               </div>

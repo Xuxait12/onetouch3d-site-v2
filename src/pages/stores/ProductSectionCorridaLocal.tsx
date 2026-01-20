@@ -7,6 +7,9 @@ import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { ShippingOption } from "@/types/shipping";
+import { Loader2, Package, Clock } from "lucide-react";
 
 const ProductSectionCorridaLocal = () => {
   const navigate = useNavigate();
@@ -29,6 +32,9 @@ const ProductSectionCorridaLocal = () => {
     }
   };
   const [cep, setCep] = useState("");
+  const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
+  const [isCalculatingShipping, setIsCalculatingShipping] = useState(false);
+  const [shippingError, setShippingError] = useState<string | null>(null);
 
   const typeOptions = [
     { value: "caixa-alta", label: "Caixa Alta" },
@@ -145,8 +151,63 @@ const ProductSectionCorridaLocal = () => {
     });
   };
 
-  const handleCalculateFrete = () => {
-    // Freight calculation handled by CartContext
+  const handleCalculateFrete = async () => {
+    const cepLimpo = cep.replace(/\D/g, '');
+
+    if (!cepLimpo || cepLimpo.length !== 8) {
+      toast({
+        variant: "destructive",
+        title: "CEP inválido",
+        description: "Digite um CEP válido com 8 dígitos"
+      });
+      return;
+    }
+
+    setIsCalculatingShipping(true);
+    setShippingError(null);
+    setShippingOptions([]);
+
+    try {
+      const currentSizeOption = sizeOptions.find(option => option.size === selectedSize) || sizeOptions[0];
+      const productPrice = selectedType === "caixa-alta"
+        ? (currentSizeOption as any).pixPrice
+        : (currentSizeOption as any).finalPrice;
+
+      const { data, error } = await supabase.functions.invoke('calculate-shipping', {
+        body: {
+          cep_destino: cepLimpo,
+          items: [{
+            tamanho: selectedSize,
+            quantidade: 1,
+            subtotal: productPrice
+          }]
+        }
+      });
+
+      if (error) throw error;
+
+      if (data.success) {
+        setShippingOptions(data.options);
+        if (data.fallback) {
+          toast({
+            title: "Atenção",
+            description: data.message || "Usando valor padrão de frete"
+          });
+        }
+      } else {
+        throw new Error(data.error || 'Erro ao calcular frete');
+      }
+    } catch (error: any) {
+      const errorMessage = error.message || 'Não foi possível calcular o frete. Tente novamente.';
+      setShippingError(errorMessage);
+      toast({
+        variant: "destructive",
+        title: "Erro ao calcular frete",
+        description: errorMessage
+      });
+    } finally {
+      setIsCalculatingShipping(false);
+    }
   };
 
   return (
@@ -404,19 +465,76 @@ const ProductSectionCorridaLocal = () => {
                 <div className="flex flex-col sm:flex-row gap-2">
                   <Input
                     type="text"
-                    placeholder="Digite seu CEP"
+                    placeholder="Digite seu CEP (ex: 01310-100)"
                     value={cep}
                     onChange={(e) => setCep(e.target.value)}
                     className="flex-1 min-h-[44px]"
+                    maxLength={9}
                   />
-                  <Button 
+                  <Button
                     onClick={handleCalculateFrete}
                     variant="outline"
                     className="px-6 min-h-[44px]"
+                    disabled={isCalculatingShipping}
                   >
-                    Calcular
+                    {isCalculatingShipping ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Calculando...
+                      </>
+                    ) : (
+                      "Calcular"
+                    )}
                   </Button>
                 </div>
+
+                {shippingError && (
+                  <p className="text-red-600 text-sm mt-2">{shippingError}</p>
+                )}
+
+                {shippingOptions.length > 0 && (
+                  <div className="mt-4 space-y-2">
+                    <Label className="text-sm font-medium flex items-center gap-2">
+                      <Package className="w-4 h-4" />
+                      Opções de envio:
+                    </Label>
+                    <div className="space-y-2">
+                      {shippingOptions.slice(0, 3).map((option) => (
+                        <Card key={option.id} className="p-3">
+                          <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2 flex-1">
+                              {option.company.picture && (
+                                <img
+                                  src={option.company.picture}
+                                  alt={option.company.name}
+                                  className="w-8 h-8 object-contain"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                  }}
+                                />
+                              )}
+                              <div className="flex flex-col">
+                                <span className="font-medium text-sm">{option.name}</span>
+                                <span className="text-xs text-muted-foreground flex items-center gap-1">
+                                  <Clock className="w-3 h-3" />
+                                  {option.custom_delivery_time} dias úteis
+                                </span>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <span className="font-bold text-green-600">
+                                R$ {Number(option.custom_price).toFixed(2).replace('.', ',')}
+                              </span>
+                            </div>
+                          </div>
+                        </Card>
+                      ))}
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      * Prazo a partir da confirmação do pagamento
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
