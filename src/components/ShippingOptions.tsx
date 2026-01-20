@@ -129,10 +129,8 @@ export function ShippingOptions({
                     </div>
 
                     <div className="text-right shrink-0 ml-2">
-                      <div className={`font-bold ${isPickup ? 'text-green-600' : 'text-foreground'}`}>
-                        {isPickup ? (
-                          "Grátis"
-                        ) : (
+                      <div className="font-bold text-foreground">
+                        {!isPickup && (
                           `R$ ${Number(option.custom_price).toFixed(2).replace('.', ',')}`
                         )}
                       </div>
