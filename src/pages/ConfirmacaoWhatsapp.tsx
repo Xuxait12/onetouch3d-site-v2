@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from 'react-router-dom';
 import { Eye, EyeOff, CheckCircle } from 'lucide-react';
-import QRCode from 'react-qr-code';
+import pixQrCode from '@/assets/pix-qrcode.png';
 import googleLogo from '@/assets/google-logo.png';
 import onetouchLogo from '@/assets/onetouch-logo.png';
 
@@ -811,10 +811,10 @@ const ConfirmacaoWhatsapp = () => {
               </div>
 
               <div className="bg-background p-4 rounded-lg inline-block mx-auto border">
-                <QRCode 
-                  value={`00020126580014br.gov.bcb.pix0136${PIX_KEY}5204000053039865802BR5925LUCIANO SPADER6009SAO PAULO62070503***6304`}
-                  size={200}
-                  style={{ maxWidth: "100%", height: "auto" }}
+                <img 
+                  src={pixQrCode} 
+                  alt="QR Code PIX"
+                  className="w-[200px] h-auto"
                 />
               </div>
 
