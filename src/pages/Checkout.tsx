@@ -11,7 +11,9 @@ import GlobalFooter from "@/components/GlobalFooter";
 import CouponSection from "@/components/CouponSection";
 import { useCart } from "@/contexts/CartContext";
 import { useNavigate } from "react-router-dom";
-import { ShoppingBag, ArrowLeft, Eye, EyeOff } from "lucide-react";
+import { ShoppingBag, ArrowLeft, Eye, EyeOff, Loader2, Package, Clock } from "lucide-react";
+import { ShippingOptions } from "@/components/ShippingOptions";
+import { isValidCep } from "@/utils/cepValidator";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
@@ -23,7 +25,7 @@ import { z } from "zod";
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { state: cart, clearCart } = useCart();
+  const { state: cart, clearCart, calculateShipping, selectShippingOption } = useCart();
   const { user } = useAuth();
   const [personType, setPersonType] = useState("fisica");
   const [differentAddress, setDifferentAddress] = useState(false);
@@ -57,6 +59,9 @@ const Checkout = () => {
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showSignupPassword, setShowSignupPassword] = useState(false);
   const [showSignupConfirmPassword, setShowSignupConfirmPassword] = useState(false);
+
+  // Shipping state
+  const [shippingCep, setShippingCep] = useState(cart?.cep || "");
   
   // Refs for form fields
   const fullNameRef = useRef<HTMLInputElement>(null);
@@ -86,7 +91,8 @@ const Checkout = () => {
   const subtotal = cart?.total || 0;
   const frete = cart?.frete || 0;
   const cupomDesconto = cart?.cupomDesconto || 0;
-  const pixDiscount = paymentMethod === "pix" ? (subtotal - cupomDesconto) * 0.05 : 0;
+  const isPixPayment = selectedPaymentType === "pix" || paymentMethod === "pix";
+  const pixDiscount = isPixPayment ? (subtotal - cupomDesconto) * 0.05 : 0;
   const total = subtotal + frete - cupomDesconto - pixDiscount;
 
   // Determine current page from referrer or cart items
@@ -526,6 +532,15 @@ const Checkout = () => {
         variant: "destructive",
         title: "Carrinho vazio",
         description: "Adicione produtos ao carrinho para continuar.",
+      });
+      return;
+    }
+
+    if (!cart?.selectedShippingOption) {
+      toast({
+        variant: "destructive",
+        title: "Frete não selecionado",
+        description: "Calcule o frete e selecione uma opção de envio para continuar.",
       });
       return;
     }
@@ -1259,6 +1274,78 @@ const Checkout = () => {
 
               {paymentStep === 'form' ? (
                 <>
+                  {/* Calcular Frete */}
+                  <Card className="p-6">
+                    <h3 className="text-xl font-semibold mb-4">Calcular Frete</h3>
+                    <div className="flex gap-2">
+                      <Input
+                        type="text"
+                        placeholder="Digite seu CEP (ex: 01310-100)"
+                        value={shippingCep}
+                        onChange={(e) => setShippingCep(e.target.value)}
+                        className="flex-1"
+                        maxLength={9}
+                      />
+                      <Button
+                        onClick={async () => {
+                          if (!shippingCep || !isValidCep(shippingCep)) {
+                            toast({
+                              variant: "destructive",
+                              title: "CEP inválido",
+                              description: "Digite um CEP válido com 8 dígitos"
+                            });
+                            return;
+                          }
+                          await calculateShipping(shippingCep);
+                        }}
+                        variant="outline"
+                        className="px-6"
+                        disabled={cart?.isCalculatingShipping}
+                      >
+                        {cart?.isCalculatingShipping ? (
+                          <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            Calculando...
+                          </>
+                        ) : (
+                          "Calcular"
+                        )}
+                      </Button>
+                    </div>
+
+                    {cart?.shippingError && (
+                      <p className="text-red-600 text-sm mt-2">{cart.shippingError}</p>
+                    )}
+
+                    {cart?.shippingOptions && cart.shippingOptions.length > 0 && (
+                      <div className="mt-4">
+                        <ShippingOptions
+                          options={cart.shippingOptions}
+                          selectedOption={cart.selectedShippingOption}
+                          onSelect={selectShippingOption}
+                          isLoading={cart.isCalculatingShipping}
+                        />
+                      </div>
+                    )}
+
+                    {cart?.selectedShippingOption && (
+                      <div className="text-sm text-green-600 font-medium mt-3 flex items-center gap-2">
+                        <Package className="w-4 h-4" />
+                        Frete selecionado: {cart.selectedShippingOption.name} - R$ {Number(cart.selectedShippingOption.custom_price).toFixed(2).replace('.', ',')}
+                        <span className="text-muted-foreground flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          ({cart.selectedShippingOption.custom_delivery_time} dias úteis)
+                        </span>
+                      </div>
+                    )}
+
+                    {!cart?.selectedShippingOption && (
+                      <p className="text-xs text-orange-600 mt-2">
+                        * Calcule e selecione o frete antes de finalizar a compra
+                      </p>
+                    )}
+                  </Card>
+
                   {/* Formas de Pagamento */}
                   <Card className="p-6">
                     <h3 className="text-xl font-semibold mb-4">Formas de Pagamento</h3>
@@ -1304,7 +1391,7 @@ const Checkout = () => {
                   <Button
                     onClick={handleFinalizePurchase}
                     className="w-full bg-black hover:bg-black/90 text-white py-4 text-lg font-medium"
-                    disabled={!acceptTerms || (!selectedPaymentType && !paymentMethod) || isSubmitting || !user}
+                    disabled={!acceptTerms || (!selectedPaymentType && !paymentMethod) || isSubmitting || !user || !cart?.selectedShippingOption}
                   >
                     {isSubmitting ? "Criando pedido..." : "Continuar para Pagamento"}
                   </Button>
