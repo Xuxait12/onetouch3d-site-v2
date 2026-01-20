@@ -303,6 +303,27 @@ const ConfirmacaoWhatsapp = () => {
       });
     }
   };
+  // Cancel and logout handler
+  const handleCancel = async () => {
+    await supabase.auth.signOut();
+    setIsAuthenticated(false);
+    setShowModal(false);
+    setUserId(null);
+    // Reset form
+    setModalidade('');
+    setTamanho('');
+    setNomeCompleto('');
+    setTelefone('');
+    setCpf('');
+    setCep('');
+    setRua('');
+    setNumero('');
+    setBairro('');
+    setCidade('');
+    setEstado('');
+    setComplemento('');
+    setConfirmado(false);
+  };
 
   // Form validation
   const isFormValid = () => {
@@ -576,11 +597,9 @@ const ConfirmacaoWhatsapp = () => {
       )}
 
       {/* Modal - shown after authentication */}
-      <Dialog open={showModal} onOpenChange={() => {}}>
+      <Dialog open={showModal} onOpenChange={(open) => { if (!open) handleCancel(); }}>
         <DialogContent 
           className="max-w-lg max-h-[90vh] overflow-y-auto"
-          onPointerDownOutside={(e) => e.preventDefault()}
-          onEscapeKeyDown={(e) => e.preventDefault()}
         >
           {!showSuccess ? (
             <div className="space-y-6">
