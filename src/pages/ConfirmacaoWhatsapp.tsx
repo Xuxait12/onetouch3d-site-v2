@@ -20,6 +20,10 @@ const MODALIDADES = ['Corrida', 'Ciclismo', 'Triatlo', 'Viagem'];
 const TAMANHOS = ['33x33cm', '33x43cm', '37x48cm', '43x43cm', '43x53cm', '43x63cm', '53x53cm', '53x73cm'];
 const PIX_KEY = '54999921515';
 
+// Constantes válidas para evitar erros de cache/typo
+const VALID_STATUS = 'aguardando_pagamento' as const;
+const VALID_FORMA_PAGAMENTO = 'pix' as const;
+
 const ConfirmacaoWhatsapp = () => {
   // Auth states
   const [email, setEmail] = useState('');
@@ -346,10 +350,51 @@ const ConfirmacaoWhatsapp = () => {
 
   // Save order
   const handleSaveOrder = async () => {
-    if (!userId) return;
+    // Previne duplo clique e execução sem usuário
+    if (!userId || savingOrder) {
+      console.log('⚠️ [DEBUG] Bloqueado: userId ou savingOrder inválido', { userId, savingOrder });
+      return;
+    }
 
     setSavingOrder(true);
+    
     try {
+      // Limpar máscaras para validação (mobile pode ter problemas com máscaras)
+      const cpfClean = cpf.replace(/\D/g, '');
+      const telefoneClean = telefone.replace(/\D/g, '');
+      const cepClean = cep.replace(/\D/g, '');
+
+      console.log('🔍 [DEBUG] Valores limpos:', { cpfClean, telefoneClean, cepClean });
+
+      // Validação mínima de campos com máscara
+      if (cpfClean.length < 11) {
+        toast({ 
+          title: "Erro de validação", 
+          description: `CPF inválido (${cpfClean.length} dígitos, mínimo 11)`, 
+          variant: "destructive" 
+        });
+        setSavingOrder(false);
+        return;
+      }
+      if (telefoneClean.length < 10) {
+        toast({ 
+          title: "Erro de validação", 
+          description: `Telefone inválido (${telefoneClean.length} dígitos, mínimo 10)`, 
+          variant: "destructive" 
+        });
+        setSavingOrder(false);
+        return;
+      }
+      if (cepClean.length !== 8) {
+        toast({ 
+          title: "Erro de validação", 
+          description: `CEP inválido (${cepClean.length} dígitos, deve ter 8)`, 
+          variant: "destructive" 
+        });
+        setSavingOrder(false);
+        return;
+      }
+
       // Build full address
       const enderecoCompleto = `${rua}, ${numero}${complemento ? `, ${complemento}` : ''} - ${bairro}, ${cidade}/${estado} - CEP: ${cep}`;
 
@@ -375,22 +420,33 @@ const ConfirmacaoWhatsapp = () => {
         });
 
       if (profileError) {
-        console.error('Profile error:', profileError);
-        throw new Error('Erro ao salvar perfil');
+        console.error('❌ [DEBUG] Erro no perfil:', profileError);
+        toast({
+          title: "Erro ao salvar perfil",
+          description: `${profileError.message} (Código: ${profileError.code || 'N/A'})`,
+          variant: "destructive",
+        });
+        setSavingOrder(false);
+        return;
       }
 
-      // Create preliminary order (no payment, manual finalization)
+      // Create preliminary order with EXPLICIT fallbacks (prevents cache issues)
       const orderPayload = {
         user_id: userId,
         subtotal: 0,
         frete: 0,
         desconto: 0,
         total: 0,
-        status: 'aguardando_pagamento',
-        forma_pagamento: 'pix',
-        shipping_address: enderecoCompleto,
+        // FALLBACKS EXPLÍCITOS - garante valores válidos mesmo com cache antigo
+        status: VALID_STATUS,
+        forma_pagamento: VALID_FORMA_PAGAMENTO,
+        shipping_address: enderecoCompleto || 'Endereço não informado',
         payment_metadata: {
-          origem: 'whatsapp'
+          origem: 'whatsapp',
+          cpf: cpfClean,
+          telefone: telefoneClean,
+          cep: cepClean,
+          timestamp: new Date().toISOString()
         }
       };
       
@@ -403,10 +459,22 @@ const ConfirmacaoWhatsapp = () => {
         .single();
 
       if (pedidoError) {
-        console.error('❌ [DEBUG] Erro ao criar pedido:', pedidoError);
-        console.error('❌ [DEBUG] Código do erro:', pedidoError.code);
-        console.error('❌ [DEBUG] Detalhes:', pedidoError.details);
-        throw new Error(pedidoError.message || 'Erro ao criar pedido');
+        console.error('❌ [DEBUG] Erro ao criar pedido:', {
+          code: pedidoError.code,
+          message: pedidoError.message,
+          details: pedidoError.details,
+          hint: pedidoError.hint,
+          payload: orderPayload
+        });
+        
+        // Exibir mensagem real do erro para debug
+        toast({
+          title: "Erro ao criar pedido",
+          description: `${pedidoError.message} (Código: ${pedidoError.code || 'N/A'})`,
+          variant: "destructive",
+        });
+        setSavingOrder(false);
+        return;
       }
       
       console.log('✅ [DEBUG] Pedido criado com sucesso:', pedido.id);
@@ -425,8 +493,14 @@ const ConfirmacaoWhatsapp = () => {
         });
 
       if (itemError) {
-        console.error('Item error:', itemError);
-        throw new Error('Erro ao salvar item do pedido');
+        console.error('❌ [DEBUG] Erro no item:', itemError);
+        toast({
+          title: "Erro ao salvar item",
+          description: `${itemError.message} (Código: ${itemError.code || 'N/A'})`,
+          variant: "destructive",
+        });
+        setSavingOrder(false);
+        return;
       }
 
       setShowSuccess(true);
@@ -435,9 +509,9 @@ const ConfirmacaoWhatsapp = () => {
         description: "Cadastro realizado com sucesso.",
       });
     } catch (error) {
-      console.error('Save error:', error);
+      console.error('❌ [DEBUG] Erro geral:', error);
       toast({
-        title: "Erro",
+        title: "Erro inesperado",
         description: error instanceof Error ? error.message : "Erro ao salvar dados. Tente novamente.",
         variant: "destructive",
       });
