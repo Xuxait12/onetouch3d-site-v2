@@ -26,6 +26,7 @@ import Carrinho from "./pages/Carrinho";
 import Confirmacao from "./pages/Confirmacao";
 import AuthRedirect from "./components/AuthRedirect";
 import AdminPanel from "./pages/AdminPanel";
+import ConfirmacaoWhatsapp from "./pages/ConfirmacaoWhatsapp";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -68,6 +69,7 @@ const App = () => {
                 <Route path="/auth-redirect" element={<AuthRedirect />} />
                 <Route path="/painel" element={<AdminPanel />} />
                 <Route path="/order-details/:id" element={<OrderDetails />} />
+                <Route path="/confirmacao-whatsapp" element={<ConfirmacaoWhatsapp />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
