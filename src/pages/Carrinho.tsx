@@ -266,7 +266,7 @@ const Carrinho = () => {
 
                 {cart.selectedShippingOption && (
                   <div className="text-sm text-green-600 font-medium">
-                    ✓ Frete selecionado: {cart.selectedShippingOption.name} - R$ {Number(cart.selectedShippingOption.custom_price).toFixed(2).replace('.', ',')}
+                    ✓ Frete selecionado: {cart.selectedShippingOption.name} - {cart.selectedShippingOption.id === -1 ? "Grátis" : `R$ ${Number(cart.selectedShippingOption.custom_price).toFixed(2).replace('.', ',')}`}
                   </div>
                 )}
               </div>
@@ -315,8 +315,12 @@ const Carrinho = () => {
                       )}
                       
                       <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Frete:</span>
-                        <span className="text-muted-foreground">R$ {cart.frete.toFixed(2).replace('.', ',')}</span>
+                        <span className="text-muted-foreground">
+                          Frete{cart.selectedShippingOption ? ` (${cart.selectedShippingOption.name})` : ''}:
+                        </span>
+                        <span className={cart.selectedShippingOption?.id === -1 ? "text-green-600 font-medium" : "text-muted-foreground"}>
+                          {cart.selectedShippingOption?.id === -1 ? "Grátis" : `R$ ${cart.frete.toFixed(2).replace('.', ',')}`}
+                        </span>
                       </div>
                       
                       <div className="border-t border-border/30 pt-3 mt-3">

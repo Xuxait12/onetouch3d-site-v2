@@ -1245,9 +1245,11 @@ const Checkout = () => {
                       <span className="text-muted-foreground">
                         Frete{cart?.selectedShippingOption ? ` (${cart.selectedShippingOption.name})` : ''}:
                       </span>
-                      <span className="text-muted-foreground">R$ {frete.toFixed(2).replace('.', ',')}</span>
+                      <span className={cart?.selectedShippingOption?.id === -1 ? "text-green-600 font-medium" : "text-muted-foreground"}>
+                        {cart?.selectedShippingOption?.id === -1 ? "Grátis" : `R$ ${frete.toFixed(2).replace('.', ',')}`}
+                      </span>
                     </div>
-                    {cart?.selectedShippingOption && (
+                    {cart?.selectedShippingOption && cart.selectedShippingOption.id !== -1 && (
                       <div className="text-xs text-muted-foreground">
                         Prazo: {cart.selectedShippingOption.custom_delivery_time} dias úteis
                       </div>
@@ -1331,11 +1333,17 @@ const Checkout = () => {
                     {cart?.selectedShippingOption && (
                       <div className="text-sm text-green-600 font-medium mt-3 flex items-center gap-2">
                         <Package className="w-4 h-4" />
-                        Frete selecionado: {cart.selectedShippingOption.name} - R$ {Number(cart.selectedShippingOption.custom_price).toFixed(2).replace('.', ',')}
-                        <span className="text-muted-foreground flex items-center gap-1">
-                          <Clock className="w-3 h-3" />
-                          ({cart.selectedShippingOption.custom_delivery_time} dias úteis)
-                        </span>
+                        {cart.selectedShippingOption.id === -1 ? (
+                          <span>Retirada no local selecionada - Grátis</span>
+                        ) : (
+                          <>
+                            <span>Frete selecionado: {cart.selectedShippingOption.name} - R$ {Number(cart.selectedShippingOption.custom_price).toFixed(2).replace('.', ',')}</span>
+                            <span className="text-muted-foreground flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              ({cart.selectedShippingOption.custom_delivery_time} dias úteis)
+                            </span>
+                          </>
+                        )}
                       </div>
                     )}
 
