@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { ShippingOption } from '@/types/shipping';
 
 export interface CartItem {
   id: string;
@@ -20,6 +22,10 @@ interface CartState {
   cupomPage: string;
   cep: string;
   frete: number;
+  shippingOptions: ShippingOption[] | null;
+  selectedShippingOption: ShippingOption | null;
+  isCalculatingShipping: boolean;
+  shippingError: string | null;
 }
 
 type CartAction =
@@ -30,7 +36,12 @@ type CartAction =
   | { type: 'LOAD_CART'; payload: CartState }
   | { type: 'APPLY_COUPON'; payload: { cupom: string; desconto: number; cupomCode: string; cupomPage: string } }
   | { type: 'REMOVE_COUPON' }
-  | { type: 'CALCULATE_SHIPPING'; payload: { cep: string; frete: number } };
+  | { type: 'CALCULATE_SHIPPING'; payload: { cep: string; frete: number } }
+  | { type: 'SET_SHIPPING_OPTIONS'; payload: ShippingOption[] }
+  | { type: 'SELECT_SHIPPING_OPTION'; payload: ShippingOption }
+  | { type: 'SET_SHIPPING_LOADING'; payload: boolean }
+  | { type: 'SET_SHIPPING_ERROR'; payload: string | null }
+  | { type: 'CLEAR_SHIPPING' };
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
@@ -70,30 +81,78 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
     }
     
     case 'CLEAR_CART':
-      return { items: [], total: 0, cupom: '', cupomDesconto: 0, cupomCode: '', cupomPage: '', cep: '', frete: 0 };
-    
+      return {
+        items: [],
+        total: 0,
+        cupom: '',
+        cupomDesconto: 0,
+        cupomCode: '',
+        cupomPage: '',
+        cep: '',
+        frete: 0,
+        shippingOptions: null,
+        selectedShippingOption: null,
+        isCalculatingShipping: false,
+        shippingError: null
+      };
+
     case 'LOAD_CART': {
       return action.payload;
     }
-    
+
     case 'APPLY_COUPON': {
-      return { 
-        ...state, 
-        cupom: action.payload.cupom, 
+      return {
+        ...state,
+        cupom: action.payload.cupom,
         cupomDesconto: action.payload.desconto,
         cupomCode: action.payload.cupomCode,
         cupomPage: action.payload.cupomPage
       };
     }
-    
+
     case 'REMOVE_COUPON': {
       return { ...state, cupom: '', cupomDesconto: 0, cupomCode: '', cupomPage: '' };
     }
-    
+
     case 'CALCULATE_SHIPPING': {
       return { ...state, cep: action.payload.cep, frete: action.payload.frete };
     }
-    
+
+    case 'SET_SHIPPING_OPTIONS': {
+      return { ...state, shippingOptions: action.payload, shippingError: null };
+    }
+
+    case 'SELECT_SHIPPING_OPTION': {
+      return {
+        ...state,
+        selectedShippingOption: action.payload,
+        frete: Number(action.payload.custom_price),
+        cep: state.cep || ''
+      };
+    }
+
+    case 'SET_SHIPPING_LOADING': {
+      return { ...state, isCalculatingShipping: action.payload };
+    }
+
+    case 'SET_SHIPPING_ERROR': {
+      return {
+        ...state,
+        shippingError: action.payload,
+        isCalculatingShipping: false
+      };
+    }
+
+    case 'CLEAR_SHIPPING': {
+      return {
+        ...state,
+        shippingOptions: null,
+        selectedShippingOption: null,
+        frete: 0,
+        shippingError: null
+      };
+    }
+
     default:
       return state;
   }
@@ -107,21 +166,27 @@ interface CartContextType {
   clearCart: () => void;
   applyCoupon: (cupom: string, desconto: number, cupomCode: string, cupomPage: string) => void;
   removeCoupon: () => void;
-  calculateShipping: (cep: string, frete: number) => void;
+  calculateShipping: (cep: string) => Promise<void>;
+  selectShippingOption: (option: ShippingOption) => void;
+  clearShipping: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, { 
-    items: [], 
-    total: 0, 
-    cupom: '', 
-    cupomDesconto: 0, 
+  const [state, dispatch] = useReducer(cartReducer, {
+    items: [],
+    total: 0,
+    cupom: '',
+    cupomDesconto: 0,
     cupomCode: '',
     cupomPage: '',
-    cep: '', 
-    frete: 0 
+    cep: '',
+    frete: 0,
+    shippingOptions: null,
+    selectedShippingOption: null,
+    isCalculatingShipping: false,
+    shippingError: null
   });
 
   // Load cart from localStorage on mount
@@ -172,20 +237,56 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     dispatch({ type: 'REMOVE_COUPON' });
   };
 
-  const calculateShipping = (cep: string, frete: number) => {
-    dispatch({ type: 'CALCULATE_SHIPPING', payload: { cep, frete } });
+  const calculateShipping = async (cep: string) => {
+    dispatch({ type: 'SET_SHIPPING_LOADING', payload: true });
+    dispatch({ type: 'SET_SHIPPING_ERROR', payload: null });
+
+    try {
+      const cepLimpo = cep.replace(/\D/g, '');
+
+      const { data, error } = await supabase.functions.invoke('calculate-shipping', {
+        body: {
+          cep_destino: cepLimpo,
+          items: state.items
+        }
+      });
+
+      if (error) throw error;
+
+      if (data.success) {
+        dispatch({ type: 'SET_SHIPPING_OPTIONS', payload: data.options });
+        dispatch({ type: 'CALCULATE_SHIPPING', payload: { cep: cepLimpo, frete: 0 } });
+      } else {
+        throw new Error(data.error || 'Erro ao calcular frete');
+      }
+    } catch (error: any) {
+      const errorMessage = error.message || 'Não foi possível calcular o frete. Tente novamente.';
+      dispatch({ type: 'SET_SHIPPING_ERROR', payload: errorMessage });
+    } finally {
+      dispatch({ type: 'SET_SHIPPING_LOADING', payload: false });
+    }
+  };
+
+  const selectShippingOption = (option: ShippingOption) => {
+    dispatch({ type: 'SELECT_SHIPPING_OPTION', payload: option });
+  };
+
+  const clearShipping = () => {
+    dispatch({ type: 'CLEAR_SHIPPING' });
   };
 
   return (
-    <CartContext.Provider value={{ 
-      state, 
-      addItem, 
-      updateQuantity, 
-      removeItem, 
-      clearCart, 
+    <CartContext.Provider value={{
+      state,
+      addItem,
+      updateQuantity,
+      removeItem,
+      clearCart,
       applyCoupon,
       removeCoupon,
-      calculateShipping
+      calculateShipping,
+      selectShippingOption,
+      clearShipping
     }}>
       {children}
     </CartContext.Provider>

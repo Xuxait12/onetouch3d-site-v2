@@ -675,7 +675,12 @@ const Checkout = () => {
           status: 'aguardando_pagamento',
           forma_pagamento: orderData.forma_pagamento,
           shipping_address: orderData.shipping_address,
-          cupom_aplicado: orderData.cupom_aplicado
+          cupom_aplicado: orderData.cupom_aplicado,
+          shipping_method: cart.selectedShippingOption?.name || null,
+          shipping_company: cart.selectedShippingOption?.company.name || null,
+          shipping_service_id: cart.selectedShippingOption?.id || null,
+          shipping_delivery_time: cart.selectedShippingOption?.custom_delivery_time || null,
+          shipping_metadata: cart.selectedShippingOption ? JSON.parse(JSON.stringify(cart.selectedShippingOption)) : null
         })
         .select()
         .single();
@@ -1222,9 +1227,16 @@ const Checkout = () => {
                     )}
                     
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Frete:</span>
+                      <span className="text-muted-foreground">
+                        Frete{cart?.selectedShippingOption ? ` (${cart.selectedShippingOption.name})` : ''}:
+                      </span>
                       <span className="text-muted-foreground">R$ {frete.toFixed(2).replace('.', ',')}</span>
                     </div>
+                    {cart?.selectedShippingOption && (
+                      <div className="text-xs text-muted-foreground">
+                        Prazo: {cart.selectedShippingOption.custom_delivery_time} dias úteis
+                      </div>
+                    )}
                     
                     {pixDiscount > 0 && (
                       <div className="flex justify-between text-sm">
