@@ -86,6 +86,7 @@ serve(async (req: Request) => {
     const cepOrigin = Deno.env.get("MELHOR_ENVIO_CEP_ORIGEM");
     const environment = Deno.env.get("ENVIRONMENT") || "development";
     const isProduction = environment === "production";
+    const allowedServices = Deno.env.get("MELHOR_ENVIO_SERVICES");
 
     let token = isProduction
       ? Deno.env.get("MELHOR_ENVIO_TOKEN_PROD")
@@ -95,11 +96,12 @@ serve(async (req: Request) => {
       token = Deno.env.get("MELHOR_ENVIO_TOKEN_SANDBOX") || Deno.env.get("MELHOR_ENVIO_TOKEN_PROD");
     }
 
-    console.log("[calculate-shipping] v2 - Configuração:", {
+    console.log("[calculate-shipping] v3 - Configuração:", {
       environment,
       hasToken: !!token,
       tokenLength: token?.length || 0,
-      hasCepOrigin: !!cepOrigin
+      hasCepOrigin: !!cepOrigin,
+      allowedServices: allowedServices || "all"
     });
 
     if (!token) {
@@ -121,6 +123,18 @@ serve(async (req: Request) => {
     if (!cepOrigin) {
       console.error("CEP de origem não configurado");
       throw new Error("Configuração de frete incompleta. Entre em contato.");
+    }
+
+    const baseApiUrl = isProduction
+      ? "https://melhorenvio.com.br/api/v2"
+      : "https://sandbox.melhorenvio.com.br/api/v2";
+
+    const enabledServiceIds: string | null = allowedServices || null;
+
+    if (enabledServiceIds) {
+      console.log("[calculate-shipping] Filtrando por serviços configurados:", enabledServiceIds);
+    } else {
+      console.log("[calculate-shipping] Nenhum filtro de serviços - API retornará todos disponíveis (serviços não contratados virão com erro e serão filtrados)");
     }
 
     const products = items.map((item, index) => {
@@ -147,7 +161,7 @@ serve(async (req: Request) => {
       environment: isProduction ? "production" : "sandbox"
     });
 
-    const payload = {
+    const payload: any = {
       from: {
         postal_code: cepOrigin
       },
@@ -162,9 +176,12 @@ serve(async (req: Request) => {
       }
     };
 
-    const apiUrl = isProduction
-      ? "https://melhorenvio.com.br/api/v2/me/shipment/calculate"
-      : "https://sandbox.melhorenvio.com.br/api/v2/me/shipment/calculate";
+    if (enabledServiceIds) {
+      payload.services = enabledServiceIds;
+      console.log("[calculate-shipping] Filtrando por serviços:", enabledServiceIds);
+    }
+
+    const apiUrl = `${baseApiUrl}/me/shipment/calculate`;
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
@@ -231,10 +248,21 @@ serve(async (req: Request) => {
 
     const shippingOptions = await response.json();
 
+    const optionsWithError = shippingOptions.filter((opt: any) => opt.error);
     const availableOptions = shippingOptions.filter((opt: any) => !opt.error);
 
+    if (optionsWithError.length > 0) {
+      console.log("[calculate-shipping] Serviços não disponíveis (com erro):",
+        optionsWithError.map((o: any) => ({
+          id: o.id,
+          name: o.name,
+          error: o.error
+        }))
+      );
+    }
+
     if (availableOptions.length === 0) {
-      console.warn("[calculate-shipping] Nenhuma opção disponível");
+      console.warn("[calculate-shipping] Nenhuma opção disponível após filtrar erros");
       return new Response(
         JSON.stringify({
           success: false,
@@ -247,12 +275,15 @@ serve(async (req: Request) => {
       );
     }
 
-    availableOptions.sort((a: any, b: any) => a.custom_price - b.custom_price);
+    availableOptions.sort((a: any, b: any) => Number(a.custom_price) - Number(b.custom_price));
 
-    console.log("[calculate-shipping] Opções retornadas:", {
-      num_options: availableOptions.length,
-      cheapest: Math.min(...availableOptions.map((o: any) => o.custom_price)).toFixed(2),
-      fastest: Math.min(...availableOptions.map((o: any) => o.custom_delivery_time))
+    console.log("[calculate-shipping] Opções disponíveis:", {
+      total_retornado: shippingOptions.length,
+      com_erro: optionsWithError.length,
+      disponiveis: availableOptions.length,
+      servicos: availableOptions.map((o: any) => o.name),
+      mais_barato: `R$ ${Number(availableOptions[0].custom_price).toFixed(2)}`,
+      mais_rapido: `${Math.min(...availableOptions.map((o: any) => o.custom_delivery_time))} dias`
     });
 
     return new Response(
