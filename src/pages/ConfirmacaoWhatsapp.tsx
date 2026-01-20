@@ -388,7 +388,7 @@ const ConfirmacaoWhatsapp = () => {
           frete: 0,
           desconto: 0,
           total: 0,
-          status: 'confirmacao_whatsapp',
+          status: 'aguardando_pagamento',
           forma_pagamento: 'pix',
           shipping_address: enderecoCompleto,
           payment_metadata: {
