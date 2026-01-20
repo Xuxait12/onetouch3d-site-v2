@@ -165,6 +165,11 @@ export type Database = {
           pix_qr_code_text: string | null
           pix_ticket_url: string | null
           shipping_address: string | null
+          shipping_company: string | null
+          shipping_delivery_time: number | null
+          shipping_metadata: Json | null
+          shipping_method: string | null
+          shipping_service_id: number | null
           status: string
           subtotal: number
           total: number
@@ -192,6 +197,11 @@ export type Database = {
           pix_qr_code_text?: string | null
           pix_ticket_url?: string | null
           shipping_address?: string | null
+          shipping_company?: string | null
+          shipping_delivery_time?: number | null
+          shipping_metadata?: Json | null
+          shipping_method?: string | null
+          shipping_service_id?: number | null
           status?: string
           subtotal: number
           total: number
@@ -219,6 +229,11 @@ export type Database = {
           pix_qr_code_text?: string | null
           pix_ticket_url?: string | null
           shipping_address?: string | null
+          shipping_company?: string | null
+          shipping_delivery_time?: number | null
+          shipping_metadata?: Json | null
+          shipping_method?: string | null
+          shipping_service_id?: number | null
           status?: string
           subtotal?: number
           total?: number
