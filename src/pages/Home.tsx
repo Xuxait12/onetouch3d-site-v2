@@ -1,13 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/useAuth";
 import { motion } from "framer-motion";
 import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
 
   const landingPages = [
     {
@@ -17,7 +14,7 @@ const Home = () => {
       path: "/corrida"
     },
     {
-      title: "Ciclismo", 
+      title: "Ciclismo",
       subtitle: "Transforme pedaladas memoráveis em um quadro personalizado com trajeto 3D, fotos e suas conquistas.",
       image: "/images/ciclismo-hero.webp",
       path: "/ciclismo"

@@ -1,6 +1,6 @@
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
-const heroViagem = "/images/viagem-hero-2.webp";
+const heroVideo = "/videos/viagem.mp4";
 const LETTER_VARIANTS = {
   hidden: {
     y: 24,
@@ -55,13 +55,13 @@ const HeroSectionViagem = () => {
     }
   };
   return <section id="hero-viagem" className="relative w-full min-h-[100svh] overflow-hidden bg-gray-900">
-      {/* Background Image */}
-      <img 
-        src={heroViagem}
-        alt=""
-        fetchPriority="high"
-        loading="eager"
-        decoding="async"
+      {/* Background Video */}
+      <video
+        src={heroVideo}
+        autoPlay
+        loop
+        muted
+        playsInline
         className="absolute inset-0 w-full h-full object-cover"
         style={{ objectPosition: 'center 30%' }}
       />
