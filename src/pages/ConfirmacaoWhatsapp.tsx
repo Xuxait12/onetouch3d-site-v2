@@ -222,35 +222,44 @@ const ConfirmacaoWhatsapp = () => {
     }
     setLoading(true);
     try {
-      const {
-        data,
-        error
-      } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/confirmacao-whatsapp`
+      // Use edge function to create user without email confirmation
+      const response = await fetch(
+        'https://wzjfofufvrtzhmkismyh.supabase.co/functions/v1/create-whatsapp-user',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
         }
-      });
-      if (error) {
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
         toast({
           title: "Erro no cadastro",
-          description: error.message,
+          description: data.error || 'Erro ao criar conta',
           variant: "destructive"
         });
-      } else if (data.user) {
-        if (data.session) {
-          toast({
-            title: "Cadastro realizado!",
-            description: "Bem-vindo!"
-          });
-          await handleAuthSuccess(data.user);
-        } else {
-          toast({
-            title: "Cadastro realizado!",
-            description: "Verifique seu email para confirmar a conta."
-          });
-        }
+        return;
+      }
+
+      // Set session manually from edge function response
+      if (data.session) {
+        await supabase.auth.setSession({
+          access_token: data.session.access_token,
+          refresh_token: data.session.refresh_token
+        });
+        toast({
+          title: "Cadastro realizado!",
+          description: "Bem-vindo!"
+        });
+        await handleAuthSuccess(data.user);
+      } else {
+        toast({
+          title: "Erro",
+          description: "Sessão não retornada. Tente fazer login.",
+          variant: "destructive"
+        });
       }
     } catch (error) {
       toast({
@@ -578,7 +587,7 @@ const ConfirmacaoWhatsapp = () => {
       <Dialog open={showModal} onOpenChange={open => {
       if (!open) handleCancel();
     }}>
-        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto [&>button]:hidden">
           {!showSuccess ? <div className="space-y-6">
               {/* Header */}
               <div className="text-center">
@@ -696,7 +705,7 @@ const ConfirmacaoWhatsapp = () => {
                   </label>
                 </div>
                 <Button onClick={handleSaveOrder} disabled={!isFormValid() || savingOrder} className="w-full">
-                  {savingOrder ? "Salvando..." : "Salvar e continuar"}
+                  {savingOrder ? "Salvando..." : "Salvar dados"}
                 </Button>
               </div>
             </div> : (/* Success State with PIX QR Code */
@@ -725,8 +734,8 @@ const ConfirmacaoWhatsapp = () => {
                 </p>
               </div>
 
-              <Button variant="outline" onClick={() => navigate('/meus-pedidos')} className="mt-4">
-                Ver meus pedidos
+              <Button variant="outline" onClick={() => setShowSuccess(false)} className="mt-4">
+                Fechar
               </Button>
             </div>)}
         </DialogContent>
