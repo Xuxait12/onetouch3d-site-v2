@@ -734,7 +734,36 @@ const ConfirmacaoWhatsapp = () => {
                 </p>
               </div>
 
-              <Button variant="outline" onClick={() => setShowSuccess(false)} className="mt-4">
+              <Button variant="outline" onClick={async () => {
+                // Encerrar fluxo completamente
+                // 1. Fazer logout para limpar sessão
+                await supabase.auth.signOut();
+                
+                // 2. Resetar todos os estados
+                setShowSuccess(false);
+                setShowModal(false);
+                setIsAuthenticated(false);
+                setUserId(null);
+                setEmail('');
+                setPassword('');
+                setConfirmPassword('');
+                setModalidade('');
+                setTamanho('');
+                setNomeCompleto('');
+                setTelefone('');
+                setCpf('');
+                setCep('');
+                setRua('');
+                setNumero('');
+                setBairro('');
+                setCidade('');
+                setEstado('');
+                setComplemento('');
+                setConfirmado(false);
+                
+                // 3. Redirecionar para home usando replace (impede voltar)
+                navigate('/', { replace: true });
+              }} className="mt-4">
                 Fechar
               </Button>
             </div>)}
