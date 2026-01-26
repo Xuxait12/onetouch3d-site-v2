@@ -1,118 +1,47 @@
 
-## Plano: Correção de Preços no Mobile + Erro de Build
+## Plano: Correção Definitiva do Bug de Preços no Mobile
 
-### Diagnóstico Identificado
+### Diagnóstico Confirmado
 
-Após análise detalhada do código, identifiquei **dois problemas**:
+Analisando a imagem do cliente e o código, o problema é claro:
+- **Visualmente**: 53x73cm está selecionado (círculo preenchido)
+- **Preço exibido**: R$ 353,90 (preço do 33x43cm)
+- **Preço correto**: R$ 575,00
 
----
-
-### Problema 1: Erro de Build (Crítico)
-
-**Arquivo afetado:** `supabase/functions/send-order-confirmation/index.ts`
-
-**Causa:** A linha 3 usa `npm:resend@2.0.0` que requer configuração específica do Deno:
-```typescript
-import { Resend } from "npm:resend@2.0.0";
-```
-
-**Erro exibido:**
-```
-Could not find a matching package for 'npm:resend@2.0.0' in the node_modules directory
-```
-
-**Solução:** Alterar o import para usar esm.sh (compatível com edge functions):
-```typescript
-import { Resend } from "https://esm.sh/resend@2.0.0";
-```
+Isso indica que o **estado visual do RadioGroup** mudou, mas o **estado React (`selectedSize`)** não foi atualizado corretamente.
 
 ---
 
-### Problema 2: Preços não Atualizam no Mobile
+### Causa Raiz
 
-**Arquivos afetados:**
-- `src/pages/stores/ProductSectionCorridaLocal.tsx`
-- `src/pages/stores/ProductSectionCiclismoLocal.tsx`
-- `src/pages/stores/ProductSectionViagemLocal.tsx`
-- `src/pages/stores/ProductSectionTriathlonLocal.tsx`
-- `src/components/ui/radio-group.tsx`
+A arquitetura atual tem um **conflito de handlers de evento**:
 
-**Causas identificadas:**
-
-1. **Área de toque muito pequena**: O `RadioGroupItem` tem apenas `h-4 w-4` (16x16 pixels), abaixo do mínimo recomendado de 44x44 pixels para touch targets no mobile
-
-2. **Labels desconectados**: Apesar de usar `htmlFor`, em alguns casos o toque no label pode não propagar corretamente o evento para o RadioGroupItem no mobile
-
-3. **Falta de feedback visual**: Sem animações ou estados intermediários, o usuário pode não perceber que a interação foi registrada
-
-**Soluções propostas:**
-
-#### A) Aumentar área clicável do RadioGroupItem
-Modificar `src/components/ui/radio-group.tsx` para ter área de toque maior no mobile:
 ```typescript
-className={cn(
-  "aspect-square h-5 w-5 sm:h-4 sm:w-4 rounded-full border border-primary...",
-  className
-)}
-```
-
-#### B) Melhorar estrutura dos radio buttons nos componentes de produto
-Envolver cada opção em um container clicável com área de toque adequada:
-```typescript
-<div 
-  key={option.size} 
-  className="flex items-center space-x-2 p-2 -m-2 cursor-pointer touch-manipulation"
-  onClick={() => setSelectedSize(option.size)}
->
-  <RadioGroupItem value={option.size} id={`size-${option.size}`} />
-  <Label htmlFor={`size-${option.size}`} className="cursor-pointer text-sm">
-    {option.size}
-  </Label>
+// Container div com onClick
+<div onClick={() => setSelectedSize(option.size)}>
+  // RadioGroup com onValueChange
+  <RadioGroup onValueChange={setSelectedSize}>
+    <RadioGroupItem value={option.size} />
+  </RadioGroup>
 </div>
 ```
 
-#### C) Adicionar classe `touch-manipulation` para melhor resposta touch
-Esta classe CSS otimiza a resposta a eventos de toque, removendo o delay de 300ms que alguns navegadores mobile aplicam.
+**Problema**: Em dispositivos móveis (especialmente Safari iOS):
+1. O RadioGroupItem do Radix UI tem seu próprio gerenciamento de estado interno
+2. O clique no RadioGroupItem pode não propagar para o container div
+3. O Radix atualiza visualmente o círculo, mas o `onValueChange` pode não disparar corretamente
+4. O `onClick` do container não é acionado porque o evento foi "consumido" pelo RadioGroupItem
 
 ---
 
-### Alterações por Arquivo
+### Solução Proposta
 
-| Arquivo | Alteração |
-|---------|-----------|
-| `supabase/functions/send-order-confirmation/index.ts` | Trocar import de `npm:resend` para `esm.sh` |
-| `src/components/ui/radio-group.tsx` | Aumentar área de toque de 16px para 20px no mobile |
-| `src/pages/stores/ProductSectionCorridaLocal.tsx` | Adicionar container clicável + `touch-manipulation` |
-| `src/pages/stores/ProductSectionCiclismoLocal.tsx` | Adicionar container clicável + `touch-manipulation` |
-| `src/pages/stores/ProductSectionViagemLocal.tsx` | Adicionar container clicável + `touch-manipulation` |
-| `src/pages/stores/ProductSectionTriathlonLocal.tsx` | Adicionar container clicável + `touch-manipulation` |
+Remover a duplicação de handlers e usar uma abordagem mais robusta:
 
----
+#### Opção A (Recomendada): Usar apenas o onValueChange do RadioGroup
 
-### Detalhes Técnicos
+Remover o `onClick` do container div e confiar apenas no `onValueChange` do RadioGroup, mas adicionar `onTouchEnd` como fallback:
 
-#### Modificação do RadioGroup (radio-group.tsx)
-```typescript
-const RadioGroupItem = React.forwardRef<...>(({ className, ...props }, ref) => {
-  return (
-    <RadioGroupPrimitive.Item
-      ref={ref}
-      className={cn(
-        // Aumentar de h-4 w-4 para h-5 w-5 no mobile, manter h-4 w-4 no desktop
-        "aspect-square h-5 w-5 sm:h-4 sm:w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-        className
-      )}
-      {...props}
-    >
-      <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-        <Circle className="h-3 w-3 sm:h-2.5 sm:w-2.5 fill-current text-current" />
-      </RadioGroupPrimitive.Indicator>
-    </RadioGroupPrimitive.Item>
-  )
-})
-```
-
-#### Modificação nos componentes de Produto (exemplo para Corrida)
 ```typescript
 <RadioGroup value={selectedSize} onValueChange={setSelectedSize}>
   <div className="grid grid-cols-2 gap-2 sm:gap-3">
@@ -120,10 +49,19 @@ const RadioGroupItem = React.forwardRef<...>(({ className, ...props }, ref) => {
       <div 
         key={option.size} 
         className="flex items-center space-x-2 p-2 -m-1 cursor-pointer touch-manipulation rounded-md hover:bg-muted/50 active:bg-muted transition-colors"
-        onClick={() => setSelectedSize(option.size)}
+        onTouchEnd={(e) => {
+          // Fallback para mobile: forçar atualização no touchEnd
+          e.preventDefault();
+          setSelectedSize(option.size);
+        }}
+        onClick={(e) => {
+          // Desktop: prevenir dupla execução se veio de touch
+          if (e.detail === 0) return; // Touch events have detail=0
+          setSelectedSize(option.size);
+        }}
       >
-        <RadioGroupItem value={option.size} id={`corrida-size-${option.size}`} />
-        <Label htmlFor={`corrida-size-${option.size}`} className="cursor-pointer text-xs sm:text-sm select-none">
+        <RadioGroupItem value={option.size} id={`size-${option.size}`} />
+        <Label htmlFor={`size-${option.size}`} className="cursor-pointer text-xs sm:text-sm select-none">
           {option.size}
         </Label>
       </div>
@@ -132,23 +70,144 @@ const RadioGroupItem = React.forwardRef<...>(({ className, ...props }, ref) => {
 </RadioGroup>
 ```
 
+#### Opção B (Mais Simples): Substituir por input nativo
+
+Em vez de usar RadioGroup do Radix, usar inputs nativos que têm melhor suporte mobile:
+
+```typescript
+<div className="grid grid-cols-2 gap-2 sm:gap-3">
+  {sizeOptions.map((option) => (
+    <label 
+      key={option.size} 
+      className="flex items-center space-x-2 p-2 cursor-pointer touch-manipulation rounded-md hover:bg-muted/50 active:bg-muted transition-colors"
+    >
+      <input 
+        type="radio"
+        name="product-size"
+        value={option.size}
+        checked={selectedSize === option.size}
+        onChange={(e) => setSelectedSize(e.target.value)}
+        className="h-5 w-5"
+      />
+      <span className="text-xs sm:text-sm select-none">{option.size}</span>
+    </label>
+  ))}
+</div>
+```
+
+---
+
+### Implementação Escolhida: Opção A Melhorada
+
+Para manter a consistência visual com o resto do site (usando Radix UI), vou implementar a Opção A com melhorias:
+
+1. **Adicionar `onTouchEnd`** com `preventDefault()` para garantir que o evento seja processado
+2. **Manter `onClick`** apenas para desktop
+3. **Adicionar `e.stopPropagation()`** no RadioGroupItem para evitar bubbling indesejado
+4. **Usar `pointer-events-none`** no RadioGroupItem para forçar o container a receber o evento
+
+---
+
+### Alterações por Arquivo
+
+| Arquivo | Alteração |
+|---------|-----------|
+| `ProductSectionTriathlonLocal.tsx` | Corrigir handlers de evento para tamanho |
+| `ProductSectionCorridaLocal.tsx` | Aplicar mesma correção |
+| `ProductSectionCiclismoLocal.tsx` | Aplicar mesma correção |
+| `ProductSectionViagemLocal.tsx` | Aplicar mesma correção |
+
+---
+
+### Código da Correção
+
+Para cada arquivo de produto, a seção de tamanhos será alterada de:
+
+```typescript
+<div>
+  <Label className="text-base font-medium mb-3 block">Tamanho</Label>
+  <RadioGroup value={selectedSize} onValueChange={setSelectedSize}>
+    <div className="grid grid-cols-2 gap-2 sm:gap-3">
+      {sizeOptions.map((option) => (
+        <div 
+          key={option.size} 
+          className="flex items-center space-x-2 p-2 -m-1 cursor-pointer touch-manipulation rounded-md hover:bg-muted/50 active:bg-muted transition-colors"
+          onClick={() => setSelectedSize(option.size)}
+        >
+          <RadioGroupItem value={option.size} id={`triathlon-size-${option.size}`} />
+          <Label htmlFor={`triathlon-size-${option.size}`} className="cursor-pointer text-xs sm:text-sm select-none">
+            {option.size}
+          </Label>
+        </div>
+      ))}
+    </div>
+  </RadioGroup>
+</div>
+```
+
+Para:
+
+```typescript
+<div>
+  <Label className="text-base font-medium mb-3 block">Tamanho</Label>
+  <RadioGroup value={selectedSize} onValueChange={setSelectedSize}>
+    <div className="grid grid-cols-2 gap-2 sm:gap-3">
+      {sizeOptions.map((option) => (
+        <label 
+          key={option.size} 
+          htmlFor={`triathlon-size-${option.size}`}
+          className="flex items-center space-x-2 p-2 -m-1 cursor-pointer touch-manipulation rounded-md hover:bg-muted/50 active:bg-muted transition-colors select-none"
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            setSelectedSize(option.size);
+          }}
+        >
+          <RadioGroupItem 
+            value={option.size} 
+            id={`triathlon-size-${option.size}`}
+            className="pointer-events-none"
+          />
+          <span className="text-xs sm:text-sm">
+            {option.size}
+          </span>
+        </label>
+      ))}
+    </div>
+  </RadioGroup>
+</div>
+```
+
+**Mudanças chave**:
+1. Trocar `<div>` por `<label>` nativo (melhor suporte de acessibilidade e mobile)
+2. Remover `onClick` que conflitava com `onValueChange`
+3. Adicionar `onTouchEnd` com `preventDefault()` para mobile
+4. Adicionar `pointer-events-none` no RadioGroupItem para forçar eventos a irem para o label
+5. Remover Label component e usar span simples (evita conflito de htmlFor)
+
 ---
 
 ### Resultado Esperado
 
 Após as correções:
-
-1. O erro de build será resolvido e o site voltará a funcionar
-2. Os radio buttons terão área de toque adequada para mobile (mínimo 44px efetivos)
-3. O clique/toque em qualquer parte do container selecionará a opção
-4. Feedback visual imediato ao tocar (hover/active states)
-5. Sem delay de 300ms graças ao `touch-manipulation`
-6. Preços atualizarão corretamente ao selecionar diferentes tamanhos
+- Ao tocar em qualquer tamanho no mobile, o preço atualizará instantaneamente
+- O estado visual e o estado React estarão sempre sincronizados
+- Funciona em iOS Safari, Android Chrome e todos os navegadores desktop
+- Zero delay de 300ms graças ao `touch-manipulation`
 
 ---
 
-### Ordem de Implementação
+### Arquivos a Modificar
 
-1. **Primeiro**: Corrigir o erro de build (import do Resend)
-2. **Segundo**: Atualizar o componente RadioGroup
-3. **Terceiro**: Atualizar os 4 componentes de produto em paralelo
+1. `src/pages/stores/ProductSectionTriathlonLocal.tsx` (linhas 351-369)
+2. `src/pages/stores/ProductSectionCorridaLocal.tsx` (seção de tamanhos correspondente)
+3. `src/pages/stores/ProductSectionCiclismoLocal.tsx` (seção de tamanhos correspondente)
+4. `src/pages/stores/ProductSectionViagemLocal.tsx` (seção de tamanhos correspondente)
+
+---
+
+### Notas Técnicas
+
+- O Radix UI RadioGroup tem um problema conhecido em mobile onde o estado interno pode dessincronizar do estado React
+- A solução usando `<label>` nativo é mais robusta que `<div>` com `onClick`
+- O `pointer-events-none` no RadioGroupItem força todos os eventos a serem capturados pelo container `<label>`
+- O `onTouchEnd` com `preventDefault()` evita que o browser processe o toque como click sintético
