@@ -415,9 +415,13 @@ const ProductSectionCorridaLocal = () => {
                 <RadioGroup value={selectedSize} onValueChange={setSelectedSize}>
                   <div className="grid grid-cols-2 gap-2 sm:gap-3">
                     {sizeOptions.map((option) => (
-                      <div key={option.size} className="flex items-center space-x-2">
+                      <div 
+                        key={option.size} 
+                        className="flex items-center space-x-2 p-2 -m-1 cursor-pointer touch-manipulation rounded-md hover:bg-muted/50 active:bg-muted transition-colors"
+                        onClick={() => setSelectedSize(option.size)}
+                      >
                         <RadioGroupItem value={option.size} id={`corrida-size-${option.size}`} />
-                        <Label htmlFor={`corrida-size-${option.size}`} className="cursor-pointer text-xs sm:text-sm">
+                        <Label htmlFor={`corrida-size-${option.size}`} className="cursor-pointer text-xs sm:text-sm select-none">
                           {option.size}
                         </Label>
                       </div>
