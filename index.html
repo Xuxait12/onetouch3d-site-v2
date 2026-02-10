@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
+    <!-- Facebook Pixel stub (prevents fbq ReferenceError before GTM loads the real pixel) -->
+    <script>
+    if(!window.fbq){window.fbq=function(){window.fbq.callMethod?
+    window.fbq.callMethod.apply(window.fbq,arguments):window.fbq.queue.push(arguments)};
+    window.fbq.push=window.fbq;window.fbq.loaded=!0;window.fbq.version='2.0';
+    window.fbq.queue=[];window._fbq=window.fbq;}
+    </script>
+
     <!-- Google Tag Manager -->
     <script>
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
