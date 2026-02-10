@@ -51,7 +51,7 @@ const ProductSectionCorridaLocal = () => {
   ];
 
   const sizeOptionsCaixaAlta = [
-    { size: "33x33cm", fullPrice: 350.50, pixPrice: 325.50 },
+    { size: "33x33cm", fullPrice: 1.00, pixPrice: 1.00 },
     { size: "33x43cm", fullPrice: 371.50, pixPrice: 346.50 },
     { size: "37x48cm", fullPrice: 413.00, pixPrice: 378.00 },
     { size: "43x43cm", fullPrice: 416.00, pixPrice: 381.00 },
