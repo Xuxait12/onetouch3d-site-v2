@@ -3,6 +3,7 @@ import { CardPayment } from '@mercadopago/sdk-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { PaymentStatus } from './PaymentStatus';
+import { InstallmentsDisplay } from './InstallmentsDisplay';
 
 interface PaymentBrickProps {
   pedidoId: string;
@@ -190,6 +191,8 @@ export const PaymentBrick: React.FC<PaymentBrickProps> = ({
         </p>
       </div>
 
+      <InstallmentsDisplay amount={amount} />
+
       <div className="bg-white rounded-lg">
         <CardPayment
           initialization={initialization}
@@ -209,10 +212,6 @@ export const PaymentBrick: React.FC<PaymentBrickProps> = ({
             <strong>Pagamento 100% seguro.</strong> Seus dados são protegidos pelo Mercado Pago.
           </span>
         </p>
-      </div>
-
-      <div className="text-center text-sm text-gray-600">
-        <p>Parcelamento em até <strong>12x sem juros</strong> no cartão de crédito</p>
       </div>
     </div>
   );
