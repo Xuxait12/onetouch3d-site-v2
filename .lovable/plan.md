@@ -1,76 +1,35 @@
 
 
-## Ajustes Pontuais de UX/Copy em 3 Paginas
+## Ajuste no fluxo pos-PIX da /confirmacao-whatsapp
 
-### 1) Pagina `/auth` -- Redirecionamento pos-login
+### O que muda
 
-**Arquivo**: `src/pages/Auth.tsx`
+Atualmente, ao clicar "Fechar" no modal de sucesso (QR Code PIX), o sistema faz logout e redireciona para a home (`/`). A mudanca e:
 
-**O que muda**:
-- Adicionar suporte a query param `?returnTo=` na URL. Quando o usuario vem de outra pagina (ex: checkout), o `returnTo` e preservado.
-- Na funcao `checkProfileAndRedirect`: se perfil completo E existe `returnTo`, redirecionar para `returnTo` em vez de `/`. Se perfil incompleto, manter redirect para `/perfil`.
-- No `useEffect` inicial (linha 28): se ja logado, verificar `returnTo` antes de mandar para `/auth-redirect`.
-- No `handleGoogleSignIn`: incluir `returnTo` no `redirectTo` do OAuth para preservar a origem.
+1. **Remover o redirect para home** -- o usuario permanece na pagina `/confirmacao-whatsapp`
+2. **Novo estado "agradecimento"** -- ao clicar "Fechar", o modal fecha e a pagina exibe um estado de agradecimento (nao mais a tela de auth)
+3. **Conteudo do estado de agradecimento**:
+   - Logo OneTouch3D no topo
+   - Mensagem "Muito obrigado! :)" (emoji)
+   - Botao (1): "Ver QR Code / PIX novamente" -- reabre o modal no estado de sucesso (QR Code + instrucoes)
+   - Botao (2): "Copiar chave PIX" -- copia `54999921515` para o clipboard
+4. **No modal reaberto**: remover o botao "Fechar" e deixar apenas o X no canto superior direito para fechar
 
-**Nenhuma mudanca estrutural** -- apenas leitura de query param e ajuste do destino do `navigate()`.
-
----
-
-### 2) Pagina `/checkout` -- Ajustes de copy, aba default e botao Google
-
-**Arquivo**: `src/pages/Checkout.tsx`
-
-**Mudanca 1 -- Copy do gatilho** (linha 806):
-- De: `"Clique aqui para fazer login"`
-- Para: `"Entrar"`
-- O texto completo fica: "Ja tem cadastro? Entrar"
-
-**Mudanca 2 -- Aba padrao** (linha 39):
-- De: `useState<'login' | 'signup'>('login')`
-- Para: `useState<'login' | 'signup'>('signup')`
-- Quando o usuario abre a area de auth no checkout, a aba "Criar Conta" vem selecionada por padrao.
-
-**Mudanca 3 -- Botao Google na aba signup** (linha 999-1000):
-- De: `"Entrar com Google"`
-- Para: `"Criar conta com o Google"`
-
-**Mudanca 4 -- Distincao visual da aba ativa** (linhas 817-835):
-- Aba ativa: adicionar `bg-muted/50 rounded-t-md` alem do `border-b-2 border-black`
-- Aba inativa: manter `text-gray-500`
-- Pequeno ajuste CSS, sem redesign.
-
----
-
-### 3) Pagina `/confirmacao-whatsapp` -- Aba padrao + texto contextual
+### Detalhes tecnicos
 
 **Arquivo**: `src/pages/ConfirmacaoWhatsapp.tsx`
 
-**Mudanca 1 -- Aba padrao** (linha 520):
-- De: `<Tabs defaultValue="signin">`
-- Para: `<Tabs defaultValue="signup">`
-- A aba "Cadastrar" vem selecionada por padrao.
+**Mudancas**:
 
-**Mudanca 2 -- Texto contextual** (linha 498-500):
-- Substituir o `CardDescription` atual ("Entre ou crie sua conta") por:
-```
-"Este link foi enviado via WhatsApp para finalizar seu pedido e gerar o pagamento via PIX."
-```
-- Manter abaixo um subtexto menor: "Crie sua conta ou entre para continuar."
+- Adicionar novo estado `showThankYou` (boolean, default false)
+- Quando o usuario clica "Fechar" no modal de sucesso (linhas 738-768): em vez de fazer logout + navigate, apenas fechar o modal (`setShowModal(false)`) e ativar `setShowThankYou(true)`. Manter o usuario logado.
+- Na condicao de renderizacao principal (linha 495), adicionar um terceiro estado: se `showThankYou === true`, renderizar o card de agradecimento em vez do card de auth
+- No card de agradecimento:
+  - Logo `onetouchLogo` no topo
+  - Texto "Muito obrigado! :)"
+  - Botao "Ver QR Code / PIX novamente" que faz `setShowModal(true)` (modal ja esta no estado `showSuccess`)
+  - Botao "Copiar chave PIX" que usa `navigator.clipboard.writeText(PIX_KEY)` + toast
+- No modal de sucesso reaberto via "Ver QR Code / PIX novamente": remover o botao "Fechar" e restaurar o X do DialogContent (remover `[&>button]:hidden` quando em estado de agradecimento)
 
----
-
-### Resumo tecnico das alteracoes
-
-| Arquivo | Tipo de mudanca | Linhas afetadas |
-|---|---|---|
-| `src/pages/Auth.tsx` | Leitura de `returnTo` query param + ajuste no destino do navigate | ~10 linhas modificadas |
-| `src/pages/Checkout.tsx` | Copy de 2 textos + default de aba + CSS de aba ativa | ~8 linhas modificadas |
-| `src/pages/ConfirmacaoWhatsapp.tsx` | Default de aba + texto contextual no header | ~5 linhas modificadas |
-
-### O que NAO sera alterado
-- Nenhuma rota, componente base, schema do Supabase ou logica principal
-- Nenhuma integracao com Supabase (auth, perfil, salvamento)
-- Nenhum estilo global ou identidade visual
-- Fluxo do WhatsApp (edge function, modal, QR Code) permanece identico
-- Responsividade existente mantida
+**Linhas afetadas**: ~30 linhas adicionadas/modificadas. Nenhuma mudanca estrutural.
 
