@@ -36,6 +36,7 @@ const ConfirmacaoWhatsapp = () => {
   // Modal states
   const [showModal, setShowModal] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
 
   // Form states
   const [modalidade, setModalidade] = useState('');
@@ -491,8 +492,31 @@ const ConfirmacaoWhatsapp = () => {
     }
   };
   return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-primary/10 px-4 py-8">
+      {/* Thank You Card - shown after closing PIX modal */}
+      {showThankYou && <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <img src={onetouchLogo} alt="OneTouch3D" className="h-10 mx-auto mb-4" />
+            <h2 className="text-2xl font-semibold">Muito obrigado! 😊</h2>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Button onClick={() => setShowModal(true)} className="w-full">
+              Ver QR Code / PIX novamente
+            </Button>
+            <Button variant="outline" className="w-full" onClick={async () => {
+              try {
+                await navigator.clipboard.writeText(PIX_KEY);
+                toast({ title: "Chave PIX copiada!", description: `Chave: ${PIX_KEY}` });
+              } catch {
+                toast({ title: "Erro ao copiar", description: "Tente copiar manualmente: " + PIX_KEY, variant: "destructive" });
+              }
+            }}>
+              Copiar chave PIX
+            </Button>
+          </CardContent>
+        </Card>}
+
       {/* Auth Card - shown when not authenticated */}
-      {!isAuthenticated && <Card className="w-full max-w-md">
+      {!isAuthenticated && !showThankYou && <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <img src={onetouchLogo} alt="OneTouch3D" className="h-10 mx-auto mb-2" />
             <CardDescription className="text-sm">
@@ -586,9 +610,15 @@ const ConfirmacaoWhatsapp = () => {
 
       {/* Modal - shown after authentication */}
       <Dialog open={showModal} onOpenChange={open => {
-      if (!open) handleCancel();
+      if (!open) {
+        if (showThankYou) {
+          setShowModal(false);
+        } else {
+          handleCancel();
+        }
+      }
     }}>
-        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto [&>button]:hidden">
+        <DialogContent className={`max-w-lg max-h-[90vh] overflow-y-auto ${!showThankYou ? '[&>button]:hidden' : ''}`}>
           {!showSuccess ? <div className="space-y-6">
               {/* Header */}
               <div className="text-center">
@@ -735,38 +765,12 @@ const ConfirmacaoWhatsapp = () => {
                 </p>
               </div>
 
-              <Button variant="outline" onClick={async () => {
-                // Encerrar fluxo completamente
-                // 1. Fazer logout para limpar sessão
-                await supabase.auth.signOut();
-                
-                // 2. Resetar todos os estados
-                setShowSuccess(false);
+              {!showThankYou && <Button variant="outline" onClick={() => {
                 setShowModal(false);
-                setIsAuthenticated(false);
-                setUserId(null);
-                setEmail('');
-                setPassword('');
-                setConfirmPassword('');
-                setModalidade('');
-                setTamanho('');
-                setNomeCompleto('');
-                setTelefone('');
-                setCpf('');
-                setCep('');
-                setRua('');
-                setNumero('');
-                setBairro('');
-                setCidade('');
-                setEstado('');
-                setComplemento('');
-                setConfirmado(false);
-                
-                // 3. Redirecionar para home usando replace (impede voltar)
-                navigate('/', { replace: true });
+                setShowThankYou(true);
               }} className="mt-4">
                 Fechar
-              </Button>
+              </Button>}
             </div>)}
         </DialogContent>
       </Dialog>
