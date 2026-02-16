@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -21,13 +21,19 @@ const Auth = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const returnTo = searchParams.get('returnTo');
 
   useEffect(() => {
     // Check if user is already authenticated
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        navigate('/auth-redirect');
+        if (returnTo) {
+          navigate(returnTo);
+        } else {
+          navigate('/auth-redirect');
+        }
       }
     };
     checkAuth();
@@ -61,7 +67,7 @@ const Auth = () => {
         profile.phone && profile.phone.trim() !== '';
 
       if (hasCompleteProfile) {
-        navigate('/');
+        navigate(returnTo || '/');
       } else {
         navigate('/perfil');
       }
@@ -191,10 +197,13 @@ const Auth = () => {
 
   const handleGoogleSignIn = async () => {
     try {
+      const redirectUrl = returnTo
+        ? `${window.location.origin}/auth-redirect?returnTo=${encodeURIComponent(returnTo)}`
+        : `${window.location.origin}/auth-redirect`;
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth-redirect`
+          redirectTo: redirectUrl
         }
       });
 
