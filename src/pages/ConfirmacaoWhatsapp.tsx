@@ -495,9 +495,10 @@ const ConfirmacaoWhatsapp = () => {
       {!isAuthenticated && <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <img src={onetouchLogo} alt="OneTouch3D" className="h-10 mx-auto mb-2" />
-            <CardDescription>
-              Entre ou crie sua conta
+            <CardDescription className="text-sm">
+              Este link foi enviado via WhatsApp para finalizar seu pedido e gerar o pagamento via PIX.
             </CardDescription>
+            <p className="text-xs text-muted-foreground mt-1">Crie sua conta ou entre para continuar.</p>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -517,7 +518,7 @@ const ConfirmacaoWhatsapp = () => {
                 </div>
               </div>
 
-              <Tabs defaultValue="signin" className="w-full">
+              <Tabs defaultValue="signup" className="w-full">
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="signin">Entrar</TabsTrigger>
                   <TabsTrigger value="signup">Cadastrar</TabsTrigger>

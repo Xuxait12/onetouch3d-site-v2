@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 
 const AuthRedirect = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const returnTo = searchParams.get('returnTo');
   const { user, loading } = useAuth();
   const [checking, setChecking] = useState(true);
 
@@ -44,10 +46,8 @@ const AuthRedirect = () => {
           profile.phone && profile.phone.trim() !== '';
 
         if (hasCompleteProfile) {
-          // Profile complete - go to home
-          navigate('/');
+          navigate(returnTo || '/');
         } else {
-          // Profile incomplete or doesn't exist - go to profile page
           navigate('/perfil');
         }
       } catch (error) {

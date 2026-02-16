@@ -36,7 +36,7 @@ const Checkout = () => {
   const [loginPassword, setLoginPassword] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [authTab, setAuthTab] = useState<'login' | 'signup'>('login');
+  const [authTab, setAuthTab] = useState<'login' | 'signup'>('signup');
   const [signupData, setSignupData] = useState({
     fullName: '',
     email: '',
@@ -803,7 +803,7 @@ const Checkout = () => {
                     className="text-blue-600 underline hover:text-blue-800 transition-colors font-semibold"
                     onClick={() => setShowInlineLogin((v) => !v)}
                   >
-                    Clique aqui para fazer login
+                    Entrar
                   </button>
                 </p>
               </div>
@@ -814,9 +814,9 @@ const Checkout = () => {
                   <div className="flex mb-4 border-b">
                     <button
                       type="button"
-                      className={`px-4 py-2 font-medium ${
+                      className={`px-4 py-2 font-medium transition-colors ${
                         authTab === 'login'
-                          ? 'border-b-2 border-black text-black'
+                          ? 'border-b-2 border-black text-black bg-muted/50 rounded-t-md'
                           : 'text-gray-500 hover:text-gray-700'
                       }`}
                       onClick={() => setAuthTab('login')}
@@ -825,9 +825,9 @@ const Checkout = () => {
                     </button>
                     <button
                       type="button"
-                      className={`px-4 py-2 font-medium ${
+                      className={`px-4 py-2 font-medium transition-colors ${
                         authTab === 'signup'
-                          ? 'border-b-2 border-black text-black'
+                          ? 'border-b-2 border-black text-black bg-muted/50 rounded-t-md'
                           : 'text-gray-500 hover:text-gray-700'
                       }`}
                       onClick={() => setAuthTab('signup')}
@@ -997,7 +997,7 @@ const Checkout = () => {
                           className="flex-1 bg-white border-gray-300 text-gray-700 hover:bg-gray-50 shadow-sm"
                         >
                           <FcGoogle className="w-4 h-4 mr-2" />
-                          Entrar com Google
+                          Criar conta com o Google
                         </Button>
                       </div>
                     </form>
