@@ -66,7 +66,7 @@ const HeroSection = () => {
         style={{ objectPosition: 'center 30%' }}
       />
       {/* Overlay para melhorar legibilidade */}
-      <div className="absolute inset-0 bg-black/40"></div>
+      <div className="absolute inset-0 bg-black/10"></div>
       
       {/* Content */}
       <div className="relative z-10 h-full min-h-[100svh] flex items-end sm:items-center justify-center px-4 sm:px-6 pb-16 sm:pb-0 my-[53px]">
