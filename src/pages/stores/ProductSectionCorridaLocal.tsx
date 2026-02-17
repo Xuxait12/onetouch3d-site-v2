@@ -10,6 +10,7 @@ import { toast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { ShippingOption } from "@/types/shipping";
 import { Loader2, Package, Clock } from "lucide-react";
+import { InstallmentsPreview } from "@/components/payment/InstallmentsPreview";
 
 const ProductSectionCorridaLocal = () => {
   const navigate = useNavigate();
@@ -460,9 +461,7 @@ const ProductSectionCorridaLocal = () => {
                 <div className="text-2xl sm:text-3xl font-bold text-green-600 mb-2">
                   R$ {finalPrice.toFixed(2).replace('.', ',')}
                 </div>
-                <div className="text-xs sm:text-sm text-muted-foreground">
-                  5% de desconto no PIX ou parcele em até 12 vezes
-                </div>
+                <InstallmentsPreview amount={finalPrice} />
               </div>
 
               <Button 
