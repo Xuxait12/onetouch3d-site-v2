@@ -144,43 +144,25 @@ export const InstallmentsPreview: React.FC<InstallmentsPreviewProps> = ({ amount
             )}
 
             {withInterest.length > 0 && (
-              <>
-                <div className="px-3 py-1.5 bg-gray-100 text-xs text-gray-500 font-medium">
-                  Com juros
-                </div>
-                <div className="divide-y divide-gray-100">
-                  {withInterest.map((inst) => {
-                    const juros = inst.total_amount - amount;
-                    return (
-                      <div
-                        key={inst.installments}
-                        className="flex items-center justify-between px-3 py-2 hover:bg-gray-50"
-                      >
-                        <div className="flex items-center gap-2">
-                          <span className="bg-gray-600 text-white text-xs font-bold px-2 py-0.5 rounded">
-                            {inst.installments}x
-                          </span>
-                          <span className="text-sm text-gray-800">
-                            R$ {formatCurrency(inst.installment_amount)}
-                          </span>
-                        </div>
-                        <div className="text-right">
-                          <span className="text-xs text-gray-500">
-                            +R$ {formatCurrency(juros)}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
+              <div className="divide-y divide-gray-100">
+                {withInterest.map((inst) => (
+                  <div
+                    key={inst.installments}
+                    className="flex items-center justify-between px-3 py-2 hover:bg-gray-50"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="bg-gray-600 text-white text-xs font-bold px-2 py-0.5 rounded">
+                        {inst.installments}x
+                      </span>
+                      <span className="text-sm text-gray-800">
+                        R$ {formatCurrency(inst.installment_amount)}
+                      </span>
+                    </div>
+                    <span className="text-xs font-semibold text-gray-500">com juros</span>
+                  </div>
+                ))}
+              </div>
             )}
-          </div>
-
-          <div className="px-3 py-2 bg-gray-50 border-t border-gray-200">
-            <p className="text-xs text-gray-500 text-center">
-              Valores conforme taxas do Mercado Pago
-            </p>
           </div>
         </div>
       )}
