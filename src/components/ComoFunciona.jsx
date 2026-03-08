@@ -141,7 +141,7 @@ export default function ComoFunciona() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: i === active ? 16 : 12,
+                    fontSize: i === active ? 18 : 15,
                     fontWeight: i === active ? 800 : 700,
                     color: i <= active ? "#2563eb" : "#9ca3af",
                     transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
