@@ -120,6 +120,7 @@ const Home = () => {
         </main>
       </div>
 
+      <ComoFunciona />
       <GlobalFooter />
     </div>
   );
