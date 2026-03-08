@@ -109,7 +109,7 @@ export default function ComoFunciona() {
               margin: 0,
             }}
           >
-            Do pedido ao quadro na sua parede, simples assim
+            Do pedido ao quadro na sua parede, simples assim.
           </p>
         </div>
 
