@@ -129,8 +129,8 @@ export default function ComoFunciona() {
                 {/* Círculo */}
                 <div
                   style={{
-                    width: i === active ? 46 : 32,
-                    height: i === active ? 46 : 32,
+                    width: i === active ? 52 : 40,
+                    height: i === active ? 52 : 40,
                     borderRadius: "50%",
                     background: "#fff",
                     border: i === active
