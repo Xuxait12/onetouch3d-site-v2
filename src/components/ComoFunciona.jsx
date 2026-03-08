@@ -156,7 +156,7 @@ export default function ComoFunciona() {
                 {/* Label */}
                 <span
                   style={{
-                    fontSize: 10,
+                    fontSize: 13,
                     fontWeight: i === active ? 700 : 600,
                     color: i === active ? "#2563eb" : "#94a3b8",
                     transition: "color 0.3s",
