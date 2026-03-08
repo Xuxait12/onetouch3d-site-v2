@@ -129,8 +129,8 @@ export default function ComoFunciona() {
                 {/* Círculo */}
                 <div
                   style={{
-                    width: i === active ? 46 : 32,
-                    height: i === active ? 46 : 32,
+                    width: i === active ? 52 : 40,
+                    height: i === active ? 52 : 40,
                     borderRadius: "50%",
                     background: "#fff",
                     border: i === active
@@ -141,7 +141,7 @@ export default function ComoFunciona() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: i === active ? 16 : 12,
+                    fontSize: i === active ? 18 : 15,
                     fontWeight: i === active ? 800 : 700,
                     color: i <= active ? "#2563eb" : "#9ca3af",
                     transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
@@ -156,7 +156,7 @@ export default function ComoFunciona() {
                 {/* Label */}
                 <span
                   style={{
-                    fontSize: 10,
+                    fontSize: 13,
                     fontWeight: i === active ? 700 : 600,
                     color: i === active ? "#2563eb" : "#94a3b8",
                     transition: "color 0.3s",
