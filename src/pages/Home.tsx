@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
+import ComoFunciona from "@/components/ComoFunciona";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -119,6 +120,7 @@ const Home = () => {
         </main>
       </div>
 
+      <ComoFunciona />
       <GlobalFooter />
     </div>
   );
