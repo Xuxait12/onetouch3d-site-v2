@@ -87,6 +87,19 @@ export default function ComoFunciona() {
 
         {/* Título e subtítulo */}
         <div style={{ textAlign: "center", marginBottom: mobile ? 28 : 44 }}>
+          <span
+            style={{
+              display: "inline-block",
+              fontSize: mobile ? 13 : 15,
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "2px",
+              color: "#2563eb",
+              marginBottom: 8,
+            }}
+          >
+            Como Funciona
+          </span>
           <h2
             style={{
               fontSize: "clamp(24px, 4vw, 52px)",
