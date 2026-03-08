@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const steps = [
   {
@@ -43,10 +43,23 @@ const steps = [
   },
 ];
 
+function useIsMobile(breakpoint = 640) {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < breakpoint : false
+  );
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < breakpoint);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 export default function ComoFunciona() {
   const [active, setActive] = useState(0);
   const [animating, setAnimating] = useState(false);
   const [visible, setVisible] = useState(true);
+  const mobile = useIsMobile();
 
   const goTo = (idx) => {
     if (idx === active || animating) return;
@@ -66,20 +79,20 @@ export default function ComoFunciona() {
     <section
       style={{
         background: "#fff",
-        padding: "28px 24px 64px",
+        padding: mobile ? "20px 0 40px" : "28px 24px 64px",
         fontFamily: '-apple-system, "system-ui", "Helvetica Neue", Arial, sans-serif',
       }}
     >
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 48px" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: mobile ? "0 16px" : "0 48px" }}>
 
         {/* Título e subtítulo */}
-        <div style={{ textAlign: "center", marginBottom: 44 }}>
+        <div style={{ textAlign: "center", marginBottom: mobile ? 28 : 44 }}>
           <h2
             style={{
-              fontSize: "clamp(28px, 4vw, 52px)",
+              fontSize: "clamp(24px, 4vw, 52px)",
               fontWeight: 700,
               lineHeight: 1.1,
-              margin: "0 0 12px",
+              margin: "0 0 10px",
               background: "linear-gradient(to right, #2563eb, #3b82f6, #1d4ed8)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
@@ -91,7 +104,7 @@ export default function ComoFunciona() {
           <p
             style={{
               color: "#6b7280",
-              fontSize: "clamp(15px, 2vw, 20px)",
+              fontSize: "clamp(14px, 2vw, 20px)",
               lineHeight: "1.6",
               margin: 0,
             }}
@@ -107,30 +120,37 @@ export default function ComoFunciona() {
             alignItems: "center",
             justifyContent: "center",
             gap: 0,
-            marginBottom: 28,
+            marginBottom: mobile ? 20 : 28,
             flexWrap: "nowrap",
+            overflowX: mobile ? "auto" : "visible",
+            WebkitOverflowScrolling: "touch",
+            padding: mobile ? "0 4px" : 0,
           }}
         >
           {steps.map((st, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "center" }}>
+            <div key={i} style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
               <button
                 onClick={() => goTo(i)}
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  gap: 5,
+                  gap: mobile ? 3 : 5,
                   background: "none",
                   border: "none",
                   cursor: "pointer",
-                  padding: "3px 6px",
+                  padding: mobile ? "3px 2px" : "3px 6px",
                 }}
               >
                 {/* Círculo */}
                 <div
                   style={{
-                    width: i === active ? 52 : 40,
-                    height: i === active ? 52 : 40,
+                    width: mobile
+                      ? (i === active ? 38 : 30)
+                      : (i === active ? 52 : 40),
+                    height: mobile
+                      ? (i === active ? 38 : 30)
+                      : (i === active ? 52 : 40),
                     borderRadius: "50%",
                     background: "#fff",
                     border: i === active
@@ -141,7 +161,9 @@ export default function ComoFunciona() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: i === active ? 18 : 15,
+                    fontSize: mobile
+                      ? (i === active ? 14 : 12)
+                      : (i === active ? 18 : 15),
                     fontWeight: i === active ? 800 : 700,
                     color: i <= active ? "#2563eb" : "#9ca3af",
                     transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
@@ -156,11 +178,10 @@ export default function ComoFunciona() {
                 {/* Label */}
                 <span
                   style={{
-                    fontSize: 13,
+                    fontSize: mobile ? 10 : 13,
                     fontWeight: i === active ? 700 : 600,
                     color: i === active ? "#2563eb" : "#94a3b8",
                     transition: "color 0.3s",
-                    // Esconde no mobile via CSS inline não é possível — usar className se usar Tailwind
                     whiteSpace: "nowrap",
                   }}
                 >
@@ -172,13 +193,13 @@ export default function ComoFunciona() {
               {i < steps.length - 1 && (
                 <div
                   style={{
-                    width: 48,
+                    width: mobile ? 20 : 48,
                     height: 2,
                     background: i < active
                       ? "linear-gradient(to right, #2563eb, #3b82f6)"
                       : "#e2e8f0",
                     borderRadius: 2,
-                    marginBottom: 15,
+                    marginBottom: mobile ? 12 : 15,
                     transition: "background 0.4s",
                     flexShrink: 0,
                   }}
@@ -192,7 +213,7 @@ export default function ComoFunciona() {
         <div
           style={{
             background: "#fff",
-            borderRadius: 16,
+            borderRadius: mobile ? 12 : 16,
             boxShadow:
               "rgba(0,0,0,0.08) 0px 1px 3px, rgba(0,0,0,0.06) 0px 4px 16px",
             border: "1px solid #e5e7eb",
@@ -218,10 +239,11 @@ export default function ComoFunciona() {
           {/* Conteúdo do card */}
           <div
             style={{
-              padding: "36px 48px 44px",
+              padding: mobile ? "24px 18px 28px" : "36px 48px 44px",
               display: "flex",
-              gap: 28,
-              alignItems: "flex-start",
+              flexDirection: mobile ? "column" : "row",
+              gap: mobile ? 18 : 28,
+              alignItems: mobile ? "center" : "flex-start",
             }}
           >
             {/* Ícone + número */}
@@ -235,15 +257,15 @@ export default function ComoFunciona() {
             >
               <div
                 style={{
-                  width: 72,
-                  height: 72,
+                  width: mobile ? 56 : 72,
+                  height: mobile ? 56 : 72,
                   background: "linear-gradient(135deg, #eff6ff, #dbeafe)",
-                  borderRadius: 14,
+                  borderRadius: mobile ? 12 : 14,
                   border: "1px solid rgba(37,99,235,0.12)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: 32,
+                  fontSize: mobile ? 26 : 32,
                 }}
               >
                 {step.icon}
@@ -262,7 +284,7 @@ export default function ComoFunciona() {
             </div>
 
             {/* Texto */}
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: 1, textAlign: mobile ? "center" : "left" }}>
               <span
                 style={{
                   display: "inline-block",
@@ -270,9 +292,9 @@ export default function ComoFunciona() {
                   color: "#2563eb",
                   borderRadius: 100,
                   padding: "3px 12px",
-                  fontSize: 13,
+                  fontSize: mobile ? 12 : 13,
                   fontWeight: 600,
-                  marginBottom: 12,
+                  marginBottom: 10,
                 }}
               >
                 {step.badge}
@@ -280,11 +302,11 @@ export default function ComoFunciona() {
 
               <h3
                 style={{
-                  fontSize: 24,
+                  fontSize: mobile ? 20 : 24,
                   fontWeight: 700,
                   color: "#1f2937",
-                  margin: "0 0 10px",
-                  lineHeight: "32px",
+                  margin: "0 0 8px",
+                  lineHeight: mobile ? "26px" : "32px",
                 }}
               >
                 {step.title}
@@ -293,26 +315,26 @@ export default function ComoFunciona() {
               <p
                 style={{
                   color: "#4b5563",
-                  fontSize: 18,
-                  lineHeight: "28px",
-                  margin: "0 0 24px",
+                  fontSize: mobile ? 15 : 18,
+                  lineHeight: mobile ? "24px" : "28px",
+                  margin: "0 0 20px",
                 }}
               >
                 {step.desc}
               </p>
 
               {/* Botões de navegação */}
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: mobile ? "center" : "flex-start" }}>
                 {active > 0 && (
                   <button
                     onClick={() => goTo(active - 1)}
                     style={{
-                      padding: "10px 20px",
+                      padding: mobile ? "9px 16px" : "10px 20px",
                       borderRadius: 8,
                       border: "1px solid #e2e8f0",
                       background: "#fff",
                       color: "#374151",
-                      fontSize: 14,
+                      fontSize: mobile ? 13 : 14,
                       fontWeight: 500,
                       cursor: "pointer",
                     }}
@@ -327,12 +349,12 @@ export default function ComoFunciona() {
                       : goTo(active + 1)
                   }
                   style={{
-                    padding: "10px 22px",
+                    padding: mobile ? "9px 18px" : "10px 22px",
                     borderRadius: 8,
                     border: "none",
                     background: "linear-gradient(to right, #2563eb, #1d4ed8)",
                     color: "#fff",
-                    fontSize: 14,
+                    fontSize: mobile ? 13 : 14,
                     fontWeight: 600,
                     cursor: "pointer",
                     boxShadow: "0 2px 8px rgba(37,99,235,0.25)",
@@ -349,8 +371,8 @@ export default function ComoFunciona() {
         <div
           style={{
             display: "flex",
-            gap: 7,
-            marginTop: 20,
+            gap: mobile ? 6 : 7,
+            marginTop: mobile ? 16 : 20,
             flexWrap: "wrap",
             justifyContent: "center",
           }}
@@ -360,12 +382,12 @@ export default function ComoFunciona() {
               key={i}
               onClick={() => goTo(i)}
               style={{
-                padding: "6px 15px",
+                padding: mobile ? "5px 11px" : "6px 15px",
                 borderRadius: 100,
                 border: `1.5px solid ${i === active ? "#2563eb" : "#e2e8f0"}`,
                 background: i === active ? "#eff6ff" : "#fff",
                 color: i === active ? "#2563eb" : "#9ca3af",
-                fontSize: 12,
+                fontSize: mobile ? 11 : 12,
                 fontWeight: i === active ? 600 : 400,
                 cursor: "pointer",
                 boxShadow: i === active
