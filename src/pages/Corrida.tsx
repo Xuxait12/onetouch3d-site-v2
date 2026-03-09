@@ -62,10 +62,9 @@ const Corrida = () => {
         
         <GallerySectionCorrida />
         <TestimonialsSectionCorrida />
-        <ShareSectionCorrida />
-        
         
         <ProductSectionCorridaLocal />
+        <ShareSectionCorrida />
         <FAQSectionCorrida />
         
         
