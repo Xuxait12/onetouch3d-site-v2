@@ -75,12 +75,12 @@ const Ciclismo = () => {
         
         <GallerySectionCiclismo />
         <TestimonialsSectionCiclismo />
-        <ShareSectionCiclismo />
         
         {/* ETERNIZE background text positioned above Nossa loja section */}
         
         
         <ProductSectionCiclismoLocal />
+        <ShareSectionCiclismo />
         <FAQSectionCiclismo />
         
 

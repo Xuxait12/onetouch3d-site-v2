@@ -88,12 +88,12 @@ const Viagem = () => {
         
         <GallerySectionViagem />
         <TestimonialsSection />
-        <ShareSectionViagem />
         
         {/* ETERNIZE background text positioned above Nossa loja section */}
         
         
         <ProductSectionViagemLocal />
+        <ShareSectionViagem />
         <FAQSectionViagem />
         
         

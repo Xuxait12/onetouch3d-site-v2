@@ -71,12 +71,12 @@ const Triathlon = () => {
         
         <GallerySectionTriathlon />
         <TestimonialsSectionTriathlon />
-        <ShareSection />
         
         {/* ETERNIZE background text positioned above Nossa loja section */}
         
         
         <ProductSectionTriathlonLocal />
+        <ShareSection />
         <FAQSectionTriathlon className="py-0" />
         
         
