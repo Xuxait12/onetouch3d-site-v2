@@ -380,39 +380,6 @@ export default function ComoFunciona() {
           </div>
         </div>
 
-        {/* Pills de navegação rápida */}
-        <div
-          style={{
-            display: "flex",
-            gap: mobile ? 6 : 7,
-            marginTop: mobile ? 16 : 20,
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
-          {steps.map((st, i) => (
-            <button
-              key={i}
-              onClick={() => goTo(i)}
-              style={{
-                padding: mobile ? "5px 11px" : "6px 15px",
-                borderRadius: 100,
-                border: `1.5px solid ${i === active ? "#2563eb" : "#e2e8f0"}`,
-                background: i === active ? "#eff6ff" : "#fff",
-                color: i === active ? "#2563eb" : "#9ca3af",
-                fontSize: mobile ? 11 : 12,
-                fontWeight: i === active ? 600 : 400,
-                cursor: "pointer",
-                boxShadow: i === active
-                  ? "0 1px 5px rgba(37,99,235,0.10)"
-                  : "none",
-                transition: "all 0.2s",
-              }}
-            >
-              {st.icon} {st.label}
-            </button>
-          ))}
-        </div>
       </div>
     </section>
   );
