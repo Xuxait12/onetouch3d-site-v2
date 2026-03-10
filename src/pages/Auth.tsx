@@ -39,6 +39,12 @@ const Auth = () => {
   }, [navigate]);
 
   const checkProfileAndRedirect = async (userId: string) => {
+    // If returnTo is set, go there directly (e.g. checkout has its own form)
+    if (returnTo) {
+      navigate(returnTo);
+      return;
+    }
+
     try {
       const { data: profile, error } = await supabase
         .from('profiles')
@@ -64,7 +70,7 @@ const Auth = () => {
         profile.telefone && profile.telefone.trim() !== '';
 
       if (hasCompleteProfile) {
-        navigate(returnTo || '/');
+        navigate('/');
       } else {
         navigate('/perfil');
       }
