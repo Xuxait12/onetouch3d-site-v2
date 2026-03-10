@@ -1221,16 +1221,10 @@ const Checkout = () => {
                   <Button
                     onClick={handleFinalizePurchase}
                     className="w-full bg-black hover:bg-black/90 text-white py-4 text-lg font-medium"
-                    disabled={!acceptTerms || (!selectedPaymentType && !paymentMethod) || isSubmitting || !user || !cart?.selectedShippingOption}
+                    disabled={!acceptTerms || (!selectedPaymentType && !paymentMethod) || isSubmitting || !cart?.selectedShippingOption}
                   >
                     {isSubmitting ? "Criando pedido..." : "Continuar para Pagamento"}
                   </Button>
-
-                  {!user && (
-                    <p className="text-sm text-muted-foreground text-center mt-2">
-                      É necessário fazer login para finalizar a compra
-                    </p>
-                  )}
                 </>
               ) : (
                 <>
