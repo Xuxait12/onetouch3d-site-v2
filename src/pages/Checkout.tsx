@@ -278,24 +278,24 @@ const Checkout = () => {
         return;
       }
 
-      if (data.user) {
+        if (data.user) {
         // Create profile data
         const { error: profileError } = await supabase
           .from('profiles')
           .upsert({
             user_id: data.user.id,
-            full_name: signupData.fullName,
+            nome_completo: signupData.fullName,
             email: signupData.email,
-            phone: '',
+            telefone: '',
             cpf_cnpj: '',
-            birth_date: '1990-01-01',
+            data_nascimento: '1990-01-01',
             cep: '',
-            address: '',
-            number: '',
-            neighborhood: '',
-            city: '',
-            state: '',
-            person_type: 'fisica'
+            endereco: '',
+            numero: '',
+            bairro: '',
+            cidade: '',
+            estado: '',
+            tipo_pessoa: 'fisica'
           });
 
         if (profileError) {
