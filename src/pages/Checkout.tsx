@@ -922,7 +922,20 @@ const Checkout = () => {
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                        <div>
                          <Label htmlFor="deliveryCep">CEP *</Label>
-                         <Input ref={deliveryCepRef} id="deliveryCep" type="text" placeholder="00000-000" required />
+                         <Input 
+                           ref={deliveryCepRef} 
+                           id="deliveryCep" 
+                           type="text" 
+                           placeholder="00000-000" 
+                           required
+                           onBlur={(e) => fetchAddressByCep(e.target.value, {
+                             address: deliveryAddressRef,
+                             neighborhood: deliveryNeighborhoodRef,
+                             city: deliveryCityRef,
+                             state: deliveryStateRef,
+                           })}
+                         />
+                         {cepLoading && <p className="text-xs text-muted-foreground mt-1">Buscando endereço...</p>}
                        </div>
                        
                        <div>
