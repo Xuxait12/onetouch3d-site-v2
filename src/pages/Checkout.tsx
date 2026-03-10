@@ -805,7 +805,7 @@ const Checkout = () => {
                 </Button>
 
                 <button
-                  onClick={() => navigate('/auth', { state: { returnTo: '/checkout' } })}
+                  onClick={() => navigate('/auth?returnTo=/checkout')}
                   className="text-sm text-primary hover:underline"
                 >
                   Entrar com e-mail
