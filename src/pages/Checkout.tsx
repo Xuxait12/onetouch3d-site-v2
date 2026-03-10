@@ -177,16 +177,19 @@ const Checkout = () => {
     }
   };
 
-  // Check for OAuth redirect and load profile data
+  // Check for OAuth redirect and force clean reload
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const fromOauth = urlParams.get('from_oauth');
     
-    if (fromOauth && user) {
-      // Remove the parameter from URL
+    if (fromOauth) {
+      // Remove param and force a full reload for a clean render
       window.history.replaceState({}, '', '/checkout');
-      loadProfileData();
-    } else if (user) {
+      window.location.reload();
+      return;
+    }
+    
+    if (user) {
       loadProfileData();
     }
   }, [user]);
