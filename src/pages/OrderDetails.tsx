@@ -11,39 +11,32 @@ import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
 import { getStatusText, getStatusColor, getPaymentMethodText } from "@/utils/orderUtils";
 
-interface OrderItem {
-  id: string;
-  produto_nome: string;
-  moldura_tipo: string;
-  tamanho: string;
-  quantidade: number;
-  valor_unitario: number;
-  subtotal: number;
-}
-
 interface Order {
   id: string;
-  numero_pedido: string;
-  data_pedido: string;
-  status: string;
-  subtotal: number;
-  frete: number;
-  desconto: number;
-  total: number;
-  forma_pagamento: string;
-  shipping_address?: string;
+  created_at: string;
+  status_pagamento: string;
+  status_producao: string;
+  preco_total: number;
+  shipping_cost: number | null;
+  desconto_cupom: number | null;
+  desconto_pix: number | null;
+  preco_final: number;
+  preco_unitario: number;
+  quantidade: number;
+  metodo_pagamento: string | null;
+  shipping_address: string | null;
   profiles: {
-    full_name: string;
+    nome_completo: string;
     email: string;
-    phone: string;
-    cpf_cnpj: string;
-    address: string;
-    number: string;
-    complement?: string;
-    neighborhood: string;
-    city: string;
-    state: string;
-    cep: string;
+    telefone: string | null;
+    cpf_cnpj: string | null;
+    endereco: string | null;
+    numero: string | null;
+    complemento: string | null;
+    bairro: string | null;
+    cidade: string | null;
+    estado: string | null;
+    cep: string | null;
   };
 }
 
@@ -51,7 +44,6 @@ const OrderDetails = () => {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
   const [order, setOrder] = useState<Order | null>(null);
-  const [items, setItems] = useState<OrderItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -59,43 +51,20 @@ const OrderDetails = () => {
       if (!id || !user) return;
 
       try {
-        // Check if user is admin from database
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('is_admin')
-          .eq('user_id', user.id)
-          .single();
-        
-        const isAdmin = profile?.is_admin || false;
-
-        // Load order
-        let orderQuery = supabase
+        // Load order - filter by user_id for regular users
+        const { data: orderData, error: orderError } = await supabase
           .from('pedidos')
           .select(`
             *,
-            profiles!inner(full_name, email, phone, cpf_cnpj, address, number, complement, neighborhood, city, state, cep)
+            profiles!inner(nome_completo, email, telefone, cpf_cnpj, endereco, numero, complemento, bairro, cidade, estado, cep)
           `)
-          .eq('id', id);
-
-        // If not admin, filter by user_id
-        if (!isAdmin) {
-          orderQuery = orderQuery.eq('user_id', user.id);
-        }
-
-        const { data: orderData, error: orderError } = await orderQuery.single();
+          .eq('id', id)
+          .eq('user_id', user.id)
+          .single();
 
         if (orderError) throw orderError;
 
-        // Load order items
-        const { data: itemsData, error: itemsError } = await supabase
-          .from('itens_pedido')
-          .select('*')
-          .eq('pedido_id', id);
-
-        if (itemsError) throw itemsError;
-
         setOrder(orderData);
-        setItems(itemsData || []);
       } catch (error) {
         console.error('Error loading order details:', error);
       } finally {
@@ -106,7 +75,6 @@ const OrderDetails = () => {
     loadOrderDetails();
   }, [id, user]);
 
-  // Redirect if not logged in
   if (!user) {
     return <Navigate to="/auth" replace />;
   }
@@ -143,6 +111,8 @@ const OrderDetails = () => {
     );
   }
 
+  const totalDesconto = (order.desconto_cupom || 0) + (order.desconto_pix || 0);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/20">
       <GlobalHeader />
@@ -160,21 +130,20 @@ const OrderDetails = () => {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">
-          {/* Order Summary */}
           <div className="lg:col-span-2 space-y-6">
             <Card>
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="flex items-center gap-2">
                     <Package className="w-5 h-5" />
-                    Pedido #{order.numero_pedido}
+                    Pedido #{order.id.slice(0, 8)}
                   </CardTitle>
-                  <Badge className={getStatusColor(order.status)}>
-                    {getStatusText(order.status)}
+                  <Badge className={getStatusColor(order.status_pagamento)}>
+                    {getStatusText(order.status_pagamento)}
                   </Badge>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Realizado em {new Date(order.data_pedido).toLocaleDateString('pt-BR')}
+                  Realizado em {new Date(order.created_at).toLocaleDateString('pt-BR')}
                 </p>
               </CardHeader>
               <CardContent>
@@ -182,51 +151,43 @@ const OrderDetails = () => {
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <span className="text-muted-foreground">Data:</span>
-                      <p className="font-medium">{new Date(order.data_pedido).toLocaleDateString('pt-BR')}</p>
+                      <p className="font-medium">{new Date(order.created_at).toLocaleDateString('pt-BR')}</p>
                     </div>
                     <div>
                       <span className="text-muted-foreground">Pagamento:</span>
-                      <p className="font-medium">{getPaymentMethodText(order.forma_pagamento)}</p>
+                      <p className="font-medium">{getPaymentMethodText(order.metodo_pagamento || '')}</p>
                     </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Order Items */}
             <Card>
               <CardHeader>
-                <CardTitle>Itens do Pedido</CardTitle>
+                <CardTitle>Item do Pedido</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {items.map((item) => (
-                    <div key={item.id} className="flex justify-between items-start p-4 border rounded-lg">
-                      <div className="flex-1">
-                        <h4 className="font-semibold">{item.produto_nome}</h4>
-                        <p className="text-sm text-muted-foreground">
-                          {item.moldura_tipo} - {item.tamanho}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          Quantidade: {item.quantidade}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-semibold">R$ {item.subtotal.toFixed(2)}</p>
-                        <p className="text-sm text-muted-foreground">
-                          R$ {item.valor_unitario.toFixed(2)} cada
-                        </p>
-                      </div>
+                  <div className="flex justify-between items-start p-4 border rounded-lg">
+                    <div className="flex-1">
+                      <h4 className="font-semibold">Quadro Personalizado</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Quantidade: {order.quantidade}
+                      </p>
                     </div>
-                  ))}
+                    <div className="text-right">
+                      <p className="font-semibold">R$ {order.preco_total.toFixed(2)}</p>
+                      <p className="text-sm text-muted-foreground">
+                        R$ {order.preco_unitario.toFixed(2)} cada
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Customer and Address Info */}
           <div className="space-y-6">
-            {/* Customer Info */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -238,7 +199,7 @@ const OrderDetails = () => {
                 <div className="space-y-3 text-sm">
                   <div>
                     <span className="text-muted-foreground">Nome:</span>
-                    <p className="font-medium">{order.profiles.full_name}</p>
+                    <p className="font-medium">{order.profiles.nome_completo}</p>
                   </div>
                   <div>
                     <span className="text-muted-foreground">E-mail:</span>
@@ -246,7 +207,7 @@ const OrderDetails = () => {
                   </div>
                   <div>
                     <span className="text-muted-foreground">Telefone:</span>
-                    <p className="font-medium">{order.profiles.phone}</p>
+                    <p className="font-medium">{order.profiles.telefone}</p>
                   </div>
                   <div>
                     <span className="text-muted-foreground">CPF/CNPJ:</span>
@@ -256,7 +217,6 @@ const OrderDetails = () => {
               </CardContent>
             </Card>
 
-            {/* Address Info */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -269,10 +229,10 @@ const OrderDetails = () => {
                   <div>
                     <h4 className="font-semibold text-sm mb-2">Endereço de Cadastro:</h4>
                     <p className="text-sm text-muted-foreground">
-                      {order.profiles.address}, {order.profiles.number}
-                      {order.profiles.complement && `, ${order.profiles.complement}`}
+                      {order.profiles.endereco}, {order.profiles.numero}
+                      {order.profiles.complemento && `, ${order.profiles.complemento}`}
                       <br />
-                      {order.profiles.neighborhood}, {order.profiles.city} - {order.profiles.state}
+                      {order.profiles.bairro}, {order.profiles.cidade} - {order.profiles.estado}
                       <br />
                       CEP: {order.profiles.cep}
                     </p>
@@ -293,7 +253,6 @@ const OrderDetails = () => {
               </CardContent>
             </Card>
 
-            {/* Order Summary */}
             <Card>
               <CardHeader>
                 <CardTitle>Resumo Financeiro</CardTitle>
@@ -302,20 +261,20 @@ const OrderDetails = () => {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Subtotal:</span>
-                    <span>R$ {order.subtotal.toFixed(2)}</span>
+                    <span>R$ {order.preco_total.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Frete:</span>
-                    <span>R$ {order.frete.toFixed(2)}</span>
+                    <span>R$ {(order.shipping_cost || 0).toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Desconto:</span>
-                    <span>-R$ {order.desconto.toFixed(2)}</span>
+                    <span>-R$ {totalDesconto.toFixed(2)}</span>
                   </div>
                   <Separator />
                   <div className="flex justify-between font-semibold">
                     <span>Total:</span>
-                    <span>R$ {order.total.toFixed(2)}</span>
+                    <span>R$ {order.preco_final.toFixed(2)}</span>
                   </div>
                 </div>
               </CardContent>

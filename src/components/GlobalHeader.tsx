@@ -20,7 +20,6 @@ const GlobalHeader = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [displayName, setDisplayName] = useState<string>("");
 
-  // Fetch user display name with priority: profiles.full_name > user_metadata.full_name > email
   useEffect(() => {
     const fetchDisplayName = async () => {
       if (!user) {
@@ -28,26 +27,23 @@ const GlobalHeader = () => {
         return;
       }
 
-      // 1. Try to get full_name from profiles table
       const { data: profile } = await supabase
         .from("profiles")
-        .select("full_name")
+        .select("nome_completo")
         .eq("user_id", user.id)
         .single();
 
-      if (profile?.full_name && profile.full_name.trim() !== "") {
-        setDisplayName(profile.full_name.split(" ")[0]); // First name only
+      if (profile?.nome_completo && profile.nome_completo.trim() !== "") {
+        setDisplayName(profile.nome_completo.split(" ")[0]);
         return;
       }
 
-      // 2. Try to get name from Google metadata
       const metadataName = user.user_metadata?.full_name || user.user_metadata?.name;
       if (metadataName && metadataName.trim() !== "") {
-        setDisplayName(metadataName.split(" ")[0]); // First name only
+        setDisplayName(metadataName.split(" ")[0]);
         return;
       }
 
-      // 3. Fallback to email prefix
       setDisplayName(user.email?.split("@")[0] || "Usuário");
     };
 

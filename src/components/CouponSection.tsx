@@ -13,14 +13,6 @@ interface CouponSectionProps {
   subtotal: number;
 }
 
-interface Coupon {
-  id: string;
-  code: string;
-  discount_type: string;
-  discount_value: number;
-  page: string;
-}
-
 const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
   const { state: cart, applyCoupon, removeCoupon } = useCart();
   const [couponCode, setCouponCode] = useState("");
@@ -37,12 +29,11 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
     setFeedback({ type: null, message: '' });
 
     try {
-      // Query the coupons table
       const { data, error } = await supabase
-        .from('coupons')
+        .from('cupons')
         .select('*')
-        .eq('code', couponCode.trim().toUpperCase())
-        .eq('active', true)
+        .eq('codigo', couponCode.trim().toUpperCase())
+        .eq('ativo', true)
         .maybeSingle();
 
       if (error) {
@@ -56,45 +47,28 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
         return;
       }
 
-      // Check page validity
-      if (data.page !== 'all' && data.page !== currentPage) {
-        setFeedback({ type: 'error', message: `Este cupom não é válido para esta loja.` });
-        return;
-      }
-
-      // Check date validity
-      const now = new Date();
-      if (data.valid_from && new Date(data.valid_from) > now) {
-        setFeedback({ type: 'error', message: 'Este cupom ainda não está válido.' });
-        return;
-      }
-      if (data.valid_until && new Date(data.valid_until) < now) {
-        setFeedback({ type: 'error', message: 'Este cupom expirou.' });
-        return;
-      }
-
       // Calculate discount
       let discount = 0;
-      if (data.discount_type === 'percentual') {
-        discount = subtotal * (data.discount_value / 100);
-      } else if (data.discount_type === 'fixo') {
-        discount = data.discount_value;
+      if (data.tipo === 'percentual') {
+        discount = subtotal * ((data.valor || 0) / 100);
+      } else if (data.tipo === 'fixo') {
+        discount = data.valor || 0;
       }
 
       // Ensure discount doesn't exceed subtotal
       discount = Math.min(discount, subtotal);
 
       // Apply coupon
-      applyCoupon(data.code, discount, data.code, data.page);
+      applyCoupon(data.codigo, discount, data.codigo, 'all');
 
       // Show success message
-      const discountText = data.discount_type === 'percentual' 
-        ? `${data.discount_value}% OFF`
-        : `R$ ${data.discount_value.toFixed(2).replace('.', ',')} OFF`;
+      const discountText = data.tipo === 'percentual' 
+        ? `${data.valor}% OFF`
+        : `R$ ${(data.valor || 0).toFixed(2).replace('.', ',')} OFF`;
       
       setFeedback({ 
         type: 'success', 
-        message: `Cupom ${data.code} aplicado com sucesso: ${discountText}.`
+        message: `Cupom ${data.codigo} aplicado com sucesso: ${discountText}.`
       });
 
       toast({
@@ -123,7 +97,6 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
 
   return (
     <div className="space-y-4">
-      {/* Coupon Input Section */}
       <Card className="p-4">
         <div className="flex items-center gap-2 mb-3">
           <Tag className="w-5 h-5 text-muted-foreground" />
@@ -131,7 +104,6 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
         </div>
 
         {cart.cupomCode ? (
-          // Coupon Applied State
           <div className="space-y-3">
             <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg p-3">
               <div className="flex items-center gap-2">
@@ -154,7 +126,6 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
             </div>
           </div>
         ) : (
-          // Coupon Input State
           <div className="space-y-3">
             <div className="flex gap-2">
               <Input
@@ -173,7 +144,6 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
               </Button>
             </div>
 
-            {/* Feedback Message */}
             {feedback.type && (
               <div className={`flex items-center gap-2 p-3 rounded-lg ${
                 feedback.type === 'success' 
