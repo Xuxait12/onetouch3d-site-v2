@@ -659,7 +659,7 @@ const Checkout = () => {
       const { data: pedido, error: pedidoError } = await supabase
         .from('pedidos')
         .insert({
-          user_id: user.id,
+          user_id: user?.id || null,
           preco_unitario: Math.round(precoUnitario * 100) / 100,
           preco_total: orderData.preco_total,
           preco_final: orderData.preco_final,
