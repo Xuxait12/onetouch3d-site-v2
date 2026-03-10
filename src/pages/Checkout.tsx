@@ -177,15 +177,22 @@ const Checkout = () => {
     }
   };
 
-  // Check for OAuth redirect and force clean reload
+  // Check for OAuth redirect - wait for session then navigate clean
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const fromOauth = urlParams.get('from_oauth');
     
     if (fromOauth) {
-      // Remove param and force a full reload for a clean render
-      window.history.replaceState({}, '', '/checkout');
-      window.location.reload();
+      // Wait for Supabase to establish session from OAuth tokens in URL
+      const waitForSession = async () => {
+        const { data: { session } } = await supabase.auth.getSession();
+        // Remove param and navigate clean
+        window.history.replaceState({}, '', '/checkout');
+        if (session) {
+          loadProfileData();
+        }
+      };
+      waitForSession();
       return;
     }
     
