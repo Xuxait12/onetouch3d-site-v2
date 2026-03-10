@@ -198,7 +198,7 @@ const Auth = () => {
   const handleGoogleSignIn = async () => {
     try {
       const redirectUrl = returnTo
-        ? `${window.location.origin}/auth-redirect?returnTo=${encodeURIComponent(returnTo)}`
+        ? `${window.location.origin}${returnTo}`
         : `${window.location.origin}/auth-redirect`;
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
