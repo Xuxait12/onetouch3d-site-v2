@@ -839,7 +839,20 @@ const Checkout = () => {
                   
                   <div>
                     <Label htmlFor="cep">CEP *</Label>
-                    <Input ref={cepRef} id="cep" type="text" placeholder="00000-000" required />
+                    <Input 
+                      ref={cepRef} 
+                      id="cep" 
+                      type="text" 
+                      placeholder="00000-000" 
+                      required
+                      onBlur={(e) => fetchAddressByCep(e.target.value, {
+                        address: addressRef,
+                        neighborhood: neighborhoodRef,
+                        city: cityRef,
+                        state: stateRef,
+                      })}
+                    />
+                    {cepLoading && <p className="text-xs text-muted-foreground mt-1">Buscando endereço...</p>}
                   </div>
                   
                   <div>
