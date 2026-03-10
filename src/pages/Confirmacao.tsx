@@ -34,18 +34,23 @@ const Confirmacao = () => {
 
   useEffect(() => {
     const loadOrderDetails = async () => {
-      if (!pedidoId || !user) {
+      if (!pedidoId) {
         navigate('/');
         return;
       }
 
       try {
-        const { data: order, error: orderError } = await supabase
+        let query = supabase
           .from('pedidos')
           .select('*')
-          .eq('id', pedidoId)
-          .eq('user_id', user.id)
-          .single();
+          .eq('id', pedidoId);
+
+        // If user is logged in, filter by user_id for security
+        if (user) {
+          query = query.eq('user_id', user.id);
+        }
+
+        const { data: order, error: orderError } = await query.single();
 
         if (orderError) {
           throw orderError;
@@ -214,6 +219,26 @@ const Confirmacao = () => {
             </div>
           </div>
 
+          {/* Account Creation CTA for non-logged users */}
+          {!user && (
+            <Card className="p-5 mt-8 border-dashed border-muted-foreground/30">
+              <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                <div className="flex-1">
+                  <p className="text-sm text-muted-foreground">
+                    Quer acompanhar seus pedidos online? Crie uma conta gratuita com o mesmo e-mail usado na compra.
+                  </p>
+                </div>
+                <Button
+                  onClick={() => navigate('/auth')}
+                  variant="outline"
+                  className="shrink-0"
+                >
+                  Criar Conta
+                </Button>
+              </div>
+            </Card>
+          )}
+
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mt-8 justify-center">
             <Button 
@@ -223,12 +248,14 @@ const Confirmacao = () => {
             >
               Voltar à Loja
             </Button>
-            <Button 
-              onClick={() => navigate('/meus-pedidos')}
-              className="bg-black hover:bg-black/90 text-white px-8 py-3"
-            >
-              Meus Pedidos
-            </Button>
+            {user && (
+              <Button 
+                onClick={() => navigate('/meus-pedidos')}
+                className="bg-black hover:bg-black/90 text-white px-8 py-3"
+              >
+                Meus Pedidos
+              </Button>
+            )}
           </div>
         </div>
       </div>
