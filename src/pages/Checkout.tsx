@@ -26,7 +26,7 @@ import { z } from "zod";
 const Checkout = () => {
   const navigate = useNavigate();
   const { state: cart, clearCart, calculateShipping, selectShippingOption } = useCart();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [personType, setPersonType] = useState("fisica");
   const [differentAddress, setDifferentAddress] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -190,6 +190,20 @@ const Checkout = () => {
       loadProfileData();
     }
   }, [user]);
+
+  // Show loading spinner while checking auth (e.g. after OAuth redirect)
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/20">
+        <GlobalHeader />
+        <div className="py-16 flex flex-col items-center justify-center">
+          <Loader2 className="w-10 h-10 animate-spin text-primary mb-4" />
+          <p className="text-muted-foreground">Verificando sessão...</p>
+        </div>
+        <GlobalFooter />
+      </div>
+    );
+  }
 
   // If cart is empty, show empty state
   if (!cart?.items || cart.items.length === 0) {
