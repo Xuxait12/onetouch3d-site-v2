@@ -593,15 +593,7 @@ const Checkout = () => {
       return;
     }
 
-    if (!user) {
-      toast({
-        variant: "destructive",
-        title: "Login necessário",
-        description: "Faça login ou crie sua conta para prosseguir com o pedido.",
-      });
-      setShowInlineLogin(true);
-      return;
-    }
+    // Guest checkout: user_id will be null for non-logged users
 
     setIsSubmitting(true);
 
