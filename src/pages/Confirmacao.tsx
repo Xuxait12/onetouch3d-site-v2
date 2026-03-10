@@ -34,18 +34,23 @@ const Confirmacao = () => {
 
   useEffect(() => {
     const loadOrderDetails = async () => {
-      if (!pedidoId || !user) {
+      if (!pedidoId) {
         navigate('/');
         return;
       }
 
       try {
-        const { data: order, error: orderError } = await supabase
+        let query = supabase
           .from('pedidos')
           .select('*')
-          .eq('id', pedidoId)
-          .eq('user_id', user.id)
-          .single();
+          .eq('id', pedidoId);
+
+        // If user is logged in, filter by user_id for security
+        if (user) {
+          query = query.eq('user_id', user.id);
+        }
+
+        const { data: order, error: orderError } = await query.single();
 
         if (orderError) {
           throw orderError;
