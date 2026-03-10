@@ -783,9 +783,37 @@ const Checkout = () => {
             <h1 className="text-4xl font-bold text-foreground">Finalizar Compra</h1>
           </div>
 
-          {/* Login/signup block removed - checkout works for guests */}
+          {!user ? (
+            /* Usuário não logado - mostrar card de login centralizado */
+            <div className="max-w-md mx-auto">
+              <Card className="p-8 text-center space-y-6">
+                <h2 className="text-2xl font-semibold text-foreground">Entre para continuar</h2>
+                <p className="text-muted-foreground text-sm">Faça login para preencher seus dados e finalizar a compra.</p>
+                
+                <Button
+                  onClick={handleGoogleLogin}
+                  variant="outline"
+                  className="w-full flex items-center justify-center gap-3 py-5 text-base"
+                  disabled={loginLoading}
+                >
+                  {loginLoading ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <FcGoogle className="w-5 h-5" />
+                  )}
+                  Continuar com Google
+                </Button>
 
-          {/* Container Principal */}
+                <button
+                  onClick={() => navigate('/auth', { state: { returnTo: '/checkout' } })}
+                  className="text-sm text-primary hover:underline"
+                >
+                  Entrar com e-mail
+                </button>
+              </Card>
+            </div>
+          ) : (
+          /* Usuário logado - mostrar formulário completo */
           <div className="grid lg:grid-cols-3 gap-8">
             
             {/* Coluna Esquerda - Formulários */}
@@ -1193,16 +1221,10 @@ const Checkout = () => {
                   <Button
                     onClick={handleFinalizePurchase}
                     className="w-full bg-black hover:bg-black/90 text-white py-4 text-lg font-medium"
-                    disabled={!acceptTerms || (!selectedPaymentType && !paymentMethod) || isSubmitting || !user || !cart?.selectedShippingOption}
+                    disabled={!acceptTerms || (!selectedPaymentType && !paymentMethod) || isSubmitting || !cart?.selectedShippingOption}
                   >
                     {isSubmitting ? "Criando pedido..." : "Continuar para Pagamento"}
                   </Button>
-
-                  {!user && (
-                    <p className="text-sm text-muted-foreground text-center mt-2">
-                      É necessário fazer login para finalizar a compra
-                    </p>
-                  )}
                 </>
               ) : (
                 <>
@@ -1244,6 +1266,7 @@ const Checkout = () => {
               )}
             </div>
           </div>
+          )}
         </div>
       </div>
       
