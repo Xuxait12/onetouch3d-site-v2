@@ -20,7 +20,7 @@ import { toast } from "@/hooks/use-toast";
 import { FcGoogle } from 'react-icons/fc';
 import { PaymentBrick } from "@/components/payment/PaymentBrick";
 import { PixPayment } from "@/components/payment/PixPayment";
-import { profileSchema, orderSchema, orderItemSchema, getValidationErrors } from "@/lib/validation";
+import { profileSchema, orderSchema, getValidationErrors } from "@/lib/validation";
 import { z } from "zod";
 
 const Checkout = () => {
