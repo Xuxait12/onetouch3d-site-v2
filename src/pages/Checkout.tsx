@@ -404,21 +404,20 @@ const Checkout = () => {
 
       const profileData = {
         user_id: user.id,
-        person_type: personType as 'fisica' | 'juridica',
-        full_name: fullName,
+        tipo_pessoa: personType,
+        nome_completo: fullName,
         cpf_cnpj: document,
-        birth_date: birthDate,
-        country: 'Brasil',
+        data_nascimento: birthDate,
+        pais: 'Brasil',
         cep,
-        address,
-        number,
-        complement,
-        neighborhood,
-        city,
-        state,
-        phone,
+        endereco: address,
+        numero: number,
+        complemento: complement,
+        bairro: neighborhood,
+        cidade: city,
+        estado: state,
+        telefone: phone,
         email,
-        ponto_referencia: pontoReferencia
       };
 
       let error;
