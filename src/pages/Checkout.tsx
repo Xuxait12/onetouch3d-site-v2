@@ -62,6 +62,34 @@ const Checkout = () => {
 
   // Shipping state
   const [shippingCep, setShippingCep] = useState(cart?.cep || "");
+  const [cepLoading, setCepLoading] = useState(false);
+
+  // ViaCEP auto-fill
+  const fetchAddressByCep = async (cep: string, targetRefs: {
+    address: React.RefObject<HTMLInputElement>;
+    neighborhood: React.RefObject<HTMLInputElement>;
+    city: React.RefObject<HTMLInputElement>;
+    state: React.RefObject<HTMLInputElement>;
+  }) => {
+    const cleanCep = cep.replace(/\D/g, '');
+    if (cleanCep.length !== 8) return;
+    
+    setCepLoading(true);
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`);
+      const data = await response.json();
+      if (data.erro) return;
+      
+      if (targetRefs.address.current) targetRefs.address.current.value = data.logradouro || '';
+      if (targetRefs.neighborhood.current) targetRefs.neighborhood.current.value = data.bairro || '';
+      if (targetRefs.city.current) targetRefs.city.current.value = data.localidade || '';
+      if (targetRefs.state.current) targetRefs.state.current.value = data.uf || '';
+    } catch (error) {
+      console.error('Erro ao consultar ViaCEP:', error);
+    } finally {
+      setCepLoading(false);
+    }
+  };
   
   // Refs for form fields
   const fullNameRef = useRef<HTMLInputElement>(null);
@@ -811,7 +839,20 @@ const Checkout = () => {
                   
                   <div>
                     <Label htmlFor="cep">CEP *</Label>
-                    <Input ref={cepRef} id="cep" type="text" placeholder="00000-000" required />
+                    <Input 
+                      ref={cepRef} 
+                      id="cep" 
+                      type="text" 
+                      placeholder="00000-000" 
+                      required
+                      onBlur={(e) => fetchAddressByCep(e.target.value, {
+                        address: addressRef,
+                        neighborhood: neighborhoodRef,
+                        city: cityRef,
+                        state: stateRef,
+                      })}
+                    />
+                    {cepLoading && <p className="text-xs text-muted-foreground mt-1">Buscando endereço...</p>}
                   </div>
                   
                   <div>
@@ -881,7 +922,20 @@ const Checkout = () => {
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                        <div>
                          <Label htmlFor="deliveryCep">CEP *</Label>
-                         <Input ref={deliveryCepRef} id="deliveryCep" type="text" placeholder="00000-000" required />
+                         <Input 
+                           ref={deliveryCepRef} 
+                           id="deliveryCep" 
+                           type="text" 
+                           placeholder="00000-000" 
+                           required
+                           onBlur={(e) => fetchAddressByCep(e.target.value, {
+                             address: deliveryAddressRef,
+                             neighborhood: deliveryNeighborhoodRef,
+                             city: deliveryCityRef,
+                             state: deliveryStateRef,
+                           })}
+                         />
+                         {cepLoading && <p className="text-xs text-muted-foreground mt-1">Buscando endereço...</p>}
                        </div>
                        
                        <div>
