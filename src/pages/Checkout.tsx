@@ -62,6 +62,34 @@ const Checkout = () => {
 
   // Shipping state
   const [shippingCep, setShippingCep] = useState(cart?.cep || "");
+  const [cepLoading, setCepLoading] = useState(false);
+
+  // ViaCEP auto-fill
+  const fetchAddressByCep = async (cep: string, targetRefs: {
+    address: React.RefObject<HTMLInputElement>;
+    neighborhood: React.RefObject<HTMLInputElement>;
+    city: React.RefObject<HTMLInputElement>;
+    state: React.RefObject<HTMLInputElement>;
+  }) => {
+    const cleanCep = cep.replace(/\D/g, '');
+    if (cleanCep.length !== 8) return;
+    
+    setCepLoading(true);
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`);
+      const data = await response.json();
+      if (data.erro) return;
+      
+      if (targetRefs.address.current) targetRefs.address.current.value = data.logradouro || '';
+      if (targetRefs.neighborhood.current) targetRefs.neighborhood.current.value = data.bairro || '';
+      if (targetRefs.city.current) targetRefs.city.current.value = data.localidade || '';
+      if (targetRefs.state.current) targetRefs.state.current.value = data.uf || '';
+    } catch (error) {
+      console.error('Erro ao consultar ViaCEP:', error);
+    } finally {
+      setCepLoading(false);
+    }
+  };
   
   // Refs for form fields
   const fullNameRef = useRef<HTMLInputElement>(null);
