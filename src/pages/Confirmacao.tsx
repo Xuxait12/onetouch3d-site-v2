@@ -214,6 +214,26 @@ const Confirmacao = () => {
             </div>
           </div>
 
+          {/* Account Creation CTA for non-logged users */}
+          {!user && (
+            <Card className="p-5 mt-8 border-dashed border-muted-foreground/30">
+              <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                <div className="flex-1">
+                  <p className="text-sm text-muted-foreground">
+                    Quer acompanhar seus pedidos online? Crie uma conta gratuita com o mesmo e-mail usado na compra.
+                  </p>
+                </div>
+                <Button
+                  onClick={() => navigate('/auth')}
+                  variant="outline"
+                  className="shrink-0"
+                >
+                  Criar Conta
+                </Button>
+              </div>
+            </Card>
+          )}
+
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mt-8 justify-center">
             <Button 
@@ -223,12 +243,14 @@ const Confirmacao = () => {
             >
               Voltar à Loja
             </Button>
-            <Button 
-              onClick={() => navigate('/meus-pedidos')}
-              className="bg-black hover:bg-black/90 text-white px-8 py-3"
-            >
-              Meus Pedidos
-            </Button>
+            {user && (
+              <Button 
+                onClick={() => navigate('/meus-pedidos')}
+                className="bg-black hover:bg-black/90 text-white px-8 py-3"
+              >
+                Meus Pedidos
+              </Button>
+            )}
           </div>
         </div>
       </div>
