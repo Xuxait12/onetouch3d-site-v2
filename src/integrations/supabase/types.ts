@@ -10,104 +10,315 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "13.0.4"
+    PostgrestVersion: "14.4"
   }
   public: {
     Tables: {
-      atualizar: {
+      cupons: {
         Row: {
-          created_at: string
-          id: number
-          numero: number | null
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          numero?: number | null
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          numero?: number | null
-        }
-        Relationships: []
-      }
-      coupons: {
-        Row: {
-          active: boolean
-          code: string
-          created_at: string
-          discount_type: string
-          discount_value: number
-          id: string
-          page: string
-          valid_from: string | null
-          valid_until: string | null
-        }
-        Insert: {
-          active?: boolean
-          code: string
-          created_at?: string
-          discount_type: string
-          discount_value: number
-          id?: string
-          page: string
-          valid_from?: string | null
-          valid_until?: string | null
-        }
-        Update: {
-          active?: boolean
-          code?: string
-          created_at?: string
-          discount_type?: string
-          discount_value?: number
-          id?: string
-          page?: string
-          valid_from?: string | null
-          valid_until?: string | null
-        }
-        Relationships: []
-      }
-      itens_pedido: {
-        Row: {
+          ativo: boolean
+          codigo: string
           created_at: string
           id: string
-          moldura_tipo: string
-          pedido_id: string
-          produto_nome: string
-          quantidade: number
-          subtotal: number
-          tamanho: string
-          valor_unitario: number
+          parceiro_id: string | null
+          tipo: string
+          usos_totais: number
+          valor: number | null
         }
         Insert: {
+          ativo?: boolean
+          codigo: string
           created_at?: string
           id?: string
-          moldura_tipo: string
-          pedido_id: string
-          produto_nome: string
-          quantidade: number
-          subtotal: number
-          tamanho: string
-          valor_unitario: number
+          parceiro_id?: string | null
+          tipo: string
+          usos_totais?: number
+          valor?: number | null
         }
         Update: {
+          ativo?: boolean
+          codigo?: string
           created_at?: string
           id?: string
-          moldura_tipo?: string
-          pedido_id?: string
-          produto_nome?: string
-          quantidade?: number
-          subtotal?: number
-          tamanho?: string
-          valor_unitario?: number
+          parceiro_id?: string | null
+          tipo?: string
+          usos_totais?: number
+          valor?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "fk_itens_pedido_pedido"
-            columns: ["pedido_id"]
+            foreignKeyName: "cupons_parceiro_id_fkey"
+            columns: ["parceiro_id"]
             isOneToOne: false
-            referencedRelation: "pedidos"
+            referencedRelation: "parceiros"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      custos_insumos: {
+        Row: {
+          embalagem: number
+          filamento: number
+          foto: number
+          id: string
+          mdf: number
+          montagem: number
+          outros: number | null
+          tamanho_id: string
+          taxas: number
+          updated_at: string
+          vidro: number
+        }
+        Insert: {
+          embalagem?: number
+          filamento?: number
+          foto?: number
+          id?: string
+          mdf?: number
+          montagem?: number
+          outros?: number | null
+          tamanho_id: string
+          taxas?: number
+          updated_at?: string
+          vidro?: number
+        }
+        Update: {
+          embalagem?: number
+          filamento?: number
+          foto?: number
+          id?: string
+          mdf?: number
+          montagem?: number
+          outros?: number | null
+          tamanho_id?: string
+          taxas?: number
+          updated_at?: string
+          vidro?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "custos_insumos_tamanho_id_fkey"
+            columns: ["tamanho_id"]
+            isOneToOne: true
+            referencedRelation: "tamanhos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      custos_molduras: {
+        Row: {
+          caixa_alta: number | null
+          caixa_baixa: number | null
+          custo: number | null
+          id: string
+          tamanho_id: string | null
+          tipo_moldura_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          caixa_alta?: number | null
+          caixa_baixa?: number | null
+          custo?: number | null
+          id?: string
+          tamanho_id?: string | null
+          tipo_moldura_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          caixa_alta?: number | null
+          caixa_baixa?: number | null
+          custo?: number | null
+          id?: string
+          tamanho_id?: string | null
+          tipo_moldura_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "custos_molduras_tamanho_id_fkey"
+            columns: ["tamanho_id"]
+            isOneToOne: false
+            referencedRelation: "tamanhos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "custos_molduras_tipo_moldura_id_fkey"
+            columns: ["tipo_moldura_id"]
+            isOneToOne: true
+            referencedRelation: "tipos_moldura"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      links_pagamento: {
+        Row: {
+          created_at: string
+          cupom_id: string | null
+          id: string
+          modalidade_id: string
+          profile_id: string
+          status: string
+          tamanho_id: string
+          tipo_moldura_id: string
+          url: string | null
+          valor: number
+        }
+        Insert: {
+          created_at?: string
+          cupom_id?: string | null
+          id?: string
+          modalidade_id: string
+          profile_id: string
+          status?: string
+          tamanho_id: string
+          tipo_moldura_id: string
+          url?: string | null
+          valor: number
+        }
+        Update: {
+          created_at?: string
+          cupom_id?: string | null
+          id?: string
+          modalidade_id?: string
+          profile_id?: string
+          status?: string
+          tamanho_id?: string
+          tipo_moldura_id?: string
+          url?: string | null
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "links_pagamento_cliente_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_pagamento_cupom_id_fkey"
+            columns: ["cupom_id"]
+            isOneToOne: false
+            referencedRelation: "cupons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_pagamento_modalidade_id_fkey"
+            columns: ["modalidade_id"]
+            isOneToOne: false
+            referencedRelation: "modalidades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_pagamento_tamanho_id_fkey"
+            columns: ["tamanho_id"]
+            isOneToOne: false
+            referencedRelation: "tamanhos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_pagamento_tipo_moldura_id_fkey"
+            columns: ["tipo_moldura_id"]
+            isOneToOne: false
+            referencedRelation: "tipos_moldura"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      modalidade_molduras: {
+        Row: {
+          id: string
+          modalidade_id: string
+          tipo_moldura_id: string
+        }
+        Insert: {
+          id?: string
+          modalidade_id: string
+          tipo_moldura_id: string
+        }
+        Update: {
+          id?: string
+          modalidade_id?: string
+          tipo_moldura_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "modalidade_molduras_modalidade_id_fkey"
+            columns: ["modalidade_id"]
+            isOneToOne: false
+            referencedRelation: "modalidades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "modalidade_molduras_tipo_moldura_id_fkey"
+            columns: ["tipo_moldura_id"]
+            isOneToOne: false
+            referencedRelation: "tipos_moldura"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      modalidades: {
+        Row: {
+          ativo: boolean
+          created_at: string
+          id: string
+          nome: string
+          slug: string
+        }
+        Insert: {
+          ativo?: boolean
+          created_at?: string
+          id?: string
+          nome: string
+          slug: string
+        }
+        Update: {
+          ativo?: boolean
+          created_at?: string
+          id?: string
+          nome?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      parceiros: {
+        Row: {
+          ativo: boolean
+          created_at: string
+          cupom_id: string | null
+          email: string | null
+          id: string
+          nome: string
+          observacao: string | null
+          phone: string | null
+        }
+        Insert: {
+          ativo?: boolean
+          created_at?: string
+          cupom_id?: string | null
+          email?: string | null
+          id?: string
+          nome: string
+          observacao?: string | null
+          phone?: string | null
+        }
+        Update: {
+          ativo?: boolean
+          created_at?: string
+          cupom_id?: string | null
+          email?: string | null
+          id?: string
+          nome?: string
+          observacao?: string | null
+          phone?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_parceiros_cupom"
+            columns: ["cupom_id"]
+            isOneToOne: false
+            referencedRelation: "cupons"
             referencedColumns: ["id"]
           },
         ]
@@ -115,42 +326,30 @@ export type Database = {
       payment_webhooks: {
         Row: {
           created_at: string
-          error_message: string | null
-          event_data: Json
-          event_type: string
+          event_type: string | null
           id: string
-          payment_id: string
+          payment_id: string | null
           pedido_id: string | null
-          processed: boolean | null
-          processed_at: string | null
-          request_id: string | null
-          signature: string | null
+          raw_data: Json | null
+          status: string | null
         }
         Insert: {
           created_at?: string
-          error_message?: string | null
-          event_data: Json
-          event_type: string
+          event_type?: string | null
           id?: string
-          payment_id: string
+          payment_id?: string | null
           pedido_id?: string | null
-          processed?: boolean | null
-          processed_at?: string | null
-          request_id?: string | null
-          signature?: string | null
+          raw_data?: Json | null
+          status?: string | null
         }
         Update: {
           created_at?: string
-          error_message?: string | null
-          event_data?: Json
-          event_type?: string
+          event_type?: string | null
           id?: string
-          payment_id?: string
+          payment_id?: string | null
           pedido_id?: string | null
-          processed?: boolean | null
-          processed_at?: string | null
-          request_id?: string | null
-          signature?: string | null
+          raw_data?: Json | null
+          status?: string | null
         }
         Relationships: [
           {
@@ -164,189 +363,444 @@ export type Database = {
       }
       pedidos: {
         Row: {
+          canal_venda: string
           created_at: string
-          cupom_aplicado: string | null
-          data_pedido: string
-          desconto: number
-          forma_pagamento: string
-          frete: number
+          cupom_id: string | null
+          custo_insumos: number | null
+          custo_moldura: number | null
+          custo_total: number | null
+          desconto_cupom: number | null
+          desconto_pix: number | null
+          entregue_em: string | null
+          enviado_em: string | null
+          fotos_recebidas_em: string | null
           id: string
           installments: number | null
-          numero_pedido: string | null
-          payment_approved_at: string | null
+          layout_aprovado_em: string | null
+          layout_criado_em: string | null
+          lucro: number | null
+          margem_percentual: number | null
+          metodo_pagamento: string | null
+          modalidade_id: string
+          observacao: string | null
           payment_id: string | null
-          payment_metadata: Json | null
-          payment_method_id: string | null
-          payment_method_type: string | null
-          payment_status: string | null
           pix_qr_code: string | null
           pix_qr_code_text: string | null
-          pix_ticket_url: string | null
+          preco_final: number
+          preco_total: number
+          preco_unitario: number
+          producao_iniciada_em: string | null
+          pronto_em: string | null
+          quantidade: number
           shipping_address: string | null
-          shipping_company: string | null
+          shipping_cost: number | null
           shipping_delivery_time: number | null
-          shipping_metadata: Json | null
           shipping_method: string | null
-          shipping_service_id: number | null
-          status: string
-          subtotal: number
-          total: number
+          status_pagamento: string
+          status_producao: string
+          tamanho_id: string
+          tipo_moldura_id: string
+          tracking_code: string | null
           updated_at: string
           user_id: string
-          webhook_received_at: string | null
         }
         Insert: {
+          canal_venda?: string
           created_at?: string
-          cupom_aplicado?: string | null
-          data_pedido?: string
-          desconto?: number
-          forma_pagamento: string
-          frete?: number
+          cupom_id?: string | null
+          custo_insumos?: number | null
+          custo_moldura?: number | null
+          custo_total?: number | null
+          desconto_cupom?: number | null
+          desconto_pix?: number | null
+          entregue_em?: string | null
+          enviado_em?: string | null
+          fotos_recebidas_em?: string | null
           id?: string
           installments?: number | null
-          numero_pedido?: string | null
-          payment_approved_at?: string | null
+          layout_aprovado_em?: string | null
+          layout_criado_em?: string | null
+          lucro?: number | null
+          margem_percentual?: number | null
+          metodo_pagamento?: string | null
+          modalidade_id: string
+          observacao?: string | null
           payment_id?: string | null
-          payment_metadata?: Json | null
-          payment_method_id?: string | null
-          payment_method_type?: string | null
-          payment_status?: string | null
           pix_qr_code?: string | null
           pix_qr_code_text?: string | null
-          pix_ticket_url?: string | null
+          preco_final: number
+          preco_total: number
+          preco_unitario: number
+          producao_iniciada_em?: string | null
+          pronto_em?: string | null
+          quantidade?: number
           shipping_address?: string | null
-          shipping_company?: string | null
+          shipping_cost?: number | null
           shipping_delivery_time?: number | null
-          shipping_metadata?: Json | null
           shipping_method?: string | null
-          shipping_service_id?: number | null
-          status?: string
-          subtotal: number
-          total: number
+          status_pagamento?: string
+          status_producao?: string
+          tamanho_id: string
+          tipo_moldura_id: string
+          tracking_code?: string | null
           updated_at?: string
           user_id: string
-          webhook_received_at?: string | null
         }
         Update: {
+          canal_venda?: string
           created_at?: string
-          cupom_aplicado?: string | null
-          data_pedido?: string
-          desconto?: number
-          forma_pagamento?: string
-          frete?: number
+          cupom_id?: string | null
+          custo_insumos?: number | null
+          custo_moldura?: number | null
+          custo_total?: number | null
+          desconto_cupom?: number | null
+          desconto_pix?: number | null
+          entregue_em?: string | null
+          enviado_em?: string | null
+          fotos_recebidas_em?: string | null
           id?: string
           installments?: number | null
-          numero_pedido?: string | null
-          payment_approved_at?: string | null
+          layout_aprovado_em?: string | null
+          layout_criado_em?: string | null
+          lucro?: number | null
+          margem_percentual?: number | null
+          metodo_pagamento?: string | null
+          modalidade_id?: string
+          observacao?: string | null
           payment_id?: string | null
-          payment_metadata?: Json | null
-          payment_method_id?: string | null
-          payment_method_type?: string | null
-          payment_status?: string | null
           pix_qr_code?: string | null
           pix_qr_code_text?: string | null
-          pix_ticket_url?: string | null
+          preco_final?: number
+          preco_total?: number
+          preco_unitario?: number
+          producao_iniciada_em?: string | null
+          pronto_em?: string | null
+          quantidade?: number
           shipping_address?: string | null
-          shipping_company?: string | null
+          shipping_cost?: number | null
           shipping_delivery_time?: number | null
-          shipping_metadata?: Json | null
           shipping_method?: string | null
-          shipping_service_id?: number | null
-          status?: string
-          subtotal?: number
-          total?: number
+          status_pagamento?: string
+          status_producao?: string
+          tamanho_id?: string
+          tipo_moldura_id?: string
+          tracking_code?: string | null
           updated_at?: string
           user_id?: string
-          webhook_received_at?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "fk_pedidos_profile"
-            columns: ["user_id"]
+            foreignKeyName: "pedidos_cupom_id_fkey"
+            columns: ["cupom_id"]
             isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
+            referencedRelation: "cupons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pedidos_modalidade_id_fkey"
+            columns: ["modalidade_id"]
+            isOneToOne: false
+            referencedRelation: "modalidades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pedidos_tamanho_id_fkey"
+            columns: ["tamanho_id"]
+            isOneToOne: false
+            referencedRelation: "tamanhos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pedidos_tipo_moldura_id_fkey"
+            columns: ["tipo_moldura_id"]
+            isOneToOne: false
+            referencedRelation: "tipos_moldura"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      precos: {
+        Row: {
+          ativo: boolean
+          id: string
+          modalidade_id: string
+          preco: number
+          tamanho_id: string
+          tipo_moldura_id: string
+          updated_at: string
+        }
+        Insert: {
+          ativo?: boolean
+          id?: string
+          modalidade_id: string
+          preco: number
+          tamanho_id: string
+          tipo_moldura_id: string
+          updated_at?: string
+        }
+        Update: {
+          ativo?: boolean
+          id?: string
+          modalidade_id?: string
+          preco?: number
+          tamanho_id?: string
+          tipo_moldura_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "precos_modalidade_id_fkey"
+            columns: ["modalidade_id"]
+            isOneToOne: false
+            referencedRelation: "modalidades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "precos_tamanho_id_fkey"
+            columns: ["tamanho_id"]
+            isOneToOne: false
+            referencedRelation: "tamanhos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "precos_tipo_moldura_id_fkey"
+            columns: ["tipo_moldura_id"]
+            isOneToOne: false
+            referencedRelation: "tipos_moldura"
+            referencedColumns: ["id"]
           },
         ]
       }
       profiles: {
         Row: {
-          address: string
-          birth_date: string
-          cep: string
-          city: string
-          complement: string | null
-          country: string
-          cpf_cnpj: string
+          bairro: string | null
+          cep: string | null
+          cidade: string | null
+          complemento: string | null
+          cpf_cnpj: string | null
           created_at: string
+          data_nascimento: string | null
           email: string
-          full_name: string
+          endereco: string | null
+          estado: string | null
+          genero: string | null
           id: string
-          is_admin: boolean | null
-          neighborhood: string
-          number: string
-          person_type: Database["public"]["Enums"]["person_type_enum"]
-          phone: string
-          ponto_referencia: string | null
-          state: string
+          nome_completo: string
+          numero: string | null
+          pais: string
+          parceiro_id: string | null
+          telefone: string | null
+          tipo_pessoa: string
           updated_at: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
-          address: string
-          birth_date: string
-          cep: string
-          city: string
-          complement?: string | null
-          country?: string
-          cpf_cnpj: string
+          bairro?: string | null
+          cep?: string | null
+          cidade?: string | null
+          complemento?: string | null
+          cpf_cnpj?: string | null
           created_at?: string
+          data_nascimento?: string | null
           email: string
-          full_name: string
+          endereco?: string | null
+          estado?: string | null
+          genero?: string | null
           id?: string
-          is_admin?: boolean | null
-          neighborhood: string
-          number: string
-          person_type?: Database["public"]["Enums"]["person_type_enum"]
-          phone: string
-          ponto_referencia?: string | null
-          state: string
+          nome_completo: string
+          numero?: string | null
+          pais?: string
+          parceiro_id?: string | null
+          telefone?: string | null
+          tipo_pessoa?: string
           updated_at?: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
-          address?: string
-          birth_date?: string
-          cep?: string
-          city?: string
-          complement?: string | null
-          country?: string
-          cpf_cnpj?: string
+          bairro?: string | null
+          cep?: string | null
+          cidade?: string | null
+          complemento?: string | null
+          cpf_cnpj?: string | null
           created_at?: string
+          data_nascimento?: string | null
           email?: string
-          full_name?: string
+          endereco?: string | null
+          estado?: string | null
+          genero?: string | null
           id?: string
-          is_admin?: boolean | null
-          neighborhood?: string
-          number?: string
-          person_type?: Database["public"]["Enums"]["person_type_enum"]
-          phone?: string
-          ponto_referencia?: string | null
-          state?: string
+          nome_completo?: string
+          numero?: string | null
+          pais?: string
+          parceiro_id?: string | null
+          telefone?: string | null
+          tipo_pessoa?: string
           updated_at?: string
-          user_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_parceiro_id_fkey"
+            columns: ["parceiro_id"]
+            isOneToOne: false
+            referencedRelation: "parceiros"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tamanhos: {
+        Row: {
+          altura: number
+          ativo: boolean
+          created_at: string
+          id: string
+          largura: number
+          nome: string
+          ordem: number
+        }
+        Insert: {
+          altura: number
+          ativo?: boolean
+          created_at?: string
+          id?: string
+          largura: number
+          nome: string
+          ordem?: number
+        }
+        Update: {
+          altura?: number
+          ativo?: boolean
+          created_at?: string
+          id?: string
+          largura?: number
+          nome?: string
+          ordem?: number
         }
         Relationships: []
+      }
+      tipos_moldura: {
+        Row: {
+          ativo: boolean
+          created_at: string
+          id: string
+          nome: string
+          tem_3d: boolean
+        }
+        Insert: {
+          ativo?: boolean
+          created_at?: string
+          id?: string
+          nome: string
+          tem_3d: boolean
+        }
+        Update: {
+          ativo?: boolean
+          created_at?: string
+          id?: string
+          nome?: string
+          tem_3d?: boolean
+        }
+        Relationships: []
+      }
+      vendas_manuais: {
+        Row: {
+          created_at: string
+          cupom_id: string | null
+          data_venda: string | null
+          desconto_pix: number | null
+          id: string
+          modalidade_id: string
+          numero: number | null
+          observacao: string | null
+          profile_id: string
+          quantidade: number | null
+          tamanho_id: string
+          tipo_moldura_id: string
+          valor: number
+          valor_frete: number | null
+          valor_quadro: number | null
+        }
+        Insert: {
+          created_at?: string
+          cupom_id?: string | null
+          data_venda?: string | null
+          desconto_pix?: number | null
+          id?: string
+          modalidade_id: string
+          numero?: number | null
+          observacao?: string | null
+          profile_id: string
+          quantidade?: number | null
+          tamanho_id: string
+          tipo_moldura_id: string
+          valor: number
+          valor_frete?: number | null
+          valor_quadro?: number | null
+        }
+        Update: {
+          created_at?: string
+          cupom_id?: string | null
+          data_venda?: string | null
+          desconto_pix?: number | null
+          id?: string
+          modalidade_id?: string
+          numero?: number | null
+          observacao?: string | null
+          profile_id?: string
+          quantidade?: number | null
+          tamanho_id?: string
+          tipo_moldura_id?: string
+          valor?: number
+          valor_frete?: number | null
+          valor_quadro?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendas_manuais_cliente_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendas_manuais_cupom_id_fkey"
+            columns: ["cupom_id"]
+            isOneToOne: false
+            referencedRelation: "cupons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendas_manuais_modalidade_id_fkey"
+            columns: ["modalidade_id"]
+            isOneToOne: false
+            referencedRelation: "modalidades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendas_manuais_tamanho_id_fkey"
+            columns: ["tamanho_id"]
+            isOneToOne: false
+            referencedRelation: "tamanhos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendas_manuais_tipo_moldura_id_fkey"
+            columns: ["tipo_moldura_id"]
+            isOneToOne: false
+            referencedRelation: "tipos_moldura"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      is_current_user_admin: { Args: never; Returns: boolean }
+      [_ in never]: never
     }
     Enums: {
-      person_type_enum: "fisica" | "juridica"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -473,8 +927,6 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {
-      person_type_enum: ["fisica", "juridica"],
-    },
+    Enums: {},
   },
 } as const
