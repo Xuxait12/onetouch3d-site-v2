@@ -20,10 +20,9 @@ const AuthRedirect = () => {
       }
 
       try {
-        // Check if profile exists with complete data
         const { data: profile, error } = await supabase
           .from('profiles')
-          .select('full_name, cpf_cnpj, cep, address, number, neighborhood, city, state, phone')
+          .select('nome_completo, cpf_cnpj, cep, endereco, numero, bairro, cidade, estado, telefone')
           .eq('user_id', user.id)
           .maybeSingle();
 
@@ -33,17 +32,16 @@ const AuthRedirect = () => {
           return;
         }
 
-        // Check if profile exists AND has all required fields filled
         const hasCompleteProfile = profile && 
-          profile.full_name && profile.full_name.trim() !== '' &&
+          profile.nome_completo && profile.nome_completo.trim() !== '' &&
           profile.cpf_cnpj && profile.cpf_cnpj.trim() !== '' &&
           profile.cep && profile.cep.trim() !== '' &&
-          profile.address && profile.address.trim() !== '' &&
-          profile.number && profile.number.trim() !== '' &&
-          profile.neighborhood && profile.neighborhood.trim() !== '' &&
-          profile.city && profile.city.trim() !== '' &&
-          profile.state && profile.state.trim() !== '' &&
-          profile.phone && profile.phone.trim() !== '';
+          profile.endereco && profile.endereco.trim() !== '' &&
+          profile.numero && profile.numero.trim() !== '' &&
+          profile.bairro && profile.bairro.trim() !== '' &&
+          profile.cidade && profile.cidade.trim() !== '' &&
+          profile.estado && profile.estado.trim() !== '' &&
+          profile.telefone && profile.telefone.trim() !== '';
 
         if (hasCompleteProfile) {
           navigate(returnTo || '/');

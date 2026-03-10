@@ -11,24 +11,16 @@ import { getPaymentMethodText } from "@/utils/orderUtils";
 
 interface OrderDetails {
   id: string;
-  numero_pedido?: string;
-  data_pedido: string;
-  subtotal: number;
-  frete: number;
-  desconto: number;
-  total: number;
-  status: string;
-  forma_pagamento: string;
-}
-
-interface OrderItem {
-  id: string;
-  produto_nome: string;
-  moldura_tipo: string;
-  tamanho: string;
+  created_at: string;
+  preco_total: number;
+  shipping_cost: number | null;
+  desconto_cupom: number | null;
+  desconto_pix: number | null;
+  preco_final: number;
+  status_pagamento: string;
+  metodo_pagamento: string | null;
   quantidade: number;
-  valor_unitario: number;
-  subtotal: number;
+  preco_unitario: number;
 }
 
 const Confirmacao = () => {
@@ -36,7 +28,6 @@ const Confirmacao = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [orderDetails, setOrderDetails] = useState<OrderDetails | null>(null);
-  const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const [loading, setLoading] = useState(true);
   
   const pedidoId = searchParams.get('pedido');
@@ -49,7 +40,6 @@ const Confirmacao = () => {
       }
 
       try {
-        // Load order details
         const { data: order, error: orderError } = await supabase
           .from('pedidos')
           .select('*')
@@ -61,18 +51,7 @@ const Confirmacao = () => {
           throw orderError;
         }
 
-        // Load order items
-        const { data: items, error: itemsError } = await supabase
-          .from('itens_pedido')
-          .select('*')
-          .eq('pedido_id', pedidoId);
-
-        if (itemsError) {
-          throw itemsError;
-        }
-
         setOrderDetails(order);
-        setOrderItems(items || []);
       } catch (error) {
         console.error('Error loading order:', error);
         navigate('/');
@@ -134,6 +113,8 @@ const Confirmacao = () => {
     });
   };
 
+  const totalDesconto = (orderDetails.desconto_cupom || 0) + (orderDetails.desconto_pix || 0);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/20">
       <GlobalHeader />
@@ -147,17 +128,16 @@ const Confirmacao = () => {
             </div>
             <h1 className="text-4xl font-bold text-foreground mb-4">🎉 Pedido realizado com sucesso!</h1>
             <p className="text-xl text-muted-foreground mb-2">
-              Seu pedido nº <span className="font-bold text-foreground">{orderDetails.numero_pedido}</span> foi registrado.
+              Seu pedido nº <span className="font-bold text-foreground">#{orderDetails.id.slice(0, 8)}</span> foi registrado.
             </p>
             <div className="flex items-center justify-center gap-2 text-lg">
               <Clock className="w-5 h-5 text-orange-500" />
-              <span className="text-orange-600 font-medium">Status: {orderDetails.status}</span>
+              <span className="text-orange-600 font-medium">Status: {orderDetails.status_pagamento}</span>
             </div>
           </div>
 
           {/* Order Summary */}
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Order Details */}
             <div className="lg:col-span-2">
               <Card className="p-6 mb-6">
                 <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
@@ -168,35 +148,32 @@ const Confirmacao = () => {
                 <div className="grid grid-cols-2 gap-4 text-sm mb-6">
                   <div>
                     <span className="text-muted-foreground">Data do Pedido:</span>
-                    <p className="font-medium">{formatDate(orderDetails.data_pedido)}</p>
+                    <p className="font-medium">{formatDate(orderDetails.created_at)}</p>
                   </div>
                   <div>
                     <span className="text-muted-foreground">Forma de Pagamento:</span>
-                    <p className="font-medium">{getPaymentMethodText(orderDetails.forma_pagamento)}</p>
+                    <p className="font-medium">{getPaymentMethodText(orderDetails.metodo_pagamento || '')}</p>
                   </div>
                 </div>
 
-                {/* Order Items */}
-                <h4 className="font-semibold mb-4">Itens do Pedido</h4>
+                <h4 className="font-semibold mb-4">Item do Pedido</h4>
                 <div className="space-y-3">
-                  {orderItems.map((item) => (
-                    <div key={item.id} className="flex justify-between items-start p-3 bg-muted/30 rounded-lg">
-                      <div className="flex-1">
-                        <h5 className="font-medium text-foreground">{item.produto_nome}</h5>
-                        <p className="text-sm text-muted-foreground">
-                          {item.tamanho} / {item.moldura_tipo} / Qtd: {item.quantidade}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          R$ {item.valor_unitario.toFixed(2).replace('.', ',')} cada
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <span className="font-semibold text-foreground">
-                          R$ {item.subtotal.toFixed(2).replace('.', ',')}
-                        </span>
-                      </div>
+                  <div className="flex justify-between items-start p-3 bg-muted/30 rounded-lg">
+                    <div className="flex-1">
+                      <h5 className="font-medium text-foreground">Quadro Personalizado</h5>
+                      <p className="text-sm text-muted-foreground">
+                        Qtd: {orderDetails.quantidade}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        R$ {orderDetails.preco_unitario.toFixed(2).replace('.', ',')} cada
+                      </p>
                     </div>
-                  ))}
+                    <div className="text-right">
+                      <span className="font-semibold text-foreground">
+                        R$ {orderDetails.preco_total.toFixed(2).replace('.', ',')}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </Card>
             </div>
@@ -209,18 +186,18 @@ const Confirmacao = () => {
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Subtotal:</span>
-                    <span className="text-foreground">R$ {orderDetails.subtotal.toFixed(2).replace('.', ',')}</span>
+                    <span className="text-foreground">R$ {orderDetails.preco_total.toFixed(2).replace('.', ',')}</span>
                   </div>
                   
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Frete:</span>
-                    <span className="text-foreground">R$ {orderDetails.frete.toFixed(2).replace('.', ',')}</span>
+                    <span className="text-foreground">R$ {(orderDetails.shipping_cost || 0).toFixed(2).replace('.', ',')}</span>
                   </div>
                   
-                  {orderDetails.desconto > 0 && (
+                  {totalDesconto > 0 && (
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Desconto:</span>
-                      <span className="text-red-600 font-medium">- R$ {orderDetails.desconto.toFixed(2).replace('.', ',')}</span>
+                      <span className="text-red-600 font-medium">- R$ {totalDesconto.toFixed(2).replace('.', ',')}</span>
                     </div>
                   )}
                   
@@ -228,7 +205,7 @@ const Confirmacao = () => {
                     <div className="flex justify-between">
                       <span className="text-lg font-bold text-foreground">Total:</span>
                       <span className="text-xl font-bold text-green-600">
-                        R$ {orderDetails.total.toFixed(2).replace('.', ',')}
+                        R$ {orderDetails.preco_final.toFixed(2).replace('.', ',')}
                       </span>
                     </div>
                   </div>

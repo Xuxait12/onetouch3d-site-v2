@@ -39,7 +39,6 @@ const MyOrders = () => {
       setUser(session.user);
 
       try {
-        // Buscar pedidos do usuário logado
         const { data: pedidos, error } = await supabase
           .from('pedidos')
           .select('*')
@@ -55,14 +54,13 @@ const MyOrders = () => {
           });
           setOrders([]);
         } else {
-          // Mapear os dados para o formato esperado
           const mappedOrders = pedidos?.map((pedido: any) => ({
             id: pedido.id,
             product_name: `Quadro Personalizado`,
-            product_description: `${pedido.numero_pedido || 'Pedido #' + pedido.id.slice(0, 8)}`,
-            total_amount: pedido.total,
-            status: pedido.status,
-            order_date: pedido.data_pedido,
+            product_description: `Pedido #${pedido.id.slice(0, 8)}`,
+            total_amount: pedido.preco_final,
+            status: pedido.status_pagamento,
+            order_date: pedido.created_at,
             created_at: pedido.created_at
           })) || [];
           

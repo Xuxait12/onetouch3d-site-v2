@@ -25,7 +25,6 @@ const Auth = () => {
   const returnTo = searchParams.get('returnTo');
 
   useEffect(() => {
-    // Check if user is already authenticated
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
@@ -39,12 +38,11 @@ const Auth = () => {
     checkAuth();
   }, [navigate]);
 
-  // Helper function to check if profile is complete
   const checkProfileAndRedirect = async (userId: string) => {
     try {
       const { data: profile, error } = await supabase
         .from('profiles')
-        .select('full_name, cpf_cnpj, cep, address, number, neighborhood, city, state, phone')
+        .select('nome_completo, cpf_cnpj, cep, endereco, numero, bairro, cidade, estado, telefone')
         .eq('user_id', userId)
         .maybeSingle();
 
@@ -54,17 +52,16 @@ const Auth = () => {
         return;
       }
 
-      // Check if profile exists AND has all required fields filled
       const hasCompleteProfile = profile && 
-        profile.full_name && profile.full_name.trim() !== '' &&
+        profile.nome_completo && profile.nome_completo.trim() !== '' &&
         profile.cpf_cnpj && profile.cpf_cnpj.trim() !== '' &&
         profile.cep && profile.cep.trim() !== '' &&
-        profile.address && profile.address.trim() !== '' &&
-        profile.number && profile.number.trim() !== '' &&
-        profile.neighborhood && profile.neighborhood.trim() !== '' &&
-        profile.city && profile.city.trim() !== '' &&
-        profile.state && profile.state.trim() !== '' &&
-        profile.phone && profile.phone.trim() !== '';
+        profile.endereco && profile.endereco.trim() !== '' &&
+        profile.numero && profile.numero.trim() !== '' &&
+        profile.bairro && profile.bairro.trim() !== '' &&
+        profile.cidade && profile.cidade.trim() !== '' &&
+        profile.estado && profile.estado.trim() !== '' &&
+        profile.telefone && profile.telefone.trim() !== '';
 
       if (hasCompleteProfile) {
         navigate(returnTo || '/');
@@ -168,16 +165,13 @@ const Auth = () => {
           variant: "destructive",
         });
       } else if (data.user) {
-        // Check if user needs email confirmation
         if (data.session) {
-          // User is logged in immediately (email confirmation disabled)
           toast({
             title: "Cadastro realizado!",
             description: "Bem-vindo!",
           });
           await checkProfileAndRedirect(data.user.id);
         } else {
-          // User needs to confirm email
           toast({
             title: "Cadastro realizado!",
             description: "Verifique seu email para confirmar a conta.",

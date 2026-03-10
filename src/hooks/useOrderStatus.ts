@@ -3,19 +3,17 @@ import { supabase } from '@/integrations/supabase/client';
 import { RealtimeChannel } from '@supabase/supabase-js';
 
 interface OrderStatus {
-  status: string;
-  payment_status: string | null;
-  payment_approved_at: string | null;
-  payment_method_type: string | null;
+  status_pagamento: string;
+  status_producao: string;
+  metodo_pagamento: string | null;
   loading: boolean;
   error: string | null;
 }
 
 export const useOrderStatus = (pedidoId: string | null): OrderStatus => {
-  const [status, setStatus] = useState<string>('aguardando_pagamento');
-  const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
-  const [paymentApprovedAt, setPaymentApprovedAt] = useState<string | null>(null);
-  const [paymentMethodType, setPaymentMethodType] = useState<string | null>(null);
+  const [statusPagamento, setStatusPagamento] = useState<string>('pendente');
+  const [statusProducao, setStatusProducao] = useState<string>('aguardando');
+  const [metodoPagamento, setMetodoPagamento] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -31,7 +29,7 @@ export const useOrderStatus = (pedidoId: string | null): OrderStatus => {
       try {
         const { data, error: fetchError } = await supabase
           .from('pedidos')
-          .select('status, payment_status, payment_approved_at, payment_method_type')
+          .select('status_pagamento, status_producao, metodo_pagamento')
           .eq('id', pedidoId)
           .single();
 
@@ -42,10 +40,9 @@ export const useOrderStatus = (pedidoId: string | null): OrderStatus => {
         }
 
         if (data) {
-          setStatus(data.status);
-          setPaymentStatus(data.payment_status);
-          setPaymentApprovedAt(data.payment_approved_at);
-          setPaymentMethodType(data.payment_method_type);
+          setStatusPagamento(data.status_pagamento);
+          setStatusProducao(data.status_producao);
+          setMetodoPagamento(data.metodo_pagamento);
         }
 
         setLoading(false);
@@ -63,10 +60,9 @@ export const useOrderStatus = (pedidoId: string | null): OrderStatus => {
             (payload) => {
               if (payload.new) {
                 const newData = payload.new as any;
-                setStatus(newData.status || status);
-                setPaymentStatus(newData.payment_status || null);
-                setPaymentApprovedAt(newData.payment_approved_at || null);
-                setPaymentMethodType(newData.payment_method_type || null);
+                setStatusPagamento(newData.status_pagamento || statusPagamento);
+                setStatusProducao(newData.status_producao || statusProducao);
+                setMetodoPagamento(newData.metodo_pagamento || null);
               }
             }
           )
@@ -87,10 +83,9 @@ export const useOrderStatus = (pedidoId: string | null): OrderStatus => {
   }, [pedidoId]);
 
   return {
-    status,
-    payment_status: paymentStatus,
-    payment_approved_at: paymentApprovedAt,
-    payment_method_type: paymentMethodType,
+    status_pagamento: statusPagamento,
+    status_producao: statusProducao,
+    metodo_pagamento: metodoPagamento,
     loading,
     error,
   };

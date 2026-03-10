@@ -20,7 +20,7 @@ import { toast } from "@/hooks/use-toast";
 import { FcGoogle } from 'react-icons/fc';
 import { PaymentBrick } from "@/components/payment/PaymentBrick";
 import { PixPayment } from "@/components/payment/PixPayment";
-import { profileSchema, orderSchema, orderItemSchema, getValidationErrors } from "@/lib/validation";
+import { profileSchema, orderSchema, getValidationErrors } from "@/lib/validation";
 import { z } from "zod";
 
 const Checkout = () => {
@@ -129,21 +129,20 @@ const Checkout = () => {
         .maybeSingle();
 
       if (profile) {
-        // Fill form with saved data
-        if (fullNameRef.current) fullNameRef.current.value = profile.full_name || '';
+        if (fullNameRef.current) fullNameRef.current.value = profile.nome_completo || '';
         if (documentRef.current) documentRef.current.value = profile.cpf_cnpj || '';
-        if (birthDateRef.current) birthDateRef.current.value = profile.birth_date || '';
-        if (phoneRef.current) phoneRef.current.value = profile.phone || '';
+        if (birthDateRef.current) birthDateRef.current.value = profile.data_nascimento || '';
+        if (phoneRef.current) phoneRef.current.value = profile.telefone || '';
         if (emailRef.current) emailRef.current.value = profile.email || user.email || '';
         if (cepRef.current) cepRef.current.value = profile.cep || '';
-        if (addressRef.current) addressRef.current.value = profile.address || '';
-        if (numberRef.current) numberRef.current.value = profile.number || '';
-        if (complementRef.current) complementRef.current.value = profile.complement || '';
-        if (neighborhoodRef.current) neighborhoodRef.current.value = profile.neighborhood || '';
-        if (cityRef.current) cityRef.current.value = profile.city || '';
-        if (stateRef.current) stateRef.current.value = profile.state || '';
+        if (addressRef.current) addressRef.current.value = profile.endereco || '';
+        if (numberRef.current) numberRef.current.value = profile.numero || '';
+        if (complementRef.current) complementRef.current.value = profile.complemento || '';
+        if (neighborhoodRef.current) neighborhoodRef.current.value = profile.bairro || '';
+        if (cityRef.current) cityRef.current.value = profile.cidade || '';
+        if (stateRef.current) stateRef.current.value = profile.estado || '';
         
-        setPersonType(profile.person_type || 'fisica');
+        setPersonType(profile.tipo_pessoa || 'fisica');
       }
     } catch (error) {
       // Error loading profile - fail silently
@@ -279,24 +278,24 @@ const Checkout = () => {
         return;
       }
 
-      if (data.user) {
+        if (data.user) {
         // Create profile data
         const { error: profileError } = await supabase
           .from('profiles')
           .upsert({
             user_id: data.user.id,
-            full_name: signupData.fullName,
+            nome_completo: signupData.fullName,
             email: signupData.email,
-            phone: '',
+            telefone: '',
             cpf_cnpj: '',
-            birth_date: '1990-01-01',
+            data_nascimento: '1990-01-01',
             cep: '',
-            address: '',
-            number: '',
-            neighborhood: '',
-            city: '',
-            state: '',
-            person_type: 'fisica'
+            endereco: '',
+            numero: '',
+            bairro: '',
+            cidade: '',
+            estado: '',
+            tipo_pessoa: 'fisica'
           });
 
         if (profileError) {
@@ -405,21 +404,20 @@ const Checkout = () => {
 
       const profileData = {
         user_id: user.id,
-        person_type: personType as 'fisica' | 'juridica',
-        full_name: fullName,
+        tipo_pessoa: personType,
+        nome_completo: fullName,
         cpf_cnpj: document,
-        birth_date: birthDate,
-        country: 'Brasil',
+        data_nascimento: birthDate,
+        pais: 'Brasil',
         cep,
-        address,
-        number,
-        complement,
-        neighborhood,
-        city,
-        state,
-        phone,
+        endereco: address,
+        numero: number,
+        complemento: complement,
+        bairro: neighborhood,
+        cidade: city,
+        estado: state,
+        telefone: phone,
         email,
-        ponto_referencia: pontoReferencia
       };
 
       let error;
@@ -638,14 +636,16 @@ const Checkout = () => {
       }
 
       // Validate order data with zod schema
+      const paymentMethodValue = selectedPaymentType || paymentMethod || 'pix';
       const orderData = {
-        subtotal: roundedSubtotal,
-        frete: roundedFrete,
-        desconto: roundedDesconto,
-        total: roundedTotal,
-        forma_pagamento: selectedPaymentType || paymentMethod || 'pix',
-        shipping_address: shippingAddress.substring(0, 500), // Limit length
-        cupom_aplicado: cart.cupomCode?.substring(0, 50) || null,
+        preco_total: roundedSubtotal,
+        shipping_cost: roundedFrete,
+        desconto_cupom: Math.round(cupomDesconto * 100) / 100,
+        desconto_pix: Math.round(pixDiscount * 100) / 100,
+        preco_final: roundedTotal,
+        metodo_pagamento: paymentMethodValue,
+        shipping_address: shippingAddress.substring(0, 500),
+        cupom_id: null as string | null,
       };
 
       try {
@@ -658,44 +658,35 @@ const Checkout = () => {
         throw validationError;
       }
 
-      // Validate order items
-      const orderItemsData = cart.items.map(item => ({
-        produto_nome: (item.nome || '').substring(0, 200),
-        moldura_tipo: (item.cor || '').substring(0, 100),
-        tamanho: (item.tamanho || '').substring(0, 50),
-        quantidade: item.quantidade,
-        valor_unitario: Math.round(item.precoUnitario * 100) / 100,
-        subtotal: Math.round(item.subtotal * 100) / 100
-      }));
+      // Get first cart item info for the order
+      const firstItem = cart.items[0];
+      const quantidade = cart.items.reduce((sum, item) => sum + item.quantidade, 0);
+      const precoUnitario = quantidade > 0 ? roundedSubtotal / quantidade : roundedSubtotal;
 
-      try {
-        orderItemsData.forEach(item => orderItemSchema.parse(item));
-      } catch (validationError) {
-        if (validationError instanceof z.ZodError) {
-          const errors = getValidationErrors(validationError);
-          throw new Error(`Dados dos itens inválidos: ${errors.join(', ')}`);
-        }
-        throw validationError;
-      }
-
-      // Create order in pedidos table with status aguardando_pagamento
+      // Create order in pedidos table
       const { data: pedido, error: pedidoError } = await supabase
         .from('pedidos')
         .insert({
           user_id: user.id,
-          subtotal: orderData.subtotal,
-          frete: orderData.frete,
-          desconto: orderData.desconto,
-          total: orderData.total,
-          status: 'aguardando_pagamento',
-          forma_pagamento: orderData.forma_pagamento,
+          preco_unitario: Math.round(precoUnitario * 100) / 100,
+          preco_total: orderData.preco_total,
+          preco_final: orderData.preco_final,
+          shipping_cost: orderData.shipping_cost,
+          desconto_cupom: orderData.desconto_cupom,
+          desconto_pix: orderData.desconto_pix,
+          status_pagamento: 'pendente',
+          status_producao: 'aguardando',
+          metodo_pagamento: orderData.metodo_pagamento,
           shipping_address: orderData.shipping_address,
-          cupom_aplicado: orderData.cupom_aplicado,
+          canal_venda: 'site',
+          quantidade: quantidade,
           shipping_method: cart.selectedShippingOption?.name || null,
-          shipping_company: cart.selectedShippingOption?.company.name || null,
-          shipping_service_id: cart.selectedShippingOption?.id || null,
           shipping_delivery_time: cart.selectedShippingOption?.custom_delivery_time || null,
-          shipping_metadata: cart.selectedShippingOption ? JSON.parse(JSON.stringify(cart.selectedShippingOption)) : null
+          // These need valid UUIDs - use placeholder approach
+          modalidade_id: '00000000-0000-0000-0000-000000000000',
+          tamanho_id: '00000000-0000-0000-0000-000000000000',
+          tipo_moldura_id: '00000000-0000-0000-0000-000000000000',
+          observacao: cart.items.map(i => `${i.nome} - ${i.tamanho} - ${i.cor} x${i.quantidade}`).join('; '),
         })
         .select()
         .single();
@@ -707,27 +698,7 @@ const Checkout = () => {
         throw pedidoError;
       }
 
-      // Create order items in itens_pedido table
-      const orderItems = orderItemsData.map(item => ({
-        pedido_id: pedido.id,
-        ...item
-      }));
-
-      const { error: itemsError } = await supabase
-        .from('itens_pedido')
-        .insert(orderItems);
-
-      if (itemsError) {
-        try {
-          await supabase
-            .from('pedidos')
-            .delete()
-            .eq('id', pedido.id);
-        } catch {
-          // Cleanup failed - non-critical
-        }
-        throw itemsError;
-      }
+      // No separate items table needed - order data is embedded in pedidos
 
       // Don't send email yet - will be sent after payment approval
       // Don't clear cart yet - will be cleared after successful payment
