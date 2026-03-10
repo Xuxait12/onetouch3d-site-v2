@@ -73,7 +73,6 @@ const OrderDetails = () => {
           profiles: profileData || { nome_completo: '', email: '', telefone: '', cpf_cnpj: '', endereco: '', numero: '', complemento: '', bairro: '', cidade: '', estado: '', cep: '' }
         } as unknown as Order;
 
-        if (orderError) throw orderError;
 
         setOrder(orderData);
       } catch (error) {
