@@ -26,7 +26,7 @@ import { z } from "zod";
 const Checkout = () => {
   const navigate = useNavigate();
   const { state: cart, clearCart, calculateShipping, selectShippingOption } = useCart();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [personType, setPersonType] = useState("fisica");
   const [differentAddress, setDifferentAddress] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
