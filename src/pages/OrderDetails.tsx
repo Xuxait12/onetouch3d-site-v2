@@ -51,16 +51,27 @@ const OrderDetails = () => {
       if (!id || !user) return;
 
       try {
-        // Load order - filter by user_id for regular users
-        const { data: orderData, error: orderError } = await supabase
+        // Load order
+        const { data: pedidoData, error: orderError } = await supabase
           .from('pedidos')
-          .select(`
-            *,
-            profiles!inner(nome_completo, email, telefone, cpf_cnpj, endereco, numero, complemento, bairro, cidade, estado, cep)
-          `)
+          .select('*')
           .eq('id', id)
           .eq('user_id', user.id)
           .single();
+
+        if (orderError) throw orderError;
+
+        // Load profile separately
+        const { data: profileData } = await supabase
+          .from('profiles')
+          .select('nome_completo, email, telefone, cpf_cnpj, endereco, numero, complemento, bairro, cidade, estado, cep')
+          .eq('user_id', user.id)
+          .single();
+
+        const orderData = {
+          ...pedidoData,
+          profiles: profileData || { nome_completo: '', email: '', telefone: '', cpf_cnpj: '', endereco: '', numero: '', complemento: '', bairro: '', cidade: '', estado: '', cep: '' }
+        } as unknown as Order;
 
         if (orderError) throw orderError;
 

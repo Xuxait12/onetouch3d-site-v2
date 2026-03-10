@@ -698,27 +698,7 @@ const Checkout = () => {
         throw pedidoError;
       }
 
-      // Create order items in itens_pedido table
-      const orderItems = orderItemsData.map(item => ({
-        pedido_id: pedido.id,
-        ...item
-      }));
-
-      const { error: itemsError } = await supabase
-        .from('itens_pedido')
-        .insert(orderItems);
-
-      if (itemsError) {
-        try {
-          await supabase
-            .from('pedidos')
-            .delete()
-            .eq('id', pedido.id);
-        } catch {
-          // Cleanup failed - non-critical
-        }
-        throw itemsError;
-      }
+      // No separate items table needed - order data is embedded in pedidos
 
       // Don't send email yet - will be sent after payment approval
       // Don't clear cart yet - will be cleared after successful payment
