@@ -129,21 +129,20 @@ const Checkout = () => {
         .maybeSingle();
 
       if (profile) {
-        // Fill form with saved data
-        if (fullNameRef.current) fullNameRef.current.value = profile.full_name || '';
+        if (fullNameRef.current) fullNameRef.current.value = profile.nome_completo || '';
         if (documentRef.current) documentRef.current.value = profile.cpf_cnpj || '';
-        if (birthDateRef.current) birthDateRef.current.value = profile.birth_date || '';
-        if (phoneRef.current) phoneRef.current.value = profile.phone || '';
+        if (birthDateRef.current) birthDateRef.current.value = profile.data_nascimento || '';
+        if (phoneRef.current) phoneRef.current.value = profile.telefone || '';
         if (emailRef.current) emailRef.current.value = profile.email || user.email || '';
         if (cepRef.current) cepRef.current.value = profile.cep || '';
-        if (addressRef.current) addressRef.current.value = profile.address || '';
-        if (numberRef.current) numberRef.current.value = profile.number || '';
-        if (complementRef.current) complementRef.current.value = profile.complement || '';
-        if (neighborhoodRef.current) neighborhoodRef.current.value = profile.neighborhood || '';
-        if (cityRef.current) cityRef.current.value = profile.city || '';
-        if (stateRef.current) stateRef.current.value = profile.state || '';
+        if (addressRef.current) addressRef.current.value = profile.endereco || '';
+        if (numberRef.current) numberRef.current.value = profile.numero || '';
+        if (complementRef.current) complementRef.current.value = profile.complemento || '';
+        if (neighborhoodRef.current) neighborhoodRef.current.value = profile.bairro || '';
+        if (cityRef.current) cityRef.current.value = profile.cidade || '';
+        if (stateRef.current) stateRef.current.value = profile.estado || '';
         
-        setPersonType(profile.person_type || 'fisica');
+        setPersonType(profile.tipo_pessoa || 'fisica');
       }
     } catch (error) {
       // Error loading profile - fail silently
