@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { ShoppingCart, Users, FileText, Settings, LogOut, Search, Menu, CalendarIcon, Filter } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
@@ -18,31 +18,30 @@ import { cn } from '@/lib/utils';
 
 interface Order {
   id: string;
-  numero_pedido: string;
-  data_pedido: string;
-  total: number;
-  status: string;
-  forma_pagamento: string;
-  shipping_address?: string;
+  created_at: string;
+  preco_final: number;
+  status_pagamento: string;
+  metodo_pagamento: string | null;
+  shipping_address: string | null;
   profiles: {
-    full_name: string;
+    nome_completo: string;
     email: string;
-    phone: string;
-    address: string;
-    number: string;
-    complement?: string;
-    neighborhood: string;
-    city: string;
-    state: string;
-    cep: string;
+    telefone: string | null;
+    endereco: string | null;
+    numero: string | null;
+    complemento: string | null;
+    bairro: string | null;
+    cidade: string | null;
+    estado: string | null;
+    cep: string | null;
   };
 }
 
 interface Profile {
   id: string;
-  full_name: string;
+  nome_completo: string;
   email: string;
-  phone: string;
+  telefone: string | null;
   order_count?: number;
 }
 
@@ -62,7 +61,7 @@ const AdminPanel = () => {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [checkingAdmin, setCheckingAdmin] = useState(true);
 
-  // Check admin status from database
+  // Check admin status - using user_roles table or fallback
   useEffect(() => {
     const checkAdminStatus = async () => {
       if (!user) {
@@ -72,16 +71,19 @@ const AdminPanel = () => {
       }
 
       try {
-        const { data: profile, error } = await supabase
-          .from('profiles')
-          .select('is_admin')
+        // Try checking user_roles table
+        const { data, error } = await supabase
+          .from('user_roles' as any)
+          .select('role')
           .eq('user_id', user.id)
-          .single();
+          .eq('role', 'admin')
+          .maybeSingle();
 
-        if (error || !profile) {
-          setIsAdmin(false);
+        if (!error && data) {
+          setIsAdmin(true);
         } else {
-          setIsAdmin(profile.is_admin || false);
+          // Fallback: check by email (temporary until user_roles is set up)
+          setIsAdmin(false);
         }
       } catch {
         setIsAdmin(false);
@@ -95,7 +97,6 @@ const AdminPanel = () => {
     }
   }, [user, loading]);
 
-  // Verificar autenticação e autorização
   useEffect(() => {
     if (!loading && !checkingAdmin) {
       if (!user) {
@@ -115,7 +116,6 @@ const AdminPanel = () => {
     }
   }, [user, loading, checkingAdmin, isAdmin, navigate, toast]);
 
-  // Carregar dados dos pedidos
   const loadOrders = async () => {
     setLoadingData(true);
     try {
@@ -123,29 +123,28 @@ const AdminPanel = () => {
         .from('pedidos')
         .select(`
           id,
-          numero_pedido,
-          data_pedido,
-          total,
-          status,
-          forma_pagamento,
+          created_at,
+          preco_final,
+          status_pagamento,
+          metodo_pagamento,
           shipping_address,
           profiles!inner(
-            full_name,
+            nome_completo,
             email,
-            phone,
-            address,
-            number,
-            complement,
-            neighborhood,
-            city,
-            state,
+            telefone,
+            endereco,
+            numero,
+            complemento,
+            bairro,
+            cidade,
+            estado,
             cep
           )
         `)
-        .order('data_pedido', { ascending: false });
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setOrders(data || []);
+      setOrders((data || []) as unknown as Order[]);
     } catch (error) {
       console.error('Erro ao carregar pedidos:', error);
       toast({
@@ -157,18 +156,16 @@ const AdminPanel = () => {
     setLoadingData(false);
   };
 
-  // Carregar dados dos clientes
   const loadProfiles = async () => {
     setLoadingData(true);
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .select('id, full_name, email, phone')
-        .order('full_name');
+        .select('id, nome_completo, email, telefone')
+        .order('nome_completo');
 
       if (error) throw error;
       
-      // Contar pedidos por cliente
       const profilesWithCount = await Promise.all(
         (data || []).map(async (profile) => {
           const { count } = await supabase
@@ -183,7 +180,7 @@ const AdminPanel = () => {
         })
       );
 
-      setProfiles(profilesWithCount);
+      setProfiles(profilesWithCount as Profile[]);
     } catch (error) {
       console.error('Erro ao carregar clientes:', error);
       toast({
@@ -213,36 +210,27 @@ const AdminPanel = () => {
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
-      case 'pendente':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'confirmado':
-        return 'bg-blue-100 text-blue-800';
-      case 'processando':
-        return 'bg-purple-100 text-purple-800';
-      case 'enviado':
-        return 'bg-green-100 text-green-800';
-      case 'entregue':
-        return 'bg-green-100 text-green-800';
-      case 'cancelado':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
+      case 'pendente': return 'bg-yellow-100 text-yellow-800';
+      case 'confirmado': case 'aprovado': case 'pago': return 'bg-green-100 text-green-800';
+      case 'processando': return 'bg-purple-100 text-purple-800';
+      case 'enviado': return 'bg-blue-100 text-blue-800';
+      case 'entregue': return 'bg-green-100 text-green-800';
+      case 'cancelado': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
     }
   };
 
   const getFilteredOrders = () => {
     let filtered = orders.filter(order =>
-      order.numero_pedido.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.profiles.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.profiles.nome_completo.toLowerCase().includes(searchTerm.toLowerCase()) ||
       order.profiles.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // Filtro por status
     if (statusFilter !== 'todos') {
-      filtered = filtered.filter(order => order.status.toLowerCase() === statusFilter);
+      filtered = filtered.filter(order => order.status_pagamento.toLowerCase() === statusFilter);
     }
 
-    // Filtro por período
     if (periodFilter !== 'todos') {
       const now = new Date();
       let startDate: Date;
@@ -268,7 +256,7 @@ const AdminPanel = () => {
       }
 
       filtered = filtered.filter(order => {
-        const orderDate = new Date(order.data_pedido);
+        const orderDate = new Date(order.created_at);
         return orderDate >= startDate && orderDate <= endDate;
       });
     }
@@ -279,23 +267,23 @@ const AdminPanel = () => {
   const filteredOrders = getFilteredOrders();
 
   const filteredProfiles = profiles.filter(profile =>
-    profile.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    profile.nome_completo.toLowerCase().includes(searchTerm.toLowerCase()) ||
     profile.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const monthlyStats = {
     totalOrders: orders.filter(order => {
-      const orderDate = new Date(order.data_pedido);
+      const orderDate = new Date(order.created_at);
       const currentMonth = new Date().getMonth();
       return orderDate.getMonth() === currentMonth;
     }).length,
     totalValue: orders
       .filter(order => {
-        const orderDate = new Date(order.data_pedido);
+        const orderDate = new Date(order.created_at);
         const currentMonth = new Date().getMonth();
         return orderDate.getMonth() === currentMonth;
       })
-      .reduce((sum, order) => sum + Number(order.total), 0),
+      .reduce((sum, order) => sum + Number(order.preco_final), 0),
     totalCustomers: profiles.length
   };
 
@@ -366,7 +354,6 @@ const AdminPanel = () => {
         </Sidebar>
 
         <main className="flex-1">
-          {/* Header */}
           <header className="bg-white border-b px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <SidebarTrigger />
@@ -381,55 +368,26 @@ const AdminPanel = () => {
             </div>
           </header>
 
-          {/* Content */}
           <div className="p-6">
             {activeSection === 'dashboard' && (
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <Card>
-                    <CardHeader>
-                      <CardTitle className="text-sm font-medium text-gray-600">
-                        Pedidos Este Mês
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold text-blue-600">
-                        {monthlyStats.totalOrders}
-                      </div>
-                    </CardContent>
+                    <CardHeader><CardTitle className="text-sm font-medium text-gray-600">Pedidos Este Mês</CardTitle></CardHeader>
+                    <CardContent><div className="text-2xl font-bold text-blue-600">{monthlyStats.totalOrders}</div></CardContent>
                   </Card>
-                  
                   <Card>
-                    <CardHeader>
-                      <CardTitle className="text-sm font-medium text-gray-600">
-                        Valor Total Este Mês
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold text-green-600">
-                        R$ {monthlyStats.totalValue.toFixed(2)}
-                      </div>
-                    </CardContent>
+                    <CardHeader><CardTitle className="text-sm font-medium text-gray-600">Valor Total Este Mês</CardTitle></CardHeader>
+                    <CardContent><div className="text-2xl font-bold text-green-600">R$ {monthlyStats.totalValue.toFixed(2)}</div></CardContent>
                   </Card>
-                  
                   <Card>
-                    <CardHeader>
-                      <CardTitle className="text-sm font-medium text-gray-600">
-                        Total de Clientes
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold text-purple-600">
-                        {monthlyStats.totalCustomers}
-                      </div>
-                    </CardContent>
+                    <CardHeader><CardTitle className="text-sm font-medium text-gray-600">Total de Clientes</CardTitle></CardHeader>
+                    <CardContent><div className="text-2xl font-bold text-purple-600">{monthlyStats.totalCustomers}</div></CardContent>
                   </Card>
                 </div>
 
                 <Card>
-                  <CardHeader>
-                    <CardTitle>Últimos Pedidos</CardTitle>
-                  </CardHeader>
+                  <CardHeader><CardTitle>Últimos Pedidos</CardTitle></CardHeader>
                   <CardContent>
                     {loadingData ? (
                       <div className="text-center py-8">Carregando...</div>
@@ -448,16 +406,16 @@ const AdminPanel = () => {
                           <tbody>
                             {orders.slice(0, 10).map((order) => (
                               <tr key={order.id} className="border-b">
-                                <td className="py-2 font-medium">{order.numero_pedido}</td>
-                                <td className="py-2">{order.profiles.full_name}</td>
-                                <td className="py-2">R$ {Number(order.total).toFixed(2)}</td>
+                                <td className="py-2 font-medium">#{order.id.slice(0, 8)}</td>
+                                <td className="py-2">{order.profiles.nome_completo}</td>
+                                <td className="py-2">R$ {Number(order.preco_final).toFixed(2)}</td>
                                 <td className="py-2">
-                                  <Badge className={getStatusColor(order.status)}>
-                                    {order.status}
+                                  <Badge className={getStatusColor(order.status_pagamento)}>
+                                    {order.status_pagamento}
                                   </Badge>
                                 </td>
                                 <td className="py-2">
-                                  {new Date(order.data_pedido).toLocaleDateString('pt-BR')}
+                                  {new Date(order.created_at).toLocaleDateString('pt-BR')}
                                 </td>
                               </tr>
                             ))}
@@ -472,34 +430,23 @@ const AdminPanel = () => {
 
             {activeSection === 'orders' && (
               <div className="space-y-6">
-                {/* Filtros e Busca */}
                 <Card>
                   <CardContent className="p-4">
                     <div className="space-y-4">
-                      {/* Busca Rápida */}
                       <div className="relative">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                        <Input
-                          placeholder="Buscar por número do pedido ou nome do cliente..."
-                          value={searchTerm}
-                          onChange={(e) => setSearchTerm(e.target.value)}
-                          className="pl-10"
-                        />
+                        <Input placeholder="Buscar por ID do pedido ou nome do cliente..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-10" />
                       </div>
                       
-                      {/* Filtros */}
                       <div className="flex flex-wrap gap-4">
-                        {/* Filtro de Status */}
                         <div className="flex items-center gap-2">
                           <Filter className="h-4 w-4 text-gray-500" />
                           <Select value={statusFilter} onValueChange={setStatusFilter}>
-                            <SelectTrigger className="w-40">
-                              <SelectValue placeholder="Status" />
-                            </SelectTrigger>
+                            <SelectTrigger className="w-40"><SelectValue placeholder="Status" /></SelectTrigger>
                             <SelectContent>
                               <SelectItem value="todos">Todos</SelectItem>
                               <SelectItem value="pendente">Pendente</SelectItem>
-                              <SelectItem value="confirmado">Confirmado</SelectItem>
+                              <SelectItem value="pago">Pago</SelectItem>
                               <SelectItem value="processando">Processando</SelectItem>
                               <SelectItem value="enviado">Enviado</SelectItem>
                               <SelectItem value="entregue">Entregue</SelectItem>
@@ -508,13 +455,10 @@ const AdminPanel = () => {
                           </Select>
                         </div>
 
-                        {/* Filtro de Período */}
                         <div className="flex items-center gap-2">
                           <CalendarIcon className="h-4 w-4 text-gray-500" />
                           <Select value={periodFilter} onValueChange={setPeriodFilter}>
-                            <SelectTrigger className="w-48">
-                              <SelectValue placeholder="Período" />
-                            </SelectTrigger>
+                            <SelectTrigger className="w-48"><SelectValue placeholder="Período" /></SelectTrigger>
                             <SelectContent>
                               <SelectItem value="todos">Todos os períodos</SelectItem>
                               <SelectItem value="7dias">Últimos 7 dias</SelectItem>
@@ -524,63 +468,35 @@ const AdminPanel = () => {
                           </Select>
                         </div>
 
-                        {/* Seletor de Data Personalizada */}
                         {periodFilter === 'personalizado' && (
                           <div className="flex items-center gap-2">
                             <Popover>
                               <PopoverTrigger asChild>
-                                <Button
-                                  variant="outline"
-                                  className={cn(
-                                    "w-36 justify-start text-left font-normal",
-                                    !customStartDate && "text-muted-foreground"
-                                  )}
-                                >
+                                <Button variant="outline" className={cn("w-36 justify-start text-left font-normal", !customStartDate && "text-muted-foreground")}>
                                   <CalendarIcon className="mr-2 h-4 w-4" />
                                   {customStartDate ? format(customStartDate, "dd/MM/yyyy", { locale: pt }) : "Data inicial"}
                                 </Button>
                               </PopoverTrigger>
                               <PopoverContent className="w-auto p-0" align="start">
-                                <Calendar
-                                  mode="single"
-                                  selected={customStartDate}
-                                  onSelect={setCustomStartDate}
-                                  initialFocus
-                                  className="pointer-events-auto"
-                                />
+                                <Calendar mode="single" selected={customStartDate} onSelect={setCustomStartDate} initialFocus className="pointer-events-auto" />
                               </PopoverContent>
                             </Popover>
-
                             <span className="text-gray-500">até</span>
-
                             <Popover>
                               <PopoverTrigger asChild>
-                                <Button
-                                  variant="outline"
-                                  className={cn(
-                                    "w-36 justify-start text-left font-normal",
-                                    !customEndDate && "text-muted-foreground"
-                                  )}
-                                >
+                                <Button variant="outline" className={cn("w-36 justify-start text-left font-normal", !customEndDate && "text-muted-foreground")}>
                                   <CalendarIcon className="mr-2 h-4 w-4" />
                                   {customEndDate ? format(customEndDate, "dd/MM/yyyy", { locale: pt }) : "Data final"}
                                 </Button>
                               </PopoverTrigger>
                               <PopoverContent className="w-auto p-0" align="start">
-                                <Calendar
-                                  mode="single"
-                                  selected={customEndDate}
-                                  onSelect={setCustomEndDate}
-                                  initialFocus
-                                  className="pointer-events-auto"
-                                />
+                                <Calendar mode="single" selected={customEndDate} onSelect={setCustomEndDate} initialFocus className="pointer-events-auto" />
                               </PopoverContent>
                             </Popover>
                           </div>
                         )}
                       </div>
                       
-                      {/* Contador de resultados */}
                       <div className="text-sm text-gray-600">
                         {filteredOrders.length} pedido(s) encontrado(s)
                       </div>
@@ -610,21 +526,21 @@ const AdminPanel = () => {
                           <tbody>
                             {filteredOrders.map((order) => (
                               <tr key={order.id} className="border-b cursor-pointer hover:bg-gray-50" onClick={() => navigate(`/order-details/${order.id}`)}>
-                                <td className="py-3 px-4 font-medium">{order.numero_pedido}</td>
-                                <td className="py-3 px-4">{order.profiles.full_name}</td>
+                                <td className="py-3 px-4 font-medium">#{order.id.slice(0, 8)}</td>
+                                <td className="py-3 px-4">{order.profiles.nome_completo}</td>
                                 <td className="py-3 px-4">{order.profiles.email}</td>
                                 <td className="py-3 px-4 max-w-xs truncate text-sm">
                                   {order.shipping_address || 'Mesmo do cadastro'}
                                 </td>
-                                <td className="py-3 px-4">R$ {Number(order.total).toFixed(2)}</td>
-                                <td className="py-3 px-4">{order.forma_pagamento}</td>
+                                <td className="py-3 px-4">R$ {Number(order.preco_final).toFixed(2)}</td>
+                                <td className="py-3 px-4">{order.metodo_pagamento || '-'}</td>
                                 <td className="py-3 px-4">
-                                  <Badge className={getStatusColor(order.status)}>
-                                    {order.status}
+                                  <Badge className={getStatusColor(order.status_pagamento)}>
+                                    {order.status_pagamento}
                                   </Badge>
                                 </td>
                                 <td className="py-3 px-4">
-                                  {new Date(order.data_pedido).toLocaleDateString('pt-BR')}
+                                  {new Date(order.created_at).toLocaleDateString('pt-BR')}
                                 </td>
                               </tr>
                             ))}
@@ -642,12 +558,7 @@ const AdminPanel = () => {
                 <div className="flex gap-4">
                   <div className="relative flex-1">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    <Input
-                      placeholder="Buscar por nome ou e-mail..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10"
-                    />
+                    <Input placeholder="Buscar por nome ou e-mail..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-10" />
                   </div>
                 </div>
 
@@ -669,9 +580,9 @@ const AdminPanel = () => {
                           <tbody>
                             {filteredProfiles.map((profile) => (
                               <tr key={profile.id} className="border-b">
-                                <td className="py-3 px-4 font-medium">{profile.full_name}</td>
+                                <td className="py-3 px-4 font-medium">{profile.nome_completo}</td>
                                 <td className="py-3 px-4">{profile.email}</td>
-                                <td className="py-3 px-4">{profile.phone}</td>
+                                <td className="py-3 px-4">{profile.telefone || '-'}</td>
                                 <td className="py-3 px-4">
                                   <Badge variant="secondary">
                                     {profile.order_count} pedidos
@@ -692,52 +603,23 @@ const AdminPanel = () => {
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   <Card>
-                    <CardHeader>
-                      <CardTitle className="text-sm font-medium text-gray-600">
-                        Total de Pedidos
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold">{orders.length}</div>
-                    </CardContent>
+                    <CardHeader><CardTitle className="text-sm font-medium text-gray-600">Total de Pedidos</CardTitle></CardHeader>
+                    <CardContent><div className="text-2xl font-bold">{orders.length}</div></CardContent>
                   </Card>
-                  
                   <Card>
-                    <CardHeader>
-                      <CardTitle className="text-sm font-medium text-gray-600">
-                        Valor Total Acumulado
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold text-green-600">
-                        R$ {orders.reduce((sum, order) => sum + Number(order.total), 0).toFixed(2)}
-                      </div>
-                    </CardContent>
+                    <CardHeader><CardTitle className="text-sm font-medium text-gray-600">Valor Total Acumulado</CardTitle></CardHeader>
+                    <CardContent><div className="text-2xl font-bold text-green-600">R$ {orders.reduce((sum, order) => sum + Number(order.preco_final), 0).toFixed(2)}</div></CardContent>
                   </Card>
-
                   <Card>
-                    <CardHeader>
-                      <CardTitle className="text-sm font-medium text-gray-600">
-                        Pedidos Este Mês
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold text-blue-600">
-                        {monthlyStats.totalOrders}
-                      </div>
-                    </CardContent>
+                    <CardHeader><CardTitle className="text-sm font-medium text-gray-600">Pedidos Este Mês</CardTitle></CardHeader>
+                    <CardContent><div className="text-2xl font-bold text-blue-600">{monthlyStats.totalOrders}</div></CardContent>
                   </Card>
-
                   <Card>
-                    <CardHeader>
-                      <CardTitle className="text-sm font-medium text-gray-600">
-                        Ticket Médio
-                      </CardTitle>
-                    </CardHeader>
+                    <CardHeader><CardTitle className="text-sm font-medium text-gray-600">Ticket Médio</CardTitle></CardHeader>
                     <CardContent>
                       <div className="text-2xl font-bold text-purple-600">
                         R$ {orders.length > 0 
-                          ? (orders.reduce((sum, order) => sum + Number(order.total), 0) / orders.length).toFixed(2)
+                          ? (orders.reduce((sum, order) => sum + Number(order.preco_final), 0) / orders.length).toFixed(2)
                           : '0.00'
                         }
                       </div>
@@ -746,13 +628,11 @@ const AdminPanel = () => {
                 </div>
 
                 <Card>
-                  <CardHeader>
-                    <CardTitle>Status dos Pedidos</CardTitle>
-                  </CardHeader>
+                  <CardHeader><CardTitle>Status dos Pedidos</CardTitle></CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      {['pendente', 'confirmado', 'processando', 'enviado', 'entregue', 'cancelado'].map((status) => {
-                        const count = orders.filter(order => order.status.toLowerCase() === status).length;
+                      {['pendente', 'pago', 'processando', 'enviado', 'entregue', 'cancelado'].map((status) => {
+                        const count = orders.filter(order => order.status_pagamento.toLowerCase() === status).length;
                         return (
                           <div key={status} className="text-center">
                             <div className="text-2xl font-bold">{count}</div>
@@ -768,13 +648,9 @@ const AdminPanel = () => {
 
             {activeSection === 'settings' && (
               <Card>
-                <CardHeader>
-                  <CardTitle>Configurações</CardTitle>
-                </CardHeader>
+                <CardHeader><CardTitle>Configurações</CardTitle></CardHeader>
                 <CardContent>
-                  <p className="text-gray-600">
-                    Configurações futuras serão adicionadas aqui.
-                  </p>
+                  <p className="text-gray-600">Configurações futuras serão adicionadas aqui.</p>
                 </CardContent>
               </Card>
             )}

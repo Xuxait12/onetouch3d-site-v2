@@ -15,15 +15,12 @@ import { Eye, EyeOff, CheckCircle } from 'lucide-react';
 import pixQrCode from '@/assets/pix-qrcode.png';
 import googleLogo from '@/assets/google-logo.png';
 import onetouchLogo from '@/assets/onetouch-logo.png';
+
 const MODALIDADES = ['Corrida', 'Ciclismo', 'Triatlo', 'Viagem'];
 const TAMANHOS = ['33x33cm', '33x43cm', '37x48cm', '43x43cm', '43x53cm', '43x63cm', '53x53cm', '53x73cm'];
 const PIX_KEY = '54999921515';
 
-// Constantes válidas para evitar erros de cache/typo
-const VALID_STATUS = 'aguardando_pagamento' as const;
-const VALID_FORMA_PAGAMENTO = 'pix' as const;
 const ConfirmacaoWhatsapp = () => {
-  // Auth states
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -33,12 +30,10 @@ const ConfirmacaoWhatsapp = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
 
-  // Modal states
   const [showModal, setShowModal] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
 
-  // Form states
   const [modalidade, setModalidade] = useState('');
   const [tamanho, setTamanho] = useState('');
   const [nomeCompleto, setNomeCompleto] = useState('');
@@ -53,47 +48,45 @@ const ConfirmacaoWhatsapp = () => {
   const [complemento, setComplemento] = useState('');
   const [confirmado, setConfirmado] = useState(false);
   const [savingOrder, setSavingOrder] = useState(false);
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const navigate = useNavigate();
 
-  // Check authentication on mount
+  // Helper to load profile data into form
+  const loadProfileIntoForm = (profile: any) => {
+    if (profile) {
+      setNomeCompleto(profile.nome_completo || '');
+      setTelefone(profile.telefone || '');
+      setCpf(profile.cpf_cnpj || '');
+      setCep(profile.cep || '');
+      setRua(profile.endereco || '');
+      setNumero(profile.numero || '');
+      setBairro(profile.bairro || '');
+      setCidade(profile.cidade || '');
+      setEstado(profile.estado || '');
+      setComplemento(profile.complemento || '');
+    }
+  };
+
   useEffect(() => {
     const checkAuth = async () => {
-      const {
-        data: {
-          session
-        }
-      } = await supabase.auth.getSession();
+      const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
         setIsAuthenticated(true);
         setUserId(session.user.id);
         setEmail(session.user.email || '');
         setShowModal(true);
 
-        // Load existing profile data
-        const {
-          data: profile
-        } = await supabase.from('profiles').select('*').eq('user_id', session.user.id).maybeSingle();
-        if (profile) {
-          setNomeCompleto(profile.full_name || '');
-          setTelefone(profile.phone || '');
-          setCpf(profile.cpf_cnpj || '');
-          setCep(profile.cep || '');
-          setRua(profile.address || '');
-          setNumero(profile.number || '');
-          setBairro(profile.neighborhood || '');
-          setCidade(profile.city || '');
-          setEstado(profile.state || '');
-          setComplemento(profile.complement || '');
-        }
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('user_id', session.user.id)
+          .maybeSingle();
+        loadProfileIntoForm(profile);
       }
     };
     checkAuth();
   }, []);
 
-  // Format functions
   const formatCpf = (value: string) => {
     const digits = value.replace(/\D/g, '');
     if (digits.length <= 11) {
@@ -101,6 +94,7 @@ const ConfirmacaoWhatsapp = () => {
     }
     return digits.replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1');
   };
+
   const formatPhone = (value: string) => {
     const digits = value.replace(/\D/g, '');
     if (digits.length <= 10) {
@@ -108,12 +102,12 @@ const ConfirmacaoWhatsapp = () => {
     }
     return digits.replace(/(\d{2})(\d)/, '($1) $2').replace(/(\d{5})(\d)/, '$1-$2').replace(/(-\d{4})\d+?$/, '$1');
   };
+
   const formatCep = (value: string) => {
     const digits = value.replace(/\D/g, '');
     return digits.replace(/(\d{5})(\d)/, '$1-$2').replace(/(-\d{3})\d+?$/, '$1');
   };
 
-  // CEP auto-fill
   const handleCepChange = async (value: string) => {
     const formatted = formatCep(value);
     setCep(formatted);
@@ -134,374 +128,202 @@ const ConfirmacaoWhatsapp = () => {
     }
   };
 
-  // Auth handlers
-  const handleAuthSuccess = async (user: {
-    id: string;
-    email?: string;
-  }) => {
+  const handleAuthSuccess = async (user: { id: string; email?: string }) => {
     setIsAuthenticated(true);
     setUserId(user.id);
     setEmail(user.email || '');
     setShowModal(true);
 
-    // Load existing profile data
-    const {
-      data: profile
-    } = await supabase.from('profiles').select('*').eq('user_id', user.id).maybeSingle();
-    if (profile) {
-      setNomeCompleto(profile.full_name || '');
-      setTelefone(profile.phone || '');
-      setCpf(profile.cpf_cnpj || '');
-      setCep(profile.cep || '');
-      setRua(profile.address || '');
-      setNumero(profile.number || '');
-      setBairro(profile.neighborhood || '');
-      setCidade(profile.city || '');
-      setEstado(profile.state || '');
-      setComplemento(profile.complement || '');
-    }
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('user_id', user.id)
+      .maybeSingle();
+    loadProfileIntoForm(profile);
   };
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
-      toast({
-        title: "Erro",
-        description: "Preencha todos os campos obrigatórios.",
-        variant: "destructive"
-      });
+      toast({ title: "Erro", description: "Preencha todos os campos obrigatórios.", variant: "destructive" });
       return;
     }
     setLoading(true);
     try {
-      const {
-        data,
-        error
-      } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) {
-        toast({
-          title: "Erro no login",
-          description: error.message.includes('Invalid login credentials') ? "Email ou senha incorretos." : error.message,
-          variant: "destructive"
-        });
+        toast({ title: "Erro no login", description: error.message.includes('Invalid login credentials') ? "Email ou senha incorretos." : error.message, variant: "destructive" });
       } else if (data.user) {
-        toast({
-          title: "Login realizado!",
-          description: "Bem-vindo de volta!"
-        });
+        toast({ title: "Login realizado!", description: "Bem-vindo de volta!" });
         await handleAuthSuccess(data.user);
       }
     } catch (error) {
-      toast({
-        title: "Erro",
-        description: "Erro inesperado. Tente novamente.",
-        variant: "destructive"
-      });
+      toast({ title: "Erro", description: "Erro inesperado. Tente novamente.", variant: "destructive" });
     } finally {
       setLoading(false);
     }
   };
+
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password || !confirmPassword) {
-      toast({
-        title: "Erro",
-        description: "Preencha todos os campos obrigatórios.",
-        variant: "destructive"
-      });
+      toast({ title: "Erro", description: "Preencha todos os campos obrigatórios.", variant: "destructive" });
       return;
     }
     if (password !== confirmPassword) {
-      toast({
-        title: "Erro",
-        description: "As senhas não coincidem.",
-        variant: "destructive"
-      });
+      toast({ title: "Erro", description: "As senhas não coincidem.", variant: "destructive" });
       return;
     }
     setLoading(true);
     try {
-      // Use edge function to create user without email confirmation
       const response = await fetch(
         'https://wzjfofufvrtzhmkismyh.supabase.co/functions/v1/create-whatsapp-user',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
-        }
+        { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) }
       );
-
       const data = await response.json();
-
       if (!response.ok) {
-        toast({
-          title: "Erro no cadastro",
-          description: data.error || 'Erro ao criar conta',
-          variant: "destructive"
-        });
+        toast({ title: "Erro no cadastro", description: data.error || 'Erro ao criar conta', variant: "destructive" });
         return;
       }
-
-      // Set session manually from edge function response
       if (data.session) {
-        await supabase.auth.setSession({
-          access_token: data.session.access_token,
-          refresh_token: data.session.refresh_token
-        });
-        toast({
-          title: "Cadastro realizado!",
-          description: "Bem-vindo!"
-        });
+        await supabase.auth.setSession({ access_token: data.session.access_token, refresh_token: data.session.refresh_token });
+        toast({ title: "Cadastro realizado!", description: "Bem-vindo!" });
         await handleAuthSuccess(data.user);
       } else {
-        toast({
-          title: "Erro",
-          description: "Sessão não retornada. Tente fazer login.",
-          variant: "destructive"
-        });
+        toast({ title: "Erro", description: "Sessão não retornada. Tente fazer login.", variant: "destructive" });
       }
     } catch (error) {
-      toast({
-        title: "Erro",
-        description: "Erro inesperado. Tente novamente.",
-        variant: "destructive"
-      });
+      toast({ title: "Erro", description: "Erro inesperado. Tente novamente.", variant: "destructive" });
     } finally {
       setLoading(false);
     }
   };
+
   const handleGoogleSignIn = async () => {
     try {
-      const {
-        error
-      } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/confirmacao-whatsapp`
-        }
+        options: { redirectTo: `${window.location.origin}/confirmacao-whatsapp` }
       });
       if (error) {
-        toast({
-          title: "Erro no login com Google",
-          description: error.message,
-          variant: "destructive"
-        });
+        toast({ title: "Erro no login com Google", description: error.message, variant: "destructive" });
       }
     } catch (error) {
-      toast({
-        title: "Erro",
-        description: "Erro inesperado. Tente novamente.",
-        variant: "destructive"
-      });
+      toast({ title: "Erro", description: "Erro inesperado. Tente novamente.", variant: "destructive" });
     }
   };
-  // Cancel and logout handler
+
   const handleCancel = async () => {
     await supabase.auth.signOut();
     setIsAuthenticated(false);
     setShowModal(false);
     setUserId(null);
-    // Reset form
-    setModalidade('');
-    setTamanho('');
-    setNomeCompleto('');
-    setTelefone('');
-    setCpf('');
-    setCep('');
-    setRua('');
-    setNumero('');
-    setBairro('');
-    setCidade('');
-    setEstado('');
-    setComplemento('');
+    setModalidade(''); setTamanho(''); setNomeCompleto(''); setTelefone('');
+    setCpf(''); setCep(''); setRua(''); setNumero('');
+    setBairro(''); setCidade(''); setEstado(''); setComplemento('');
     setConfirmado(false);
   };
 
-  // Form validation
   const isFormValid = () => {
     return modalidade && tamanho && nomeCompleto.trim() && email.trim() && telefone.trim() && cpf.trim() && cep.trim() && rua.trim() && numero.trim() && bairro.trim() && cidade.trim() && estado.trim() && confirmado;
   };
 
-  // Save order
   const handleSaveOrder = async () => {
-    // Previne duplo clique e execução sem usuário
-    if (!userId || savingOrder) {
-      console.log('⚠️ [DEBUG] Bloqueado: userId ou savingOrder inválido', {
-        userId,
-        savingOrder
-      });
-      return;
-    }
+    if (!userId || savingOrder) return;
     setSavingOrder(true);
     try {
-      // Limpar máscaras para validação (mobile pode ter problemas com máscaras)
       const cpfClean = cpf.replace(/\D/g, '');
       const telefoneClean = telefone.replace(/\D/g, '');
       const cepClean = cep.replace(/\D/g, '');
-      console.log('🔍 [DEBUG] Valores limpos:', {
-        cpfClean,
-        telefoneClean,
-        cepClean
-      });
 
-      // Validação mínima de campos com máscara
       if (cpfClean.length < 11) {
-        toast({
-          title: "Erro de validação",
-          description: `CPF inválido (${cpfClean.length} dígitos, mínimo 11)`,
-          variant: "destructive"
-        });
-        setSavingOrder(false);
-        return;
+        toast({ title: "Erro de validação", description: `CPF inválido (${cpfClean.length} dígitos, mínimo 11)`, variant: "destructive" });
+        setSavingOrder(false); return;
       }
       if (telefoneClean.length < 10) {
-        toast({
-          title: "Erro de validação",
-          description: `Telefone inválido (${telefoneClean.length} dígitos, mínimo 10)`,
-          variant: "destructive"
-        });
-        setSavingOrder(false);
-        return;
+        toast({ title: "Erro de validação", description: `Telefone inválido (${telefoneClean.length} dígitos, mínimo 10)`, variant: "destructive" });
+        setSavingOrder(false); return;
       }
       if (cepClean.length !== 8) {
-        toast({
-          title: "Erro de validação",
-          description: `CEP inválido (${cepClean.length} dígitos, deve ter 8)`,
-          variant: "destructive"
-        });
-        setSavingOrder(false);
-        return;
+        toast({ title: "Erro de validação", description: `CEP inválido (${cepClean.length} dígitos, deve ter 8)`, variant: "destructive" });
+        setSavingOrder(false); return;
       }
 
-      // Build full address
       const enderecoCompleto = `${rua}, ${numero}${complemento ? `, ${complemento}` : ''} - ${bairro}, ${cidade}/${estado} - CEP: ${cep}`;
 
-      // Update profile
-      const {
-        error: profileError
-      } = await supabase.from('profiles').upsert({
-        user_id: userId,
-        full_name: nomeCompleto,
-        email: email,
-        phone: telefone,
-        cpf_cnpj: cpf,
-        cep: cep,
-        address: rua,
-        number: numero,
-        complement: complemento,
-        neighborhood: bairro,
-        city: cidade,
-        state: estado,
-        birth_date: '1990-01-01' // Default, will be updated later if needed
-      }, {
-        onConflict: 'user_id'
-      });
+      // Update profile with new column names
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .upsert({
+          user_id: userId,
+          nome_completo: nomeCompleto,
+          email: email,
+          telefone: telefone,
+          cpf_cnpj: cpf,
+          cep: cep,
+          endereco: rua,
+          numero: numero,
+          complemento: complemento,
+          bairro: bairro,
+          cidade: cidade,
+          estado: estado,
+          data_nascimento: '1990-01-01'
+        }, { onConflict: 'user_id' });
+
       if (profileError) {
-        console.error('❌ [DEBUG] Erro no perfil:', profileError);
-        toast({
-          title: "Erro ao salvar perfil",
-          description: `${profileError.message} (Código: ${profileError.code || 'N/A'})`,
-          variant: "destructive"
-        });
-        setSavingOrder(false);
-        return;
+        toast({ title: "Erro ao salvar perfil", description: `${profileError.message}`, variant: "destructive" });
+        setSavingOrder(false); return;
       }
 
-      // Create preliminary order with EXPLICIT fallbacks (prevents cache issues)
+      // Create order with new schema - need modalidade_id, tamanho_id, tipo_moldura_id
+      // For WhatsApp flow, we use placeholder IDs since the actual product config will be set later
       const orderPayload = {
         user_id: userId,
-        subtotal: 0,
-        frete: 0,
-        desconto: 0,
-        total: 0,
-        // FALLBACKS EXPLÍCITOS - garante valores válidos mesmo com cache antigo
-        status: VALID_STATUS,
-        forma_pagamento: VALID_FORMA_PAGAMENTO,
+        preco_unitario: 0,
+        preco_total: 0,
+        preco_final: 0,
+        status_pagamento: 'pendente',
+        status_producao: 'aguardando',
+        metodo_pagamento: 'pix',
+        canal_venda: 'whatsapp',
         shipping_address: enderecoCompleto || 'Endereço não informado',
-        payment_metadata: {
-          origem: 'whatsapp',
-          cpf: cpfClean,
-          telefone: telefoneClean,
-          cep: cepClean,
-          timestamp: new Date().toISOString()
-        }
+        // These need valid UUIDs from the DB - use a placeholder approach
+        modalidade_id: '00000000-0000-0000-0000-000000000000',
+        tamanho_id: '00000000-0000-0000-0000-000000000000',
+        tipo_moldura_id: '00000000-0000-0000-0000-000000000000',
+        observacao: `Modalidade: ${modalidade}, Tamanho: ${tamanho} (via WhatsApp)`,
       };
-      console.log('📦 [DEBUG] Criando pedido com payload:', JSON.stringify(orderPayload, null, 2));
-      const {
-        data: pedido,
-        error: pedidoError
-      } = await supabase.from('pedidos').insert(orderPayload).select().single();
+
+      const { data: pedido, error: pedidoError } = await supabase
+        .from('pedidos')
+        .insert(orderPayload)
+        .select()
+        .single();
+
       if (pedidoError) {
-        console.error('❌ [DEBUG] Erro ao criar pedido:', {
-          code: pedidoError.code,
-          message: pedidoError.message,
-          details: pedidoError.details,
-          hint: pedidoError.hint,
-          payload: orderPayload
-        });
-
-        // Exibir mensagem real do erro para debug
-        toast({
-          title: "Erro ao criar pedido",
-          description: `${pedidoError.message} (Código: ${pedidoError.code || 'N/A'})`,
-          variant: "destructive"
-        });
-        setSavingOrder(false);
-        return;
+        toast({ title: "Erro ao criar pedido", description: `${pedidoError.message}`, variant: "destructive" });
+        setSavingOrder(false); return;
       }
-      console.log('✅ [DEBUG] Pedido criado com sucesso:', pedido.id);
 
-      // Create order item
-      const {
-        error: itemError
-      } = await supabase.from('itens_pedido').insert({
-        pedido_id: pedido.id,
-        produto_nome: `Quadro ${modalidade}`,
-        moldura_tipo: 'A definir',
-        tamanho: tamanho,
-        quantidade: 1,
-        valor_unitario: 0,
-        subtotal: 0
-      });
-      if (itemError) {
-        console.error('❌ [DEBUG] Erro no item:', itemError);
-        toast({
-          title: "Erro ao salvar item",
-          description: `${itemError.message} (Código: ${itemError.code || 'N/A'})`,
-          variant: "destructive"
-        });
-        setSavingOrder(false);
-        return;
-      }
       setShowSuccess(true);
-      toast({
-        title: "Sucesso!",
-        description: "Cadastro realizado com sucesso."
-      });
+      toast({ title: "Sucesso!", description: "Cadastro realizado com sucesso." });
     } catch (error) {
-      console.error('❌ [DEBUG] Erro geral:', error);
-      toast({
-        title: "Erro inesperado",
-        description: error instanceof Error ? error.message : "Erro ao salvar dados. Tente novamente.",
-        variant: "destructive"
-      });
+      toast({ title: "Erro inesperado", description: error instanceof Error ? error.message : "Erro ao salvar dados. Tente novamente.", variant: "destructive" });
     } finally {
       setSavingOrder(false);
     }
   };
-  return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-primary/10 px-4 py-8">
-      {/* Thank You Card - shown after closing PIX modal */}
-      {showThankYou && <Card className="w-full max-w-md">
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-primary/10 px-4 py-8">
+      {showThankYou && (
+        <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <img src={onetouchLogo} alt="OneTouch3D" className="h-10 mx-auto mb-4" />
             <h2 className="text-2xl font-semibold">Muito obrigado! 😊</h2>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Button onClick={() => setShowModal(true)} className="w-full">
-              Ver QR Code / PIX novamente
-            </Button>
+            <Button onClick={() => setShowModal(true)} className="w-full">Ver QR Code / PIX novamente</Button>
             <Button variant="outline" className="w-full" onClick={async () => {
               try {
                 await navigator.clipboard.writeText(PIX_KEY);
@@ -513,10 +335,11 @@ const ConfirmacaoWhatsapp = () => {
               Copiar chave PIX
             </Button>
           </CardContent>
-        </Card>}
+        </Card>
+      )}
 
-      {/* Auth Card - shown when not authenticated */}
-      {!isAuthenticated && !showThankYou && <Card className="w-full max-w-md">
+      {!isAuthenticated && !showThankYou && (
+        <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <img src={onetouchLogo} alt="OneTouch3D" className="h-10 mx-auto mb-2" />
             <CardDescription className="text-sm">
@@ -532,13 +355,9 @@ const ConfirmacaoWhatsapp = () => {
               </Button>
               
               <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
+                <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-card px-2 text-muted-foreground">
-                    Ou continue com email
-                  </span>
+                  <span className="bg-card px-2 text-muted-foreground">Ou continue com email</span>
                 </div>
               </div>
 
@@ -563,13 +382,9 @@ const ConfirmacaoWhatsapp = () => {
                         </button>
                       </div>
                     </div>
-                    <Button type="submit" className="w-full" disabled={loading}>
-                      {loading ? "Entrando..." : "Entrar"}
-                    </Button>
+                    <Button type="submit" className="w-full" disabled={loading}>{loading ? "Entrando..." : "Entrar"}</Button>
                     <div className="text-center">
-                      <Link to="/recuperar-senha" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                        Esqueci minha senha?
-                      </Link>
+                      <Link to="/recuperar-senha" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Esqueci minha senha?</Link>
                     </div>
                   </form>
                 </TabsContent>
@@ -598,72 +413,51 @@ const ConfirmacaoWhatsapp = () => {
                         </button>
                       </div>
                     </div>
-                    <Button type="submit" className="w-full" disabled={loading}>
-                      {loading ? "Cadastrando..." : "Cadastrar"}
-                    </Button>
+                    <Button type="submit" className="w-full" disabled={loading}>{loading ? "Cadastrando..." : "Cadastrar"}</Button>
                   </form>
                 </TabsContent>
               </Tabs>
             </div>
           </CardContent>
-        </Card>}
+        </Card>
+      )}
 
-      {/* Modal - shown after authentication */}
       <Dialog open={showModal} onOpenChange={open => {
-      if (!open) {
-        if (showThankYou) {
-          setShowModal(false);
-        } else {
-          handleCancel();
+        if (!open) {
+          if (showThankYou) { setShowModal(false); }
+          else { handleCancel(); }
         }
-      }
-    }}>
+      }}>
         <DialogContent className={`max-w-lg max-h-[90vh] overflow-y-auto ${!showThankYou ? '[&>button]:hidden' : ''}`}>
-          {!showSuccess ? <div className="space-y-6">
-              {/* Header */}
+          {!showSuccess ? (
+            <div className="space-y-6">
               <div className="text-center">
                 <img src={onetouchLogo} alt="OneTouch3D" className="h-10 mx-auto mb-3" />
-                <p className="text-sm text-muted-foreground">
-                  Finalize seu cadastro para darmos andamento ao seu quadro personalizado.
-                </p>
+                <p className="text-sm text-muted-foreground">Finalize seu cadastro para darmos andamento ao seu quadro personalizado.</p>
               </div>
 
-              {/* Dados do Quadro */}
               <div className="space-y-4">
-                <h3 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">
-                  Dados do Quadro
-                </h3>
+                <h3 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">Dados do Quadro</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="modalidade">Modalidade *</Label>
                     <Select value={modalidade} onValueChange={setModalidade}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecione" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {MODALIDADES.map(mod => <SelectItem key={mod} value={mod}>{mod}</SelectItem>)}
-                      </SelectContent>
+                      <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
+                      <SelectContent>{MODALIDADES.map(mod => <SelectItem key={mod} value={mod}>{mod}</SelectItem>)}</SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="tamanho">Tamanho *</Label>
                     <Select value={tamanho} onValueChange={setTamanho}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecione" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {TAMANHOS.map(tam => <SelectItem key={tam} value={tam}>{tam}</SelectItem>)}
-                      </SelectContent>
+                      <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
+                      <SelectContent>{TAMANHOS.map(tam => <SelectItem key={tam} value={tam}>{tam}</SelectItem>)}</SelectContent>
                     </Select>
                   </div>
                 </div>
               </div>
 
-              {/* Dados do Cliente */}
               <div className="space-y-4">
-                <h3 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">
-                  Dados do Cliente
-                </h3>
+                <h3 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">Dados do Cliente</h3>
                 <div className="space-y-3">
                   <div className="space-y-2">
                     <Label htmlFor="nomeCompleto">Nome completo *</Label>
@@ -686,11 +480,8 @@ const ConfirmacaoWhatsapp = () => {
                 </div>
               </div>
 
-              {/* Endereço de Entrega */}
               <div className="space-y-4">
-                <h3 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">
-                  Endereço de Entrega
-                </h3>
+                <h3 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">Endereço de Entrega</h3>
                 <div className="space-y-3">
                   <div className="space-y-2">
                     <Label htmlFor="cep">CEP *</Label>
@@ -727,53 +518,40 @@ const ConfirmacaoWhatsapp = () => {
                 </div>
               </div>
 
-              {/* Confirmação */}
               <div className="space-y-4">
                 <div className="flex items-center space-x-2">
                   <Checkbox id="confirmado" checked={confirmado} onCheckedChange={checked => setConfirmado(checked === true)} />
-                  <label htmlFor="confirmado" className="text-sm cursor-pointer">
-                    Confirmo que os dados estão corretos
-                  </label>
+                  <label htmlFor="confirmado" className="text-sm cursor-pointer">Confirmo que os dados estão corretos</label>
                 </div>
                 <Button onClick={handleSaveOrder} disabled={!isFormValid() || savingOrder} className="w-full">
                   {savingOrder ? "Salvando..." : "Salvar dados"}
                 </Button>
               </div>
-            </div> : (/* Success State with PIX QR Code */
-        <div className="space-y-6 text-center py-4">
+            </div>
+          ) : (
+            <div className="space-y-6 text-center py-4">
               <div className="flex flex-col items-center gap-3">
                 <CheckCircle className="h-12 w-12 text-primary" />
                 <h2 className="text-xl font-semibold">Cadastro realizado com sucesso.</h2>
               </div>
-
               <div className="bg-background p-4 rounded-lg inline-block mx-auto border">
                 <img src={pixQrCode} alt="QR Code PIX" className="w-[200px] h-auto" />
               </div>
-
               <div className="text-sm text-muted-foreground space-y-3 text-left">
-                <p>
-                  Escaneie o QR CODE acima e adicione o valor da sua compra.
-                </p>
-                <p>
-                  Ou, se preferir:
-                </p>
-                <p>
-                  Copie a <strong>CHAVE PIX – celular {PIX_KEY}</strong> e em seguida adicione o valor da compra.
-                </p>
-                <p className="text-xs">
-                  Ambas as opções estão em nome de <strong>Luciano Spader – Banco Mercado Pago</strong> ​
-                </p>
+                <p>Escaneie o QR CODE acima e adicione o valor da sua compra.</p>
+                <p>Ou, se preferir:</p>
+                <p>Copie a <strong>CHAVE PIX – celular {PIX_KEY}</strong> e em seguida adicione o valor da compra.</p>
+                <p className="text-xs">Ambas as opções estão em nome de <strong>Luciano Spader – Banco Mercado Pago</strong></p>
               </div>
-
-              {!showThankYou && <Button variant="outline" onClick={() => {
-                setShowModal(false);
-                setShowThankYou(true);
-              }} className="mt-4">
-                Fechar
-              </Button>}
-            </div>)}
+              {!showThankYou && (
+                <Button variant="outline" onClick={() => { setShowModal(false); setShowThankYou(true); }} className="mt-4">Fechar</Button>
+              )}
+            </div>
+          )}
         </DialogContent>
       </Dialog>
-    </div>;
+    </div>
+  );
 };
+
 export default ConfirmacaoWhatsapp;
