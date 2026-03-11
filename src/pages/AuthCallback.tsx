@@ -1,19 +1,22 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
 const AuthCallback = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
+    const returnTo = searchParams.get("returnTo") || "/checkout";
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        navigate("/checkout", { replace: true });
+        navigate(returnTo, { replace: true });
       } else {
         navigate("/auth", { replace: true });
       }
     });
-  }, [navigate]);
+  }, [navigate, searchParams]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">

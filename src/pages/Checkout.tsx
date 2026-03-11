@@ -184,8 +184,8 @@ const Checkout = () => {
     }
   }, [user]);
 
-  // Show loading spinner while checking auth (e.g. after OAuth redirect)
-  if (authLoading) {
+  // Show loading spinner while checking auth or cart hydration
+  if (authLoading || !cartLoaded) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/20">
         <GlobalHeader />
@@ -194,15 +194,6 @@ const Checkout = () => {
           <p className="text-muted-foreground">Verificando sessão...</p>
         </div>
         <GlobalFooter />
-      </div>
-    );
-  }
-
-  // If cart is empty, show empty state
-  if (!cartLoaded || authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-10 h-10 animate-spin text-primary" />
       </div>
     );
   }
@@ -377,7 +368,7 @@ const Checkout = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `https://id-preview--08960a00-45ea-44b3-b652-017e8fe98e01.lovable.app/auth/callback`,
+          redirectTo: `${window.location.origin}/auth/callback?returnTo=/checkout`,
           queryParams: { prompt: "select_account" }
         }
       });
@@ -566,15 +557,7 @@ const Checkout = () => {
     if (isSubmitting) return;
 
     // Validate cart
-    if (!cartLoaded || authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-10 h-10 animate-spin text-primary" />
-      </div>
-    );
-  }
-
-  if (!cart?.items || cart.items.length === 0) {
+    if (!cart?.items || cart.items.length === 0) {
       toast({
         variant: "destructive",
         title: "Carrinho vazio",
