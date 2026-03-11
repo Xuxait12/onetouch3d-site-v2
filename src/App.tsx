@@ -28,6 +28,7 @@ import Confirmacao from "./pages/Confirmacao";
 import AuthRedirect from "./components/AuthRedirect";
 import AdminPanel from "./pages/AdminPanel";
 import ConfirmacaoWhatsapp from "./pages/ConfirmacaoWhatsapp";
+import AuthCallback from "./pages/AuthCallback";
 import NotFound from "./pages/NotFound";
 
 const OAuthHashHandler = ({ children }: { children: ReactNode }) => {
