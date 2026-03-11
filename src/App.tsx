@@ -28,6 +28,7 @@ import Confirmacao from "./pages/Confirmacao";
 import AuthRedirect from "./components/AuthRedirect";
 import AdminPanel from "./pages/AdminPanel";
 import ConfirmacaoWhatsapp from "./pages/ConfirmacaoWhatsapp";
+import AuthCallback from "./pages/AuthCallback";
 import NotFound from "./pages/NotFound";
 
 const OAuthHashHandler = ({ children }: { children: ReactNode }) => {
@@ -86,6 +87,7 @@ const App = () => {
                   <Route path="/triathlon" element={<Triathlon />} />
                   <Route path="/checkout" element={<Checkout />} />
                   <Route path="/auth" element={<Auth />} />
+                  <Route path="/auth/callback" element={<AuthCallback />} />
                   <Route path="/perfil" element={<Profile />} />
                   <Route path="/meus-pedidos" element={<MyOrders />} />
                   <Route path="/meus-pedidos/:id" element={<OrderDetails />} />
