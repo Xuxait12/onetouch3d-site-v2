@@ -31,33 +31,6 @@ import ConfirmacaoWhatsapp from "./pages/ConfirmacaoWhatsapp";
 import AuthCallback from "./pages/AuthCallback";
 import NotFound from "./pages/NotFound";
 
-const OAuthHashHandler = ({ children }: { children: ReactNode }) => {
-  const navigate = useNavigate();
-  const [processing, setProcessing] = useState(false);
-
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash && hash.includes('access_token')) {
-      setProcessing(true);
-      const currentPath = window.location.pathname + window.location.search;
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        window.history.replaceState(null, '', currentPath);
-        setProcessing(false);
-        navigate(currentPath, { replace: true });
-      });
-    }
-  }, [navigate]);
-
-  if (processing) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
-      </div>
-    );
-  }
-
-  return <>{children}</>;
-};
 
 const queryClient = new QueryClient();
 
