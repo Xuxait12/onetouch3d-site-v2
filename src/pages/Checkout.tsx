@@ -557,15 +557,7 @@ const Checkout = () => {
     if (isSubmitting) return;
 
     // Validate cart
-    if (!cartLoaded || authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-10 h-10 animate-spin text-primary" />
-      </div>
-    );
-  }
-
-  if (!cart?.items || cart.items.length === 0) {
+    if (!cart?.items || cart.items.length === 0) {
       toast({
         variant: "destructive",
         title: "Carrinho vazio",
