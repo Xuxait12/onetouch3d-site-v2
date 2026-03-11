@@ -1,3 +1,4 @@
+import { config } from "@/config";
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -203,7 +204,7 @@ const ConfirmacaoWhatsapp = () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: `${import.meta.env.VITE_SITE_URL || window.location.origin}/confirmacao-whatsapp` }
+        options: { redirectTo: `${config.siteUrl}/confirmacao-whatsapp` }
       });
       if (error) {
         toast({ title: "Erro no login com Google", description: error.message, variant: "destructive" });

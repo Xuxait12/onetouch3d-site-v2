@@ -1,3 +1,4 @@
+import { config } from "@/config";
 import { useState, useRef, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -299,7 +300,7 @@ const Checkout = () => {
         email: signupData.email,
         password: signupData.password,
         options: {
-          emailRedirectTo: `${import.meta.env.VITE_SITE_URL || window.location.origin}/checkout`
+          emailRedirectTo: `${config.siteUrl}/checkout`
         }
       });
 

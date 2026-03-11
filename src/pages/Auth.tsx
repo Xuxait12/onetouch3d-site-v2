@@ -1,3 +1,4 @@
+import { config } from "@/config";
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -160,7 +161,7 @@ const Auth = () => {
         email,
         password,
         options: {
-          emailRedirectTo: `${import.meta.env.VITE_SITE_URL || window.location.origin}/auth-redirect`
+          emailRedirectTo: `${config.siteUrl}/auth-redirect`
         }
       });
 
@@ -198,8 +199,8 @@ const Auth = () => {
   const handleGoogleSignIn = async () => {
     try {
       const redirectUrl = returnTo
-        ? `${import.meta.env.VITE_SITE_URL || window.location.origin}${returnTo}`
-        : `${import.meta.env.VITE_SITE_URL || window.location.origin}/auth-redirect`;
+        ? `${config.siteUrl}${returnTo}`
+        : `${config.siteUrl}/auth-redirect`;
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {

@@ -1,3 +1,4 @@
+import { config } from "@/config";
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -28,7 +29,7 @@ const ForgotPassword = () => {
     setLoading(true);
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${import.meta.env.VITE_SITE_URL || window.location.origin}/redefinir-senha`,
+        redirectTo: `${config.siteUrl}/redefinir-senha`,
       });
 
       if (error) {
