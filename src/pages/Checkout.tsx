@@ -408,13 +408,13 @@ const Checkout = () => {
   };
 
   // ─── LOADING STATE ───
-  if (authLoading) {
+  if (authLoading || cartLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/20">
         <GlobalHeader />
         <div className="py-16 flex flex-col items-center justify-center">
           <Loader2 className="w-10 h-10 animate-spin text-primary mb-4" />
-          <p className="text-muted-foreground">Verificando sessão...</p>
+          <p className="text-muted-foreground">{authLoading ? "Verificando sessão..." : "Carregando carrinho..."}</p>
         </div>
         <GlobalFooter />
       </div>
