@@ -380,11 +380,8 @@ const Checkout = () => {
     try {
       setLoginLoading(true);
       
-      // Store current checkout state to preserve cart
-      localStorage.setItem('checkoutState', JSON.stringify({
-        cart: cart,
-        timestamp: Date.now()
-      }));
+      // Backup cart before OAuth redirect (external redirect loses React state)
+      localStorage.setItem('cart_backup', JSON.stringify(cart));
       
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
