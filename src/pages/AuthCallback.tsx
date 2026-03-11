@@ -9,25 +9,23 @@ const AuthCallback = () => {
   useEffect(() => {
     const returnTo = searchParams.get("returnTo") || "/checkout";
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN" && session) {
-        subscription.unsubscribe();
+    const handleCallback = async () => {
+      // Tenta trocar o code por sessão (PKCE flow)
+      const code = searchParams.get("code");
+      if (code) {
+        await supabase.auth.exchangeCodeForSession(code);
+      }
+
+      // Verifica sessão após troca
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
         navigate(returnTo, { replace: true });
-      } else if (event === "SIGNED_OUT") {
-        subscription.unsubscribe();
+      } else {
         navigate("/auth", { replace: true });
       }
-    });
+    };
 
-    // Fallback: se já tem sessão, navega imediatamente
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        subscription.unsubscribe();
-        navigate(returnTo, { replace: true });
-      }
-    });
-
-    return () => subscription.unsubscribe();
+    handleCallback();
   }, [navigate, searchParams]);
 
   return (
