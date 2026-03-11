@@ -368,7 +368,7 @@ const Checkout = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback?returnTo=/checkout`,
+          redirectTo: `https://id-preview--08960a00-45ea-44b3-b652-017e8fe98e01.lovable.app/checkout`,
           queryParams: { prompt: "select_account" }
         }
       });
