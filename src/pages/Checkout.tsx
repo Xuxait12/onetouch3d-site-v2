@@ -364,11 +364,12 @@ const Checkout = () => {
       
       // Backup cart before OAuth redirect (external redirect loses React state)
       localStorage.setItem('cart_backup', JSON.stringify(cart));
+      localStorage.setItem("auth_redirect_to", "/checkout");
       
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `https://id-preview--08960a00-45ea-44b3-b652-017e8fe98e01.lovable.app/checkout`,
+          redirectTo: `${window.location.origin}/auth/callback`,
           queryParams: { prompt: "select_account" }
         }
       });

@@ -1,36 +1,45 @@
 import { useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
 const AuthCallback = () => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const returnTo = searchParams.get("returnTo") || "/checkout";
-
     const handleCallback = async () => {
-      // Tenta trocar o code por sessão (PKCE flow)
-      const code = searchParams.get("code");
-      if (code) {
-        await supabase.auth.exchangeCodeForSession(code);
-      }
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // Verifica sessão após troca
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        navigate(returnTo, { replace: true });
-      } else {
+        const { data: { session }, error } = await supabase.auth.getSession();
+
+        if (error) {
+          console.error("Erro no callback OAuth:", error.message);
+          navigate("/auth?error=oauth_failed", { replace: true });
+          return;
+        }
+
+        if (session) {
+          const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
+          localStorage.removeItem("auth_redirect_to");
+          navigate(redirectTo, { replace: true });
+        } else {
+          navigate("/auth", { replace: true });
+        }
+      } catch (err) {
+        console.error("Erro inesperado no AuthCallback:", err);
         navigate("/auth", { replace: true });
       }
     };
 
     handleCallback();
-  }, [navigate, searchParams]);
+  }, [navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="flex flex-col items-center gap-4">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+        <p className="text-muted-foreground text-sm">Autenticando...</p>
+      </div>
     </div>
   );
 };
