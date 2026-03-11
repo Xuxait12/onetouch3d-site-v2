@@ -183,10 +183,25 @@ const Checkout = () => {
     const fromOauth = urlParams.get('from_oauth');
     
     if (fromOauth) {
+      // Restore cart from backup before checking if empty
+      const cartBackup = localStorage.getItem('cart_backup');
+      if (cartBackup) {
+        try {
+          const parsedCart = JSON.parse(cartBackup);
+          localStorage.setItem('cart', JSON.stringify(parsedCart));
+          localStorage.removeItem('cart_backup');
+          // Force page reload to pick up restored cart state
+          window.history.replaceState({}, '', '/checkout');
+          window.location.reload();
+          return;
+        } catch (e) {
+          console.error('Error restoring cart backup:', e);
+        }
+      }
+
       // Wait for Supabase to establish session from OAuth tokens in URL
       const waitForSession = async () => {
         const { data: { session } } = await supabase.auth.getSession();
-        // Remove param and navigate clean
         window.history.replaceState({}, '', '/checkout');
         if (session) {
           loadProfileData();
@@ -380,11 +395,8 @@ const Checkout = () => {
     try {
       setLoginLoading(true);
       
-      // Store current checkout state to preserve cart
-      localStorage.setItem('checkoutState', JSON.stringify({
-        cart: cart,
-        timestamp: Date.now()
-      }));
+      // Backup cart before OAuth redirect (external redirect loses React state)
+      localStorage.setItem('cart_backup', JSON.stringify(cart));
       
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
