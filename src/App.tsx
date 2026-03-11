@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import { AuthProvider } from "@/hooks/useAuth";
 import { CartProvider } from "@/contexts/CartContext";
 import { initMercadoPago } from "@mercadopago/sdk-react";
@@ -29,6 +30,34 @@ import AdminPanel from "./pages/AdminPanel";
 import ConfirmacaoWhatsapp from "./pages/ConfirmacaoWhatsapp";
 import NotFound from "./pages/NotFound";
 
+const OAuthHashHandler = ({ children }: { children: ReactNode }) => {
+  const navigate = useNavigate();
+  const [processing, setProcessing] = useState(false);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash && hash.includes('access_token')) {
+      setProcessing(true);
+      const currentPath = window.location.pathname + window.location.search;
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        window.history.replaceState(null, '', currentPath);
+        setProcessing(false);
+        navigate(currentPath, { replace: true });
+      });
+    }
+  }, [navigate]);
+
+  if (processing) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+      </div>
+    );
+  }
+
+  return <>{children}</>;
+};
+
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -47,32 +76,34 @@ const App = () => {
             <Toaster />
             <Sonner />
             <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/corrida" element={<Corrida />} />
-                <Route path="/ciclismo" element={<Ciclismo />} />
-                <Route path="/viagem" element={<Viagem />} />
-                <Route path="/triathlon" element={<Triathlon />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/auth" element={<Auth />} />
-                <Route path="/perfil" element={<Profile />} />
-                <Route path="/meus-pedidos" element={<MyOrders />} />
-                <Route path="/meus-pedidos/:id" element={<OrderDetails />} />
-                <Route path="/recuperar-senha" element={<ForgotPassword />} />
-                <Route path="/redefinir-senha" element={<ResetPassword />} />
-                <Route path="/politica-devolucao" element={<PoliticaDevolucao />} />
-                <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
-                <Route path="/entregas-prazos" element={<EntregasPrazos />} />
-                <Route path="/carrinho" element={<Carrinho />} />
-                <Route path="/confirmacao" element={<Confirmacao />} />
-                <Route path="/auth-redirect" element={<AuthRedirect />} />
-                <Route path="/painel" element={<AdminPanel />} />
-                <Route path="/order-details/:id" element={<OrderDetails />} />
-                <Route path="/confirmacao-whatsapp" element={<ConfirmacaoWhatsapp />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+              <OAuthHashHandler>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/home" element={<Home />} />
+                  <Route path="/corrida" element={<Corrida />} />
+                  <Route path="/ciclismo" element={<Ciclismo />} />
+                  <Route path="/viagem" element={<Viagem />} />
+                  <Route path="/triathlon" element={<Triathlon />} />
+                  <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/perfil" element={<Profile />} />
+                  <Route path="/meus-pedidos" element={<MyOrders />} />
+                  <Route path="/meus-pedidos/:id" element={<OrderDetails />} />
+                  <Route path="/recuperar-senha" element={<ForgotPassword />} />
+                  <Route path="/redefinir-senha" element={<ResetPassword />} />
+                  <Route path="/politica-devolucao" element={<PoliticaDevolucao />} />
+                  <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
+                  <Route path="/entregas-prazos" element={<EntregasPrazos />} />
+                  <Route path="/carrinho" element={<Carrinho />} />
+                  <Route path="/confirmacao" element={<Confirmacao />} />
+                  <Route path="/auth-redirect" element={<AuthRedirect />} />
+                  <Route path="/painel" element={<AdminPanel />} />
+                  <Route path="/order-details/:id" element={<OrderDetails />} />
+                  <Route path="/confirmacao-whatsapp" element={<ConfirmacaoWhatsapp />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </OAuthHashHandler>
             </BrowserRouter>
           </TooltipProvider>
         </CartProvider>
