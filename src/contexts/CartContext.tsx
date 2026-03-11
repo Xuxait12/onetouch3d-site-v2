@@ -247,6 +247,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         body: {
           cep_destino: cepLimpo,
           items: state.items
+        }
       });
 
       if (error) throw error;
