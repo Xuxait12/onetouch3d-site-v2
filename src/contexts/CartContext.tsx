@@ -212,10 +212,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  // Save cart to localStorage whenever it changes
+  // Save cart to localStorage whenever it changes (only after initial load)
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(state));
-  }, [state]);
+    if (cartLoaded) {
+      localStorage.setItem('cart', JSON.stringify(state));
+    }
+  }, [state, cartLoaded]);
 
   const addItem = (item: Omit<CartItem, 'id' | 'subtotal'>) => {
     dispatch({ type: 'ADD_ITEM', payload: item });
