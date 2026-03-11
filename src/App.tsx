@@ -87,6 +87,7 @@ const App = () => {
                   <Route path="/triathlon" element={<Triathlon />} />
                   <Route path="/checkout" element={<Checkout />} />
                   <Route path="/auth" element={<Auth />} />
+                  <Route path="/auth/callback" element={<AuthCallback />} />
                   <Route path="/perfil" element={<Profile />} />
                   <Route path="/meus-pedidos" element={<MyOrders />} />
                   <Route path="/meus-pedidos/:id" element={<OrderDetails />} />
