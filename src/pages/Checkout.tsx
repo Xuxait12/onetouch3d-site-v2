@@ -26,7 +26,7 @@ import { z } from "zod";
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { state: cart, clearCart, calculateShipping, selectShippingOption } = useCart();
+  const { state: cart, clearCart, calculateShipping, selectShippingOption, cartLoaded } = useCart();
   const { user, loading: authLoading } = useAuth();
   const [personType, setPersonType] = useState("fisica");
   const [differentAddress, setDifferentAddress] = useState(false);
@@ -199,6 +199,14 @@ const Checkout = () => {
   }
 
   // If cart is empty, show empty state
+  if (!cartLoaded || authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-10 h-10 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   if (!cart?.items || cart.items.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/20">
@@ -558,7 +566,15 @@ const Checkout = () => {
     if (isSubmitting) return;
 
     // Validate cart
-    if (!cart?.items || cart.items.length === 0) {
+    if (!cartLoaded || authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-10 h-10 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!cart?.items || cart.items.length === 0) {
       toast({
         variant: "destructive",
         title: "Carrinho vazio",

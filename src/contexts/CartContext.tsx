@@ -174,6 +174,7 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [cartLoaded, setCartLoaded] = React.useState(false);
   const [state, dispatch] = useReducer(cartReducer, {
     items: [],
     total: 0,
@@ -200,10 +201,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           return;
         }
         dispatch({ type: 'LOAD_CART', payload: parsedCart });
+        setCartLoaded(true);
       } catch (error) {
         console.error('Error loading cart from localStorage:', error);
         localStorage.removeItem('cart');
+        setCartLoaded(true);
       }
+    } else {
+      setCartLoaded(true);
     }
   }, []);
 
@@ -285,7 +290,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       removeCoupon,
       calculateShipping,
       selectShippingOption,
-      clearShipping
+      clearShipping,
+      cartLoaded
     }}>
       {children}
     </CartContext.Provider>
