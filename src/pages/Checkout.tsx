@@ -36,6 +36,7 @@ const Checkout = () => {
   const [cepLoading, setCepLoading] = useState(false);
   const [shippingCep, setShippingCep] = useState(cart?.cep || "");
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [cartLoading, setCartLoading] = useState(true);
 
   // Payment state
   const [paymentMethod, setPaymentMethod] = useState<"pix" | "credit_card" | "debit_card" | "">("");
