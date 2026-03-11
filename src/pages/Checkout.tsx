@@ -155,6 +155,13 @@ const Checkout = () => {
     }
   };
 
+  // Mark cart as loaded once items array is available
+  useEffect(() => {
+    if (cart?.items !== undefined) {
+      setCartLoading(false);
+    }
+  }, [cart?.items]);
+
   // Monitor user changes — load profile when user becomes available
   useEffect(() => {
     if (user) {
