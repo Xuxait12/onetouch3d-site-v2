@@ -9,13 +9,25 @@ const AuthCallback = () => {
   useEffect(() => {
     const returnTo = searchParams.get("returnTo") || "/checkout";
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN" && session) {
+        subscription.unsubscribe();
         navigate(returnTo, { replace: true });
-      } else {
+      } else if (event === "SIGNED_OUT") {
+        subscription.unsubscribe();
         navigate("/auth", { replace: true });
       }
     });
+
+    // Fallback: se já tem sessão, navega imediatamente
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        subscription.unsubscribe();
+        navigate(returnTo, { replace: true });
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, [navigate, searchParams]);
 
   return (
