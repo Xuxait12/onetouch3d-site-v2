@@ -177,40 +177,28 @@ const Checkout = () => {
     }
   };
 
-  // Check for OAuth redirect - wait for session then navigate clean
+  // Handle OAuth return: restore cart backup and clean URL when user becomes available
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const fromOauth = urlParams.get('from_oauth');
-    
-    if (fromOauth) {
-      // Restore cart from backup before checking if empty
+
+    if (fromOauth && user) {
+      // Restore cart from backup
       const cartBackup = localStorage.getItem('cart_backup');
       if (cartBackup) {
         try {
           const parsedCart = JSON.parse(cartBackup);
-          localStorage.setItem('cart', JSON.stringify(parsedCart));
+          localStorage.setItem('cart', cartBackup);
           localStorage.removeItem('cart_backup');
-          // Force page reload to pick up restored cart state
-          window.history.replaceState({}, '', '/checkout');
-          window.location.reload();
-          return;
         } catch (e) {
           console.error('Error restoring cart backup:', e);
         }
       }
-
-      // Wait for Supabase to establish session from OAuth tokens in URL
-      const waitForSession = async () => {
-        const { data: { session } } = await supabase.auth.getSession();
-        window.history.replaceState({}, '', '/checkout');
-        if (session) {
-          loadProfileData();
-        }
-      };
-      waitForSession();
+      // Clean URL and re-render with restored state
+      navigate('/checkout', { replace: true });
       return;
     }
-    
+
     if (user) {
       loadProfileData();
     }

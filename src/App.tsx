@@ -1,10 +1,9 @@
-import { useEffect, useState, ReactNode } from "react";
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { CartProvider } from "@/contexts/CartContext";
 import { initMercadoPago } from "@mercadopago/sdk-react";
@@ -31,33 +30,6 @@ import ConfirmacaoWhatsapp from "./pages/ConfirmacaoWhatsapp";
 import AuthCallback from "./pages/AuthCallback";
 import NotFound from "./pages/NotFound";
 
-const OAuthHashHandler = ({ children }: { children: ReactNode }) => {
-  const navigate = useNavigate();
-  const [processing, setProcessing] = useState(false);
-
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash && hash.includes('access_token')) {
-      setProcessing(true);
-      const currentPath = window.location.pathname + window.location.search;
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        window.history.replaceState(null, '', currentPath);
-        setProcessing(false);
-        navigate(currentPath, { replace: true });
-      });
-    }
-  }, [navigate]);
-
-  if (processing) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
-      </div>
-    );
-  }
-
-  return <>{children}</>;
-};
 
 const queryClient = new QueryClient();
 
@@ -77,7 +49,6 @@ const App = () => {
             <Toaster />
             <Sonner />
             <BrowserRouter>
-              <OAuthHashHandler>
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/home" element={<Home />} />
@@ -105,7 +76,6 @@ const App = () => {
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
-              </OAuthHashHandler>
             </BrowserRouter>
           </TooltipProvider>
         </CartProvider>
