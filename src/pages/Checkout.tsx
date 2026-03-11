@@ -299,7 +299,7 @@ const Checkout = () => {
         email: signupData.email,
         password: signupData.password,
         options: {
-          emailRedirectTo: `${window.location.origin}/checkout`
+          emailRedirectTo: `${import.meta.env.VITE_SITE_URL || window.location.origin}/checkout`
         }
       });
 

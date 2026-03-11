@@ -28,7 +28,7 @@ const ForgotPassword = () => {
     setLoading(true);
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/redefinir-senha`,
+        redirectTo: `${import.meta.env.VITE_SITE_URL || window.location.origin}/redefinir-senha`,
       });
 
       if (error) {

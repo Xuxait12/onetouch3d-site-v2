@@ -203,7 +203,7 @@ const ConfirmacaoWhatsapp = () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: `${window.location.origin}/confirmacao-whatsapp` }
+        options: { redirectTo: `${import.meta.env.VITE_SITE_URL || window.location.origin}/confirmacao-whatsapp` }
       });
       if (error) {
         toast({ title: "Erro no login com Google", description: error.message, variant: "destructive" });

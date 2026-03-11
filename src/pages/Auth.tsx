@@ -160,7 +160,7 @@ const Auth = () => {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth-redirect`
+          emailRedirectTo: `${import.meta.env.VITE_SITE_URL || window.location.origin}/auth-redirect`
         }
       });
 
@@ -198,8 +198,8 @@ const Auth = () => {
   const handleGoogleSignIn = async () => {
     try {
       const redirectUrl = returnTo
-        ? `${window.location.origin}${returnTo}`
-        : `${window.location.origin}/auth-redirect`;
+        ? `${import.meta.env.VITE_SITE_URL || window.location.origin}${returnTo}`
+        : `${import.meta.env.VITE_SITE_URL || window.location.origin}/auth-redirect`;
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
