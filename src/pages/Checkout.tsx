@@ -169,6 +169,13 @@ const Checkout = () => {
     }
   }, [user]);
 
+  // Redirect unauthenticated users to /auth
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate('/auth?returnTo=/checkout', { replace: true });
+    }
+  }, [user, authLoading, navigate]);
+
   // Show loading spinner while checking auth or cart hydration
   if (authLoading || !cartLoaded) {
     return (
