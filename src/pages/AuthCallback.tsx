@@ -8,7 +8,18 @@ const AuthCallback = () => {
   useEffect(() => {
     const processCallback = async () => {
       try {
-        // 1. Implicit flow: tokens no hash da URL
+        // 1. PKCE: código na query string
+        const code = new URLSearchParams(window.location.search).get("code");
+        if (code) {
+          const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+          if (data.session && !error) {
+            const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
+            localStorage.removeItem("auth_redirect_to");
+            navigate(redirectTo, { replace: true });
+            return;
+          }
+        }
+        // 2. Implicit: tokens no hash
         const hash = window.location.hash;
         if (hash && hash.includes("access_token")) {
           const params = new URLSearchParams(hash.substring(1));
@@ -27,20 +38,7 @@ const AuthCallback = () => {
             }
           }
         }
-
-        // 2. PKCE flow: código na query string
-        const code = new URLSearchParams(window.location.search).get("code");
-        if (code) {
-          const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-          if (data.session && !error) {
-            const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
-            localStorage.removeItem("auth_redirect_to");
-            navigate(redirectTo, { replace: true });
-            return;
-          }
-        }
-
-        // 3. Fallback: sessão já processada pelo detectSessionInUrl
+        // 3. Fallback: sessão já existe
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
           const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
@@ -48,14 +46,12 @@ const AuthCallback = () => {
           navigate(redirectTo, { replace: true });
           return;
         }
-
         navigate("/auth", { replace: true });
       } catch (err) {
         console.error("Auth callback error:", err);
         navigate("/auth", { replace: true });
       }
     };
-
     processCallback();
   }, [navigate]);
 
