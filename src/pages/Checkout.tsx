@@ -13,7 +13,7 @@ import GlobalFooter from "@/components/GlobalFooter";
 import CouponSection from "@/components/CouponSection";
 import { useCart } from "@/contexts/CartContext";
 import { useNavigate } from "react-router-dom";
-import { ShoppingBag, ArrowLeft, Eye, EyeOff, Loader2, Package, Clock } from "lucide-react";
+import { ShoppingBag, ArrowLeft, Loader2, Package, Clock } from "lucide-react";
 import { ShippingOptions } from "@/components/ShippingOptions";
 import { isValidCep } from "@/utils/cepValidator";
 import { supabase } from "@/integrations/supabase/client";
