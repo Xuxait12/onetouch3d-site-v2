@@ -15,6 +15,7 @@ import { isValidCep } from "@/utils/cepValidator";
 
 const Carrinho = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const {
     state: cart,
     updateQuantity: updateCartQuantity,
