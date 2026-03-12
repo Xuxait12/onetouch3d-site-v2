@@ -15,7 +15,7 @@ const AuthCallback = () => {
           if (data.session && !error) {
             const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
             localStorage.removeItem("auth_redirect_to");
-            navigate(redirectTo, { replace: true });
+            window.location.href = redirectTo;
             return;
           }
         }
@@ -33,7 +33,7 @@ const AuthCallback = () => {
             if (data.session && !error) {
               const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
               localStorage.removeItem("auth_redirect_to");
-              navigate(redirectTo, { replace: true });
+              window.location.href = redirectTo;
               return;
             }
           }
@@ -43,7 +43,7 @@ const AuthCallback = () => {
         if (session) {
           const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
           localStorage.removeItem("auth_redirect_to");
-          navigate(redirectTo, { replace: true });
+          window.location.href = redirectTo;
           return;
         }
         navigate("/auth", { replace: true });
