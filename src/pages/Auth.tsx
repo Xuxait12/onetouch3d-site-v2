@@ -198,16 +198,15 @@ const Auth = () => {
 
   const handleGoogleSignIn = async () => {
     try {
+      localStorage.setItem('auth_redirect_to', returnTo || '/checkout');
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${config.siteUrl}${returnTo || '/checkout'}`,
+          redirectTo: `${config.siteUrl}/auth/callback`,
           skipBrowserRedirect: true,
         }
       });
-
       if (error) throw error;
-
       if (data?.url) {
         window.location.href = data.url;
       }
