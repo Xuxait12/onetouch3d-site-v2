@@ -198,14 +198,19 @@ const Auth = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${config.siteUrl}${returnTo || '/checkout'}`
+          redirectTo: `${config.siteUrl}${returnTo || '/checkout'}`,
+          skipBrowserRedirect: true,
         }
       });
 
       if (error) throw error;
+
+      if (data?.url) {
+        window.location.href = data.url;
+      }
     } catch (error: any) {
       toast({
         title: "Erro ao entrar com Google",
