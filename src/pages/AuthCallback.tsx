@@ -6,32 +6,42 @@ const AuthCallback = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleCallback = async () => {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+    let handled = false;
 
-        const { data: { session }, error } = await supabase.auth.getSession();
-
-        if (error) {
-          console.error("Erro no callback OAuth:", error.message);
-          navigate("/auth?error=oauth_failed", { replace: true });
-          return;
-        }
-
-        if (session) {
-          const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
-          localStorage.removeItem("auth_redirect_to");
-          navigate(redirectTo, { replace: true });
-        } else {
-          navigate("/auth", { replace: true });
-        }
-      } catch (err) {
-        console.error("Erro inesperado no AuthCallback:", err);
+    const handleRedirect = (hasSession: boolean) => {
+      if (handled) return;
+      handled = true;
+      if (hasSession) {
+        const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
+        localStorage.removeItem("auth_redirect_to");
+        navigate(redirectTo, { replace: true });
+      } else {
         navigate("/auth", { replace: true });
       }
     };
 
-    handleCallback();
+    // Verifica sessão existente imediatamente
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) handleRedirect(true);
+    });
+
+    // Escuta o evento SIGNED_IN (disparado quando detectSessionInUrl conclui o PKCE exchange)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN" && session) {
+        handleRedirect(true);
+      }
+    });
+
+    // Timeout de segurança: 8 segundos
+    const timeout = setTimeout(async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      handleRedirect(!!session);
+    }, 8000);
+
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(timeout);
+    };
   }, [navigate]);
 
   return (
