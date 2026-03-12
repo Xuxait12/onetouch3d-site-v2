@@ -19,7 +19,7 @@ import { isValidCep } from "@/utils/cepValidator";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
-import { FcGoogle } from 'react-icons/fc';
+
 import { PaymentBrick } from "@/components/payment/PaymentBrick";
 import { PixPayment } from "@/components/payment/PixPayment";
 import { profileSchema, orderSchema, getValidationErrors } from "@/lib/validation";
