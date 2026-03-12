@@ -6,42 +6,58 @@ const AuthCallback = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let handled = false;
+    const processCallback = async () => {
+      try {
+        // 1. Tenta ler tokens do hash (implicit flow)
+        const hash = window.location.hash;
+        if (hash && hash.includes("access_token")) {
+          const params = new URLSearchParams(hash.substring(1));
+          const accessToken = params.get("access_token");
+          const refreshToken = params.get("refresh_token");
+          if (accessToken && refreshToken) {
+            const { data, error } = await supabase.auth.setSession({
+              access_token: accessToken,
+              refresh_token: refreshToken,
+            });
+            if (data.session && !error) {
+              const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
+              localStorage.removeItem("auth_redirect_to");
+              navigate(redirectTo, { replace: true });
+              return;
+            }
+          }
+        }
 
-    const handleRedirect = (hasSession: boolean) => {
-      if (handled) return;
-      handled = true;
-      if (hasSession) {
-        const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
-        localStorage.removeItem("auth_redirect_to");
-        navigate(redirectTo, { replace: true });
-      } else {
+        // 2. Tenta trocar código PKCE (fallback)
+        const code = new URLSearchParams(window.location.search).get("code");
+        if (code) {
+          const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+          if (data.session && !error) {
+            const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
+            localStorage.removeItem("auth_redirect_to");
+            navigate(redirectTo, { replace: true });
+            return;
+          }
+        }
+
+        // 3. Verifica se sessão já existe (processada por detectSessionInUrl)
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
+          localStorage.removeItem("auth_redirect_to");
+          navigate(redirectTo, { replace: true });
+          return;
+        }
+
+        // Nenhuma sessão encontrada
+        navigate("/auth", { replace: true });
+      } catch (err) {
+        console.error("Auth callback error:", err);
         navigate("/auth", { replace: true });
       }
     };
 
-    // Verifica sessão existente imediatamente
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) handleRedirect(true);
-    });
-
-    // Escuta o evento SIGNED_IN (disparado quando detectSessionInUrl conclui o PKCE exchange)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN" && session) {
-        handleRedirect(true);
-      }
-    });
-
-    // Timeout de segurança: 8 segundos
-    const timeout = setTimeout(async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      handleRedirect(!!session);
-    }, 8000);
-
-    return () => {
-      subscription.unsubscribe();
-      clearTimeout(timeout);
-    };
+    processCallback();
   }, [navigate]);
 
   return (
