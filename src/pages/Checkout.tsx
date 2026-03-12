@@ -33,18 +33,7 @@ const Checkout = () => {
   const [differentAddress, setDifferentAddress] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
-  const [showInlineLogin, setShowInlineLogin] = useState(false);
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-  const [loginLoading, setLoginLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [authTab, setAuthTab] = useState<'login' | 'signup'>('signup');
-  const [signupData, setSignupData] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
 
   // Payment flow states
   const [paymentStep, setPaymentStep] = useState<'form' | 'processing'>('form');
@@ -56,11 +45,6 @@ const Checkout = () => {
     last_name: string;
     identification: { type: string; number: string };
   } | null>(null);
-  
-  // Password visibility states
-  const [showLoginPassword, setShowLoginPassword] = useState(false);
-  const [showSignupPassword, setShowSignupPassword] = useState(false);
-  const [showSignupConfirmPassword, setShowSignupConfirmPassword] = useState(false);
 
   // Shipping state
   const [shippingCep, setShippingCep] = useState(cart?.cep || "");
