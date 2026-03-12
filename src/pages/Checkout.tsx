@@ -1,5 +1,6 @@
 import { config } from "@/config";
 import { useState, useRef, useEffect } from "react";
+
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,13 +13,13 @@ import GlobalFooter from "@/components/GlobalFooter";
 import CouponSection from "@/components/CouponSection";
 import { useCart } from "@/contexts/CartContext";
 import { useNavigate } from "react-router-dom";
-import { ShoppingBag, ArrowLeft, Eye, EyeOff, Loader2, Package, Clock } from "lucide-react";
+import { ShoppingBag, ArrowLeft, Loader2, Package, Clock } from "lucide-react";
 import { ShippingOptions } from "@/components/ShippingOptions";
 import { isValidCep } from "@/utils/cepValidator";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
-import { FcGoogle } from 'react-icons/fc';
+
 import { PaymentBrick } from "@/components/payment/PaymentBrick";
 import { PixPayment } from "@/components/payment/PixPayment";
 import { profileSchema, orderSchema, getValidationErrors } from "@/lib/validation";
@@ -32,18 +33,7 @@ const Checkout = () => {
   const [differentAddress, setDifferentAddress] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
-  const [showInlineLogin, setShowInlineLogin] = useState(false);
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-  const [loginLoading, setLoginLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [authTab, setAuthTab] = useState<'login' | 'signup'>('signup');
-  const [signupData, setSignupData] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
 
   // Payment flow states
   const [paymentStep, setPaymentStep] = useState<'form' | 'processing'>('form');
@@ -55,11 +45,6 @@ const Checkout = () => {
     last_name: string;
     identification: { type: string; number: string };
   } | null>(null);
-  
-  // Password visibility states
-  const [showLoginPassword, setShowLoginPassword] = useState(false);
-  const [showSignupPassword, setShowSignupPassword] = useState(false);
-  const [showSignupConfirmPassword, setShowSignupConfirmPassword] = useState(false);
 
   // Shipping state
   const [shippingCep, setShippingCep] = useState(cart?.cep || "");
@@ -184,6 +169,13 @@ const Checkout = () => {
     }
   }, [user]);
 
+  // Redirect unauthenticated users to /auth
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate('/auth?returnTo=/checkout', { replace: true });
+    }
+  }, [user, authLoading, navigate]);
+
   // Show loading spinner while checking auth or cart hydration
   if (authLoading || !cartLoaded) {
     return (
@@ -222,175 +214,6 @@ const Checkout = () => {
     );
   }
 
-  const handleInlineLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoginLoading(true);
-    
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: loginEmail,
-        password: loginPassword
-      });
-
-      if (error) {
-        toast({
-          variant: "destructive",
-          title: "Erro no login",
-          description: error.message,
-        });
-      } else {
-        toast({
-          title: "Login realizado!",
-          description: `Logado como ${loginEmail} — campos do checkout preenchidos`,
-        });
-        setShowInlineLogin(false);
-        setLoginEmail("");
-        setLoginPassword("");
-        // Auto-load profile data after login
-        setTimeout(() => loadProfileData(), 100);
-      }
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Erro no login",
-        description: "Ocorreu um erro inesperado. Tente novamente.",
-      });
-    } finally {
-      setLoginLoading(false);
-    }
-  };
-
-  const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Validations
-    if (!signupData.fullName || !signupData.email || !signupData.password || !signupData.confirmPassword) {
-      toast({
-        variant: "destructive",
-        title: "Campos obrigatórios",
-        description: "Preencha todos os campos para criar sua conta.",
-      });
-      return;
-    }
-
-    if (signupData.password.length < 6) {
-      toast({
-        variant: "destructive",
-        title: "Senha muito curta",
-        description: "A senha deve ter pelo menos 6 caracteres.",
-      });
-      return;
-    }
-
-    if (signupData.password !== signupData.confirmPassword) {
-      toast({
-        variant: "destructive",
-        title: "Senhas não coincidem",
-        description: "A confirmação de senha deve ser igual à senha.",
-      });
-      return;
-    }
-
-    setLoginLoading(true);
-    
-    try {
-      // Create user with Supabase Auth
-      const { data, error } = await supabase.auth.signUp({
-        email: signupData.email,
-        password: signupData.password,
-        options: {
-          emailRedirectTo: `${config.siteUrl}/checkout`
-        }
-      });
-
-      if (error) {
-        toast({
-          variant: "destructive",
-          title: "Erro ao criar conta",
-          description: error.message,
-        });
-        return;
-      }
-
-        if (data.user) {
-        // Create profile data
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .upsert({
-            user_id: data.user.id,
-            nome_completo: signupData.fullName,
-            email: signupData.email,
-            telefone: '',
-            cpf_cnpj: '',
-            data_nascimento: '1990-01-01',
-            cep: '',
-            endereco: '',
-            numero: '',
-            bairro: '',
-            cidade: '',
-            estado: '',
-            tipo_pessoa: 'fisica'
-          });
-
-        if (profileError) {
-          // Profile creation error - non-critical
-        }
-
-        toast({
-          title: "Cadastro realizado com sucesso!",
-          description: "Seus dados foram preenchidos no checkout — complete as informações restantes.",
-        });
-        
-        setShowInlineLogin(false);
-        setSignupData({ fullName: '', email: '', password: '', confirmPassword: '' });
-        
-        // Auto-load profile data after signup
-        setTimeout(() => loadProfileData(), 100);
-      }
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Erro ao criar conta",
-        description: "Ocorreu um erro inesperado. Tente novamente.",
-      });
-    } finally {
-      setLoginLoading(false);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    try {
-      setLoginLoading(true);
-      
-      // Backup cart before OAuth redirect (external redirect loses React state)
-      localStorage.setItem('cart_backup', JSON.stringify(cart));
-      localStorage.setItem("auth_redirect_to", "/checkout");
-      
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-          queryParams: { prompt: "select_account" }
-        }
-      });
-
-      if (error) {
-        toast({
-          variant: "destructive",
-          title: "Erro no login",
-          description: error.message,
-        });
-      }
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Erro no login",
-        description: "Ocorreu um erro inesperado. Tente novamente.",
-      });
-    } finally {
-      setLoginLoading(false);
-    }
-  };
 
   const handleSaveData = async () => {
     try {
@@ -788,37 +611,7 @@ const Checkout = () => {
             <h1 className="text-4xl font-bold text-foreground">Finalizar Compra</h1>
           </div>
 
-          {!user ? (
-            /* Usuário não logado - mostrar card de login centralizado */
-            <div className="max-w-md mx-auto">
-              <Card className="p-8 text-center space-y-6">
-                <h2 className="text-2xl font-semibold text-foreground">Entre para continuar</h2>
-                <p className="text-muted-foreground text-sm">Faça login para preencher seus dados e finalizar a compra.</p>
-                
-                <Button
-                  onClick={handleGoogleLogin}
-                  variant="outline"
-                  className="w-full flex items-center justify-center gap-3 py-5 text-base"
-                  disabled={loginLoading}
-                >
-                  {loginLoading ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  ) : (
-                    <FcGoogle className="w-5 h-5" />
-                  )}
-                  Continuar com Google
-                </Button>
-
-                <button
-                  onClick={() => navigate('/auth?returnTo=/checkout')}
-                  className="text-sm text-primary hover:underline"
-                >
-                  Entrar com e-mail
-                </button>
-              </Card>
-            </div>
-          ) : (
-          /* Usuário logado - mostrar formulário completo */
+          {/* Formulário completo (usuário já autenticado via redirect) */}
           <div className="grid lg:grid-cols-3 gap-8">
             
             {/* Coluna Esquerda - Formulários */}
@@ -1271,7 +1064,6 @@ const Checkout = () => {
               )}
             </div>
           </div>
-          )}
         </div>
       </div>
       

@@ -8,7 +8,7 @@ const AuthCallback = () => {
   useEffect(() => {
     const processCallback = async () => {
       try {
-        // 1. Tenta ler tokens do hash (implicit flow)
+        // 1. Implicit flow: tokens no hash da URL
         const hash = window.location.hash;
         if (hash && hash.includes("access_token")) {
           const params = new URLSearchParams(hash.substring(1));
@@ -28,7 +28,7 @@ const AuthCallback = () => {
           }
         }
 
-        // 2. Tenta trocar código PKCE (fallback)
+        // 2. PKCE flow: código na query string
         const code = new URLSearchParams(window.location.search).get("code");
         if (code) {
           const { data, error } = await supabase.auth.exchangeCodeForSession(code);
@@ -40,7 +40,7 @@ const AuthCallback = () => {
           }
         }
 
-        // 3. Verifica se sessão já existe (processada por detectSessionInUrl)
+        // 3. Fallback: sessão já processada pelo detectSessionInUrl
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
           const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
@@ -49,7 +49,6 @@ const AuthCallback = () => {
           return;
         }
 
-        // Nenhuma sessão encontrada
         navigate("/auth", { replace: true });
       } catch (err) {
         console.error("Auth callback error:", err);

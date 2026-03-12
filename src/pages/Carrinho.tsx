@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +15,7 @@ import { isValidCep } from "@/utils/cepValidator";
 
 const Carrinho = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const {
     state: cart,
     updateQuantity: updateCartQuantity,
@@ -342,6 +344,11 @@ const Carrinho = () => {
                             title: "Frete não selecionado",
                             description: "Calcule o frete e selecione uma opção de envio para continuar."
                           });
+                          return;
+                        }
+                        if (!user) {
+                          localStorage.setItem("cart_backup", JSON.stringify(cart));
+                          navigate("/auth?returnTo=/checkout");
                           return;
                         }
                         navigate("/checkout");
