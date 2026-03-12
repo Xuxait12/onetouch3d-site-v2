@@ -198,27 +198,18 @@ const Auth = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      if (returnTo) {
-        localStorage.setItem("auth_redirect_to", returnTo);
-      }
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${config.siteUrl}/auth/callback`
+          redirectTo: `${config.siteUrl}${returnTo || '/checkout'}`
         }
       });
 
-      if (error) {
-        toast({
-          title: "Erro no login com Google",
-          description: error.message,
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
+      if (error) throw error;
+    } catch (error: any) {
       toast({
-        title: "Erro",
-        description: "Erro inesperado. Tente novamente.",
+        title: "Erro ao entrar com Google",
+        description: error.message,
         variant: "destructive",
       });
     }
