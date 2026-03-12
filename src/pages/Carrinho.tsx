@@ -346,6 +346,11 @@ const Carrinho = () => {
                           });
                           return;
                         }
+                        if (!user) {
+                          localStorage.setItem("cart_backup", JSON.stringify(cart));
+                          navigate("/auth?returnTo=/checkout");
+                          return;
+                        }
                         navigate("/checkout");
                       }}
                     >
