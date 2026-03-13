@@ -209,6 +209,8 @@ const Auth = () => {
       if (error) throw error;
       if (data?.url) {
         window.location.href = data.url;
+      } else {
+        throw new Error("URL de autenticação não retornada");
       }
     } catch (error: any) {
       toast({
