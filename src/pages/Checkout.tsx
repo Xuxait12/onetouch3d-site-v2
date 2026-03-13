@@ -172,9 +172,13 @@ const Checkout = () => {
   // Redirect unauthenticated users to /auth
   useEffect(() => {
     if (!authLoading && !user) {
-      navigate('/auth?returnTo=/checkout', { replace: true });
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (!session) {
+          window.location.href = "/auth?returnTo=/checkout";
+        }
+      });
     }
-  }, [user, authLoading, navigate]);
+  }, [authLoading, user]);
 
   // Show loading spinner while checking auth or cart hydration
   if (authLoading || !cartLoaded) {

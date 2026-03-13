@@ -1,25 +1,19 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 const AuthCallback = () => {
-  const navigate = useNavigate();
+  const [status, setStatus] = useState("Autenticando...");
 
   useEffect(() => {
     const processCallback = async () => {
       try {
-        // 1. PKCE: código na query string
         const code = new URLSearchParams(window.location.search).get("code");
         if (code) {
           const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-          if (data.session && !error) {
-            const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
-            localStorage.removeItem("auth_redirect_to");
-            window.location.href = redirectTo;
-            return;
-          }
+          if (data?.session && !error) { doRedirect(); return; }
+          if (error) console.error("[AuthCallback] Code exchange error:", error.message);
         }
-        // 2. Implicit: tokens no hash
+
         const hash = window.location.hash;
         if (hash && hash.includes("access_token")) {
           const params = new URLSearchParams(hash.substring(1));
@@ -30,36 +24,36 @@ const AuthCallback = () => {
               access_token: accessToken,
               refresh_token: refreshToken,
             });
-            if (data.session && !error) {
-              const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
-              localStorage.removeItem("auth_redirect_to");
-              window.location.href = redirectTo;
-              return;
-            }
+            if (data?.session && !error) { doRedirect(); return; }
           }
         }
-        // 3. Fallback: sessão já existe
+
         const { data: { session } } = await supabase.auth.getSession();
-        if (session) {
-          const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
-          localStorage.removeItem("auth_redirect_to");
-          window.location.href = redirectTo;
-          return;
-        }
-        navigate("/auth", { replace: true });
+        if (session) { doRedirect(); return; }
+
+        setStatus("Erro na autenticação. Redirecionando...");
+        setTimeout(() => { window.location.href = "/auth"; }, 2000);
       } catch (err) {
-        console.error("Auth callback error:", err);
-        navigate("/auth", { replace: true });
+        console.error("[AuthCallback] Error:", err);
+        setStatus("Erro na autenticação. Redirecionando...");
+        setTimeout(() => { window.location.href = "/auth"; }, 2000);
       }
     };
+
+    const doRedirect = () => {
+      const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
+      localStorage.removeItem("auth_redirect_to");
+      window.location.href = redirectTo;
+    };
+
     processCallback();
-  }, [navigate]);
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="flex flex-col items-center gap-4">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
-        <p className="text-muted-foreground text-sm">Autenticando...</p>
+        <p className="text-muted-foreground text-sm">{status}</p>
       </div>
     </div>
   );
