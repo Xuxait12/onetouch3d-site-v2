@@ -554,10 +554,9 @@ const Checkout = () => {
           quantidade: quantidade,
           shipping_method: cart.selectedShippingOption?.name || null,
           shipping_delivery_time: cart.selectedShippingOption?.custom_delivery_time || null,
-          // These need valid UUIDs - use placeholder approach
-          modalidade_id: '00000000-0000-0000-0000-000000000000',
-          tamanho_id: '00000000-0000-0000-0000-000000000000',
-          tipo_moldura_id: '00000000-0000-0000-0000-000000000000',
+          modalidade_id: cart.items[0]?.modalidade_id || null,
+          tamanho_id: cart.items[0]?.tamanho_id || null,
+          tipo_moldura_id: cart.items[0]?.tipo_moldura_id || null,
           observacao: cart.items.map(i => `${i.nome} - ${i.tamanho} - ${i.cor} x${i.quantidade}`).join('; '),
         })
         .select()
