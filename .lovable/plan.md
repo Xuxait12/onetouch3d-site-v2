@@ -1,67 +1,77 @@
 
 
-## Plan: Fix 3 Checkout Issues
+## Plano: Corrigir erros de TypeScript por mudança de schema do banco
 
-### File: `src/pages/Checkout.tsx`
+O novo `types.ts` reflete um banco com colunas renomeadas e tabelas removidas. Abaixo está o mapeamento e os arquivos afetados.
 
-**Issue 1 - Flash of Home content**
+### Mapeamento de colunas
 
-The current code (lines 172-184) has two separate checks: first `authLoading` shows a spinner, then a `useEffect` redirects when `!user`. Between `authLoading` becoming false and the redirect executing, the full checkout renders briefly.
+**Profiles (antigo → novo):**
+- `full_name` → `nome_completo`
+- `phone` → `telefone`
+- `birth_date` → `data_nascimento`
+- `address` → `endereco`
+- `number` → `numero`
+- `complement` → `complemento`
+- `neighborhood` → `bairro`
+- `city` → `cidade`
+- `state` → `estado`
+- `person_type` → `tipo_pessoa`
+- `country` → `pais`
+- `is_admin` → **não existe** (precisará de abordagem alternativa, ex: tabela `user_roles`)
+- `ponto_referencia` → **não existe** (remover referências)
 
-**Fix**: After the `authLoading` spinner check (line 178-184), add a second early return for `!user` that also shows a spinner. This prevents any checkout content from rendering while the redirect is in progress.
+**Pedidos (antigo → novo):**
+- `numero_pedido` → **não existe** (usar `id` truncado)
+- `data_pedido` → `created_at`
+- `subtotal` → `preco_total`
+- `total` → `preco_final`
+- `frete` → `shipping_cost`
+- `desconto` → `desconto_cupom` + `desconto_pix`
+- `forma_pagamento` → `metodo_pagamento`
+- `status` → `status_pagamento` / `status_producao`
+- `payment_status` → `status_pagamento`
+- `payment_approved_at` → **não existe** (remover)
+- `payment_method_type` → `metodo_pagamento`
+- `cupom_aplicado` → `cupom_id`
 
-```tsx
-// Line ~184, after the authLoading check:
-if (!user) {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
-    </div>
-  );
-}
-```
+**Cupons:** `coupons` → `cupons`, `code` → `codigo`, `active` → `ativo`, `discount_type` → `tipo`, `discount_value` → `valor`, `page`/`valid_from`/`valid_until` → **não existem**
 
-**Issue 2 - PaymentBrick not initializing**
+**`itens_pedido`** → **não existe** (remover todas as referências; o novo schema embute item no pedido via `modalidade_id`, `tamanho_id`, `tipo_moldura_id`, `quantidade`, `preco_unitario`)
 
-The `PaymentBrick` component (line 152) and `App.tsx` (line 42) both read `import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY`, but this env var is not configured in the project secrets. The key exists hardcoded in `src/config.ts` as `config.mercadoPagoPublicKey` but is never used by these components.
+---
 
-**Fix**: In `PaymentBrick.tsx`, replace `import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY` with `config.mercadoPagoPublicKey` from `src/config.ts` (import config). The `initMercadoPago` in `App.tsx` also needs to fall back to `config.mercadoPagoPublicKey`.
+### Arquivos a corrigir (12 arquivos)
 
-Changes:
-- `App.tsx` line 42: `const publicKey = import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY || config.mercadoPagoPublicKey;` (add config import)
-- `PaymentBrick.tsx` line 152: same fallback pattern
+1. **`src/components/CouponSection.tsx`** — Trocar `from('coupons')` por `from('cupons')`, atualizar nomes de colunas (`code`→`codigo`, `active`→`ativo`, `discount_type`→`tipo`, `discount_value`→`valor`), remover validações de `page`, `valid_from`, `valid_until`.
 
-**Issue 3 - Error on "Continuar para Pagamento"**
+2. **`src/components/AuthRedirect.tsx`** — Renomear colunas do select de profiles: `full_name`→`nome_completo`, `address`→`endereco`, `number`→`numero`, `neighborhood`→`bairro`, `city`→`cidade`, `state`→`estado`, `phone`→`telefone`.
 
-The order insert (lines 550-552) uses placeholder UUIDs `'00000000-0000-0000-0000-000000000000'` for `modalidade_id`, `tamanho_id`, `tipo_moldura_id`. These likely fail foreign key constraints. Cart items now have these real IDs from the previous implementation.
+3. **`src/pages/Auth.tsx`** — Mesmo mapeamento de colunas de profiles no select e na verificação de completude.
 
-**Fix**:
-- Use the first cart item's `modalidade_id`, `tamanho_id`, `tipo_moldura_id` if available, falling back to null (not placeholder UUIDs)
-- Add detailed `console.error` logging in the catch block (line 591-604) to log the full error object
-- Also log `pedidoError` details when order insert fails
+4. **`src/pages/Profile.tsx`** — Atualizar todos os campos de leitura e escrita (upsert) do profile para os novos nomes.
 
-```tsx
-// Lines 549-552 replacement:
-modalidade_id: firstItem.modalidade_id || null,
-tamanho_id: firstItem.tamanho_id || null,
-tipo_moldura_id: firstItem.tipo_moldura_id || null,
-```
+5. **`src/pages/Checkout.tsx`** — Atualizar selects/upserts de profiles; atualizar insert em `pedidos` (usar novos campos); remover insert em `itens_pedido`; ajustar o payload do pedido para os novos campos (`preco_unitario`, `preco_total`, `preco_final`, `modalidade_id`, `tamanho_id`, `tipo_moldura_id`, `metodo_pagamento`, `status_pagamento`, `status_producao`, etc.).
 
-```tsx
-// Line 591 catch block - add console.error:
-console.error('Erro ao finalizar compra:', error);
-```
+6. **`src/pages/Confirmacao.tsx`** — Remover fetch de `itens_pedido`; atualizar interface `OrderDetails` para usar novos campos de `pedidos`; ajustar renderização.
 
-```tsx
-// Line 558 pedidoError block - add console.error:
-console.error('Erro ao criar pedido:', pedidoError);
-```
+7. **`src/pages/ConfirmacaoWhatsapp.tsx`** — Atualizar leitura/escrita de profiles; atualizar insert em `pedidos` com novos campos; remover insert em `itens_pedido`.
 
-### Summary of files modified
+8. **`src/pages/OrderDetails.tsx`** — Remover fetch de `itens_pedido`; remover check de `is_admin`; atualizar colunas de `pedidos` e `profiles`.
 
-| File | Change |
-|------|--------|
-| `src/pages/Checkout.tsx` | 1) Add `!user` early return with spinner after authLoading check. 2) Use real cart item IDs instead of placeholder UUIDs. 3) Add console.error logging. |
-| `src/components/payment/PaymentBrick.tsx` | Import config and fallback to `config.mercadoPagoPublicKey` |
-| `src/App.tsx` | Import config and fallback to `config.mercadoPagoPublicKey` for `initMercadoPago` |
+9. **`src/pages/AdminPanel.tsx`** — Remover check de `is_admin` (substituir por consulta a `user_roles` ou outra abordagem); atualizar selects de `pedidos` e `profiles` para novos nomes de colunas; atualizar interfaces.
+
+10. **`src/pages/MyOrders.tsx`** — Atualizar referências a `numero_pedido`, `total`, `status`, `data_pedido` para os novos nomes (`preco_final`, `status_pagamento`, `created_at`).
+
+11. **`src/hooks/useOrderStatus.ts`** — Trocar `payment_status`→`status_pagamento`, remover `payment_approved_at`, `payment_method_type`→`metodo_pagamento`.
+
+12. **`src/lib/validation.ts`** — Atualizar `profileSchema` e `orderSchema` para refletir os novos nomes de campos. Remover `orderItemSchema` (sem `itens_pedido`).
+
+### Nota sobre `is_admin`
+
+O novo schema não tem `is_admin` em profiles. Será necessário criar uma abordagem alternativa. A solução recomendada é usar uma tabela `user_roles` conforme boas práticas de segurança, ou temporariamente usar um campo/função RPC no Supabase. Para não bloquear a correção, substituirei as checagens de `is_admin` por uma função helper que consulta uma tabela `user_roles` (se existir) ou retorna `false`.
+
+### Nota sobre Edge Functions (Supabase)
+
+Os arquivos em `supabase/functions/` também usam colunas antigas, mas como rodam no Deno e não são compilados pelo TypeScript do projeto, **não causam erros de build**. Podem ser corrigidos em um segundo momento.
 

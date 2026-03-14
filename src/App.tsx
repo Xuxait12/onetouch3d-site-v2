@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { config } from "@/config";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -35,7 +36,7 @@ const queryClient = new QueryClient();
 
 const App = () => {
   useEffect(() => {
-    const publicKey = import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY;
+    const publicKey = import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY || config.mercadoPagoPublicKey;
     if (publicKey) {
       initMercadoPago(publicKey, { locale: "pt-BR" });
     }

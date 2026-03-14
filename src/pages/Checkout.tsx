@@ -183,6 +183,14 @@ const Checkout = () => {
     );
   }
 
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+      </div>
+    );
+  }
+
   // Show loading spinner while checking auth or cart hydration
   if (authLoading || !cartLoaded) {
     return (
@@ -546,16 +554,16 @@ const Checkout = () => {
           quantidade: quantidade,
           shipping_method: cart.selectedShippingOption?.name || null,
           shipping_delivery_time: cart.selectedShippingOption?.custom_delivery_time || null,
-          // These need valid UUIDs - use placeholder approach
-          modalidade_id: '00000000-0000-0000-0000-000000000000',
-          tamanho_id: '00000000-0000-0000-0000-000000000000',
-          tipo_moldura_id: '00000000-0000-0000-0000-000000000000',
+          modalidade_id: cart.items[0]?.modalidade_id || null,
+          tamanho_id: cart.items[0]?.tamanho_id || null,
+          tipo_moldura_id: cart.items[0]?.tipo_moldura_id || null,
           observacao: cart.items.map(i => `${i.nome} - ${i.tamanho} - ${i.cor} x${i.quantidade}`).join('; '),
         })
         .select()
         .single();
 
       if (pedidoError) {
+        console.error('Erro ao criar pedido:', pedidoError);
         if (pedidoError.message.includes('row-level security') || pedidoError.message.includes('permission')) {
           throw new Error('Não foi possível salvar seu pedido (permissão). Tente fazer login novamente.');
         }
@@ -588,7 +596,8 @@ const Checkout = () => {
       setCreatedPedidoId(pedido.id);
       setPaymentStep('processing');
 
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Erro ao finalizar compra:', error);
       let errorMessage = "Não foi possível finalizar sua compra. Tente novamente.";
       if (error instanceof Error) {
         errorMessage = error.message;
