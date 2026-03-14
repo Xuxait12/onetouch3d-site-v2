@@ -63,32 +63,40 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
         throw new Error('Usuário não autenticado. Faça login novamente.');
       }
 
-      const response = await supabase.functions.invoke('create-payment', {
-        body: {
-          pedido_id: pedidoId,
-          payment_method_id: 'pix',
-          amount: finalAmount,
-          payer: {
-            email: payer.email,
-            first_name: payer.first_name || 'Cliente',
-            last_name: payer.last_name || '',
-            identification: payer.identification,
+      const response = await fetch(
+        'https://azaqhsxlsqrvltcsmgve.supabase.co/functions/v1/create-payment',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`,
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6YXFoc3hsc3Fydmx0Y3NtZ3ZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMjcwODgsImV4cCI6MjA4ODYwMzA4OH0.KmiAg0gisYq6nVnJgFMNqv1SHcsOQf04OaOY_HQJR4w',
           },
-        },
-        headers: {
-          Authorization: `Bearer ${session.access_token}`,
-        },
-      });
+          body: JSON.stringify({
+            pedido_id: pedidoId,
+            payment_method_id: 'pix',
+            amount: finalAmount,
+            payer: {
+              email: payer.email,
+              first_name: payer.first_name || 'Cliente',
+              last_name: payer.last_name || '',
+              identification: payer.identification,
+            },
+          }),
+        }
+      );
 
-      console.log('create-payment response:', { data: response.data, error: response.error });
+      console.log('create-payment response status:', response.status);
 
-      if (response.error) {
-        const errorMsg = response.data?.message || response.data?.error || response.error.message || 'Erro ao criar pagamento PIX';
-        console.error('create-payment error details:', response.error, response.data);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        const errorMsg = errorData?.message || errorData?.error || `Erro HTTP ${response.status}`;
+        console.error('create-payment HTTP error:', response.status, errorData);
         throw new Error(errorMsg);
       }
 
-      const { data } = response;
+      const data = await response.json();
+      console.log('create-payment data:', data);
 
       if (!data || !data.success) {
         const errorMsg = data?.message || data?.error || 'Erro ao criar pagamento PIX';
