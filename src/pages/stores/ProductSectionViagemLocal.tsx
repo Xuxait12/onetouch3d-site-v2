@@ -11,37 +11,60 @@ import { supabase } from "@/integrations/supabase/client";
 import { ShippingOption } from "@/types/shipping";
 import { Loader2, Package, Clock } from "lucide-react";
 import { InstallmentsPreview } from "@/components/payment/InstallmentsPreview";
+import { Skeleton } from "@/components/ui/skeleton";
+import { usePrices } from "@/hooks/usePrices";
+import { MODALIDADES, TIPOS_MOLDURA } from "@/lib/catalog";
+
+// Sizes that should show "Solicitar orçamento" when price is 0 or absent
+const QUOTE_SIZES = ["63x83", "83x103"];
 
 const ProductSectionViagemLocal = () => {
   const navigate = useNavigate();
   const { addItem } = useCart();
   const [selectedColor, setSelectedColor] = useState("preta-branca");
-  const [selectedSize, setSelectedSize] = useState("33x43cm");
+  const [selectedSize, setSelectedSize] = useState("");
   const [cep, setCep] = useState("");
   const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
   const [isCalculatingShipping, setIsCalculatingShipping] = useState(false);
   const [shippingError, setShippingError] = useState<string | null>(null);
+
+  const { loading: pricesLoading, getPrice, getAvailableSizes, isQuoteOnly } = usePrices(MODALIDADES.viagem);
 
   // Save current store page for coupon validation
   useEffect(() => {
     localStorage.setItem('lastStorePage', 'viagem');
   }, []);
 
-  // OPÇÕES ESPECÍFICAS DA LOJA VIAGEM
   const colorOptions = [
     { value: "preta-branca", label: "Preta/branca" }
   ];
 
-  // TAMANHOS E PREÇOS ESPECÍFICOS DA LOJA VIAGEM
-  const sizeOptions = [
-    { size: "33x43cm", fullPrice: 407.50, pixPrice: 382.50, isQuote: false },
-    { size: "37x48cm", fullPrice: 438.20, pixPrice: 413.20, isQuote: false },
-    { size: "43x53cm", fullPrice: 486.30, pixPrice: 451.30, isQuote: false },
-    { size: "43x63cm", fullPrice: 601.30, pixPrice: 575.50, isQuote: false },
-    { size: "53x73cm", fullPrice: 658.70, pixPrice: 623.70, isQuote: false },
-    { size: "63x83cm", fullPrice: 0, pixPrice: 0, isQuote: true },
-    { size: "83x103cm", fullPrice: 0, pixPrice: 0, isQuote: true }
-  ];
+  // All possible sizes for Viagem (including quote-only)
+  const ALL_SIZES = ["33x43", "37x48", "43x53", "43x63", "53x73", "63x83", "83x103"];
+
+  // Build display list: sizes with price + quote-only sizes
+  const availablePricedSizes = getAvailableSizes("caixa_alta");
+  const displaySizes = ALL_SIZES.filter(size => 
+    availablePricedSizes.includes(size) || (QUOTE_SIZES.includes(size) && isQuoteOnly(size, "caixa_alta"))
+  );
+
+  // Also show quote sizes that aren't in DB at all (they should still appear)
+  const finalDisplaySizes = ALL_SIZES.filter(size => 
+    availablePricedSizes.includes(size) || QUOTE_SIZES.includes(size)
+  );
+
+  // Auto-select first size
+  useEffect(() => {
+    if (finalDisplaySizes.length > 0 && (!selectedSize || !finalDisplaySizes.includes(selectedSize.replace("cm", "")))) {
+      setSelectedSize(finalDisplaySizes[0] + "cm");
+    }
+  }, [availablePricedSizes]);
+
+  const sizeLabel = selectedSize.replace("cm", "");
+  const priceInfo = getPrice(sizeLabel, "caixa_alta");
+  const isQuote = QUOTE_SIZES.includes(sizeLabel) && !priceInfo;
+  const fullPrice = priceInfo?.fullPrice ?? 0;
+  const finalPrice = priceInfo?.pixPrice ?? 0;
 
   // IMAGENS ESPECÍFICAS POR TAMANHO - LOJA VIAGEM
   const productImages: Record<string, string> = {
@@ -60,13 +83,8 @@ const ProductSectionViagemLocal = () => {
 
   const productImage = getCurrentImage();
 
-  const currentSizeOption = sizeOptions.find(option => option.size === selectedSize) || sizeOptions[0];
-  
-  const fullPrice = currentSizeOption.fullPrice;
-  const finalPrice = currentSizeOption.pixPrice;
-  const installmentPrice = (fullPrice / 12).toFixed(2);
-
   const handleAddToCart = () => {
+    if (!priceInfo) return;
     const productName = "Quadro Caixa Alta - Viagem";
     const colorDisplay = "Preta/Branca";
     
@@ -77,6 +95,9 @@ const ProductSectionViagemLocal = () => {
       quantidade: 1,
       precoUnitario: finalPrice,
       imagem: productImage,
+      modalidade_id: MODALIDADES.viagem,
+      tamanho_id: priceInfo.tamanho_id,
+      tipo_moldura_id: priceInfo.tipo_moldura_id,
     });
 
     toast({
@@ -102,15 +123,13 @@ const ProductSectionViagemLocal = () => {
     setShippingOptions([]);
 
     try {
-      const currentSizeOption = sizeOptions.find(option => option.size === selectedSize) || sizeOptions[0];
-
       const { data, error } = await supabase.functions.invoke('calculate-shipping', {
         body: {
           cep_destino: cepLimpo,
           items: [{
             tamanho: selectedSize,
             quantidade: 1,
-            subtotal: currentSizeOption.pixPrice
+            subtotal: finalPrice
           }]
         }
       });
@@ -220,30 +239,36 @@ const ProductSectionViagemLocal = () => {
 
               <div>
                 <Label className="text-base font-medium mb-3 block">Tamanho</Label>
-                <RadioGroup value={selectedSize} onValueChange={setSelectedSize}>
+                {pricesLoading ? (
                   <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                    {sizeOptions.map((option) => (
-                      <label 
-                        key={option.size} 
-                        htmlFor={`viagem-size-${option.size}`}
-                        className="flex items-center space-x-2 p-2 -m-1 cursor-pointer touch-manipulation rounded-md hover:bg-muted/50 active:bg-muted transition-colors select-none"
-                        onTouchEnd={(e) => {
-                          e.preventDefault();
-                          setSelectedSize(option.size);
-                        }}
-                      >
-                        <RadioGroupItem 
-                          value={option.size} 
-                          id={`viagem-size-${option.size}`}
-                          className="pointer-events-none"
-                        />
-                        <span className="text-xs sm:text-sm">
-                          {option.size}
-                        </span>
-                      </label>
-                    ))}
+                    {[1,2,3,4].map(i => <Skeleton key={i} className="h-10 w-full" />)}
                   </div>
-                </RadioGroup>
+                ) : (
+                  <RadioGroup value={selectedSize} onValueChange={setSelectedSize}>
+                    <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                      {finalDisplaySizes.map((size) => (
+                        <label 
+                          key={size} 
+                          htmlFor={`viagem-size-${size}cm`}
+                          className="flex items-center space-x-2 p-2 -m-1 cursor-pointer touch-manipulation rounded-md hover:bg-muted/50 active:bg-muted transition-colors select-none"
+                          onTouchEnd={(e) => {
+                            e.preventDefault();
+                            setSelectedSize(size + "cm");
+                          }}
+                        >
+                          <RadioGroupItem 
+                            value={size + "cm"} 
+                            id={`viagem-size-${size}cm`}
+                            className="pointer-events-none"
+                          />
+                          <span className="text-xs sm:text-sm">
+                            {size}cm
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  </RadioGroup>
+                )}
               </div>
 
               <div className="space-y-2 text-sm text-muted-foreground">
@@ -261,25 +286,33 @@ const ProductSectionViagemLocal = () => {
                 </p>
               </div>
 
-              <div className="bg-muted/50 p-4 rounded-lg">
-                {currentSizeOption.isQuote ? (
-                  <div className="text-2xl font-bold text-primary">
-                    Solicitar orçamento
-                  </div>
-                ) : (
-                  <>
-                    <div className="text-sm text-muted-foreground mb-1">
-                      De <span className="line-through">R$ {fullPrice.toFixed(2).replace('.', ',')}</span> por:
+              {pricesLoading ? (
+                <div className="bg-muted/50 p-4 rounded-lg space-y-2">
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-8 w-40" />
+                  <Skeleton className="h-4 w-48" />
+                </div>
+              ) : (
+                <div className="bg-muted/50 p-4 rounded-lg">
+                  {isQuote ? (
+                    <div className="text-2xl font-bold text-primary">
+                      Solicitar orçamento
                     </div>
-                    <div className="text-3xl font-bold text-green-600 mb-2">
-                      R$ {finalPrice.toFixed(2).replace('.', ',')}
-                    </div>
-                    <InstallmentsPreview amount={finalPrice} />
-                  </>
-                )}
-              </div>
+                  ) : (
+                    <>
+                      <div className="text-sm text-muted-foreground mb-1">
+                        De <span className="line-through">R$ {fullPrice.toFixed(2).replace('.', ',')}</span> por:
+                      </div>
+                      <div className="text-3xl font-bold text-green-600 mb-2">
+                        R$ {finalPrice.toFixed(2).replace('.', ',')}
+                      </div>
+                      <InstallmentsPreview amount={fullPrice} />
+                    </>
+                  )}
+                </div>
+              )}
 
-              {currentSizeOption.isQuote ? (
+              {isQuote ? (
                 <Button 
                   onClick={() => window.open('https://wa.me/5511999999999?text=Olá! Gostaria de solicitar um orçamento para o quadro de viagem no tamanho ' + selectedSize, '_blank')}
                   className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-medium"
@@ -290,6 +323,7 @@ const ProductSectionViagemLocal = () => {
                 <Button 
                   onClick={handleAddToCart}
                   className="w-full bg-black hover:bg-black/90 text-white py-3 text-lg font-medium"
+                  disabled={pricesLoading || !priceInfo}
                 >
                   Adicionar ao carrinho
                 </Button>

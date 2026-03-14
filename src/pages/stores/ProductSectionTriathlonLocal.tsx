@@ -11,17 +11,22 @@ import { supabase } from "@/integrations/supabase/client";
 import { ShippingOption } from "@/types/shipping";
 import { Loader2, Package, Clock } from "lucide-react";
 import { InstallmentsPreview } from "@/components/payment/InstallmentsPreview";
+import { Skeleton } from "@/components/ui/skeleton";
+import { usePrices } from "@/hooks/usePrices";
+import { MODALIDADES, TIPOS_MOLDURA } from "@/lib/catalog";
 
 const ProductSectionTriathlonLocal = () => {
   const navigate = useNavigate();
   const { addItem } = useCart();
   const [selectedType, setSelectedType] = useState("caixa-alta");
   const [selectedColor, setSelectedColor] = useState("preta-branca");
-  const [selectedSize, setSelectedSize] = useState("33x43cm");
+  const [selectedSize, setSelectedSize] = useState("");
   const [cep, setCep] = useState("");
   const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
   const [isCalculatingShipping, setIsCalculatingShipping] = useState(false);
   const [shippingError, setShippingError] = useState<string | null>(null);
+
+  const { loading: pricesLoading, getPrice, getAvailableSizes } = usePrices(MODALIDADES.triathlon);
 
   // Save current store page for coupon validation
   useEffect(() => {
@@ -35,6 +40,7 @@ const ProductSectionTriathlonLocal = () => {
     } else {
       setSelectedColor("preta");
     }
+    setSelectedSize("");
   };
 
   const typeOptions = [
@@ -50,24 +56,22 @@ const ProductSectionTriathlonLocal = () => {
     { value: "preta", label: "Preta" }
   ];
 
-  // TAMANHOS E PREÇOS ESPECÍFICOS DA LOJA TRIATHLON
-  const sizeOptionsCaixaAlta = [
-    { size: "33x43cm", fullPrice: 378.90, pixPrice: 353.90 },
-    { size: "37x48cm", fullPrice: 433.40, pixPrice: 408.40 },
-    { size: "43x43cm", fullPrice: 447.80, pixPrice: 412.80 },
-    { size: "43x53cm", fullPrice: 480.90, pixPrice: 445.90 },
-    { size: "43x63cm", fullPrice: 540.20, pixPrice: 479.25 },
-    { size: "53x73cm", fullPrice: 610.00, pixPrice: 575.00 }
-  ];
+  const colorOptions = selectedType === "caixa-alta" ? colorOptionsCaixaAlta : colorOptionsCaixaBaixa;
 
-  const sizeOptionsCaixaBaixa = [
-    { size: "33x43cm", fullPrice: 334.70, finalPrice: 309.70 },
-    { size: "37x48cm", fullPrice: 371.50, finalPrice: 346.50 },
-    { size: "43x43cm", fullPrice: 383.90, finalPrice: 348.90 },
-    { size: "43x53cm", fullPrice: 434.00, finalPrice: 399.00 },
-    { size: "43x63cm", fullPrice: 539.00, finalPrice: 504.00 },
-    { size: "53x73cm", fullPrice: 581.00, finalPrice: 546.00 }
-  ];
+  const tipoMolduraKey = selectedType === "caixa-alta" ? "caixa_alta" : "caixa_baixa";
+  const availableSizes = getAvailableSizes(tipoMolduraKey);
+
+  // Auto-select first size
+  useEffect(() => {
+    if (availableSizes.length > 0 && (!selectedSize || !availableSizes.includes(selectedSize.replace("cm", "")))) {
+      setSelectedSize(availableSizes[0] + "cm");
+    }
+  }, [availableSizes, selectedType]);
+
+  const sizeLabel = selectedSize.replace("cm", "");
+  const priceInfo = getPrice(sizeLabel, tipoMolduraKey);
+  const fullPrice = priceInfo?.fullPrice ?? 0;
+  const finalPrice = priceInfo?.pixPrice ?? 0;
 
   // IMAGENS ESPECÍFICAS DA LOJA TRIATHLON
   const productImages = {
@@ -83,17 +87,6 @@ const ProductSectionTriathlonLocal = () => {
     caixaBaixa: "/images/triathlon-caixa-baixa.webp"
   };
 
-  const sizeOptions = selectedType === "caixa-alta" ? sizeOptionsCaixaAlta : sizeOptionsCaixaBaixa;
-  const currentSizeOption = sizeOptions.find(option => option.size === selectedSize) || sizeOptions[0];
-  
-  const fullPrice = currentSizeOption.fullPrice;
-  const finalPrice = selectedType === "caixa-alta" 
-    ? (currentSizeOption as any).pixPrice 
-    : (currentSizeOption as any).finalPrice;
-  const installmentPrice = (fullPrice / 12).toFixed(2);
-
-  const colorOptions = selectedType === "caixa-alta" ? colorOptionsCaixaAlta : colorOptionsCaixaBaixa;
-
   const getCurrentImage = () => {
     if (selectedType === "caixa-alta") {
       const images = productImages.caixaAlta;
@@ -103,6 +96,7 @@ const ProductSectionTriathlonLocal = () => {
   };
 
   const handleAddToCart = () => {
+    if (!priceInfo) return;
     const productName = selectedType === "caixa-alta" ? "Quadro Caixa Alta - Triathlon" : "Quadro Caixa Baixa - Triathlon";
     const colorDisplay = selectedColor === "preta-branca" ? "Preta/Branca" : "Preta";
     
@@ -113,6 +107,9 @@ const ProductSectionTriathlonLocal = () => {
       quantidade: 1,
       precoUnitario: finalPrice,
       imagem: getCurrentImage(),
+      modalidade_id: MODALIDADES.triathlon,
+      tamanho_id: priceInfo.tamanho_id,
+      tipo_moldura_id: priceInfo.tipo_moldura_id,
     });
 
     toast({
@@ -138,18 +135,13 @@ const ProductSectionTriathlonLocal = () => {
     setShippingOptions([]);
 
     try {
-      const currentSizeOption = sizeOptions.find(option => option.size === selectedSize) || sizeOptions[0];
-      const productPrice = selectedType === "caixa-alta"
-        ? (currentSizeOption as any).pixPrice
-        : (currentSizeOption as any).finalPrice;
-
       const { data, error } = await supabase.functions.invoke('calculate-shipping', {
         body: {
           cep_destino: cepLimpo,
           items: [{
             tamanho: selectedSize,
             quantidade: 1,
-            subtotal: productPrice
+            subtotal: finalPrice
           }]
         }
       });
@@ -351,30 +343,36 @@ const ProductSectionTriathlonLocal = () => {
 
               <div>
                 <Label className="text-base font-medium mb-3 block">Tamanho</Label>
-                <RadioGroup value={selectedSize} onValueChange={setSelectedSize}>
+                {pricesLoading ? (
                   <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                    {sizeOptions.map((option) => (
-                      <label 
-                        key={option.size} 
-                        htmlFor={`triathlon-size-${option.size}`}
-                        className="flex items-center space-x-2 p-2 -m-1 cursor-pointer touch-manipulation rounded-md hover:bg-muted/50 active:bg-muted transition-colors select-none"
-                        onTouchEnd={(e) => {
-                          e.preventDefault();
-                          setSelectedSize(option.size);
-                        }}
-                      >
-                        <RadioGroupItem 
-                          value={option.size} 
-                          id={`triathlon-size-${option.size}`}
-                          className="pointer-events-none"
-                        />
-                        <span className="text-xs sm:text-sm">
-                          {option.size}
-                        </span>
-                      </label>
-                    ))}
+                    {[1,2,3,4].map(i => <Skeleton key={i} className="h-10 w-full" />)}
                   </div>
-                </RadioGroup>
+                ) : (
+                  <RadioGroup value={selectedSize} onValueChange={setSelectedSize}>
+                    <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                      {availableSizes.map((size) => (
+                        <label 
+                          key={size} 
+                          htmlFor={`triathlon-size-${size}cm`}
+                          className="flex items-center space-x-2 p-2 -m-1 cursor-pointer touch-manipulation rounded-md hover:bg-muted/50 active:bg-muted transition-colors select-none"
+                          onTouchEnd={(e) => {
+                            e.preventDefault();
+                            setSelectedSize(size + "cm");
+                          }}
+                        >
+                          <RadioGroupItem 
+                            value={size + "cm"} 
+                            id={`triathlon-size-${size}cm`}
+                            className="pointer-events-none"
+                          />
+                          <span className="text-xs sm:text-sm">
+                            {size}cm
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  </RadioGroup>
+                )}
               </div>
 
               <div className="space-y-2 text-sm text-muted-foreground">
@@ -392,19 +390,28 @@ const ProductSectionTriathlonLocal = () => {
                 </p>
               </div>
 
-              <div className="bg-muted/50 p-4 rounded-lg">
-                <div className="text-sm text-muted-foreground mb-1">
-                  De <span className="line-through">R$ {fullPrice.toFixed(2).replace('.', ',')}</span> por:
+              {pricesLoading ? (
+                <div className="bg-muted/50 p-4 rounded-lg space-y-2">
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-8 w-40" />
+                  <Skeleton className="h-4 w-48" />
                 </div>
-                <div className="text-3xl font-bold text-green-600 mb-2">
-                  R$ {finalPrice.toFixed(2).replace('.', ',')}
+              ) : (
+                <div className="bg-muted/50 p-4 rounded-lg">
+                  <div className="text-sm text-muted-foreground mb-1">
+                    De <span className="line-through">R$ {fullPrice.toFixed(2).replace('.', ',')}</span> por:
+                  </div>
+                  <div className="text-3xl font-bold text-green-600 mb-2">
+                    R$ {finalPrice.toFixed(2).replace('.', ',')}
+                  </div>
+                  <InstallmentsPreview amount={fullPrice} />
                 </div>
-                <InstallmentsPreview amount={finalPrice} />
-              </div>
+              )}
 
               <Button 
                 onClick={handleAddToCart}
                 className="w-full bg-black hover:bg-black/90 text-white py-3 text-lg font-medium"
+                disabled={pricesLoading || !priceInfo}
               >
                 Adicionar ao carrinho
               </Button>
