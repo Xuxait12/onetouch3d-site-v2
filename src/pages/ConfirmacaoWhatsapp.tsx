@@ -705,7 +705,7 @@ const ConfirmacaoWhatsapp = () => {
       <DialogContent className="max-w-md text-center" onPointerDownOutside={e => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle className="flex items-center justify-center gap-2 text-xl">
-            <CheckCircle className="h-6 w-6 text-green-500" />
+            <CheckCircle className="h-6 w-6 text-accent" />
             Pedido Confirmado!
           </DialogTitle>
           <DialogDescription>
