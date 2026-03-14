@@ -1,4 +1,4 @@
 export const config = {
   siteUrl: "https://preview--project-blooms.lovable.app",
-  mercadoPagoPublicKey: "APP_USR-17f27d57-2bae-4add-a003-4ad4f440bb75",
+  mercadoPagoPublicKey: "TEST-1455da45-8f64-4757-b86d-1ca8d58d8af4",
 };
