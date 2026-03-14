@@ -559,7 +559,7 @@ const Checkout = () => {
           desconto_cupom: orderData.desconto_cupom,
           desconto_pix: orderData.desconto_pix,
           status_pagamento: 'pending',
-          status_producao: 'aguardando',
+          status_producao: 'aguardando_fotos',
           metodo_pagamento: orderData.metodo_pagamento,
           shipping_address: orderData.shipping_address,
           canal_venda: 'site',
