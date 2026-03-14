@@ -89,10 +89,9 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
       console.log('create-payment response status:', response.status);
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        const errorMsg = errorData?.message || errorData?.error || `Erro HTTP ${response.status}`;
-        console.error('create-payment HTTP error:', response.status, errorData);
-        throw new Error(errorMsg);
+        const errorBody = await response.json().catch(() => ({}));
+        console.error('Erro da Edge Function (status ' + response.status + '):', JSON.stringify(errorBody, null, 2));
+        throw new Error(errorBody?.error || errorBody?.message || `Erro HTTP ${response.status}`);
       }
 
       const data = await response.json();
