@@ -158,9 +158,12 @@ const Profile = () => {
         });
 
       if (error) {
+        const isDuplicate = error.code === '23505' && error.message?.includes('cpf_cnpj');
         toast({
-          title: "Erro",
-          description: error.message,
+          title: isDuplicate ? "CPF/CNPJ duplicado" : "Erro",
+          description: isDuplicate
+            ? "Este CPF/CNPJ já está cadastrado. Se você já tem uma conta, faça login."
+            : error.message,
           variant: "destructive",
         });
       } else {
