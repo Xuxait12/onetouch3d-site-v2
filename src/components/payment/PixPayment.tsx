@@ -56,6 +56,13 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
     try {
       setLoading(true);
 
+      const { data: { session } } = await supabase.auth.getSession();
+      console.log('Session antes do pagamento:', session);
+
+      if (!session) {
+        throw new Error('Usuário não autenticado. Faça login novamente.');
+      }
+
       const response = await supabase.functions.invoke('create-payment', {
         body: {
           pedido_id: pedidoId,
@@ -67,6 +74,9 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
             last_name: payer.last_name || '',
             identification: payer.identification,
           },
+        },
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
         },
       });
 
