@@ -119,7 +119,7 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
                 variant="ghost" 
                 size="sm"
                 onClick={handleRemoveCoupon}
-                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                className="text-muted-foreground hover:text-foreground"
               >
                 <X className="w-4 h-4" />
               </Button>
