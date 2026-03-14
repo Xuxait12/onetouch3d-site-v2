@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { PaymentStatus } from './PaymentStatus';
 import { InstallmentsDisplay } from './InstallmentsDisplay';
+import { config } from '@/config';
 
 interface PaymentBrickProps {
   pedidoId: string;
