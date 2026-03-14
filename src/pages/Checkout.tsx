@@ -169,14 +169,9 @@ const Checkout = () => {
     }
   }, [user]);
 
-  // Redirect unauthenticated users to /auth
   useEffect(() => {
     if (!authLoading && !user) {
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        if (!session) {
-          window.location.href = "/auth?returnTo=/checkout";
-        }
-      });
+      window.location.href = "/auth?returnTo=/checkout";
     }
   }, [authLoading, user]);
 
