@@ -538,7 +538,7 @@ const Checkout = () => {
           title: "Produto desatualizado",
           description: "Remova e adicione o produto novamente ao carrinho para continuar.",
         });
-        setIsProcessing(false);
+        setIsSubmitting(false);
         return;
       }
 
