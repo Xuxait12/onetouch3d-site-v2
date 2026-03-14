@@ -266,13 +266,6 @@ const Checkout = () => {
         return;
       }
 
-      // Check if profile exists
-      const { data: existingProfile } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .maybeSingle();
-
       const profileData = {
         user_id: user.id,
         tipo_pessoa: personType,
@@ -291,19 +284,9 @@ const Checkout = () => {
         email,
       };
 
-      let error;
-      if (existingProfile) {
-        // Update existing profile
-        ({ error } = await supabase
-          .from('profiles')
-          .update(profileData)
-          .eq('user_id', user.id));
-      } else {
-        // Create new profile
-        ({ error } = await supabase
-          .from('profiles')
-          .insert([profileData]));
-      }
+      const { error } = await supabase
+        .from('profiles')
+        .upsert(profileData, { onConflict: 'user_id' });
 
       if (error) {
         const isDuplicate = error.code === '23505' && error.message?.includes('cpf_cnpj');
