@@ -5,6 +5,7 @@ const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
 };
 
 interface PaymentRequest {
@@ -130,6 +131,8 @@ serve(async (req: Request) => {
       ? Deno.env.get("MERCADO_PAGO_ACCESS_TOKEN_PROD")
       : Deno.env.get("MERCADO_PAGO_ACCESS_TOKEN");
 
+    console.log(`[create-payment] ENVIRONMENT=${Deno.env.get("ENVIRONMENT")}, isProduction=${isProduction}, hasToken=${!!accessToken}, tokenPrefix=${accessToken?.substring(0, 10)}`);
+
     if (!accessToken) {
       throw new Error("Token de acesso não configurado");
     }
@@ -176,15 +179,26 @@ serve(async (req: Request) => {
       };
     }
 
-    const mpResponse = await fetch("https://api.mercadopago.com/v1/payments", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-        "X-Idempotency-Key": crypto.randomUUID(),
-      },
-      body: JSON.stringify(paymentBody),
-    });
+    console.log(`[create-payment] Chamando API do Mercado Pago, method=${paymentRequest.payment_method_id}, amount=${paymentRequest.amount}`);
+    const mpController = new AbortController();
+    const mpTimeout = setTimeout(() => mpController.abort(), 25000);
+
+    let mpResponse: Response;
+    try {
+      mpResponse = await fetch("https://api.mercadopago.com/v1/payments", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+          "X-Idempotency-Key": crypto.randomUUID(),
+        },
+        body: JSON.stringify(paymentBody),
+        signal: mpController.signal,
+      });
+    } finally {
+      clearTimeout(mpTimeout);
+    }
+    console.log(`[create-payment] Resposta MP: status=${mpResponse.status}`);
 
     if (!mpResponse.ok) {
       const errorText = await mpResponse.text();
