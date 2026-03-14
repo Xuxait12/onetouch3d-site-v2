@@ -272,7 +272,14 @@ const ConfirmacaoWhatsapp = () => {
         }, { onConflict: 'user_id' });
 
       if (profileError) {
-        toast({ title: "Erro ao salvar perfil", description: `${profileError.message}`, variant: "destructive" });
+        const isDuplicate = profileError.code === '23505' && profileError.message?.includes('cpf_cnpj');
+        toast({
+          title: isDuplicate ? "CPF/CNPJ duplicado" : "Erro ao salvar perfil",
+          description: isDuplicate
+            ? "Este CPF/CNPJ já está cadastrado. Se você já tem uma conta, faça login."
+            : profileError.message,
+          variant: "destructive",
+        });
         setSavingOrder(false); return;
       }
 
