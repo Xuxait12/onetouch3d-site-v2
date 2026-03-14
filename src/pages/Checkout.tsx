@@ -530,6 +530,18 @@ const Checkout = () => {
         throw validationError;
       }
 
+      // Validate that all cart items have required catalog IDs
+      const missingIds = cart.items.some(i => !i.modalidade_id || !i.tamanho_id || !i.tipo_moldura_id);
+      if (missingIds) {
+        toast({
+          variant: "destructive",
+          title: "Produto desatualizado",
+          description: "Remova e adicione o produto novamente ao carrinho para continuar.",
+        });
+        setIsProcessing(false);
+        return;
+      }
+
       // Get first cart item info for the order
       const firstItem = cart.items[0];
       const quantidade = cart.items.reduce((sum, item) => sum + item.quantidade, 0);
