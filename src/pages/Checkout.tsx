@@ -563,6 +563,7 @@ const Checkout = () => {
         .single();
 
       if (pedidoError) {
+        console.error('Erro ao criar pedido:', pedidoError);
         if (pedidoError.message.includes('row-level security') || pedidoError.message.includes('permission')) {
           throw new Error('Não foi possível salvar seu pedido (permissão). Tente fazer login novamente.');
         }
