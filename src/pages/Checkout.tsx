@@ -530,6 +530,18 @@ const Checkout = () => {
         throw validationError;
       }
 
+      // Validate that all cart items have required catalog IDs
+      const missingIds = cart.items.some(i => !i.modalidade_id || !i.tamanho_id || !i.tipo_moldura_id);
+      if (missingIds) {
+        toast({
+          variant: "destructive",
+          title: "Produto desatualizado",
+          description: "Remova e adicione o produto novamente ao carrinho para continuar.",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
       // Get first cart item info for the order
       const firstItem = cart.items[0];
       const quantidade = cart.items.reduce((sum, item) => sum + item.quantidade, 0);
@@ -554,9 +566,9 @@ const Checkout = () => {
           quantidade: quantidade,
           shipping_method: cart.selectedShippingOption?.name || null,
           shipping_delivery_time: cart.selectedShippingOption?.custom_delivery_time || null,
-          modalidade_id: cart.items[0]?.modalidade_id || null,
-          tamanho_id: cart.items[0]?.tamanho_id || null,
-          tipo_moldura_id: cart.items[0]?.tipo_moldura_id || null,
+          modalidade_id: firstItem.modalidade_id!,
+          tamanho_id: firstItem.tamanho_id!,
+          tipo_moldura_id: firstItem.tipo_moldura_id!,
           observacao: cart.items.map(i => `${i.nome} - ${i.tamanho} - ${i.cor} x${i.quantidade}`).join('; '),
         })
         .select()
