@@ -596,7 +596,8 @@ const Checkout = () => {
       setCreatedPedidoId(pedido.id);
       setPaymentStep('processing');
 
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Erro ao finalizar compra:', error);
       let errorMessage = "Não foi possível finalizar sua compra. Tente novamente.";
       if (error instanceof Error) {
         errorMessage = error.message;

@@ -150,7 +150,7 @@ export const PaymentBrick: React.FC<PaymentBrickProps> = ({
 
   const onReady = useCallback(() => {}, []);
 
-  const publicKey = import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY;
+  const publicKey = import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY || config.mercadoPagoPublicKey;
   if (!publicKey) {
     return (
       <div className="p-8 text-center">
