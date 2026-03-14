@@ -298,6 +298,15 @@ const Checkout = () => {
       }
 
       if (error) {
+        const isDuplicate = error.code === '23505' && error.message?.includes('cpf_cnpj');
+        if (isDuplicate) {
+          toast({
+            variant: "destructive",
+            title: "CPF/CNPJ duplicado",
+            description: "Este CPF/CNPJ já está cadastrado. Se você já tem uma conta, faça login.",
+          });
+          return;
+        }
         throw error;
       }
 
