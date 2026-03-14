@@ -88,7 +88,7 @@ export const PaymentBrick: React.FC<PaymentBrickProps> = ({
       }
 
       if (!data.success) {
-        throw new Error(data.error || 'Erro ao processar pagamento');
+        throw new Error(data.message || data.error || 'Erro ao processar pagamento');
       }
 
       if (data.status === 'approved') {
