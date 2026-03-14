@@ -11,6 +11,9 @@ export interface CartItem {
   precoUnitario: number;
   subtotal: number;
   imagem?: string;
+  modalidade_id?: string;
+  tamanho_id?: string;
+  tipo_moldura_id?: string;
 }
 
 interface CartState {
