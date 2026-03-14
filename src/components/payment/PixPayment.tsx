@@ -70,18 +70,20 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
         },
       });
 
+      console.log('create-payment response:', { data: response.data, error: response.error });
+
       if (response.error) {
-        let errorMessage = 'Erro ao criar pagamento PIX';
-        if (response.data && typeof response.data === 'object') {
-          errorMessage = response.data.error || errorMessage;
-        }
-        throw new Error(errorMessage);
+        const errorMsg = response.data?.message || response.data?.error || response.error.message || 'Erro ao criar pagamento PIX';
+        console.error('create-payment error details:', response.error, response.data);
+        throw new Error(errorMsg);
       }
 
       const { data } = response;
 
       if (!data || !data.success) {
-        throw new Error(data?.error || 'Erro ao criar pagamento PIX');
+        const errorMsg = data?.message || data?.error || 'Erro ao criar pagamento PIX';
+        console.error('create-payment unsuccessful:', data);
+        throw new Error(errorMsg);
       }
 
       setPixData({
@@ -98,11 +100,12 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
         description: 'Escaneie o QR Code ou copie o código para pagar.',
       });
     } catch (err: any) {
+      console.error('PIX payment error:', err, err?.stack);
       onError(err);
       toast({
         variant: 'destructive',
         title: 'Erro ao gerar PIX',
-        description: err.message,
+        description: err.message || 'Erro desconhecido',
       });
     } finally {
       setLoading(false);
