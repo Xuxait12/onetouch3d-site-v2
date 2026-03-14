@@ -118,6 +118,41 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
       });
     } catch (err: any) {
       console.error('PIX payment error:', err, err?.stack);
+
+      // Fallback: a Edge Function pode ter demorado mais de 30s (cold start + API do MP)
+      // e o browser fecha a conexão antes de receber a resposta.
+      // Verifica se o PIX já foi gerado no banco antes de exibir erro.
+      try {
+        await new Promise(r => setTimeout(r, 3000));
+
+        const { data: pedidoAtualizado } = await supabase
+          .from('pedidos')
+          .select('pix_qr_code, pix_qr_code_text, pix_ticket_url, payment_id, payment_status')
+          .eq('id', pedidoId)
+          .single();
+
+        if (pedidoAtualizado?.pix_qr_code_text) {
+          setPixData({
+            payment_id: pedidoAtualizado.payment_id || '',
+            qr_code: pedidoAtualizado.pix_qr_code_text,
+            qr_code_base64: pedidoAtualizado.pix_qr_code || '',
+            ticket_url: pedidoAtualizado.pix_ticket_url || '',
+          });
+
+          if (pedidoAtualizado.payment_id) {
+            startPolling(pedidoAtualizado.payment_id);
+          }
+
+          toast({
+            title: 'QR Code PIX gerado!',
+            description: 'Escaneie o QR Code ou copie o código para pagar.',
+          });
+          return;
+        }
+      } catch {
+        // fallback falhou — segue para o erro original
+      }
+
       onError(err);
       toast({
         variant: 'destructive',

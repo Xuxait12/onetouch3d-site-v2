@@ -284,6 +284,7 @@ const Checkout = () => {
         email,
       };
 
+      // UPSERT: cria ou atualiza o profile sem risco de erro 409 (conflito de user_id)
       const { error } = await supabase
         .from('profiles')
         .upsert(profileData, { onConflict: 'user_id' });
