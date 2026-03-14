@@ -116,7 +116,7 @@ serve(async (req: Request) => {
 
     // O valor total do pedido já inclui o desconto PIX quando aplicável
     // Não aplicar desconto novamente aqui para evitar desconto duplicado
-    const expectedAmount = pedido.total;
+    const expectedAmount = pedido.preco_final ?? pedido.total;
 
     const amountDifference = Math.abs(expectedAmount - paymentRequest.amount);
 
