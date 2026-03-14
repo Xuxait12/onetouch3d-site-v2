@@ -41,6 +41,12 @@ const AuthCallback = () => {
     };
 
     const doRedirect = () => {
+      // Restore cart from backup if it exists (preserved before OAuth redirect)
+      const cartBackup = localStorage.getItem('cart_backup');
+      if (cartBackup) {
+        localStorage.setItem('cart', cartBackup);
+        localStorage.removeItem('cart_backup');
+      }
       const redirectTo = localStorage.getItem("auth_redirect_to") || "/checkout";
       localStorage.removeItem("auth_redirect_to");
       window.location.href = redirectTo;

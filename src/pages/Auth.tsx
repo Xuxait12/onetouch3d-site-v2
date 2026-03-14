@@ -198,6 +198,11 @@ const Auth = () => {
 
   const handleGoogleSignIn = async () => {
     try {
+      // Preserve cart across OAuth redirect
+      const currentCart = localStorage.getItem('cart');
+      if (currentCart) {
+        localStorage.setItem('cart_backup', currentCart);
+      }
       localStorage.setItem('auth_redirect_to', returnTo || '/checkout');
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
