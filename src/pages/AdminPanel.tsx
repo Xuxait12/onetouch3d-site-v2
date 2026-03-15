@@ -18,6 +18,7 @@ import { cn } from '@/lib/utils';
 
 interface Order {
   id: string;
+  numero_pedido: number | null;
   created_at: string;
   preco_final: number;
   status_pagamento: string;
@@ -123,6 +124,7 @@ const AdminPanel = () => {
         .from('pedidos')
         .select(`
           id,
+          numero_pedido,
           created_at,
           preco_final,
           status_pagamento,
@@ -210,12 +212,12 @@ const AdminPanel = () => {
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
-      case 'pendente': return 'bg-yellow-100 text-yellow-800';
-      case 'confirmado': case 'aprovado': case 'pago': return 'bg-green-100 text-green-800';
-      case 'processando': return 'bg-purple-100 text-purple-800';
+      case 'pending': case 'pendente': return 'bg-yellow-100 text-yellow-800';
+      case 'approved': case 'confirmado': case 'aprovado': case 'pago': return 'bg-green-100 text-green-800';
+      case 'rejected': case 'rejeitado': case 'processando': return 'bg-purple-100 text-purple-800';
       case 'enviado': return 'bg-blue-100 text-blue-800';
       case 'entregue': return 'bg-green-100 text-green-800';
-      case 'cancelado': return 'bg-red-100 text-red-800';
+      case 'cancelled': case 'cancelado': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -223,6 +225,7 @@ const AdminPanel = () => {
   const getFilteredOrders = () => {
     let filtered = orders.filter(order =>
       order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (order.numero_pedido?.toString() || '').includes(searchTerm) ||
       order.profiles.nome_completo.toLowerCase().includes(searchTerm.toLowerCase()) ||
       order.profiles.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -406,7 +409,7 @@ const AdminPanel = () => {
                           <tbody>
                             {orders.slice(0, 10).map((order) => (
                               <tr key={order.id} className="border-b">
-                                <td className="py-2 font-medium">#{order.id.slice(0, 8)}</td>
+                                <td className="py-2 font-medium">#{order.numero_pedido ?? order.id.slice(0, 8)}</td>
                                 <td className="py-2">{order.profiles.nome_completo}</td>
                                 <td className="py-2">R$ {Number(order.preco_final).toFixed(2)}</td>
                                 <td className="py-2">
@@ -435,7 +438,7 @@ const AdminPanel = () => {
                     <div className="space-y-4">
                       <div className="relative">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                        <Input placeholder="Buscar por ID do pedido ou nome do cliente..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-10" />
+                        <Input placeholder="Buscar por nº do pedido, nome ou e-mail do cliente..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-10" />
                       </div>
                       
                       <div className="flex flex-wrap gap-4">
@@ -445,12 +448,12 @@ const AdminPanel = () => {
                             <SelectTrigger className="w-40"><SelectValue placeholder="Status" /></SelectTrigger>
                             <SelectContent>
                               <SelectItem value="todos">Todos</SelectItem>
-                              <SelectItem value="pendente">Pendente</SelectItem>
-                              <SelectItem value="pago">Pago</SelectItem>
-                              <SelectItem value="processando">Processando</SelectItem>
+                              <SelectItem value="pending">Aguardando Pagamento</SelectItem>
+                              <SelectItem value="approved">Pago</SelectItem>
+                              <SelectItem value="rejected">Rejeitado</SelectItem>
+                              <SelectItem value="cancelled">Cancelado</SelectItem>
                               <SelectItem value="enviado">Enviado</SelectItem>
                               <SelectItem value="entregue">Entregue</SelectItem>
-                              <SelectItem value="cancelado">Cancelado</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
@@ -526,7 +529,7 @@ const AdminPanel = () => {
                           <tbody>
                             {filteredOrders.map((order) => (
                               <tr key={order.id} className="border-b cursor-pointer hover:bg-gray-50" onClick={() => navigate(`/order-details/${order.id}`)}>
-                                <td className="py-3 px-4 font-medium">#{order.id.slice(0, 8)}</td>
+                                <td className="py-3 px-4 font-medium">#{order.numero_pedido ?? order.id.slice(0, 8)}</td>
                                 <td className="py-3 px-4">{order.profiles.nome_completo}</td>
                                 <td className="py-3 px-4">{order.profiles.email}</td>
                                 <td className="py-3 px-4 max-w-xs truncate text-sm">

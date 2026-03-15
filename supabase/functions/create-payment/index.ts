@@ -1,303 +1,203 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.55.0";
 
-const corsHeaders = {
+const cors = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
   "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
 };
 
-interface PaymentRequest {
-  pedido_id: string;
-  payment_method_id: string;
-  amount: number;
-  token?: string;
-  installments?: number;
-  payer: {
-    email: string;
-    first_name?: string;
-    last_name?: string;
-    identification?: {
-      type: string;
-      number: string;
-    };
-  };
-}
-
-interface MercadoPagoPaymentResponse {
-  id: number | string;
-  status: string;
-  status_detail: string;
-  payment_type_id: string;
-  payment_method_id: string;
-  transaction_amount: number;
-  installments: number;
-  point_of_interaction?: {
-    transaction_data?: {
-      qr_code?: string;
-      qr_code_base64?: string;
-      ticket_url?: string;
-    };
-  };
-  [key: string]: any;
-}
-
-serve(async (req: Request) => {
-  if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
-  }
+serve(async (req) => {
+  if (req.method === "OPTIONS") return new Response(null, { headers: cors });
 
   try {
-    const supabase = createClient(
+    const sb = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    // Verify authentication
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized' }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    // Auth manual (verify_jwt=false, validamos aqui)
+    const auth = req.headers.get("Authorization");
+    if (!auth) {
+      return new Response(JSON.stringify({ success: false, error: "Unauthorized" }), {
+        status: 401, headers: { ...cors, "Content-Type": "application/json" },
+      });
     }
 
-    const token = authHeader.replace('Bearer ', '');
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
-
-    if (authError || !user) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Invalid token' }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    const { data: { user }, error: authErr } = await sb.auth.getUser(auth.replace("Bearer ", ""));
+    console.log("[CP] user=" + user?.id + " authErr=" + authErr?.message);
+    if (authErr || !user) {
+      return new Response(JSON.stringify({ success: false, error: "Invalid token" }), {
+        status: 401, headers: { ...cors, "Content-Type": "application/json" },
+      });
     }
 
-    const paymentRequest: PaymentRequest = await req.json();
+    const body = await req.json();
+    console.log("[CP] pedido=" + body.pedido_id + " method=" + body.payment_method_id + " amount=" + body.amount);
 
-    if (
-      !paymentRequest.pedido_id ||
-      !paymentRequest.payment_method_id ||
-      !paymentRequest.amount
-    ) {
-      throw new Error("Campos obrigatórios faltando");
+    if (!body.pedido_id || !body.payment_method_id || !body.amount) {
+      throw new Error("Campos faltando");
     }
 
-    // Validate pedido_id format (UUID)
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-    if (!uuidRegex.test(paymentRequest.pedido_id)) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'ID do pedido inválido' }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
-    // Validate amount is positive and within reasonable limits
-    if (paymentRequest.amount <= 0 || paymentRequest.amount > 1000000) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Valor do pagamento inválido' }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
-    // Verify ownership: user must own the order
-    const { data: pedido, error: pedidoError } = await supabase
+    // Buscar pedido — apenas colunas que existem na tabela
+    const { data: pedido, error: pErr } = await sb
       .from("pedidos")
-      .select("*")
-      .eq("id", paymentRequest.pedido_id)
-      .eq("user_id", user.id) // Only allow payment for own orders
+      .select("id, user_id, preco_final, status_pagamento")
+      .eq("id", body.pedido_id)
+      .eq("user_id", user.id)
       .single();
 
-    if (pedidoError || !pedido) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Pedido não encontrado ou acesso não autorizado' }),
-        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    console.log("[CP] pedido=" + !!pedido + " err=" + pErr?.message);
+    if (pErr || !pedido) {
+      return new Response(JSON.stringify({ success: false, error: "Pedido nao encontrado" }), {
+        status: 403, headers: { ...cors, "Content-Type": "application/json" },
+      });
     }
 
-    // O valor total do pedido já inclui o desconto PIX quando aplicável
-    // Não aplicar desconto novamente aqui para evitar desconto duplicado
-    const expectedAmount = pedido.preco_final ?? pedido.total;
-
-    const amountDifference = Math.abs(expectedAmount - paymentRequest.amount);
-
-    if (amountDifference > 0.02) {
-      console.log(`Validação de valor: esperado=${expectedAmount}, recebido=${paymentRequest.amount}, diferença=${amountDifference}`);
-      throw new Error("Valor do pagamento inválido");
+    // Validar valor
+    const expected = pedido.preco_final;
+    if (Math.abs(expected - body.amount) > 0.02) {
+      throw new Error("Valor invalido: esperado " + expected);
     }
 
-    const isProduction = Deno.env.get("ENVIRONMENT") === "production";
-    const accessToken = isProduction
+    // Token Mercado Pago
+    const isProd = Deno.env.get("ENVIRONMENT") === "production";
+    const token = isProd
       ? Deno.env.get("MERCADO_PAGO_ACCESS_TOKEN_PROD")
       : Deno.env.get("MERCADO_PAGO_ACCESS_TOKEN");
 
-    console.log(`[create-payment] ENVIRONMENT=${Deno.env.get("ENVIRONMENT")}, isProduction=${isProduction}, hasToken=${!!accessToken}, tokenPrefix=${accessToken?.substring(0, 10)}`);
+    console.log("[CP] isProd=" + isProd + " hasToken=" + !!token);
+    if (!token) throw new Error("Token MP nao configurado");
 
-    if (!accessToken) {
-      throw new Error("Token de acesso não configurado");
-    }
+    // Sanitizar CPF/CNPJ (apenas dígitos)
+    const cleanNum = (body.payer?.identification?.number || "").replace(/\D/g, "");
+    const pid = cleanNum
+      ? { type: body.payer?.identification?.type || "CPF", number: cleanNum }
+      : undefined;
 
-    const webhookUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/process-payment-webhook`;
+    const webhook = Deno.env.get("SUPABASE_URL") + "/functions/v1/process-payment-webhook";
 
-    let paymentBody: any;
-
-    if (paymentRequest.payment_method_id === "pix") {
-      paymentBody = {
-        transaction_amount: Math.round(paymentRequest.amount * 100) / 100,
-        description: `Pedido #${pedido.numero_pedido || pedido.id}`,
+    let mpBody: any;
+    if (body.payment_method_id === "pix") {
+      if (!pid) throw new Error("CPF obrigatorio para PIX");
+      mpBody = {
+        transaction_amount: Math.round(body.amount * 100) / 100,
+        description: "Pedido " + pedido.id.substring(0, 8),
         payment_method_id: "pix",
         payer: {
-          email: paymentRequest.payer.email,
-          first_name: paymentRequest.payer.first_name || "Cliente",
-          last_name: paymentRequest.payer.last_name || "",
-          identification: paymentRequest.payer.identification,
+          email: body.payer.email,
+          first_name: body.payer.first_name || "Cliente",
+          last_name: body.payer.last_name || "",
+          identification: pid,
         },
-        notification_url: webhookUrl,
-        metadata: {
-          pedido_id: paymentRequest.pedido_id,
-        },
+        notification_url: webhook,
+        metadata: { pedido_id: body.pedido_id },
       };
     } else {
-      if (!paymentRequest.token) {
-        throw new Error("Token do cartão é obrigatório");
-      }
-
-      paymentBody = {
-        token: paymentRequest.token,
-        transaction_amount: Math.round(paymentRequest.amount * 100) / 100,
-        description: `Pedido #${pedido.numero_pedido || pedido.id}`,
-        payment_method_id: paymentRequest.payment_method_id,
-        installments: paymentRequest.installments || 1,
-        payer: {
-          email: paymentRequest.payer.email,
-          identification: paymentRequest.payer.identification,
-        },
-        notification_url: webhookUrl,
-        metadata: {
-          pedido_id: paymentRequest.pedido_id,
-        },
+      if (!body.token) throw new Error("Token cartao obrigatorio");
+      mpBody = {
+        token: body.token,
+        transaction_amount: Math.round(body.amount * 100) / 100,
+        description: "Pedido " + pedido.id.substring(0, 8),
+        payment_method_id: body.payment_method_id,
+        installments: body.installments || 1,
+        payer: { email: body.payer.email, identification: pid },
+        notification_url: webhook,
+        metadata: { pedido_id: body.pedido_id },
       };
     }
 
-    console.log(`[create-payment] Chamando API do Mercado Pago, method=${paymentRequest.payment_method_id}, amount=${paymentRequest.amount}`);
-    const mpController = new AbortController();
-    const mpTimeout = setTimeout(() => mpController.abort(), 25000);
+    console.log("[CP] chamando MP...");
+    const mpResp = await fetch("https://api.mercadopago.com/v1/payments", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+        "X-Idempotency-Key": crypto.randomUUID(),
+      },
+      body: JSON.stringify(mpBody),
+    });
 
-    let mpResponse: Response;
-    try {
-      mpResponse = await fetch("https://api.mercadopago.com/v1/payments", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-          "X-Idempotency-Key": crypto.randomUUID(),
-        },
-        body: JSON.stringify(paymentBody),
-        signal: mpController.signal,
-      });
-    } finally {
-      clearTimeout(mpTimeout);
-    }
-    console.log(`[create-payment] Resposta MP: status=${mpResponse.status}`);
+    const mpText = await mpResp.text();
+    console.log("[CP] MP status=" + mpResp.status);
 
-    if (!mpResponse.ok) {
-      const errorText = await mpResponse.text();
-      let error: any = {};
-      try {
-        error = JSON.parse(errorText);
-      } catch {
-        error = { message: errorText };
-      }
-
-      const errorMessage =
-        error.message ||
-        error.error ||
-        error.cause?.[0]?.description ||
-        "Erro ao processar pagamento";
-
-      throw new Error(errorMessage);
+    if (!mpResp.ok) {
+      let e: any = {};
+      try { e = JSON.parse(mpText); } catch { e = { message: mpText }; }
+      throw new Error(e.message || e.error || e.cause?.[0]?.description || "Erro MP " + mpResp.status);
     }
 
-    const paymentData: MercadoPagoPaymentResponse = await mpResponse.json();
+    const pd = JSON.parse(mpText);
+    console.log("[CP] MP id=" + pd.id + " status=" + pd.status);
 
-    const updateData: any = {
-      payment_id: String(paymentData.id),
-      payment_status: paymentData.status,
-      payment_method_type: paymentData.payment_type_id,
-      payment_method_id: paymentData.payment_method_id,
-      installments: paymentData.installments || 1,
-      payment_metadata: paymentData,
+    // Mapear status MP → valores aceitos pela constraint do banco
+    // Constraint: 'pending' | 'approved' | 'rejected' | 'cancelled'
+    let dbStatus = "pending";
+    if (pd.status === "approved") dbStatus = "approved";
+    else if (pd.status === "rejected") dbStatus = "rejected";
+    else if (pd.status === "cancelled") dbStatus = "cancelled";
+
+    const upd: any = {
+      payment_id: String(pd.id),
+      payment_status: pd.status,
+      payment_method_type: pd.payment_type_id,
+      payment_method_id: pd.payment_method_id,
+      installments: pd.installments || 1,
+      status_pagamento: dbStatus,
     };
 
-    if (
-      paymentRequest.payment_method_id === "pix" &&
-      paymentData.point_of_interaction?.transaction_data
-    ) {
-      updateData.pix_qr_code =
-        paymentData.point_of_interaction.transaction_data.qr_code_base64;
-      updateData.pix_qr_code_text =
-        paymentData.point_of_interaction.transaction_data.qr_code;
-      updateData.pix_ticket_url =
-        paymentData.point_of_interaction.transaction_data.ticket_url;
+    if (body.payment_method_id === "pix" && pd.point_of_interaction?.transaction_data) {
+      upd.pix_qr_code = pd.point_of_interaction.transaction_data.qr_code_base64;
+      upd.pix_qr_code_text = pd.point_of_interaction.transaction_data.qr_code;
+      upd.pix_ticket_url = pd.point_of_interaction.transaction_data.ticket_url;
     }
 
-    if (paymentData.status === "approved") {
-      updateData.status = "pago";
-      updateData.payment_approved_at = new Date().toISOString();
-    } else if (paymentData.status === "rejected") {
-      updateData.status = "rejeitado";
+    if (pd.status === "approved") {
+      upd.payment_approved_at = new Date().toISOString();
     }
 
-    await supabase
+    console.log("[CP] atualizando DB... status=" + dbStatus);
+    const { error: updErr } = await sb
       .from("pedidos")
-      .update(updateData)
-      .eq("id", paymentRequest.pedido_id)
-      .eq("user_id", user.id); // Double-check ownership on update
+      .update(upd)
+      .eq("id", body.pedido_id)
+      .eq("user_id", user.id);
 
-    if (paymentData.status === "approved") {
+    if (updErr) console.error("[CP] DB update ERRO: " + updErr.message + " code=" + updErr.code);
+    else console.log("[CP] DB atualizado com sucesso");
+
+    // Enviar email se aprovado
+    if (pd.status === "approved") {
       try {
-        await supabase.functions.invoke("send-order-confirmation", {
-          body: {
-            pedido_id: paymentRequest.pedido_id,
-            payment_confirmed: true,
-          },
+        await sb.functions.invoke("send-order-confirmation", {
+          body: { pedido_id: body.pedido_id, payment_confirmed: true },
         });
-      } catch {
-        // Email não é crítico
-      }
+      } catch { /* email nao critico */ }
     }
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        payment_id: paymentData.id,
-        status: paymentData.status,
-        status_detail: paymentData.status_detail,
-        payment_method: paymentData.payment_method_id,
-        ...(paymentRequest.payment_method_id === "pix" &&
-          paymentData.point_of_interaction?.transaction_data && {
-            qr_code: paymentData.point_of_interaction.transaction_data.qr_code,
-            qr_code_base64:
-              paymentData.point_of_interaction.transaction_data.qr_code_base64,
-            ticket_url:
-              paymentData.point_of_interaction.transaction_data.ticket_url,
-          }),
-      }),
-      {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 200,
-      }
-    );
-  } catch (error: any) {
-    return new Response(
-      JSON.stringify({
-        success: false,
-        error: error.message || "Erro interno",
-      }),
-      {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 400,
-      }
-    );
+    const res: any = {
+      success: true,
+      payment_id: pd.id,
+      status: pd.status,
+      status_detail: pd.status_detail,
+      payment_method: pd.payment_method_id,
+    };
+
+    if (body.payment_method_id === "pix" && pd.point_of_interaction?.transaction_data) {
+      res.qr_code = pd.point_of_interaction.transaction_data.qr_code;
+      res.qr_code_base64 = pd.point_of_interaction.transaction_data.qr_code_base64;
+      res.ticket_url = pd.point_of_interaction.transaction_data.ticket_url;
+    }
+
+    console.log("[CP] respondendo success=true");
+    return new Response(JSON.stringify(res), {
+      headers: { ...cors, "Content-Type": "application/json" }, status: 200,
+    });
+
+  } catch (err: any) {
+    console.error("[CP] ERRO: " + err.message);
+    return new Response(JSON.stringify({ success: false, error: err.message || "Erro interno" }), {
+      headers: { ...cors, "Content-Type": "application/json" }, status: 400,
+    });
   }
 });

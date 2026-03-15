@@ -57,7 +57,7 @@ const MyOrders = () => {
           const mappedOrders = pedidos?.map((pedido: any) => ({
             id: pedido.id,
             product_name: `Quadro Personalizado`,
-            product_description: `Pedido #${pedido.id.slice(0, 8)}`,
+            product_description: `Pedido #${pedido.numero_pedido ?? pedido.id.slice(0, 8)}`,
             total_amount: pedido.preco_final,
             status: pedido.status_pagamento,
             order_date: pedido.created_at,

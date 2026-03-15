@@ -13,6 +13,7 @@ import { getStatusText, getStatusColor, getPaymentMethodText } from "@/utils/ord
 
 interface Order {
   id: string;
+  numero_pedido: number | null;
   created_at: string;
   status_pagamento: string;
   status_producao: string;
@@ -146,7 +147,7 @@ const OrderDetails = () => {
                 <div className="flex items-center justify-between">
                   <CardTitle className="flex items-center gap-2">
                     <Package className="w-5 h-5" />
-                    Pedido #{order.id.slice(0, 8)}
+                    Pedido #{order.numero_pedido ?? order.id.slice(0, 8)}
                   </CardTitle>
                   <Badge className={getStatusColor(order.status_pagamento)}>
                     {getStatusText(order.status_pagamento)}

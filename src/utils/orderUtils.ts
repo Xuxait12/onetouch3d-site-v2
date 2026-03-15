@@ -1,5 +1,11 @@
 export const getStatusText = (status: string): string => {
   const statusMap: Record<string, string> = {
+    // Valores do DB (constraint): pending | approved | rejected | cancelled
+    pending: 'Aguardando Pagamento',
+    approved: 'Pago',
+    rejected: 'Rejeitado',
+    cancelled: 'Cancelado',
+    // Legados / produção manual
     pendente: 'Pendente',
     aguardando_pagamento: 'Aguardando Pagamento',
     pago: 'Pago',
@@ -16,6 +22,12 @@ export const getStatusText = (status: string): string => {
 
 export const getStatusColor = (status: string): string => {
   const colorMap: Record<string, string> = {
+    // Valores do DB (constraint): pending | approved | rejected | cancelled
+    pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+    approved: 'bg-green-100 text-green-800 border-green-200',
+    rejected: 'bg-red-100 text-red-800 border-red-200',
+    cancelled: 'bg-red-100 text-red-800 border-red-200',
+    // Legados
     pendente: 'bg-yellow-100 text-yellow-800 border-yellow-200',
     aguardando_pagamento: 'bg-orange-100 text-orange-800 border-orange-200',
     pago: 'bg-green-100 text-green-800 border-green-200',

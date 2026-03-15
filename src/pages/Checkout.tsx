@@ -284,22 +284,49 @@ const Checkout = () => {
         email,
       };
 
-      // UPSERT: cria ou atualiza o profile sem risco de erro 409 (conflito de user_id)
-      const { error } = await supabase
+      // Estratégia segura: UPDATE se perfil já existe, INSERT se não existe.
+      // Isso evita conflito de email_unique quando há perfis órfãos no banco.
+      const { data: existingProfile } = await supabase
         .from('profiles')
-        .upsert(profileData, { onConflict: 'user_id' });
+        .select('id')
+        .eq('user_id', user.id)
+        .maybeSingle();
 
-      if (error) {
-        const isDuplicate = error.code === '23505' && error.message?.includes('cpf_cnpj');
-        if (isDuplicate) {
+      let saveError = null;
+
+      if (existingProfile) {
+        // Perfil já existe — UPDATE seguro (não dispara constraint de email)
+        const { error: updateError } = await supabase
+          .from('profiles')
+          .update(profileData)
+          .eq('user_id', user.id);
+        saveError = updateError;
+      } else {
+        // Perfil novo — INSERT com fallback de conflito
+        const { error: insertError } = await supabase
+          .from('profiles')
+          .upsert(profileData, { onConflict: 'user_id' });
+        saveError = insertError;
+      }
+
+      if (saveError) {
+        if (saveError.code === '23505' && saveError.message?.includes('cpf_cnpj')) {
           toast({
             variant: "destructive",
             title: "CPF/CNPJ duplicado",
-            description: "Este CPF/CNPJ já está cadastrado. Se você já tem uma conta, faça login.",
+            description: "Este CPF/CNPJ já está cadastrado em outra conta.",
           });
           return;
         }
-        throw error;
+        if (saveError.code === '23505' && saveError.message?.includes('email')) {
+          toast({
+            variant: "destructive",
+            title: "E-mail já cadastrado",
+            description: "Este e-mail já está associado a outra conta. Faça login com essa conta.",
+          });
+          return;
+        }
+        throw saveError;
       }
 
       toast({
