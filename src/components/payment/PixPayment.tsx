@@ -127,7 +127,7 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
 
         const { data: pedidoAtualizado } = await supabase
           .from('pedidos')
-          .select('pix_qr_code, pix_qr_code_text, payment_id, payment_status')
+          .select('pix_qr_code, pix_qr_code_text, payment_id, status_pagamento')
           .eq('id', pedidoId)
           .single();
 
@@ -136,7 +136,7 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
             payment_id: pedidoAtualizado.payment_id || '',
             qr_code: pedidoAtualizado.pix_qr_code_text,
             qr_code_base64: pedidoAtualizado.pix_qr_code || '',
-            ticket_url: '' || '',
+            ticket_url: '',
           });
 
           if (pedidoAtualizado.payment_id) {
