@@ -11,7 +11,7 @@ import { getPaymentMethodText } from "@/utils/orderUtils";
 
 interface OrderDetails {
   id: string;
-  numero_pedido: number | null;
+  numero_pedido?: number | null;
   created_at: string;
   preco_total: number;
   shipping_cost: number | null;
