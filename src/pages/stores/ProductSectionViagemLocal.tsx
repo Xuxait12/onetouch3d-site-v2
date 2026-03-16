@@ -93,7 +93,7 @@ const ProductSectionViagemLocal = () => {
       cor: colorDisplay,
       tamanho: selectedSize,
       quantidade: 1,
-      precoUnitario: finalPrice,
+      precoUnitario: fullPrice,
       imagem: productImage,
       modalidade_id: MODALIDADES.viagem,
       tamanho_id: priceInfo.tamanho_id,
