@@ -83,14 +83,11 @@ const AdminPanel = () => {
         if (!error && data) {
           setIsAdmin(true);
         } else {
-          // Fallback: verificar por e-mail autorizado
-          const adminEmails = ['onetouch3dbrasil@gmail.com'];
-          setIsAdmin(adminEmails.includes(user.email || ''));
+          // Fallback: check by email (temporary until user_roles is set up)
+          setIsAdmin(false);
         }
       } catch {
-        // Fallback em caso de erro na tabela user_roles
-        const adminEmails = ['onetouch3dbrasil@gmail.com'];
-        setIsAdmin(adminEmails.includes(user.email || ''));
+        setIsAdmin(false);
       } finally {
         setCheckingAdmin(false);
       }

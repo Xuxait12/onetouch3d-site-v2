@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from "react";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -35,7 +34,6 @@ const Checkout = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showEmailConflictDialog, setShowEmailConflictDialog] = useState(false);
 
   // Payment flow states
   const [paymentStep, setPaymentStep] = useState<'form' | 'processing'>('form');
@@ -321,7 +319,11 @@ const Checkout = () => {
           return;
         }
         if (saveError.code === '23505' && saveError.message?.includes('email')) {
-          setShowEmailConflictDialog(true);
+          toast({
+            variant: "destructive",
+            title: "E-mail já cadastrado",
+            description: "Este e-mail já está associado a outra conta. Faça login com essa conta.",
+          });
           return;
         }
         throw saveError;
@@ -636,37 +638,6 @@ const Checkout = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/20">
-
-      {/* Modal: e-mail já cadastrado em outra conta */}
-      <Dialog open={showEmailConflictDialog} onOpenChange={setShowEmailConflictDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>E-mail já cadastrado</DialogTitle>
-            <DialogDescription>
-              Este e-mail já está associado a outra conta. Faça login com essa conta para continuar — seu carrinho será mantido.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="flex flex-col sm:flex-row gap-2 mt-2">
-            <Button
-              variant="outline"
-              className="w-full sm:w-auto"
-              onClick={() => setShowEmailConflictDialog(false)}
-            >
-              Usar outro e-mail
-            </Button>
-            <Button
-              className="w-full sm:w-auto"
-              onClick={() => {
-                setShowEmailConflictDialog(false);
-                navigate('/auth?returnTo=/checkout');
-              }}
-            >
-              Fazer login
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
       <GlobalHeader />
       
       <div className="py-16">
