@@ -105,7 +105,7 @@ const ProductSectionTriathlonLocal = () => {
       cor: colorDisplay,
       tamanho: selectedSize,
       quantidade: 1,
-      precoUnitario: finalPrice,
+      precoUnitario: fullPrice,
       imagem: getCurrentImage(),
       modalidade_id: MODALIDADES.triathlon,
       tamanho_id: priceInfo.tamanho_id,
@@ -141,7 +141,7 @@ const ProductSectionTriathlonLocal = () => {
           items: [{
             tamanho: selectedSize,
             quantidade: 1,
-            subtotal: finalPrice
+            subtotal: fullPrice
           }]
         }
       });
@@ -399,10 +399,10 @@ const ProductSectionTriathlonLocal = () => {
               ) : (
                 <div className="bg-muted/50 p-4 rounded-lg">
                   <div className="text-sm text-muted-foreground mb-1">
-                    De <span className="line-through">R$ {fullPrice.toFixed(2).replace('.', ',')}</span> por:
+                    Preço:
                   </div>
                   <div className="text-3xl font-bold text-green-600 mb-2">
-                    R$ {finalPrice.toFixed(2).replace('.', ',')}
+                    R$ {fullPrice.toFixed(2).replace('.', ',')}
                   </div>
                   <InstallmentsPreview amount={fullPrice} />
                 </div>
