@@ -69,23 +69,40 @@ export const PaymentBrick: React.FC<PaymentBrickProps> = ({
     setPaymentStatus('processing');
 
     try {
-      const { data, error } = await supabase.functions.invoke('create-payment', {
-        body: {
-          pedido_id: pedidoId,
-          payment_method_id: formData.payment_method_id,
-          token: formData.token,
-          installments: formData.installments || 1,
-          amount: amount,
-          payer: {
-            email: formData.payer.email,
-            identification: formData.payer.identification,
-          },
-        },
-      });
-
-      if (error) {
-        throw new Error(error.message || 'Erro ao processar pagamento');
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        throw new Error('Usuário não autenticado. Faça login novamente.');
       }
+
+      const response = await fetch(
+        'https://azaqhsxlsqrvltcsmgve.supabase.co/functions/v1/create-payment',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`,
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6YXFoc3hsc3Fydmx0Y3NtZ3ZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMjcwODgsImV4cCI6MjA4ODYwMzA4OH0.KmiAg0gisYq6nVnJgFMNqv1SHcsOQf04OaOY_HQJR4w',
+          },
+          body: JSON.stringify({
+            pedido_id: pedidoId,
+            payment_method_id: formData.payment_method_id,
+            token: formData.token,
+            installments: formData.installments || 1,
+            amount: amount,
+            payer: {
+              email: formData.payer?.email || payer.email,
+              identification: formData.payer?.identification || payer.identification,
+            },
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorBody = await response.json().catch(() => ({}));
+        throw new Error(errorBody?.error || errorBody?.message || `Erro HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
 
       if (!data.success) {
         throw new Error(data.message || data.error || 'Erro ao processar pagamento');
