@@ -1,77 +1,64 @@
 
 
-## Plano: Corrigir erros de TypeScript por mudança de schema do banco
+## Plan: Replace `supabase.functions.invoke` with direct `fetch()` in PaymentBrick.tsx
 
-O novo `types.ts` reflete um banco com colunas renomeadas e tabelas removidas. Abaixo está o mapeamento e os arquivos afetados.
+### Problem
+`supabase.functions.invoke('create-payment')` causes `ERR_CONNECTION_CLOSED`. The PixPayment component already uses direct `fetch()` successfully.
 
-### Mapeamento de colunas
+### Change
+In `src/components/payment/PaymentBrick.tsx`, lines 71-84, replace the `supabase.functions.invoke` call with the same `fetch()` pattern from PixPayment.tsx:
 
-**Profiles (antigo → novo):**
-- `full_name` → `nome_completo`
-- `phone` → `telefone`
-- `birth_date` → `data_nascimento`
-- `address` → `endereco`
-- `number` → `numero`
-- `complement` → `complemento`
-- `neighborhood` → `bairro`
-- `city` → `cidade`
-- `state` → `estado`
-- `person_type` → `tipo_pessoa`
-- `country` → `pais`
-- `is_admin` → **não existe** (precisará de abordagem alternativa, ex: tabela `user_roles`)
-- `ponto_referencia` → **não existe** (remover referências)
+1. Get session via `await supabase.auth.getSession()`
+2. Throw if no session
+3. Call `fetch()` directly to the edge function URL with explicit `Authorization` and `apikey` headers
+4. Check `response.ok` and parse error body if not
+5. Parse JSON response as `data`
+6. Keep all existing logic for `approved`, `rejected`, `in_process` unchanged (lines 94-140)
 
-**Pedidos (antigo → novo):**
-- `numero_pedido` → **não existe** (usar `id` truncado)
-- `data_pedido` → `created_at`
-- `subtotal` → `preco_total`
-- `total` → `preco_final`
-- `frete` → `shipping_cost`
-- `desconto` → `desconto_cupom` + `desconto_pix`
-- `forma_pagamento` → `metodo_pagamento`
-- `status` → `status_pagamento` / `status_producao`
-- `payment_status` → `status_pagamento`
-- `payment_approved_at` → **não existe** (remover)
-- `payment_method_type` → `metodo_pagamento`
-- `cupom_aplicado` → `cupom_id`
+### Technical Details
 
-**Cupons:** `coupons` → `cupons`, `code` → `codigo`, `active` → `ativo`, `discount_type` → `tipo`, `discount_value` → `valor`, `page`/`valid_from`/`valid_until` → **não existem**
+Replace lines 71-92 with:
 
-**`itens_pedido`** → **não existe** (remover todas as referências; o novo schema embute item no pedido via `modalidade_id`, `tamanho_id`, `tipo_moldura_id`, `quantidade`, `preco_unitario`)
+```typescript
+const { data: { session } } = await supabase.auth.getSession();
+if (!session) {
+  throw new Error('Usuário não autenticado. Faça login novamente.');
+}
 
----
+const response = await fetch(
+  'https://azaqhsxlsqrvltcsmgve.supabase.co/functions/v1/create-payment',
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${session.access_token}`,
+      'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6YXFoc3hsc3Fydmx0Y3NtZ3ZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMjcwODgsImV4cCI6MjA4ODYwMzA4OH0.KmiAg0gisYq6nVnJgFMNqv1SHcsOQf04OaOY_HQJR4w',
+    },
+    body: JSON.stringify({
+      pedido_id: pedidoId,
+      payment_method_id: formData.payment_method_id,
+      token: formData.token,
+      installments: formData.installments || 1,
+      amount: amount,
+      payer: {
+        email: formData.payer?.email || payer.email,
+        identification: formData.payer?.identification || payer.identification,
+      },
+    }),
+  }
+);
 
-### Arquivos a corrigir (12 arquivos)
+if (!response.ok) {
+  const errorBody = await response.json().catch(() => ({}));
+  throw new Error(errorBody?.error || errorBody?.message || `Erro HTTP ${response.status}`);
+}
 
-1. **`src/components/CouponSection.tsx`** — Trocar `from('coupons')` por `from('cupons')`, atualizar nomes de colunas (`code`→`codigo`, `active`→`ativo`, `discount_type`→`tipo`, `discount_value`→`valor`), remover validações de `page`, `valid_from`, `valid_until`.
+const data = await response.json();
 
-2. **`src/components/AuthRedirect.tsx`** — Renomear colunas do select de profiles: `full_name`→`nome_completo`, `address`→`endereco`, `number`→`numero`, `neighborhood`→`bairro`, `city`→`cidade`, `state`→`estado`, `phone`→`telefone`.
+if (!data.success) {
+  throw new Error(data.message || data.error || 'Erro ao processar pagamento');
+}
+```
 
-3. **`src/pages/Auth.tsx`** — Mesmo mapeamento de colunas de profiles no select e na verificação de completude.
-
-4. **`src/pages/Profile.tsx`** — Atualizar todos os campos de leitura e escrita (upsert) do profile para os novos nomes.
-
-5. **`src/pages/Checkout.tsx`** — Atualizar selects/upserts de profiles; atualizar insert em `pedidos` (usar novos campos); remover insert em `itens_pedido`; ajustar o payload do pedido para os novos campos (`preco_unitario`, `preco_total`, `preco_final`, `modalidade_id`, `tamanho_id`, `tipo_moldura_id`, `metodo_pagamento`, `status_pagamento`, `status_producao`, etc.).
-
-6. **`src/pages/Confirmacao.tsx`** — Remover fetch de `itens_pedido`; atualizar interface `OrderDetails` para usar novos campos de `pedidos`; ajustar renderização.
-
-7. **`src/pages/ConfirmacaoWhatsapp.tsx`** — Atualizar leitura/escrita de profiles; atualizar insert em `pedidos` com novos campos; remover insert em `itens_pedido`.
-
-8. **`src/pages/OrderDetails.tsx`** — Remover fetch de `itens_pedido`; remover check de `is_admin`; atualizar colunas de `pedidos` e `profiles`.
-
-9. **`src/pages/AdminPanel.tsx`** — Remover check de `is_admin` (substituir por consulta a `user_roles` ou outra abordagem); atualizar selects de `pedidos` e `profiles` para novos nomes de colunas; atualizar interfaces.
-
-10. **`src/pages/MyOrders.tsx`** — Atualizar referências a `numero_pedido`, `total`, `status`, `data_pedido` para os novos nomes (`preco_final`, `status_pagamento`, `created_at`).
-
-11. **`src/hooks/useOrderStatus.ts`** — Trocar `payment_status`→`status_pagamento`, remover `payment_approved_at`, `payment_method_type`→`metodo_pagamento`.
-
-12. **`src/lib/validation.ts`** — Atualizar `profileSchema` e `orderSchema` para refletir os novos nomes de campos. Remover `orderItemSchema` (sem `itens_pedido`).
-
-### Nota sobre `is_admin`
-
-O novo schema não tem `is_admin` em profiles. Será necessário criar uma abordagem alternativa. A solução recomendada é usar uma tabela `user_roles` conforme boas práticas de segurança, ou temporariamente usar um campo/função RPC no Supabase. Para não bloquear a correção, substituirei as checagens de `is_admin` por uma função helper que consulta uma tabela `user_roles` (se existir) ou retorna `false`.
-
-### Nota sobre Edge Functions (Supabase)
-
-Os arquivos em `supabase/functions/` também usam colunas antigas, mas como rodam no Deno e não são compilados pelo TypeScript do projeto, **não causam erros de build**. Podem ser corrigidos em um segundo momento.
+Single file change, no other modifications needed.
 
