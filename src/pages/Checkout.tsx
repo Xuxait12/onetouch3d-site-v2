@@ -1042,7 +1042,7 @@ const Checkout = () => {
                         <Label htmlFor="debit_card" className="cursor-pointer">Cartão de Débito</Label>
                       </div>
                       {(selectedPaymentType === 'debit_card' || paymentMethod === 'debit_card') && (
-                        <p className="text-xs text-muted-foreground mt-1 ml-6">
+                        <p className="text-xs text-destructive mt-1 ml-6">
                           Caso sua compra seja recusada, verifique no app do seu banco se as compras online com débito estão habilitadas.
                         </p>
                       )}
