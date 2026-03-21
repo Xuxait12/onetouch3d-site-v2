@@ -759,11 +759,34 @@ const ConfirmacaoWhatsapp = () => {
     </Dialog>
   );
 
+  // ── Pedido Confirmado modal ──
+  const renderPedidoConfirmadoModal = () => (
+    <Dialog open={showPedidoConfirmado} onOpenChange={(open) => { if (!open) setShowPedidoConfirmado(false); }}>
+      <DialogContent className="max-w-md text-center">
+        <DialogHeader>
+          <DialogTitle className="flex items-center justify-center gap-2 text-xl">
+            <CheckCircle className="h-6 w-6 text-accent" />
+            Pedido Confirmado!
+          </DialogTitle>
+          <DialogDescription>
+            {numeroPedido
+              ? `Seu pedido #${numeroPedido} foi registrado com sucesso. Assim que o pagamento PIX for identificado, você receberá a confirmação.`
+              : 'Seu pedido foi registrado com sucesso. Assim que o pagamento PIX for identificado, você receberá a confirmação.'}
+          </DialogDescription>
+        </DialogHeader>
+        <Button onClick={() => { setShowPedidoConfirmado(false); navigate('/'); }} className="w-full mt-4">
+          Voltar para o início
+        </Button>
+      </DialogContent>
+    </Dialog>
+  );
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-primary/10 px-4 py-8">
       {!isAuthenticated && renderAuthScreen()}
       {isAuthenticated && renderFormModal()}
       {renderSuccessModal()}
+      {renderPedidoConfirmadoModal()}
     </div>
   );
 };
