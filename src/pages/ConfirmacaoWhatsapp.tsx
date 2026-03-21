@@ -310,7 +310,13 @@ const ConfirmacaoWhatsapp = () => {
           toast({ title: "Cadastro realizado!", description: "Bem-vindo!" });
           await handleAuthSuccess(data.user);
         } else {
-          toast({ title: "Cadastro realizado!", description: "Verifique seu email para confirmar a conta." });
+          const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+          if (!signInError && signInData.user) {
+            toast({ title: "Cadastro realizado!", description: "Bem-vindo!" });
+            await handleAuthSuccess(signInData.user);
+          } else {
+            toast({ title: "Cadastro realizado!", description: "Verifique seu email para confirmar a conta." });
+          }
         }
       }
     } catch {
