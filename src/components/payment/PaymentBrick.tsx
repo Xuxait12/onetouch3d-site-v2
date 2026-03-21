@@ -145,12 +145,43 @@ export const PaymentBrick: React.FC<PaymentBrickProps> = ({
         });
       }
     } catch (err: any) {
+      console.error('[PaymentBrick] catch error:', err);
+
+      // FALLBACK igual ao PixPayment.tsx:
+      // A Edge Function pode demorar mais de 30s (cold start + API do MP)
+      // e o browser fecha a conexão antes de receber a resposta (ERR_CONNECTION_CLOSED).
+      // Aguarda 5s e verifica no banco se o pagamento foi processado.
+      if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+        console.log('[PaymentBrick] Failed to fetch — tentando fallback no banco...');
+        try {
+          await new Promise(r => setTimeout(r, 5000));
+
+          const { data: pedidoAtualizado } = await supabase
+            .from('pedidos')
+            .select('payment_id, payment_status, status_pagamento')
+            .eq('id', pedidoId)
+            .single();
+
+          console.log('[PaymentBrick] fallback pedido:', pedidoAtualizado);
+
+          if (pedidoAtualizado?.payment_id && pedidoAtualizado?.status_pagamento === 'approved') {
+            setPaymentStatus('approved');
+            toast({ title: 'Pagamento aprovado!', description: 'Seu pedido foi confirmado.' });
+            onSuccessRef.current(pedidoAtualizado.payment_id);
+            return;
+          } else if (pedidoAtualizado?.payment_id && pedidoAtualizado?.status_pagamento === 'rejected') {
+            setPaymentStatus('rejected');
+            toast({ variant: 'destructive', title: 'Pagamento rejeitado', description: 'Tente novamente com outro cartão.', duration: 8000 });
+            onErrorRef.current(new Error('Pagamento rejeitado'));
+            return;
+          }
+        } catch (fallbackErr) {
+          console.error('[PaymentBrick] fallback erro:', fallbackErr);
+        }
+      }
+
       setPaymentStatus('rejected');
-      toast({
-        variant: 'destructive',
-        title: 'Erro no pagamento',
-        description: err.message || 'Tente novamente.',
-      });
+      toast({ variant: 'destructive', title: 'Erro no pagamento', description: err.message || 'Tente novamente.' });
       onErrorRef.current(err);
     } finally {
       setProcessing(false);
