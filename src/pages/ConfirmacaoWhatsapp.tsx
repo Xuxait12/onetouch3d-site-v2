@@ -72,6 +72,9 @@ const ConfirmacaoWhatsapp = () => {
   const [complemento, setComplemento] = useState('');
   const [confirmado, setConfirmado] = useState(false);
   const [savingOrder, setSavingOrder] = useState(false);
+  const [numeroPedido, setNumeroPedido] = useState<number | null>(null);
+  const [showPedidoConfirmado, setShowPedidoConfirmado] = useState(false);
+  const navigate = useNavigate();
 
   const { toast } = useToast();
 
