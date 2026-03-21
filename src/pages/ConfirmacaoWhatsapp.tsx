@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, CheckCircle, Loader2, Copy } from 'lucide-react';
 import pixQrCode from '@/assets/pix-qrcode.png';
 import googleLogo from '@/assets/google-logo.png';
