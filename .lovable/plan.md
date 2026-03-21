@@ -1,19 +1,31 @@
 
 
-## Plan: Replace `loadOrders` with separate queries in AdminPanel.tsx
+## Plan: Two changes in ConfirmacaoWhatsapp.tsx
 
-### Problem
-The current `loadOrders` uses `profiles!inner(...)` join which fails because `profiles.id` differs from `auth.users.id`.
+### Change 1: Expand `handleSignUp` else branch (lines 308-314)
+Add auto-login fallback when signup returns a user but no session (email confirmation disabled scenario).
 
-### Change
-**File**: `src/pages/AdminPanel.tsx` (lines 120-159)
+**Replace lines 308-314** with:
+```typescript
+      } else if (data.user) {
+        if (data.session) {
+          toast({ title: "Cadastro realizado!", description: "Bem-vindo!" });
+          await handleAuthSuccess(data.user);
+        } else {
+          const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+          if (!signInError && signInData.user) {
+            toast({ title: "Cadastro realizado!", description: "Bem-vindo!" });
+            await handleAuthSuccess(signInData.user);
+          } else {
+            toast({ title: "Cadastro realizado!", description: "Verifique seu email para confirmar a conta." });
+          }
+        }
+      }
+```
 
-Replace the entire `loadOrders` function with the user-provided version that:
-1. Fetches pedidos separately (including `user_id`)
-2. Collects unique `user_id`s
-3. Fetches profiles by `user_id` using `.in()`
-4. Builds a `profileMap` and merges profiles into orders
-5. Falls back to a default "Sem perfil" object when no profile exists
+### Change 2: Success modal closeable (lines 704-705)
+- Line 704: Replace `onOpenChange={() => {}}` with `onOpenChange={(open) => { if (!open) setShowSuccessModal(false); }}`
+- Line 705: Remove `onPointerDownOutside={e => e.preventDefault()}`
 
 No other files changed.
 
