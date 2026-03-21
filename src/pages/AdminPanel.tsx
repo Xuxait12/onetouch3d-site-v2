@@ -122,7 +122,7 @@ const AdminPanel = () => {
     try {
       const { data, error } = await supabase
         .from('pedidos')
-        .select('id, numero_pedido, created_at, preco_final, status_pagamento, metodo_pagamento, shipping_address, user_id')
+        .select('id, created_at, preco_final, status_pagamento, metodo_pagamento, shipping_address, user_id')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
