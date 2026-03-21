@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, CheckCircle, Loader2, Copy } from 'lucide-react';
 import pixQrCode from '@/assets/pix-qrcode.png';
 import googleLogo from '@/assets/google-logo.png';
@@ -72,6 +72,9 @@ const ConfirmacaoWhatsapp = () => {
   const [complemento, setComplemento] = useState('');
   const [confirmado, setConfirmado] = useState(false);
   const [savingOrder, setSavingOrder] = useState(false);
+  const [numeroPedido, setNumeroPedido] = useState<number | null>(null);
+  const [showPedidoConfirmado, setShowPedidoConfirmado] = useState(false);
+  const navigate = useNavigate();
 
   const { toast } = useToast();
 
@@ -431,7 +434,7 @@ const ConfirmacaoWhatsapp = () => {
       }
 
       // 3. Create vendas_manuais record
-      const { error: vendaError } = await supabase
+      const { data: vendaData, error: vendaError } = await supabase
         .from('vendas_manuais')
         .insert({
           profile_id: profileData.id,
@@ -441,7 +444,11 @@ const ConfirmacaoWhatsapp = () => {
           quantidade: 1,
           valor: 0,
           observacao: 'Venda via WhatsApp — aguardando pagamento PIX',
-        });
+        })
+        .select('numero')
+        .single();
+
+      if (vendaData?.numero) setNumeroPedido(vendaData.numero);
 
       if (vendaError) {
         toast({ title: "Erro ao criar venda", description: vendaError.message, variant: "destructive" });
@@ -708,7 +715,7 @@ const ConfirmacaoWhatsapp = () => {
 
   // ── Success modal ──
   const renderSuccessModal = () => (
-    <Dialog open={showSuccessModal} onOpenChange={(open) => { if (!open) setShowSuccessModal(false); }}>
+    <Dialog open={showSuccessModal} onOpenChange={(open) => { if (!open) { setShowSuccessModal(false); setShowPedidoConfirmado(true); } }}>
       <DialogContent className="max-w-md text-center">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-center gap-2 text-xl">
@@ -752,11 +759,34 @@ const ConfirmacaoWhatsapp = () => {
     </Dialog>
   );
 
+  // ── Pedido Confirmado modal ──
+  const renderPedidoConfirmadoModal = () => (
+    <Dialog open={showPedidoConfirmado} onOpenChange={(open) => { if (!open) setShowPedidoConfirmado(false); }}>
+      <DialogContent className="max-w-md text-center">
+        <DialogHeader>
+          <DialogTitle className="flex items-center justify-center gap-2 text-xl">
+            <CheckCircle className="h-6 w-6 text-accent" />
+            Pedido Confirmado!
+          </DialogTitle>
+          <DialogDescription>
+            {numeroPedido
+              ? `Seu pedido #${numeroPedido} foi registrado com sucesso. Assim que o pagamento PIX for identificado, você receberá a confirmação.`
+              : 'Seu pedido foi registrado com sucesso. Assim que o pagamento PIX for identificado, você receberá a confirmação.'}
+          </DialogDescription>
+        </DialogHeader>
+        <Button onClick={() => { setShowPedidoConfirmado(false); navigate('/'); }} className="w-full mt-4">
+          Voltar para o início
+        </Button>
+      </DialogContent>
+    </Dialog>
+  );
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-primary/10 px-4 py-8">
       {!isAuthenticated && renderAuthScreen()}
       {isAuthenticated && renderFormModal()}
       {renderSuccessModal()}
+      {renderPedidoConfirmadoModal()}
     </div>
   );
 };
