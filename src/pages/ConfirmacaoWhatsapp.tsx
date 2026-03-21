@@ -715,7 +715,7 @@ const ConfirmacaoWhatsapp = () => {
 
   // ── Success modal ──
   const renderSuccessModal = () => (
-    <Dialog open={showSuccessModal} onOpenChange={(open) => { if (!open) setShowSuccessModal(false); }}>
+    <Dialog open={showSuccessModal} onOpenChange={(open) => { if (!open) { setShowSuccessModal(false); setShowPedidoConfirmado(true); } }}>
       <DialogContent className="max-w-md text-center">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-center gap-2 text-xl">
