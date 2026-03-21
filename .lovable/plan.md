@@ -1,18 +1,19 @@
 
 
-## Plan: Add fallback mechanism to PaymentBrick catch block
+## Plan: Replace `loadOrders` with separate queries in AdminPanel.tsx
 
-### What
-Replace the `catch (err: any)` block (lines 147-154) in `PaymentBrick.tsx` with a fallback that checks the database when `fetch` fails due to connection timeout (`Failed to fetch` / `TypeError`), mirroring the pattern already used in `PixPayment.tsx`.
+### Problem
+The current `loadOrders` uses `profiles!inner(...)` join which fails because `profiles.id` differs from `auth.users.id`.
 
 ### Change
-**File**: `src/components/payment/PaymentBrick.tsx` (lines 147-154)
+**File**: `src/pages/AdminPanel.tsx` (lines 120-159)
 
-Replace the existing catch block with one that:
-1. Logs the error
-2. If error is `Failed to fetch` or `TypeError`: waits 5s, queries `pedidos` table for payment status
-3. If payment was approved/rejected in the DB, handles accordingly
-4. Otherwise falls through to the original error handling
+Replace the entire `loadOrders` function with the user-provided version that:
+1. Fetches pedidos separately (including `user_id`)
+2. Collects unique `user_id`s
+3. Fetches profiles by `user_id` using `.in()`
+4. Builds a `profileMap` and merges profiles into orders
+5. Falls back to a default "Sem perfil" object when no profile exists
 
 No other files changed.
 
