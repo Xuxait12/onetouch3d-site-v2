@@ -310,7 +310,13 @@ const ConfirmacaoWhatsapp = () => {
           toast({ title: "Cadastro realizado!", description: "Bem-vindo!" });
           await handleAuthSuccess(data.user);
         } else {
-          toast({ title: "Cadastro realizado!", description: "Verifique seu email para confirmar a conta." });
+          const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+          if (!signInError && signInData.user) {
+            toast({ title: "Cadastro realizado!", description: "Bem-vindo!" });
+            await handleAuthSuccess(signInData.user);
+          } else {
+            toast({ title: "Cadastro realizado!", description: "Verifique seu email para confirmar a conta." });
+          }
         }
       }
     } catch {
@@ -701,8 +707,8 @@ const ConfirmacaoWhatsapp = () => {
 
   // ── Success modal ──
   const renderSuccessModal = () => (
-    <Dialog open={showSuccessModal} onOpenChange={() => {}}>
-      <DialogContent className="max-w-md text-center" onPointerDownOutside={e => e.preventDefault()}>
+    <Dialog open={showSuccessModal} onOpenChange={(open) => { if (!open) setShowSuccessModal(false); }}>
+      <DialogContent className="max-w-md text-center">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-center gap-2 text-xl">
             <CheckCircle className="h-6 w-6 text-accent" />
