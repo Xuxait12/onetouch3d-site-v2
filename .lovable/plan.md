@@ -1,31 +1,42 @@
 
 
-## Plan: Two changes in ConfirmacaoWhatsapp.tsx
+## Plan: Add order number display and confirmation modal
 
-### Change 1: Expand `handleSignUp` else branch (lines 308-314)
-Add auto-login fallback when signup returns a user but no session (email confirmation disabled scenario).
+### Changes in `src/pages/ConfirmacaoWhatsapp.tsx`
 
-**Replace lines 308-314** with:
+**1. Add state** (after line 74):
+- `const [numeroPedido, setNumeroPedido] = useState<number | null>(null);`
+- `const [showPedidoConfirmado, setShowPedidoConfirmado] = useState(false);`
+
+**2. Capture `numero` from insert** (lines 434-444):
+Replace the insert to `vendas_manuais` to use `.select('numero').single()` and store the returned number:
 ```typescript
-      } else if (data.user) {
-        if (data.session) {
-          toast({ title: "Cadastro realizado!", description: "Bem-vindo!" });
-          await handleAuthSuccess(data.user);
-        } else {
-          const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-          if (!signInError && signInData.user) {
-            toast({ title: "Cadastro realizado!", description: "Bem-vindo!" });
-            await handleAuthSuccess(signInData.user);
-          } else {
-            toast({ title: "Cadastro realizado!", description: "Verifique seu email para confirmar a conta." });
-          }
-        }
-      }
+const { data: vendaData, error: vendaError } = await supabase
+  .from('vendas_manuais')
+  .insert({ ... })
+  .select('numero')
+  .single();
+
+if (vendaData?.numero) setNumeroPedido(vendaData.numero);
 ```
 
-### Change 2: Success modal closeable (lines 704-705)
-- Line 704: Replace `onOpenChange={() => {}}` with `onOpenChange={(open) => { if (!open) setShowSuccessModal(false); }}`
-- Line 705: Remove `onPointerDownOutside={e => e.preventDefault()}`
+**3. Success modal close → confirmation modal** (line 711):
+Change `onOpenChange` so closing the QR code modal opens the confirmation modal:
+```typescript
+onOpenChange={(open) => {
+  if (!open) {
+    setShowSuccessModal(false);
+    setShowPedidoConfirmado(true);
+  }
+}}
+```
 
-No other files changed.
+**4. Add new "Pedido Confirmado" modal** (after `renderSuccessModal`, before the return):
+A new `renderPedidoConfirmadoModal` function with a Dialog showing:
+- Title: "Pedido Confirmado!"
+- Text: "Seu pedido #[numeroPedido] foi registrado com sucesso. Assim que o pagamento PIX for identificado, você receberá a confirmação."
+- Button: "Voltar para o início" → navigates to `/`
+
+**5. Render the new modal** (line 759):
+Add `{renderPedidoConfirmadoModal()}` alongside the other modals. Import `useNavigate` from react-router-dom.
 
