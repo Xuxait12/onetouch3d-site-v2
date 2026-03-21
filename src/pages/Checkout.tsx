@@ -1041,6 +1041,11 @@ const Checkout = () => {
                         <RadioGroupItem value="debit_card" id="debit_card" />
                         <Label htmlFor="debit_card" className="cursor-pointer">Cartão de Débito</Label>
                       </div>
+                      {(selectedPaymentType === 'debit_card' || paymentMethod === 'debit_card') && (
+                        <p className="text-xs text-muted-foreground mt-1 ml-6">
+                          Caso sua compra seja recusada, verifique no app do seu banco se as compras online com débito estão habilitadas.
+                        </p>
+                      )}
 
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="credit_card" id="credit_card" />
