@@ -158,7 +158,7 @@ export const PaymentBrick: React.FC<PaymentBrickProps> = ({
 
           const { data: pedidoAtualizado } = await supabase
             .from('pedidos')
-            .select('payment_id, payment_status, status_pagamento')
+            .select('payment_id, status_pagamento')
             .eq('id', pedidoId)
             .single();
 
