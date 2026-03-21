@@ -382,6 +382,7 @@ const ConfirmacaoWhatsapp = () => {
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .upsert({
+          id: userId,
           user_id: userId,
           nome_completo: nomeCompleto,
           email,
@@ -395,7 +396,7 @@ const ConfirmacaoWhatsapp = () => {
           cidade,
           estado,
           data_nascimento: '1990-01-01',
-        }, { onConflict: 'user_id' })
+        }, { onConflict: 'id' })
         .select('id')
         .single();
 
