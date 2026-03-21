@@ -122,38 +122,40 @@ const AdminPanel = () => {
     try {
       const { data, error } = await supabase
         .from('pedidos')
-        .select(`
-          id,
-          numero_pedido,
-          created_at,
-          preco_final,
-          status_pagamento,
-          metodo_pagamento,
-          shipping_address,
-          profiles!inner(
-            nome_completo,
-            email,
-            telefone,
-            endereco,
-            numero,
-            complemento,
-            bairro,
-            cidade,
-            estado,
-            cep
-          )
-        `)
+        .select('id, created_at, preco_final, status_pagamento, metodo_pagamento, shipping_address, user_id')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setOrders((data || []) as unknown as Order[]);
+
+      const userIds = [...new Set((data || []).map(p => p.user_id).filter(Boolean))];
+
+      const { data: profilesData } = await supabase
+        .from('profiles')
+        .select('user_id, nome_completo, email, telefone, endereco, numero, complemento, bairro, cidade, estado, cep')
+        .in('user_id', userIds);
+
+      const profileMap = Object.fromEntries((profilesData || []).map(p => [p.user_id, p]));
+
+      const ordersWithProfiles = (data || []).map(order => ({
+        ...order,
+        profiles: profileMap[order.user_id] || {
+          nome_completo: 'Sem perfil',
+          email: '',
+          telefone: null,
+          endereco: null,
+          numero: null,
+          complemento: null,
+          bairro: null,
+          cidade: null,
+          estado: null,
+          cep: null,
+        },
+      }));
+
+      setOrders(ordersWithProfiles as unknown as Order[]);
     } catch (error) {
       console.error('Erro ao carregar pedidos:', error);
-      toast({
-        title: "Erro",
-        description: "Não foi possível carregar os pedidos.",
-        variant: "destructive",
-      });
+      toast({ title: "Erro", description: "Não foi possível carregar os pedidos.", variant: "destructive" });
     }
     setLoadingData(false);
   };
