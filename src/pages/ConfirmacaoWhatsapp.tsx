@@ -434,7 +434,7 @@ const ConfirmacaoWhatsapp = () => {
       }
 
       // 3. Create vendas_manuais record
-      const { error: vendaError } = await supabase
+      const { data: vendaData, error: vendaError } = await supabase
         .from('vendas_manuais')
         .insert({
           profile_id: profileData.id,
@@ -444,7 +444,11 @@ const ConfirmacaoWhatsapp = () => {
           quantidade: 1,
           valor: 0,
           observacao: 'Venda via WhatsApp — aguardando pagamento PIX',
-        });
+        })
+        .select('numero')
+        .single();
+
+      if (vendaData?.numero) setNumeroPedido(vendaData.numero);
 
       if (vendaError) {
         toast({ title: "Erro ao criar venda", description: vendaError.message, variant: "destructive" });
