@@ -60,7 +60,7 @@ const WhyChooseUsTabsBase = ({ tabs }: WhyChooseUsTabsBaseProps) => {
         <div className="relative w-full max-w-4xl mx-auto mb-12 animate-fade-up">
           <div className="flex justify-center px-4 md:px-0">
             <div
-              className="inline-flex rounded-full bg-secondary/50 p-1.5 shadow-inner"
+              className="flex flex-wrap justify-center gap-2 bg-secondary/50 p-1.5 rounded-2xl md:rounded-full shadow-inner"
               role="tablist"
             >
               {tabs.map((tab) => (
