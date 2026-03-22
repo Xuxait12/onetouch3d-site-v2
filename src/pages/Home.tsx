@@ -66,7 +66,7 @@ const Home = () => {
             </motion.p>
             
             {/* Cards Grid - Sequential Animation */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-8 lg:mb-10">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-8 lg:mb-10">
               {landingPages.map((page, index) =>
               <motion.div
                 key={index}
@@ -83,7 +83,7 @@ const Home = () => {
                 className="group cursor-pointer bg-white/90 backdrop-blur-sm rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-700 hover:scale-[1.02] border border-white/50">
                 
                   {/* Image Section */}
-                  <div className="aspect-[5/4] sm:aspect-[4/3] lg:aspect-[5/4] relative overflow-hidden">
+                  <div className="aspect-[3/4] sm:aspect-[4/3] lg:aspect-[5/4] relative overflow-hidden">
                     <img
                     src={page.image}
                     alt={page.title}
