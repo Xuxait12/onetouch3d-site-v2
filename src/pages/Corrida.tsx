@@ -34,9 +34,8 @@ const Corrida = () => {
       <main>
         <HeroSection />
         
-        <FeatureSection title="Moldura Premium para Quadros de Corrida" description={<>Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado.<br /><br />Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração.</>} imageSrc="/images/quadro-moderno.gif" mobileImageSrc="/images/moldura-premium-corrida-mobile.webp" imageAlt="Moldura premium personalizada" imageOnLeft={true} />
+        <GallerySectionCorrida />
         
-        {/* Feature sections wrapper */}
         <div className="relative overflow-hidden">
           <div className="relative" style={{
           zIndex: 5
@@ -46,22 +45,22 @@ const Corrida = () => {
             <FeatureSection title="Suas Fotos em Destaque" description={<>Selecione os momentos mais marcantes da sua prova.<br /><br />Veja sua história ganhar vida em um quadro moderno, emocionante e totalmente personalizado.</>} imageSrc="/images/fotos-scrapbook.webp" imageAlt="Fotos em destaque estilo scrapbook" imageOnLeft={true} />
             
             <FeatureSection title="Dados da Prova Integrados ao Design" description={<>Transformamos seus dados — nome, distância, tempo oficial e pace — em uma composição visual que celebra cada detalhe da sua jornada.<br /><br />Cada número representa esforço, estratégia e superação.</>} imageSrc="/images/dados-prova.webp" imageAlt="Dados da prova" imageOnLeft={false} />
-            
-            <FeatureSection title="Quadros para Medalha" description={<>Um layout pensado para destacar sua corrida com estilo.<br /><br />Seu quadro combina com qualquer ambiente, do quarto à sala de estar.</>} imageSrc="/images/quadro-moderno-corrida.webp" imageAlt="Layout moderno e exclusivo" imageOnLeft={true} />
           </div>
         </div>
+        
+        <FeatureSection title="Moldura Premium para Quadros de Corrida" description={<>Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado.<br /><br />Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração.</>} imageSrc="/images/quadro-moderno.gif" mobileImageSrc="/images/moldura-premium-corrida-mobile.webp" imageAlt="Moldura premium personalizada" imageOnLeft={true} />
+        
+        <HowItWorksTabs />
+        <TestimonialsSectionCorrida />
+        <WhyChooseUsTabsCorrida />
+        
+        <FeatureSection title="Quadros para Medalha" description={<>Um layout pensado para destacar sua corrida com estilo.<br /><br />Seu quadro combina com qualquer ambiente, do quarto à sala de estar.</>} imageSrc="/images/quadro-moderno-corrida.webp" imageAlt="Layout moderno e exclusivo" imageOnLeft={true} />
         
         <FeatureSection title="Sua Conquista em Destaque" description={<>Existem conquistas que merecem um destaque especial.<br /><br />Dê vida as suas medalhas emoldurando em um quadro exclusivo seu momento mais inesquecível.</>} imageSrc="/images/medalhas.gif" imageAlt="Medalhas emolduradas" imageOnLeft={false} />
         
         <FeatureSection title="Entrega Segura em Todo Brasil" description="Seus quadros são embalados com proteção reforçada, garantindo que cheguem em perfeito estado até a sua casa, em qualquer lugar do Brasil." imageSrc="/images/embalagem-segura.webp" imageAlt="Embalagem segura" imageOnLeft={true} />
         
-        <HowItWorksTabs />
-        <WhyChooseUsTabsCorrida />
-        
         <EmotionalSectionCorrida />
-        
-        <GallerySectionCorrida />
-        <TestimonialsSectionCorrida />
         
         <ProductSectionCorridaLocal />
         <ShareSectionCorrida />

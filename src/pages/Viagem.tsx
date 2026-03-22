@@ -33,40 +33,19 @@ const Viagem = () => {
       <main>
         <HeroSectionViagem />
         
-        {/* Seção 1 (antiga 3) - imagem à esquerda */}
-        <FeatureSection title="Suas Fotos em Destaque" description={<>
-              <p className="mb-2">Selecione as melhores imagens da sua expedição: paisagens, trechos, marcos históricos ou momentos especiais.</p>
-              <p>Nós transformamos tudo em um design moderno, estilo scrapbook, que representa cada etapa vivida.</p>
-            </>} imageSrc="/images/scrapbook-moto-viagem.webp" imageAlt="Fotos em destaque estilo scrapbook" imageOnLeft={true} />
+        <GallerySectionViagem />
         
-        {/* Seção 2 (antiga 7) - imagem à direita */}
-        <FeatureSection title={<>A Aventura Termina… Mas a<br />Sensação Não Precisa Acabar.</>} description={<>Eternize sua jornada em um quadro personalizado<br />com o percurso em 3D feito exclusivamente para você —<br />um registro fiel do caminho que mudou sua forma de ver o mundo.</>} imageSrc="/images/motociclistas-ruta40.webp" imageAlt="Motociclistas na Ruta 40 Argentina" imageOnLeft={false} />
-        
-        {/* Seção 3 (antiga 1) - imagem à esquerda */}
-        <FeatureSection title="Moldura Premium e Durável" description={<>
-              <p className="mb-4">Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado.</p>
-              <p>Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração.</p>
-            </>} imageSrc="/images/moldura-premium-viagem.webp" mobileImageSrc="/images/moldura-premium-mobile.webp" imageAlt="Moldura premium personalizada" imageOnLeft={true} />
-        
-        {/* Seção 4 (antiga 5) - imagem à direita */}
-        <FeatureSection title="Design Moderno e Exclusivo" description={<>
-              <p className="mb-3">Mais do que um quadro, uma representação fiel da sua jornada. Cada elemento é personalizado para destacar:</p>
-              <ul className="list-disc list-inside space-y-1 text-left">
-                <li>O caminho percorrido</li>
-                <li>As paisagens que ficaram na memória</li>
-                <li>As emoções vividas ao longo da viagem</li>
-                <li>A identidade de quem escolheu explorar</li>
-              </ul>
-            </>} imageSrc="/images/quadro-sala-moto.webp" imageAlt="Quadro de viagem de moto na sala" imageOnLeft={false} />
-        
-        {/* Seção 5 (antiga 2) - imagem à esquerda */}
         <FeatureSection title="Percurso 3D Exclusivo" description={<>
               <p className="mb-2">Recriamos sua rota em alto relevo 3D, transformando cada quilômetro da sua jornada em uma experiência visual única.</p>
               <p className="mb-2">Um mapa que ganha forma, relembra histórias e eterniza tudo o que você viveu.</p>
               <p>Sua jornada merece ser vista todos os dias.</p>
             </>} imageSrc="/images/percurso-3d.webp" imageAlt="Percurso 3D da viagem" imageOnLeft={true} />
         
-        {/* Seção 6 (antiga 4) - imagem à direita */}
+        <FeatureSection title="Suas Fotos em Destaque" description={<>
+              <p className="mb-2">Selecione as melhores imagens da sua expedição: paisagens, trechos, marcos históricos ou momentos especiais.</p>
+              <p>Nós transformamos tudo em um design moderno, estilo scrapbook, que representa cada etapa vivida.</p>
+            </>} imageSrc="/images/scrapbook-moto-viagem.webp" imageAlt="Fotos em destaque estilo scrapbook" imageOnLeft={true} />
+        
         <FeatureSection title="Detalhes da Sua Viagem" description={<>
               <p className="mb-3">Incluímos as principais informações da sua viagem, como:</p>
               <ul className="list-disc list-inside space-y-1 text-left">
@@ -78,19 +57,30 @@ const Viagem = () => {
               </ul>
             </>} imageSrc="/images/dados-viagem-moto.webp" imageAlt="Detalhes da viagem de moto" imageOnLeft={false} />
         
-        {/* Seção 7 (antiga 6) - imagem à esquerda */}
-        <FeatureSection title="Entrega Segura em Todo Brasil" description="Seu quadro é embalado com proteção reforçada, garantindo que chegue impecável até você, independente da cidade." imageSrc="/images/embalagem-segura.webp" imageAlt="Embalagem segura" imageOnLeft={true} />
+        <FeatureSection title="Moldura Premium e Durável" description={<>
+              <p className="mb-4">Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado.</p>
+              <p>Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração.</p>
+            </>} imageSrc="/images/moldura-premium-viagem.webp" mobileImageSrc="/images/moldura-premium-mobile.webp" imageAlt="Moldura premium personalizada" imageOnLeft={true} />
         
         <HowItWorksTabsViagem />
+        <TestimonialsSection />
         <WhyChooseUsTabsViagem />
         
+        <FeatureSection title="Design Moderno e Exclusivo" description={<>
+              <p className="mb-3">Mais do que um quadro, uma representação fiel da sua jornada. Cada elemento é personalizado para destacar:</p>
+              <ul className="list-disc list-inside space-y-1 text-left">
+                <li>O caminho percorrido</li>
+                <li>As paisagens que ficaram na memória</li>
+                <li>As emoções vividas ao longo da viagem</li>
+                <li>A identidade de quem escolheu explorar</li>
+              </ul>
+            </>} imageSrc="/images/quadro-sala-moto.webp" imageAlt="Quadro de viagem de moto na sala" imageOnLeft={false} />
+        
+        <FeatureSection title={<>A Aventura Termina… Mas a<br />Sensação Não Precisa Acabar.</>} description={<>Eternize sua jornada em um quadro personalizado<br />com o percurso em 3D feito exclusivamente para você —<br />um registro fiel do caminho que mudou sua forma de ver o mundo.</>} imageSrc="/images/motociclistas-ruta40.webp" imageAlt="Motociclistas na Ruta 40 Argentina" imageOnLeft={false} />
+        
+        <FeatureSection title="Entrega Segura em Todo Brasil" description="Seu quadro é embalado com proteção reforçada, garantindo que chegue impecável até você, independente da cidade." imageSrc="/images/embalagem-segura.webp" imageAlt="Embalagem segura" imageOnLeft={true} />
+        
         <EmotionalSectionViagem />
-        
-        <GallerySectionViagem />
-        <TestimonialsSection />
-        
-        {/* ETERNIZE background text positioned above Nossa loja section */}
-        
         
         <ProductSectionViagemLocal />
         <ShareSectionViagem />
