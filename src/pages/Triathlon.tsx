@@ -59,7 +59,7 @@ const Triathlon = () => {
         
         <FeatureSection title="A Sua Vitória Merece Destaque" description={<>Triathlon não é só uma prova. É uma jornada. Existem conquistas que mudam quem você é.<br /><br />A sua medalha coloca esse momento em evidência, eternizando a linha de chegada que você conquistou com foco, disciplina e coragem.</>} imageSrc="/images/triathlon-medalhas.webp" imageAlt="Medalhas emolduradas" imageOnLeft={true} />
         
-        <FeatureSection title="Entrega Segura em Todo Brasil" description={<>Da Onetouch3D até você — com cuidado absoluto.<br /><br />Cada quadro é embalado com proteção reforçada para chegar perfeito, independentemente do estado onde você mora.<br />Segurança e qualidade da produção até a sua porta.</>} imageSrc="/images/embalagem-segura.webp" imageAlt="Embalagem segura" imageOnLeft={true} />
+        <FeatureSection title="Entrega Segura em Todo Brasil" description={<>Da Onetouch3D até você — com cuidado absoluto.<br /><br />Cada quadro é embalado com proteção reforçada para chegar perfeito, independentemente do estado onde você mora.<br />Segurança e qualidade da produção até a sua porta.</>} imageSrc="/images/embalagem-segura.webp" imageAlt="Embalagem segura" imageOnLeft={false} />
         
         <EmotionalImageSectionTriathlon />
         
