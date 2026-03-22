@@ -3,6 +3,7 @@ import { useState, useCallback } from "react";
 export interface TabItem {
   id: number;
   label: string;
+  labelShort?: string;
   title: string;
   description: string;
   image: string;
@@ -79,7 +80,14 @@ const WhyChooseUsTabsBase = ({ tabs }: WhyChooseUsTabsBaseProps) => {
                     }
                   `}
                 >
-                  {tab.label}
+                  {tab.labelShort ? (
+                    <>
+                      <span className="md:hidden">{tab.labelShort}</span>
+                      <span className="hidden md:inline">{tab.label}</span>
+                    </>
+                  ) : (
+                    tab.label
+                  )}
                 </button>
               ))}
             </div>
