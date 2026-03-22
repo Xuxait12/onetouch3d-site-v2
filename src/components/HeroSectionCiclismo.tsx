@@ -115,7 +115,7 @@ const HeroSectionCiclismo = () => {
         }} className="text-lg sm:text-xl md:text-2xl mb-8 opacity-90 max-w-4xl mx-auto text-white/95 drop-shadow-lg text-center"> Personalize com percurso 3D, fotos e dados do seu PEDAL/PROVA para criar uma lembrança inesquecível.</motion.p>
 
           {/* Âncora de preço */}
-          <motion.p className="text-sm text-white/70 mt-4 mb-2 text-center drop-shadow-lg" initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={shouldReduceMotion ? {} : { delay: 0.85, duration: 0.5, ease: "easeOut" }}>
+          <motion.p className="text-lg font-bold text-white/90 mt-4 mb-2 text-center drop-shadow-lg" initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={shouldReduceMotion ? {} : { delay: 0.85, duration: 0.5, ease: "easeOut" }}>
             🏷️ A partir de R$ 328,90 · Parcele em até 12x
           </motion.p>
 

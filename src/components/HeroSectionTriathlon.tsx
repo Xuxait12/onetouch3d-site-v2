@@ -117,7 +117,7 @@ const HeroSectionTriathlon = () => {
           </motion.p>
 
           {/* Âncora de preço */}
-          <motion.p className="text-sm text-white/70 mt-4 mb-2 text-center drop-shadow-lg" initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={shouldReduceMotion ? {} : { delay: 0.85, duration: 0.5, ease: "easeOut" }}>
+          <motion.p className="text-lg font-bold text-white/90 mt-4 mb-2 text-center drop-shadow-lg" initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={shouldReduceMotion ? {} : { delay: 0.85, duration: 0.5, ease: "easeOut" }}>
             🏷️ A partir de R$ 325,50 · Parcele em até 12x
           </motion.p>
 
