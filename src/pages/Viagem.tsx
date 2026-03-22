@@ -44,7 +44,7 @@ const Viagem = () => {
         <FeatureSection title="Suas Fotos em Destaque" description={<>
               <p className="mb-2">Selecione as melhores imagens da sua expedição: paisagens, trechos, marcos históricos ou momentos especiais.</p>
               <p>Nós transformamos tudo em um design moderno, estilo scrapbook, que representa cada etapa vivida.</p>
-            </>} imageSrc="/images/scrapbook-moto-viagem.webp" imageAlt="Fotos em destaque estilo scrapbook" imageOnLeft={true} />
+            </>} imageSrc="/images/scrapbook-moto-viagem.webp" imageAlt="Fotos em destaque estilo scrapbook" imageOnLeft={false} />
         
         <FeatureSection title="Detalhes da Sua Viagem" description={<>
               <p className="mb-3">Incluímos as principais informações da sua viagem, como:</p>
@@ -74,7 +74,7 @@ const Viagem = () => {
                 <li>As emoções vividas ao longo da viagem</li>
                 <li>A identidade de quem escolheu explorar</li>
               </ul>
-            </>} imageSrc="/images/quadro-sala-moto.webp" imageAlt="Quadro de viagem de moto na sala" imageOnLeft={false} />
+            </>} imageSrc="/images/quadro-sala-moto.webp" imageAlt="Quadro de viagem de moto na sala" imageOnLeft={true} />
         
         <FeatureSection title={<>A Aventura Termina… Mas a<br />Sensação Não Precisa Acabar.</>} description={<>Eternize sua jornada em um quadro personalizado<br />com o percurso em 3D feito exclusivamente para você —<br />um registro fiel do caminho que mudou sua forma de ver o mundo.</>} imageSrc="/images/motociclistas-ruta40.webp" imageAlt="Motociclistas na Ruta 40 Argentina" imageOnLeft={false} />
         
