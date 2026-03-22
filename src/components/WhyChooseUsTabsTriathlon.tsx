@@ -7,8 +7,8 @@ const tabs: TabItem[] = [
     labelShort: "Qualidade",
     title: "Qualidade premium",
     description: "Impressão 3D e molduras de alta qualidade",
-    image: "/images/ambiente-triathlon-premium.webp",
-    mobileImage: "/images/triathlon-qualidade-premium-mobile.webp",
+    image: "/images/triathlon-harmonioso.webp",
+    mobileImage: "/images/triathlon-destaque-medalha-mobile.webp",
   },
   {
     id: 2,
