@@ -12,7 +12,7 @@ const tabs: TabItem[] = [
   {
     id: 2,
     label: "Destaque sua viagem",
-    labelShort: "Medalha",
+    labelShort: "Destaque",
     title: "Destaque sua viagem",
     description: "Sua aventura e viagem em evidência.",
     image: "/images/destaque-viagem.webp",
