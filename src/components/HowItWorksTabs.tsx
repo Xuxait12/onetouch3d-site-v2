@@ -48,19 +48,24 @@ export default function HowItWorksTabs() {
       <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground">Como Funciona</h2>
 
       {/* Desktop: 4 cards in a row with arrows */}
+      {/* Desktop: 4 cards in a row with arrows */}
       <div className="hidden lg:grid grid-cols-7 gap-4 max-w-6xl w-full items-stretch">
         {steps.map((step, index) => (
           <>
             <div
               key={step.id}
-              className="col-span-1 flex flex-col items-center text-center gap-4 bg-secondary/30 rounded-2xl p-6 border border-border/50"
+              className="col-span-1 flex flex-row items-start gap-4 bg-secondary/30 rounded-2xl p-4 border border-border/50"
             >
-              <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-accent text-accent-foreground text-sm font-bold">
-                {step.id}
-              </span>
-              <div className="text-accent">{step.icon}</div>
-              <h3 className="text-lg font-semibold text-foreground">{step.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
+              <div className="flex flex-col items-center gap-2 shrink-0">
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-accent text-accent-foreground text-sm font-bold">
+                  {step.id}
+                </span>
+                <div className="text-accent">{step.icon}</div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <h3 className="text-base font-bold text-foreground">{step.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
+              </div>
             </div>
             {index < steps.length - 1 && (
               <div key={`arrow-${index}`} className="col-span-1 flex items-center justify-center">
@@ -77,14 +82,18 @@ export default function HowItWorksTabs() {
           <>
             <div
               key={step.id}
-              className="flex flex-col items-center text-center gap-4 bg-secondary/30 rounded-2xl p-6 border border-border/50"
+              className="flex flex-row items-start gap-4 bg-secondary/30 rounded-2xl p-4 border border-border/50"
             >
-              <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-accent text-accent-foreground text-sm font-bold">
-                {step.id}
-              </span>
-              <div className="text-accent">{step.icon}</div>
-              <h3 className="text-lg font-semibold text-foreground">{step.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
+              <div className="flex flex-col items-center gap-2 shrink-0">
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-accent text-accent-foreground text-sm font-bold">
+                  {step.id}
+                </span>
+                <div className="text-accent">{step.icon}</div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <h3 className="text-base font-bold text-foreground">{step.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
+              </div>
             </div>
             {index === 1 && (
               <div key="arrow-row" className="col-span-2 flex justify-center py-2">
@@ -101,14 +110,18 @@ export default function HowItWorksTabs() {
           <>
             <div
               key={step.id}
-              className="flex flex-col items-center text-center gap-4 bg-secondary/30 rounded-2xl p-6 border border-border/50 w-full"
+              className="flex flex-row items-start gap-4 bg-secondary/30 rounded-2xl p-4 border border-border/50 w-full"
             >
-              <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-accent text-accent-foreground text-sm font-bold">
-                {step.id}
-              </span>
-              <div className="text-accent">{step.icon}</div>
-              <h3 className="text-lg font-semibold text-foreground">{step.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
+              <div className="flex flex-col items-center gap-2 shrink-0">
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-accent text-accent-foreground text-sm font-bold">
+                  {step.id}
+                </span>
+                <div className="text-accent">{step.icon}</div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <h3 className="text-base font-bold text-foreground">{step.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
+              </div>
             </div>
             {index < steps.length - 1 && (
               <ArrowDown key={`arrow-${index}`} size={24} className="text-accent" />
