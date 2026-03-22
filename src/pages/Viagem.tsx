@@ -55,12 +55,12 @@ const Viagem = () => {
                 <li>Título da sua viagem</li>
                 <li>Estilo da aventura (carro, moto ou motorhome)</li>
               </ul>
-            </>} imageSrc="/images/dados-viagem-moto.webp" imageAlt="Detalhes da viagem de moto" imageOnLeft={false} />
+            </>} imageSrc="/images/dados-viagem-moto.webp" imageAlt="Detalhes da viagem de moto" imageOnLeft={true} />
         
         <FeatureSection title="Moldura Premium e Durável" description={<>
               <p className="mb-4">Nossas molduras são produzidas com materiais de alta resistência e acabamento sofisticado.</p>
               <p>Seu quadro não apenas valoriza sua medalha, mas também se torna parte da decoração.</p>
-            </>} imageSrc="/images/moldura-premium-viagem.webp" mobileImageSrc="/images/moldura-premium-mobile.webp" imageAlt="Moldura premium personalizada" imageOnLeft={true} />
+            </>} imageSrc="/images/moldura-premium-viagem.webp" mobileImageSrc="/images/moldura-premium-mobile.webp" imageAlt="Moldura premium personalizada" imageOnLeft={false} />
         
         <HowItWorksTabsViagem />
         <TestimonialsSection />
