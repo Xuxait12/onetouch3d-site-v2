@@ -38,17 +38,11 @@ const ScrollToTop = () => {
     <button
       onClick={scrollToTop}
       aria-label="Voltar ao topo"
-      className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-50 w-12 h-12 rounded-full flex items-center justify-center shadow-md cursor-pointer transition-opacity duration-[400ms] ${
+      className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-50 w-12 h-12 rounded-full flex items-center justify-center shadow-lg cursor-pointer transition-opacity duration-[400ms] bg-black/35 backdrop-blur-sm border border-white/25 ${
         visible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
       }`}
-      style={{
-        background: "rgba(255,255,255,0.20)",
-        backdropFilter: "blur(6px)",
-        WebkitBackdropFilter: "blur(6px)",
-        border: "1px solid rgba(255,255,255,0.30)",
-      }}
     >
-      <ChevronUp className="w-5 h-5 text-white" style={{ opacity: 0.85 }} />
+      <ChevronUp className="w-5 h-5 text-white/90" />
     </button>
   );
 };
