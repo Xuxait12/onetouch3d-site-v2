@@ -58,7 +58,7 @@ export default function HowItWorksTabsViagem() {
             <div key={step.id} className="flex flex-col items-center text-center gap-3">
               <div className="text-accent">{step.icon}</div>
               <h3 className="text-base font-bold text-foreground">{step.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">{step.description}</p>
+              <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
             </div>
           ))}
         </div>
