@@ -42,7 +42,7 @@ export default function HowItWorksTabsCiclismo() {
       <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground">Como Funciona</h2>
 
       {/* Desktop: horizontal timeline */}
-      <div className="hidden md:block w-full max-w-5xl">
+      <div className="hidden md:block w-full max-w-7xl">
         <div className="relative flex items-center justify-between mb-8">
           <div className="absolute left-[calc(12.5%)] right-[calc(12.5%)] top-1/2 h-0.5 bg-border -translate-y-1/2" />
           {steps.map((step) => (
