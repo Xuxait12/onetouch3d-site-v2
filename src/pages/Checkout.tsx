@@ -850,7 +850,7 @@ const Checkout = () => {
                      
                      <Button 
                        onClick={handleSaveDeliveryAddress} 
-                       className="bg-black hover:bg-black/90 text-white"
+                        className="bg-[#2563EB] hover:bg-[#2563EB]/90 text-white"
                      >
                        Salvar endereço de entrega
                      </Button>

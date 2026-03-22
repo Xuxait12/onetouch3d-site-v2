@@ -322,7 +322,7 @@ const ProductSectionViagemLocal = () => {
               ) : (
                 <Button 
                   onClick={handleAddToCart}
-                  className="w-full bg-black hover:bg-black/90 text-white py-3 text-lg font-medium"
+                  className="w-full bg-[#2563EB] hover:bg-[#2563EB]/90 text-white py-3 text-lg font-medium"
                   disabled={pricesLoading || !priceInfo}
                 >
                   Adicionar ao carrinho

@@ -453,7 +453,7 @@ const ProductSectionCorridaLocal = () => {
 
               <Button 
                 onClick={handleAddToCart}
-                className="w-full bg-black hover:bg-black/90 text-white py-3 text-base sm:text-lg font-medium min-h-[48px]"
+                className="w-full bg-[#2563EB] hover:bg-[#2563EB]/90 text-white py-3 text-base sm:text-lg font-medium min-h-[48px]"
                 disabled={pricesLoading || !priceInfo}
               >
                 Adicionar ao carrinho

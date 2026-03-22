@@ -336,7 +336,7 @@ const Carrinho = () => {
                     </div>
 
                     <Button
-                      className="w-full mt-6 bg-black hover:bg-black/90 text-white py-3 text-lg font-medium rounded-lg"
+                      className="w-full mt-6 bg-[#2563EB] hover:bg-[#2563EB]/90 text-white py-3 text-lg font-medium rounded-lg"
                       onClick={() => {
                         if (!cart.selectedShippingOption) {
                           toast({
