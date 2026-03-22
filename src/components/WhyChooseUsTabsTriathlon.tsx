@@ -16,8 +16,8 @@ const tabs: TabItem[] = [
     labelShort: "Medalha",
     title: "Destaque para sua medalha",
     description: "Sua conquista e dedicação em evidência.",
-    image: "/images/triathlon-harmonioso.webp",
-    mobileImage: "/images/triathlon-destaque-medalha-mobile.webp",
+    image: "/images/ambiente-triathlon-premium.webp",
+    mobileImage: "/images/triathlon-qualidade-premium-mobile.webp",
   },
   {
     id: 3,
