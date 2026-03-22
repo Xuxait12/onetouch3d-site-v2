@@ -62,7 +62,7 @@ const Ciclismo = () => {
         
         <FeatureSectionCiclismo title="Sua História Eternizada" description={<>O resultado é uma peça elegante, versátil e marcante.<br /><br />Integrando perfeitamente a qualquer ambiente — do escritório ao espaço esportivo da casa — transformando sua dedicação em arte e sua prova em decoração com propósito.</>} imageSrc="/images/quadro-moderno.webp" imageAlt="Layout moderno e exclusivo" imageOnLeft={true} />
         
-        <FeatureSection title="Sua Conquista em Destaque" description={<>O dia da sua conquista não termina na linha de chegada. Ele continua em cada lembrança, em cada detalhe do percurso.<br /><br />Transformar esse momento em algo visível é dar valor à sua história. É permitir que sua conquista siga inspirando todos os dias.</>} imageSrc="/images/conquista-destaque-ciclismo.webp" imageAlt="Medalhas emolduradas" imageOnLeft={true} />
+        <FeatureSection title="Sua Conquista em Destaque" description={<>O dia da sua conquista não termina na linha de chegada. Ele continua em cada lembrança, em cada detalhe do percurso.<br /><br />Transformar esse momento em algo visível é dar valor à sua história. É permitir que sua conquista siga inspirando todos os dias.</>} imageSrc="/images/conquista-destaque-ciclismo.webp" imageAlt="Medalhas emolduradas" imageOnLeft={false} />
         
         <FeatureSection title="Entrega Segura em Todo Brasil" description="Seus quadros são embalados com proteção reforçada, garantindo que cheguem em perfeito estado até a sua casa, em qualquer lugar do Brasil." imageSrc="/images/embalagem-segura.webp" imageAlt="Embalagem segura" imageOnLeft={true} />
         
