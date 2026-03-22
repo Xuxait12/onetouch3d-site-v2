@@ -97,7 +97,7 @@ const GlobalFooter = () => {
         {/* Copyright */}
         <div className="mt-12 pt-8 border-t text-center">
           <p className="text-sm text-muted-foreground">
-            © 2025 Onetouch3d. Todos os direitos reservados.
+            © 2026 OneTouch3D. Todos os direitos reservados.
           </p>
         </div>
       </div>
