@@ -2,43 +2,37 @@ import {
   MessageSquare,
   Brush,
   ThumbsUp,
-  Truck,
-  ArrowRight,
-  ArrowDown
+  Truck
 } from "lucide-react";
 
 const steps = [
   {
     id: 1,
-    label: "Informações",
     title: "Envie suas informações",
     description:
-      "Envie suas fotos, rota, datas e detalhes da viagem pelo WhatsApp. Nossa equipe cuida do resto! Quanto mais detalhes você enviar, mais completa fica sua história.",
-    icon: <MessageSquare size={32} />
+      "Envie suas fotos, rota, datas e detalhes da viagem pelo WhatsApp. Nossa equipe cuida do resto!",
+    icon: <MessageSquare size={28} />
   },
   {
     id: 2,
-    label: "Personalização",
     title: "Produção personalizada",
     description:
-      "Criamos sua arte com cuidado absoluto, destacando seu percurso, suas fotos e cada detalhe que fez sua viagem inesquecível. Personalizamos tudo para que seu quadro seja tão único quanto sua aventura.",
-    icon: <Brush size={32} />
+      "Criamos sua arte destacando seu percurso, suas fotos e cada detalhe que fez sua viagem inesquecível.",
+    icon: <Brush size={28} />
   },
   {
     id: 3,
-    label: "Aprovar",
     title: "Aprovar sua arte",
     description:
-      "Antes de produzir, você recebe uma prévia da arte para ajustar e aprovar tudo com tranquilidade. Só seguimos quando estiver perfeito! Você revisa, aprova e só então produzimos.",
-    icon: <ThumbsUp size={32} />
+      "Você recebe uma prévia da arte para ajustar e aprovar tudo com tranquilidade. Só produzimos quando estiver perfeito!",
+    icon: <ThumbsUp size={28} />
   },
   {
     id: 4,
-    label: "Envio",
     title: "Receba em casa",
     description:
-      "Após a aprovação, seu quadro é enviado em 5 a 7 dias úteis. Frete com total segurança para todo o Brasil! O próximo passo é recebê-lo em casa e reviver sua viagem todos os dias.",
-    icon: <Truck size={32} />
+      "Após a aprovação, seu quadro é enviado em 5 a 7 dias úteis com total segurança para todo o Brasil.",
+    icon: <Truck size={28} />
   }
 ];
 
@@ -47,86 +41,50 @@ export default function HowItWorksTabsViagem() {
     <section className="w-full flex flex-col items-center gap-10 py-14 md:py-20 px-4">
       <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground">Como Funciona</h2>
 
-      {/* Desktop */}
-      <div className="hidden lg:grid grid-cols-7 gap-4 max-w-6xl w-full items-stretch">
-        {steps.map((step, index) => (
-          <>
-            <div
-              key={step.id}
-              className="col-span-1 flex flex-row items-start gap-4 bg-secondary/30 rounded-2xl p-4 border border-border/50"
-            >
-              <div className="flex flex-col items-center gap-2 shrink-0">
-                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-accent text-accent-foreground text-sm font-bold">
-                  {step.id}
-                </span>
-                <div className="text-accent">{step.icon}</div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <h3 className="text-base font-bold text-foreground">{step.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
-              </div>
+      {/* Desktop: horizontal timeline */}
+      <div className="hidden md:block w-full max-w-5xl">
+        <div className="relative flex items-center justify-between mb-8">
+          <div className="absolute left-[calc(12.5%)] right-[calc(12.5%)] top-1/2 h-0.5 bg-border -translate-y-1/2" />
+          {steps.map((step) => (
+            <div key={step.id} className="relative z-10 flex items-center justify-center w-1/4">
+              <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent text-accent-foreground text-sm font-bold shadow-md">
+                {step.id}
+              </span>
             </div>
-            {index < steps.length - 1 && (
-              <div key={`arrow-${index}`} className="col-span-1 flex items-center justify-center">
-                <ArrowRight size={28} className="text-accent" />
-              </div>
-            )}
-          </>
-        ))}
+          ))}
+        </div>
+        <div className="grid grid-cols-4 gap-8">
+          {steps.map((step) => (
+            <div key={step.id} className="flex flex-col items-center text-center gap-3">
+              <div className="text-accent">{step.icon}</div>
+              <h3 className="text-base font-bold text-foreground">{step.title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">{step.description}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Tablet */}
-      <div className="hidden md:grid lg:hidden grid-cols-2 gap-6 max-w-2xl w-full">
-        {steps.map((step, index) => (
-          <>
-            <div
-              key={step.id}
-              className="flex flex-row items-start gap-4 bg-secondary/30 rounded-2xl p-4 border border-border/50"
-            >
-              <div className="flex flex-col items-center gap-2 shrink-0">
-                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-accent text-accent-foreground text-sm font-bold">
+      {/* Mobile: vertical timeline */}
+      <div className="md:hidden w-full max-w-md">
+        <div className="relative">
+          <div className="absolute left-5 top-5 bottom-5 w-0.5 bg-border" />
+          <div className="flex flex-col gap-8">
+            {steps.map((step) => (
+              <div key={step.id} className="relative flex items-start gap-4 pl-0">
+                <span className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent text-accent-foreground text-sm font-bold shadow-md shrink-0">
                   {step.id}
                 </span>
-                <div className="text-accent">{step.icon}</div>
+                <div className="flex flex-col gap-1 pt-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-accent">{step.icon}</span>
+                    <h3 className="text-base font-bold text-foreground">{step.title}</h3>
+                  </div>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
+                </div>
               </div>
-              <div className="flex flex-col gap-1">
-                <h3 className="text-base font-bold text-foreground">{step.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
-              </div>
-            </div>
-            {index === 1 && (
-              <div key="arrow-row" className="col-span-2 flex justify-center py-2">
-                <ArrowDown size={28} className="text-accent" />
-              </div>
-            )}
-          </>
-        ))}
-      </div>
-
-      {/* Mobile */}
-      <div className="flex flex-col items-center gap-4 md:hidden w-full max-w-md">
-        {steps.map((step, index) => (
-          <>
-            <div
-              key={step.id}
-              className="flex flex-row items-start gap-4 bg-secondary/30 rounded-2xl p-4 border border-border/50 w-full"
-            >
-              <div className="flex flex-col items-center gap-2 shrink-0">
-                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-accent text-accent-foreground text-sm font-bold">
-                  {step.id}
-                </span>
-                <div className="text-accent">{step.icon}</div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <h3 className="text-base font-bold text-foreground">{step.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
-              </div>
-            </div>
-            {index < steps.length - 1 && (
-              <ArrowDown key={`arrow-${index}`} size={24} className="text-accent" />
-            )}
-          </>
-        ))}
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
