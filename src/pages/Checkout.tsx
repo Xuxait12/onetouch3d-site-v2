@@ -1071,7 +1071,7 @@ const Checkout = () => {
                   {/* Botão Continuar */}
                   <Button
                     onClick={handleFinalizePurchase}
-                    className="w-full bg-black hover:bg-black/90 text-white py-4 text-lg font-medium"
+                    className="w-full bg-[#2563EB] hover:bg-[#2563EB]/90 text-white py-4 text-lg font-medium"
                     disabled={!acceptTerms || (!selectedPaymentType && !paymentMethod) || isSubmitting || !cart?.selectedShippingOption}
                   >
                     {isSubmitting ? "Criando pedido..." : "Continuar para Pagamento"}
