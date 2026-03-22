@@ -116,6 +116,11 @@ const HeroSection = () => {
             Deixe sua medalha em destaque! Personalize com percurso 3D, fotos e dados da prova para criar uma lembrança inesquecível.
           </motion.p>
 
+          {/* Âncora de preço */}
+          <motion.p className="text-sm text-white/70 mt-4 mb-2 text-center drop-shadow-lg" initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={shouldReduceMotion ? {} : { delay: 0.85, duration: 0.5, ease: "easeOut" }}>
+            🏷️ A partir de R$ 291,90 · Parcele em até 12x
+          </motion.p>
+
           {/* CTA com fade-up e zoom */}
           <motion.div className="mt-6" initial={shouldReduceMotion ? {} : {
           opacity: 0,
