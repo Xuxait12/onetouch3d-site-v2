@@ -44,7 +44,7 @@ const Viagem = () => {
         <FeatureSection title="Suas Fotos em Destaque" description={<>
               <p className="mb-2">Selecione as melhores imagens da sua expedição: paisagens, trechos, marcos históricos ou momentos especiais.</p>
               <p>Nós transformamos tudo em um design moderno, estilo scrapbook, que representa cada etapa vivida.</p>
-            </>} imageSrc="/images/scrapbook-moto-viagem.webp" imageAlt="Fotos em destaque estilo scrapbook" imageOnLeft={true} />
+            </>} imageSrc="/images/scrapbook-moto-viagem.webp" imageAlt="Fotos em destaque estilo scrapbook" imageOnLeft={false} />
         
         <FeatureSection title="Detalhes da Sua Viagem" description={<>
               <p className="mb-3">Incluímos as principais informações da sua viagem, como:</p>
