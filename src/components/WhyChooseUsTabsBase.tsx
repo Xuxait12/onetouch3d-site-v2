@@ -3,6 +3,7 @@ import { useState, useCallback } from "react";
 export interface TabItem {
   id: number;
   label: string;
+  labelShort?: string;
   title: string;
   description: string;
   image: string;
