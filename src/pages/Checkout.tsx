@@ -775,7 +775,7 @@ const Checkout = () => {
                   </div>
                 </div>
                 
-                <Button onClick={handleSaveData} className="mt-6 bg-black hover:bg-black/90 text-white">
+                <Button onClick={handleSaveData} className="mt-6 bg-[#2563EB] hover:bg-[#2563EB]/90 text-white">
                   Salvar Dados
                 </Button>
               </Card>
