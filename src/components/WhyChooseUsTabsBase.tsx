@@ -80,7 +80,14 @@ const WhyChooseUsTabsBase = ({ tabs }: WhyChooseUsTabsBaseProps) => {
                     }
                   `}
                 >
-                  {tab.label}
+                  {tab.labelShort ? (
+                    <>
+                      <span className="md:hidden">{tab.labelShort}</span>
+                      <span className="hidden md:inline">{tab.label}</span>
+                    </>
+                  ) : (
+                    tab.label
+                  )}
                 </button>
               ))}
             </div>
