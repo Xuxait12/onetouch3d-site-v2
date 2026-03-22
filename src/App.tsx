@@ -30,6 +30,7 @@ import AdminPanel from "./pages/AdminPanel";
 import ConfirmacaoWhatsapp from "./pages/ConfirmacaoWhatsapp";
 import AuthCallback from "./pages/AuthCallback";
 import NotFound from "./pages/NotFound";
+import ScrollToTop from "./components/ScrollToTop";
 
 
 const queryClient = new QueryClient();
