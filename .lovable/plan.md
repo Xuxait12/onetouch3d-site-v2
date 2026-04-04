@@ -1,34 +1,36 @@
 
 
-## Plano: Adicionar imagem 11 na galeria de Viagem
+## Plano: Ajustar enquadramento da thumbnail da Foto 9
 
-### O que será feito
+### Problema
+A primeira imagem da linha 3 (Foto 9, index 8 no array) está com o quadro cortado no grid porque `object-cover` dentro de `aspect-square` corta centralmente uma imagem que é mais alta (vertical). O quadro horizontal não aparece inteiro.
 
-Adicionar uma nova imagem (a 9a) na galeria de inspiração da página `/viagem`, inserida na posição 2 do array (entre a foto 1 e a foto 2 atuais).
+### Solução
+Adicionar um campo `objectPosition` ao objeto da imagem para controlar o posicionamento do crop. Para a Foto 9, usar `object-position: center top` (ou `center 30%`) para mostrar mais do quadro.
 
-### Passos
+### Alterações em `src/components/GalleryCarouselViagem.tsx`
 
-1. **Copiar os arquivos de imagem para o projeto**
-   - `foto_11_11.webp` → `public/images/galeria-viagem-foto11-thumb.webp` (grid/thumbnail)
-   - `foto_11.webp` → `public/images/galeria-viagem-foto11-popup.webp` (popup/lightbox)
+1. **Adicionar campo opcional `objectPosition`** ao objeto da Foto 9 no array:
+   ```ts
+   {
+     gallery: "/images/galeria-viagem-foto9-thumb.webp",
+     popup: "/images/galeria-viagem-foto9-popup.webp",
+     alt: "Viagem - Galeria 9",
+     description: "Caixa Alta - 43x63cm",
+     objectPosition: "center 40%"
+   }
+   ```
 
-2. **Editar `src/components/GalleryCarouselViagem.tsx`**
-   - Inserir um novo objeto na posição 2 do array `galleryImages` (entre foto1 e foto2):
-     ```ts
-     {
-       gallery: "/images/galeria-viagem-foto11-thumb.webp",
-       popup: "/images/galeria-viagem-foto11-popup.webp",
-       alt: "Viagem - Galeria 11",
-       description: "Caixa Alta - 33x43cm"
-     }
-     ```
-   - Nenhuma outra alteração no componente -- a lógica de grid responsivo (1→2→3→4 colunas) e lightbox já funciona automaticamente com 9 imagens.
+2. **Aplicar no `<img>`** via style inline:
+   ```tsx
+   <img
+     src={image.gallery}
+     alt={image.alt}
+     className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+     style={image.objectPosition ? { objectPosition: image.objectPosition } : undefined}
+     loading="lazy"
+   />
+   ```
 
-### Resultado
-
-- 9 imagens no total
-- Grid desktop (lg): 4+4+1 (3 linhas, última com 1 imagem)
-- Grid tablet (md): 3+3+3
-- Grid mobile (sm): 2 colunas / (default): 1 coluna
-- Lightbox, navegação por setas/teclado e contador continuam funcionando sem alteração.
+Apenas esses dois pontos serão alterados. Nenhum outro elemento da galeria será modificado.
 
