@@ -13,6 +13,7 @@ import GallerySectionCorrida from "@/components/GallerySectionCorrida";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ShareSectionCorrida from "@/components/ShareSectionCorrida";
 import EmotionalSectionCorrida from "@/components/EmotionalSectionCorrida";
+import MaratonasSection from "@/components/corrida/MaratonasSection";
 
 const Corrida = () => {
   const location = useLocation();
