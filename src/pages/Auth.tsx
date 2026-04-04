@@ -234,6 +234,8 @@ const Auth = () => {
             src={onetouchLogo} 
             alt="OneTouch3D" 
             className="h-10 mx-auto mb-2"
+            loading="eager"
+            fetchPriority="high"
           />
           <CardDescription>
             Entre ou crie sua conta
