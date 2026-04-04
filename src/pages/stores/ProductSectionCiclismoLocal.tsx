@@ -156,7 +156,8 @@ const ProductSectionCiclismoLocal = () => {
                 <img 
                   src={productImage} 
                   alt="Quadro personalizado de ciclismo" 
-                  className="w-full rounded-lg shadow-lg" 
+                  className="w-full rounded-lg shadow-lg"
+                  loading="lazy"
                 />
               </div>
 
