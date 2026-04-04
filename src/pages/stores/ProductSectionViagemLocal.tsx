@@ -53,12 +53,10 @@ const ProductSectionViagemLocal = () => {
     availablePricedSizes.includes(size) || QUOTE_SIZES.includes(size)
   );
 
-  // Auto-select first size
+  // Auto-select first available priced size (smallest/cheapest), matching Corrida/Ciclismo/Triathlon logic
   useEffect(() => {
-    if (finalDisplaySizes.length > 0 && (!selectedSize || !finalDisplaySizes.includes(selectedSize.replace("cm", "")))) {
-      const preferred = "33x43";
-      const defaultSize = finalDisplaySizes.includes(preferred) ? preferred : finalDisplaySizes[0];
-      setSelectedSize(defaultSize + "cm");
+    if (availablePricedSizes.length > 0 && (!selectedSize || !finalDisplaySizes.includes(selectedSize.replace("cm", "")))) {
+      setSelectedSize(availablePricedSizes[0] + "cm");
     }
   }, [availablePricedSizes]);
 
