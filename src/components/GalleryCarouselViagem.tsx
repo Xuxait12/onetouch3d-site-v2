@@ -154,6 +154,7 @@ const GalleryCarouselViagem = () => {
                   src={image.gallery}
                   alt={image.alt}
                   className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+                  style={image.objectPosition ? { objectPosition: image.objectPosition } : undefined}
                   loading="lazy"
                 />
                 {/* Overlay com escurecimento */}
