@@ -495,7 +495,7 @@ const ConfirmacaoWhatsapp = () => {
   const renderAuthScreen = () => (
     <Card className="w-full max-w-md">
       <CardHeader className="text-center">
-        <img src={onetouchLogo} alt="OneTouch3D" className="h-10 mx-auto mb-2" />
+        <img src={onetouchLogo} alt="OneTouch3D" className="h-10 mx-auto mb-2" loading="eager" fetchPriority="high" />
         <CardDescription className="text-sm">
           Este link foi enviado via WhatsApp para finalizar seu pedido e gerar o pagamento via PIX.
         </CardDescription>
