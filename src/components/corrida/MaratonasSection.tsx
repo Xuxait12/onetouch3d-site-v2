@@ -28,7 +28,7 @@ const MaratonasSection = () => {
       </div>
 
       {/* Marquee */}
-      <div className="relative w-full overflow-hidden bg-muted/40 py-8 mb-12 group">
+      <div className="relative w-full overflow-hidden py-8 mb-12 group">
         <style>{`
           @keyframes marquee-scroll {
             0% { transform: translateX(0); }
