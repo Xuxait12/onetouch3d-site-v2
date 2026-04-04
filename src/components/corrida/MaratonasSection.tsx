@@ -46,14 +46,13 @@ const MaratonasSection = () => {
         `}</style>
         <div className="marquee-track">
           {duplicated.map((m, i) => (
-            <div key={i} className="flex flex-col items-center justify-center mx-8 md:mx-12 min-w-[120px]">
+            <div key={i} className="flex items-center justify-center mx-8 md:mx-12 min-w-[120px]">
               <img
                 src={m.image}
                 alt={m.name}
-                className="h-14 md:h-16 w-auto object-contain mb-2"
+                className="h-14 md:h-16 w-auto object-contain"
                 loading="lazy"
               />
-              <span className="text-xs text-muted-foreground whitespace-nowrap">{m.name}</span>
             </div>
           ))}
         </div>
