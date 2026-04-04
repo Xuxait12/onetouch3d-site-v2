@@ -199,6 +199,7 @@ const ProductSectionCorridaLocal = () => {
                   src={getCurrentImage()}
                   alt="Quadro personalizado da corrida"
                   className="w-full rounded-lg shadow-lg"
+                  loading="lazy"
                 />
               </div>
 
@@ -507,6 +508,7 @@ const ProductSectionCorridaLocal = () => {
                                   src={option.company.picture}
                                   alt={option.company.name}
                                   className="w-8 h-8 object-contain"
+                                  loading="lazy"
                                   onError={(e) => {
                                     e.currentTarget.style.display = 'none';
                                   }}

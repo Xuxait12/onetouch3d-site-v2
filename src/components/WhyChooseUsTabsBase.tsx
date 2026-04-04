@@ -44,6 +44,7 @@ const WhyChooseUsTabsBase = ({ tabs }: WhyChooseUsTabsBaseProps) => {
                 key={`img-${activeTab}`}
                 src={mobileImg}
                 alt={activeContent.title}
+                loading="lazy"
                 className="w-full max-w-4xl mx-auto h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-cover rounded-3xl shadow-elegant transition-all duration-500"
               />
             </picture>
@@ -52,6 +53,7 @@ const WhyChooseUsTabsBase = ({ tabs }: WhyChooseUsTabsBaseProps) => {
               key={`img-${activeTab}`}
               src={activeContent.image}
               alt={activeContent.title}
+              loading="lazy"
               className="w-full max-w-4xl mx-auto h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-cover rounded-3xl shadow-elegant transition-all duration-500"
             />
           )}

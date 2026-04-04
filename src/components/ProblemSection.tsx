@@ -9,6 +9,7 @@ const ProblemSection = () => {
             src={medalDrawer} 
             alt="Medalha de corrida guardada em gaveta" 
             className="w-full h-auto rounded-2xl shadow-soft"
+            loading="lazy"
           />
         </div>
         

@@ -205,6 +205,7 @@ const GalleryCarouselViagem = () => {
                 <img
                   src={galleryImages[selectedImageIndex].popup}
                   alt={galleryImages[selectedImageIndex].alt}
+                  loading="lazy"
                   className="max-w-full max-h-full object-contain animate-zoom-in-smooth"
                 />
               </div>

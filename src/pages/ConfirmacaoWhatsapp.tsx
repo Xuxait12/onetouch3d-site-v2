@@ -495,7 +495,7 @@ const ConfirmacaoWhatsapp = () => {
   const renderAuthScreen = () => (
     <Card className="w-full max-w-md">
       <CardHeader className="text-center">
-        <img src={onetouchLogo} alt="OneTouch3D" className="h-10 mx-auto mb-2" />
+        <img src={onetouchLogo} alt="OneTouch3D" className="h-10 mx-auto mb-2" loading="eager" fetchPriority="high" />
         <CardDescription className="text-sm">
           Este link foi enviado via WhatsApp para finalizar seu pedido e gerar o pagamento via PIX.
         </CardDescription>
@@ -504,7 +504,7 @@ const ConfirmacaoWhatsapp = () => {
       <CardContent>
         <div className="space-y-4">
           <Button onClick={handleGoogleSignIn} variant="outline" className="w-full" disabled={loading}>
-            <img src={googleLogo} alt="Google" className="w-4 h-4 mr-2" />
+            <img src={googleLogo} alt="Google" className="w-4 h-4 mr-2" loading="eager" fetchPriority="high" />
             Continuar com Google
           </Button>
 
@@ -728,7 +728,7 @@ const ConfirmacaoWhatsapp = () => {
         </DialogHeader>
 
         <div className="space-y-4 mt-4">
-          <img src={pixQrCode} alt="QR Code PIX" className="mx-auto w-48 h-48 rounded-lg border" />
+          <img src={pixQrCode} alt="QR Code PIX" className="mx-auto w-48 h-48 rounded-lg border" loading="lazy" />
 
           {pixConfig && (
             <div className="bg-muted/50 rounded-lg p-4 space-y-2 text-sm">

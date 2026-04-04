@@ -36,11 +36,11 @@ const FeatureSection = ({
           <div className={`w-full aspect-[4/3] sm:aspect-[592/394] overflow-hidden rounded-xl sm:rounded-2xl shadow-soft ${objectFit === 'contain' ? 'bg-black' : ''}`}>
             {mobileImageSrc ? (
               <>
-                <img src={mobileImageSrc} alt={imageAlt} className={`w-full h-full ${objectFit === 'contain' ? 'object-contain' : 'object-cover'} sm:hidden`} />
-                <img src={imageSrc} alt={imageAlt} className={`w-full h-full ${objectFit === 'contain' ? 'object-contain' : 'object-cover'} hidden sm:block`} />
+                <img src={mobileImageSrc} alt={imageAlt} loading="lazy" className={`w-full h-full ${objectFit === 'contain' ? 'object-contain' : 'object-cover'} sm:hidden`} />
+                <img src={imageSrc} alt={imageAlt} loading="lazy" className={`w-full h-full ${objectFit === 'contain' ? 'object-contain' : 'object-cover'} hidden sm:block`} />
               </>
             ) : (
-              <img src={imageSrc} alt={imageAlt} className={`w-full h-full ${objectFit === 'contain' ? 'object-contain' : 'object-cover'}`} />
+              <img src={imageSrc} alt={imageAlt} loading="lazy" className={`w-full h-full ${objectFit === 'contain' ? 'object-contain' : 'object-cover'}`} />
             )}
           </div>
         </div>

@@ -156,7 +156,8 @@ const ProductSectionCiclismoLocal = () => {
                 <img 
                   src={productImage} 
                   alt="Quadro personalizado de ciclismo" 
-                  className="w-full rounded-lg shadow-lg" 
+                  className="w-full rounded-lg shadow-lg"
+                  loading="lazy"
                 />
               </div>
 
@@ -346,6 +347,7 @@ const ProductSectionCiclismoLocal = () => {
                                   src={option.company.picture}
                                   alt={option.company.name}
                                   className="w-8 h-8 object-contain"
+                                  loading="lazy"
                                   onError={(e) => {
                                     e.currentTarget.style.display = 'none';
                                   }}

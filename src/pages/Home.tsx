@@ -87,6 +87,8 @@ const Home = () => {
                     <img
                     src={page.image}
                     alt={page.title}
+                    loading="eager"
+                    fetchPriority="high"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out" />
                   
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent group-hover:from-black/10 transition-all duration-700" />

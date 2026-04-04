@@ -234,6 +234,8 @@ const Auth = () => {
             src={onetouchLogo} 
             alt="OneTouch3D" 
             className="h-10 mx-auto mb-2"
+            loading="eager"
+            fetchPriority="high"
           />
           <CardDescription>
             Entre ou crie sua conta
@@ -247,7 +249,7 @@ const Auth = () => {
               className="w-full"
               disabled={loading}
             >
-              <img src={googleLogo} alt="Google" className="w-4 h-4 mr-2" />
+              <img src={googleLogo} alt="Google" className="w-4 h-4 mr-2" loading="eager" fetchPriority="high" />
               Continuar com Google
             </Button>
             
