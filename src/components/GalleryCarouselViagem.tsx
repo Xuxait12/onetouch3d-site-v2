@@ -33,16 +33,16 @@ const GalleryCarouselViagem = () => {
       description: "Caixa Alta - 37x48cm"
     },
     {
-      gallery: "/images/galeria-viagem-foto4-thumb.webp",
-      popup: "/images/galeria-viagem-foto4-popup.webp",
-      alt: "Viagem - Galeria 4",
-      description: "Caixa Alta - 53x43cm"
-    },
-    {
       gallery: "/images/galeria-viagem-foto5-thumb.webp",
       popup: "/images/galeria-viagem-foto5-popup.webp",
       alt: "Viagem - Galeria 5",
       description: "Caixa Alta - 43x53cm"
+    },
+    {
+      gallery: "/images/galeria-viagem-foto4-thumb.webp",
+      popup: "/images/galeria-viagem-foto4-popup.webp",
+      alt: "Viagem - Galeria 4",
+      description: "Caixa Alta - 53x43cm"
     },
     {
       gallery: "/images/galeria-viagem-foto6-thumb.webp",
@@ -64,16 +64,16 @@ const GalleryCarouselViagem = () => {
       objectPosition: "center 40%"
     },
     {
-      gallery: "/images/galeria-viagem-foto10-thumb.webp",
-      popup: "/images/galeria-viagem-foto10-popup.webp",
-      alt: "Viagem - Galeria 10",
-      description: "Caixa Alta - 53x73cm"
-    },
-    {
       gallery: "/images/galeria-viagem-foto12-thumb.webp",
       popup: "/images/galeria-viagem-foto12-popup.webp",
       alt: "Viagem - Galeria 12",
       description: "Caixa Alta - 43x53cm"
+    },
+    {
+      gallery: "/images/galeria-viagem-foto10-thumb.webp",
+      popup: "/images/galeria-viagem-foto10-popup.webp",
+      alt: "Viagem - Galeria 10",
+      description: "Caixa Alta - 53x73cm"
     },
     {
       gallery: "/images/galeria-viagem-foto8-thumb.webp",
