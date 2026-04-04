@@ -56,7 +56,9 @@ const ProductSectionViagemLocal = () => {
   // Auto-select first size
   useEffect(() => {
     if (finalDisplaySizes.length > 0 && (!selectedSize || !finalDisplaySizes.includes(selectedSize.replace("cm", "")))) {
-      setSelectedSize(finalDisplaySizes[0] + "cm");
+      const preferred = "33x43";
+      const defaultSize = finalDisplaySizes.includes(preferred) ? preferred : finalDisplaySizes[0];
+      setSelectedSize(defaultSize + "cm");
     }
   }, [availablePricedSizes]);
 
