@@ -187,6 +187,7 @@ const ProductSectionTriathlonLocal = () => {
                   src={getCurrentImage()}
                   alt="Quadro personalizado de triathlon"
                   className="w-full rounded-lg shadow-lg"
+                  loading="lazy"
                 />
               </div>
 
