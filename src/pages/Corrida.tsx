@@ -53,6 +53,7 @@ const Corrida = () => {
         
         <HowItWorksTabs />
         <TestimonialsSectionCorrida />
+        <MaratonasSection />
         <WhyChooseUsTabsCorrida />
         
         <FeatureSection title="Quadros para Medalha" description={<>Um layout pensado para destacar sua corrida com estilo.<br /><br />Seu quadro combina com qualquer ambiente, do quarto à sala de estar.</>} imageSrc="/images/quadro-moderno-corrida.webp" imageAlt="Layout moderno e exclusivo" imageOnLeft={true} />
