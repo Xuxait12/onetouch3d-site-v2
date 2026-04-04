@@ -504,7 +504,7 @@ const ConfirmacaoWhatsapp = () => {
       <CardContent>
         <div className="space-y-4">
           <Button onClick={handleGoogleSignIn} variant="outline" className="w-full" disabled={loading}>
-            <img src={googleLogo} alt="Google" className="w-4 h-4 mr-2" />
+            <img src={googleLogo} alt="Google" className="w-4 h-4 mr-2" loading="eager" fetchPriority="high" />
             Continuar com Google
           </Button>
 
