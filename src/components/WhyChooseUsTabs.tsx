@@ -135,6 +135,7 @@ const WhyChooseUsTabs = () => {
             src={activeContent?.image}
             alt={activeContent?.title}
             className="w-full max-w-4xl mx-auto h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-cover rounded-3xl shadow-elegant transition-all duration-500"
+            loading="lazy"
             key={activeTab}
           />
         </div>

@@ -170,6 +170,7 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
                         src={item.imagem} 
                         alt={item.nome}
                         className="w-full h-full object-cover"
+                        loading="lazy"
                       />
                     ) : (
                       <div className="w-full h-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">

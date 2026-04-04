@@ -149,6 +149,7 @@ const Carrinho = () => {
                             src={getProductImage(item)}
                             alt={item.nome}
                             className="w-full h-full object-cover rounded-lg"
+                            loading="lazy"
                           />
                         </div>
                         

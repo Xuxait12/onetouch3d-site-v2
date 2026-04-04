@@ -70,7 +70,7 @@ const GlobalFooter = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-foreground">Site Seguro</h3>
             <div className="flex items-center justify-center">
-              <img src="/lovable-uploads/81170d74-5013-4a0c-a94e-4c6dd8a97815.png" alt="Site Seguro" className="h-12 w-auto" />
+              <img src="/lovable-uploads/81170d74-5013-4a0c-a94e-4c6dd8a97815.png" alt="Site Seguro" className="h-12 w-auto" loading="lazy" />
             </div>
           </div>
 

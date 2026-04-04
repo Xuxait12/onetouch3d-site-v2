@@ -9,6 +9,8 @@ const Header = () => {
             src="/lovable-uploads/f0e453eb-2729-482a-b652-2b1b7ac3b81c.png" 
             alt="OneTouch3D Logo" 
             className="h-8 w-auto"
+            loading="eager"
+            fetchPriority="high"
           />
         </div>
         

@@ -18,6 +18,7 @@ const SolutionSection = () => {
             src={framedMedal} 
             alt="Quadro 3D elegante com medalha e mapa do percurso na parede" 
             className="w-full h-auto rounded-2xl shadow-elegant"
+            loading="lazy"
           />
         </div>
       </div>

@@ -249,7 +249,7 @@ const Auth = () => {
               className="w-full"
               disabled={loading}
             >
-              <img src={googleLogo} alt="Google" className="w-4 h-4 mr-2" />
+              <img src={googleLogo} alt="Google" className="w-4 h-4 mr-2" loading="eager" fetchPriority="high" />
               Continuar com Google
             </Button>
             

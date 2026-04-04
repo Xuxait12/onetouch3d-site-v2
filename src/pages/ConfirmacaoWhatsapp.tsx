@@ -728,7 +728,7 @@ const ConfirmacaoWhatsapp = () => {
         </DialogHeader>
 
         <div className="space-y-4 mt-4">
-          <img src={pixQrCode} alt="QR Code PIX" className="mx-auto w-48 h-48 rounded-lg border" />
+          <img src={pixQrCode} alt="QR Code PIX" className="mx-auto w-48 h-48 rounded-lg border" loading="lazy" />
 
           {pixConfig && (
             <div className="bg-muted/50 rounded-lg p-4 space-y-2 text-sm">
