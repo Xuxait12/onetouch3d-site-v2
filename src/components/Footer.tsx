@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   const paymentIcons = [
-    { icon: <img src="/lovable-uploads/3464ebac-aac6-4717-9a02-b115a8101572.png" alt="Visa" className="h-8 w-auto" />, name: "Visa" },
-    { icon: <img src="/lovable-uploads/6a270166-64e8-4b35-8d09-f4de936afa13.png" alt="Elo" className="h-8 w-auto" />, name: "Elo" },
-    { icon: <img src="/lovable-uploads/c72f4dfc-d485-4fbc-bd01-ed2197e708a5.png" alt="Hipercard" className="h-8 w-auto" />, name: "Hipercard" },
-    { icon: <img src="/lovable-uploads/16b71467-5b29-4af9-88c3-cae66d330127.png" alt="MasterCard" className="h-8 w-auto" />, name: "MasterCard" },
-    { icon: <img src="/lovable-uploads/beed93f3-6221-4bf1-a938-8005c4378e0a.png" alt="Pix" className="h-8 w-auto" />, name: "Pix" },
-    { icon: <img src="/lovable-uploads/223d12ae-cb67-454f-b598-4d5618f8c3e1.png" alt="Boleto" className="h-8 w-auto" />, name: "Boleto" },
+    { icon: <img src="/lovable-uploads/3464ebac-aac6-4717-9a02-b115a8101572.png" alt="Visa" className="h-8 w-auto" loading="lazy" />, name: "Visa" },
+    { icon: <img src="/lovable-uploads/6a270166-64e8-4b35-8d09-f4de936afa13.png" alt="Elo" className="h-8 w-auto" loading="lazy" />, name: "Elo" },
+    { icon: <img src="/lovable-uploads/c72f4dfc-d485-4fbc-bd01-ed2197e708a5.png" alt="Hipercard" className="h-8 w-auto" loading="lazy" />, name: "Hipercard" },
+    { icon: <img src="/lovable-uploads/16b71467-5b29-4af9-88c3-cae66d330127.png" alt="MasterCard" className="h-8 w-auto" loading="lazy" />, name: "MasterCard" },
+    { icon: <img src="/lovable-uploads/beed93f3-6221-4bf1-a938-8005c4378e0a.png" alt="Pix" className="h-8 w-auto" loading="lazy" />, name: "Pix" },
+    { icon: <img src="/lovable-uploads/223d12ae-cb67-454f-b598-4d5618f8c3e1.png" alt="Boleto" className="h-8 w-auto" loading="lazy" />, name: "Boleto" },
   ];
 
   const socialLinks = [
