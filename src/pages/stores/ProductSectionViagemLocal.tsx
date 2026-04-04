@@ -55,7 +55,7 @@ const ProductSectionViagemLocal = () => {
 
   // Auto-select first available priced size (smallest/cheapest), matching Corrida/Ciclismo/Triathlon logic
   useEffect(() => {
-    if (availablePricedSizes.length > 0 && (!selectedSize || !finalDisplaySizes.includes(selectedSize.replace("cm", "")))) {
+    if (availablePricedSizes.length > 0 && (!selectedSize || !availablePricedSizes.includes(selectedSize.replace("cm", "")))) {
       setSelectedSize(availablePricedSizes[0] + "cm");
     }
   }, [availablePricedSizes]);
