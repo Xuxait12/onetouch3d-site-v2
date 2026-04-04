@@ -177,6 +177,7 @@ const ProductSectionViagemLocal = () => {
                   src={productImage}
                   alt="Moldura Premium para viagem"
                   className="w-full rounded-lg shadow-lg"
+                  loading="lazy"
                 />
               </div>
 
