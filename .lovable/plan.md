@@ -1,36 +1,26 @@
 
 
-## Plano: Ajustar enquadramento da thumbnail da Foto 9
+## Plano: Alterar tamanho padrão selecionado na loja Viagem
 
 ### Problema
-A primeira imagem da linha 3 (Foto 9, index 8 no array) está com o quadro cortado no grid porque `object-cover` dentro de `aspect-square` corta centralmente uma imagem que é mais alta (vertical). O quadro horizontal não aparece inteiro.
+O array `ALL_SIZES` começa com `"33x43"`, mas o `useEffect` na linha 57-61 seleciona `finalDisplaySizes[0]`, que depende da ordem filtrada. O tamanho `63x83` está sendo selecionado automaticamente porque provavelmente é o primeiro retornado por `availablePricedSizes`.
 
 ### Solução
-Adicionar um campo `objectPosition` ao objeto da imagem para controlar o posicionamento do crop. Para a Foto 9, usar `object-position: center top` (ou `center 30%`) para mostrar mais do quadro.
+Forçar a seleção inicial para `"33x43cm"` no `useEffect` de auto-select (linha 57-61), usando esse tamanho quando disponível, e só caindo para `finalDisplaySizes[0]` como fallback.
 
-### Alterações em `src/components/GalleryCarouselViagem.tsx`
+### Alteração em `src/pages/stores/ProductSectionViagemLocal.tsx`
 
-1. **Adicionar campo opcional `objectPosition`** ao objeto da Foto 9 no array:
-   ```ts
-   {
-     gallery: "/images/galeria-viagem-foto9-thumb.webp",
-     popup: "/images/galeria-viagem-foto9-popup.webp",
-     alt: "Viagem - Galeria 9",
-     description: "Caixa Alta - 43x63cm",
-     objectPosition: "center 40%"
-   }
-   ```
+Linha 57-61 — substituir o `useEffect` de auto-select:
 
-2. **Aplicar no `<img>`** via style inline:
-   ```tsx
-   <img
-     src={image.gallery}
-     alt={image.alt}
-     className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
-     style={image.objectPosition ? { objectPosition: image.objectPosition } : undefined}
-     loading="lazy"
-   />
-   ```
+```ts
+useEffect(() => {
+  if (finalDisplaySizes.length > 0 && (!selectedSize || !finalDisplaySizes.includes(selectedSize.replace("cm", "")))) {
+    const preferred = "33x43";
+    const defaultSize = finalDisplaySizes.includes(preferred) ? preferred : finalDisplaySizes[0];
+    setSelectedSize(defaultSize + "cm");
+  }
+}, [availablePricedSizes]);
+```
 
-Apenas esses dois pontos serão alterados. Nenhum outro elemento da galeria será modificado.
+Nenhuma outra alteração.
 
