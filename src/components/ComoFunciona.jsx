@@ -1,42 +1,56 @@
 import { useState, useEffect } from "react";
 
 const IconModalidade = () => (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="16" cy="12" r="7" stroke="#2563eb" strokeWidth="2" fill="none"/>
-    <path d="M11 18l-3 8h16l-3-8" stroke="#2563eb" strokeWidth="2" strokeLinejoin="round" fill="none"/>
-    <path d="M13 12h6M16 9v6" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/>
+  <svg width="56" height="56" viewBox="0 0 36 36" fill="none">
+    <circle cx="18" cy="10" r="5" fill="#dbeafe" stroke="#2563eb" strokeWidth="1.8"/>
+    <path d="M13 15c-2 1-4 3-3 7h16c1-4-1-6-3-7" fill="#dbeafe" stroke="#2563eb" strokeWidth="1.8" strokeLinejoin="round"/>
+    <path d="M15 22l-2 6h10l-2-6" fill="#2563eb" stroke="#2563eb" strokeWidth="1.2" strokeLinejoin="round"/>
+    <path d="M14 10l-3-3M22 10l3-3" stroke="#2563eb" strokeWidth="1.5" strokeLinecap="round"/>
+    <circle cx="11" cy="6" r="2" fill="#2563eb"/>
+    <circle cx="25" cy="6" r="2" fill="#2563eb"/>
   </svg>
 );
 
 const IconTamanho = () => (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="4" y="4" width="24" height="24" rx="2" stroke="#2563eb" strokeWidth="2" fill="none"/>
-    <path d="M4 10h4M4 16h6M4 22h4" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/>
-    <path d="M10 28v-4M16 28v-6M22 28v-4" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/>
+  <svg width="56" height="56" viewBox="0 0 36 36" fill="none">
+    <rect x="7" y="7" width="22" height="22" rx="3" fill="#dbeafe" stroke="#2563eb" strokeWidth="1.8"/>
+    <rect x="11" y="11" width="14" height="14" rx="2" fill="#fff" stroke="#2563eb" strokeWidth="1.4"/>
+    <path d="M18 11v14M11 18h14" stroke="#2563eb" strokeWidth="1.4" strokeLinecap="round"/>
+    <rect x="5" y="5" width="4" height="4" rx="1" fill="#2563eb"/>
+    <rect x="27" y="5" width="4" height="4" rx="1" fill="#2563eb"/>
+    <rect x="5" y="27" width="4" height="4" rx="1" fill="#2563eb"/>
+    <rect x="27" y="27" width="4" height="4" rx="1" fill="#2563eb"/>
   </svg>
 );
 
 const IconEnvio = () => (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="3" y="8" width="26" height="18" rx="2" stroke="#2563eb" strokeWidth="2" fill="none"/>
-    <circle cx="16" cy="17" r="5" stroke="#2563eb" strokeWidth="2" fill="none"/>
-    <circle cx="16" cy="17" r="2" fill="#2563eb"/>
-    <path d="M21 8l2-3h4" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  <svg width="56" height="56" viewBox="0 0 36 36" fill="none">
+    <rect x="5" y="12" width="26" height="18" rx="3" fill="#dbeafe" stroke="#2563eb" strokeWidth="1.8"/>
+    <circle cx="18" cy="21" r="5" fill="#fff" stroke="#2563eb" strokeWidth="1.6"/>
+    <circle cx="18" cy="21" r="2.5" fill="#2563eb"/>
+    <rect x="13" y="8" width="10" height="6" rx="2" fill="#2563eb"/>
+    <circle cx="27" cy="15" r="2" fill="#2563eb"/>
   </svg>
 );
 
 const IconAprovacao = () => (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="4" y="4" width="24" height="24" rx="2" stroke="#2563eb" strokeWidth="2" fill="none"/>
-    <path d="M10 16l4 4 8-8" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+  <svg width="56" height="56" viewBox="0 0 36 36" fill="none">
+    <rect x="5" y="7" width="26" height="22" rx="3" fill="#dbeafe" stroke="#2563eb" strokeWidth="1.8"/>
+    <path d="M11 18l5 5 9-9" stroke="#2563eb" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+    <rect x="5" y="7" width="26" height="6" rx="3" fill="#2563eb"/>
+    <circle cx="10" cy="10" r="1.5" fill="#fff"/>
+    <circle cx="15" cy="10" r="1.5" fill="#fff"/>
+    <circle cx="20" cy="10" r="1.5" fill="#fff"/>
   </svg>
 );
 
 const IconEntrega = () => (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M4 10h24v16a2 2 0 01-2 2H6a2 2 0 01-2-2V10z" stroke="#2563eb" strokeWidth="2" fill="none"/>
-    <path d="M4 10l4-6h16l4 6" stroke="#2563eb" strokeWidth="2" strokeLinejoin="round" fill="none"/>
-    <path d="M12 10v4a4 4 0 008 0v-4" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/>
+  <svg width="56" height="56" viewBox="0 0 36 36" fill="none">
+    <rect x="3" y="14" width="20" height="14" rx="2" fill="#dbeafe" stroke="#2563eb" strokeWidth="1.8"/>
+    <path d="M23 19h5l4 4v5h-9V19z" fill="#dbeafe" stroke="#2563eb" strokeWidth="1.8" strokeLinejoin="round"/>
+    <circle cx="9" cy="29" r="3" fill="#2563eb" stroke="#fff" strokeWidth="1.5"/>
+    <circle cx="27" cy="29" r="3" fill="#2563eb" stroke="#fff" strokeWidth="1.5"/>
+    <path d="M7 14V10a2 2 0 012-2h8a2 2 0 012 2v4" stroke="#2563eb" strokeWidth="1.6" strokeLinecap="round"/>
   </svg>
 );
 
@@ -116,276 +130,69 @@ export default function ComoFunciona() {
   const progress = ((active + 1) / steps.length) * 100;
 
   return (
-    <section
-      style={{
-        background: "#fff",
-        padding: mobile ? "20px 0 40px" : "28px 24px 64px",
-        fontFamily: '-apple-system, "system-ui", "Helvetica Neue", Arial, sans-serif',
-      }}
-    >
+    <section style={{ background: "#fff", padding: mobile ? "20px 0 40px" : "28px 24px 64px", fontFamily: '-apple-system, "system-ui", "Helvetica Neue", Arial, sans-serif' }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: mobile ? "0 16px" : "0 48px" }}>
 
         <div style={{ textAlign: "center", marginBottom: mobile ? 28 : 44 }}>
-          <span
-            style={{
-              display: "inline-block",
-              fontSize: mobile ? 13 : 15,
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "2px",
-              color: "#2563eb",
-              marginBottom: 8,
-            }}
-          >
+          <span style={{ display: "inline-block", fontSize: mobile ? 13 : 15, fontWeight: 700, textTransform: "uppercase", letterSpacing: "2px", color: "#2563eb", marginBottom: 8 }}>
             Como Funciona
           </span>
-          <h2
-            style={{
-              fontSize: "clamp(24px, 4vw, 52px)",
-              fontWeight: 700,
-              lineHeight: 1.1,
-              margin: "0 0 10px",
-              background: "linear-gradient(to right, #2563eb, #3b82f6, #1d4ed8)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
+          <h2 style={{ fontSize: "clamp(24px, 4vw, 52px)", fontWeight: 700, lineHeight: 1.1, margin: "0 0 10px", background: "linear-gradient(to right, #2563eb, #3b82f6, #1d4ed8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
             Eternize sua conquista em 5 passos
           </h2>
-          <p
-            style={{
-              color: "#6b7280",
-              fontSize: "clamp(14px, 2vw, 20px)",
-              lineHeight: "1.6",
-              margin: 0,
-            }}
-          >
+          <p style={{ color: "#6b7280", fontSize: "clamp(14px, 2vw, 20px)", lineHeight: "1.6", margin: 0 }}>
             Do pedido ao quadro na sua parede, simples assim.
           </p>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 0,
-            marginBottom: mobile ? 20 : 28,
-            flexWrap: "nowrap",
-            overflowX: mobile ? "auto" : "visible",
-            WebkitOverflowScrolling: "touch",
-            padding: mobile ? "0 4px" : 0,
-          }}
-        >
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 0, marginBottom: mobile ? 20 : 28, flexWrap: "nowrap", overflowX: mobile ? "auto" : "visible", WebkitOverflowScrolling: "touch", padding: mobile ? "0 4px" : 0 }}>
           {steps.map((st, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
-              <button
-                onClick={() => goTo(i)}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: mobile ? 3 : 5,
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  padding: mobile ? "3px 2px" : "3px 6px",
-                }}
-              >
-                <div
-                  style={{
-                    width: mobile ? (i === active ? 38 : 30) : (i === active ? 52 : 40),
-                    height: mobile ? (i === active ? 38 : 30) : (i === active ? 52 : 40),
-                    borderRadius: "50%",
-                    background: "#fff",
-                    border: i === active ? "2.5px solid #2563eb" : i < active ? "2px solid #2563eb" : "2px solid #d1d5db",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: mobile ? (i === active ? 14 : 12) : (i === active ? 18 : 15),
-                    fontWeight: i === active ? 800 : 700,
-                    color: i <= active ? "#2563eb" : "#9ca3af",
-                    transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
-                    boxShadow: i === active ? "0 0 0 4px rgba(37,99,235,0.10)" : "none",
-                    flexShrink: 0,
-                  }}
-                >
+              <button onClick={() => goTo(i)} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: mobile ? 3 : 5, background: "none", border: "none", cursor: "pointer", padding: mobile ? "3px 2px" : "3px 6px" }}>
+                <div style={{ width: mobile ? (i === active ? 38 : 30) : (i === active ? 52 : 40), height: mobile ? (i === active ? 38 : 30) : (i === active ? 52 : 40), borderRadius: "50%", background: "#fff", border: i === active ? "2.5px solid #2563eb" : i < active ? "2px solid #2563eb" : "2px solid #d1d5db", display: "flex", alignItems: "center", justifyContent: "center", fontSize: mobile ? (i === active ? 14 : 12) : (i === active ? 18 : 15), fontWeight: i === active ? 800 : 700, color: i <= active ? "#2563eb" : "#9ca3af", transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)", boxShadow: i === active ? "0 0 0 4px rgba(37,99,235,0.10)" : "none", flexShrink: 0 }}>
                   {i < active ? "✓" : i + 1}
                 </div>
-                <span
-                  style={{
-                    fontSize: mobile ? 10 : 13,
-                    fontWeight: i === active ? 700 : 600,
-                    color: i === active ? "#2563eb" : "#94a3b8",
-                    transition: "color 0.3s",
-                    whiteSpace: "nowrap",
-                  }}
-                >
+                <span style={{ fontSize: mobile ? 10 : 13, fontWeight: i === active ? 700 : 600, color: i === active ? "#2563eb" : "#94a3b8", transition: "color 0.3s", whiteSpace: "nowrap" }}>
                   {st.label}
                 </span>
               </button>
-
               {i < steps.length - 1 && (
-                <div
-                  style={{
-                    width: mobile ? 20 : 48,
-                    height: 2,
-                    background: i < active ? "linear-gradient(to right, #2563eb, #3b82f6)" : "#e2e8f0",
-                    borderRadius: 2,
-                    marginBottom: mobile ? 12 : 15,
-                    transition: "background 0.4s",
-                    flexShrink: 0,
-                  }}
-                />
+                <div style={{ width: mobile ? 20 : 48, height: 2, background: i < active ? "linear-gradient(to right, #2563eb, #3b82f6)" : "#e2e8f0", borderRadius: 2, marginBottom: mobile ? 12 : 15, transition: "background 0.4s", flexShrink: 0 }} />
               )}
             </div>
           ))}
         </div>
 
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: mobile ? 12 : 16,
-            boxShadow: "rgba(0,0,0,0.08) 0px 1px 3px, rgba(0,0,0,0.06) 0px 4px 16px",
-            border: "1px solid #e5e7eb",
-            overflow: "hidden",
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(5px)",
-            transition: "opacity 0.22s ease, transform 0.22s ease",
-          }}
-        >
+        <div style={{ background: "#fff", borderRadius: mobile ? 12 : 16, boxShadow: "rgba(0,0,0,0.08) 0px 1px 3px, rgba(0,0,0,0.06) 0px 4px 16px", border: "1px solid #e5e7eb", overflow: "hidden", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(5px)", transition: "opacity 0.22s ease, transform 0.22s ease" }}>
           <div style={{ height: 3, background: "#f1f5f9" }}>
-            <div
-              style={{
-                height: "100%",
-                width: `${progress}%`,
-                background: "linear-gradient(to right, #2563eb, #3b82f6)",
-                borderRadius: "0 4px 4px 0",
-                transition: "width 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
-              }}
-            />
+            <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(to right, #2563eb, #3b82f6)", borderRadius: "0 4px 4px 0", transition: "width 0.5s cubic-bezier(0.16, 1, 0.3, 1)" }} />
           </div>
 
-          <div
-            style={{
-              padding: mobile ? "24px 18px 28px" : "36px 48px 44px",
-              display: "flex",
-              flexDirection: mobile ? "column" : "row",
-              gap: mobile ? 18 : 28,
-              alignItems: mobile ? "center" : "flex-start",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                flexShrink: 0,
-              }}
-            >
-              <div
-                style={{
-                  width: mobile ? 56 : 72,
-                  height: mobile ? 56 : 72,
-                  background: "linear-gradient(135deg, #eff6ff, #dbeafe)",
-                  borderRadius: mobile ? 12 : 16,
-                  border: "1px solid rgba(37,99,235,0.12)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {step.icon}
-              </div>
-              <span
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: "#cbd5e1",
-                  letterSpacing: "1.5px",
-                  marginTop: 6,
-                }}
-              >
+          <div style={{ padding: mobile ? "24px 18px 28px" : "36px 48px 44px", display: "flex", flexDirection: mobile ? "column" : "row", gap: mobile ? 18 : 28, alignItems: mobile ? "center" : "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
+              {step.icon}
+              <span style={{ fontSize: 10, fontWeight: 700, color: "#cbd5e1", letterSpacing: "1.5px", marginTop: 6 }}>
                 {step.num}
               </span>
             </div>
 
             <div style={{ flex: 1, textAlign: mobile ? "center" : "left" }}>
-              <span
-                style={{
-                  display: "inline-block",
-                  background: "rgba(37,99,235,0.07)",
-                  color: "#2563eb",
-                  borderRadius: 100,
-                  padding: "3px 12px",
-                  fontSize: mobile ? 12 : 13,
-                  fontWeight: 600,
-                  marginBottom: 10,
-                }}
-              >
+              <span style={{ display: "inline-block", background: "rgba(37,99,235,0.07)", color: "#2563eb", borderRadius: 100, padding: "3px 12px", fontSize: mobile ? 12 : 13, fontWeight: 600, marginBottom: 10 }}>
                 {step.badge}
               </span>
-
-              <h3
-                style={{
-                  fontSize: mobile ? 20 : 24,
-                  fontWeight: 700,
-                  color: "#1f2937",
-                  margin: "0 0 8px",
-                  lineHeight: mobile ? "26px" : "32px",
-                }}
-              >
+              <h3 style={{ fontSize: mobile ? 20 : 24, fontWeight: 700, color: "#1f2937", margin: "0 0 8px", lineHeight: mobile ? "26px" : "32px" }}>
                 {step.title}
               </h3>
-
-              <p
-                style={{
-                  color: "#4b5563",
-                  fontSize: mobile ? 15 : 18,
-                  lineHeight: mobile ? "24px" : "28px",
-                  margin: "0 0 20px",
-                }}
-              >
+              <p style={{ color: "#4b5563", fontSize: mobile ? 15 : 18, lineHeight: mobile ? "24px" : "28px", margin: "0 0 20px" }}>
                 {step.desc}
               </p>
-
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: mobile ? "center" : "flex-start" }}>
                 {active > 0 && (
-                  <button
-                    onClick={() => goTo(active - 1)}
-                    style={{
-                      padding: mobile ? "9px 16px" : "10px 20px",
-                      borderRadius: 8,
-                      border: "1px solid #e2e8f0",
-                      background: "#fff",
-                      color: "#374151",
-                      fontSize: mobile ? 13 : 14,
-                      fontWeight: 500,
-                      cursor: "pointer",
-                    }}
-                  >
+                  <button onClick={() => goTo(active - 1)} style={{ padding: mobile ? "9px 16px" : "10px 20px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", color: "#374151", fontSize: mobile ? 13 : 14, fontWeight: 500, cursor: "pointer" }}>
                     ← Anterior
                   </button>
                 )}
-                <button
-                  onClick={() =>
-                    active === steps.length - 1
-                      ? (window.location.href = "/corrida")
-                      : goTo(active + 1)
-                  }
-                  style={{
-                    padding: mobile ? "9px 18px" : "10px 22px",
-                    borderRadius: 8,
-                    border: "none",
-                    background: "linear-gradient(to right, #2563eb, #1d4ed8)",
-                    color: "#fff",
-                    fontSize: mobile ? 13 : 14,
-                    fontWeight: 600,
-                    cursor: "pointer",
-                    boxShadow: "0 2px 8px rgba(37,99,235,0.25)",
-                  }}
-                >
+                <button onClick={() => active === steps.length - 1 ? (window.location.href = "/corrida") : goTo(active + 1)} style={{ padding: mobile ? "9px 18px" : "10px 22px", borderRadius: 8, border: "none", background: "linear-gradient(to right, #2563eb, #1d4ed8)", color: "#fff", fontSize: mobile ? 13 : 14, fontWeight: 600, cursor: "pointer", boxShadow: "0 2px 8px rgba(37,99,235,0.25)" }}>
                   {active === steps.length - 1 ? "Começar agora →" : "Próximo →"}
                 </button>
               </div>
