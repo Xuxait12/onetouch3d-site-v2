@@ -172,7 +172,7 @@ const GalleryCarouselCorrida = () => {
               src={galleryImages[0].gallery}
               alt={galleryImages[0].alt}
               className="w-full object-cover"
-              
+              style={{ maxHeight: "420px" }}
               loading="lazy"
             />
             <div className="gallery-overlay">
@@ -190,7 +190,7 @@ const GalleryCarouselCorrida = () => {
               <img
                 src={galleryImages[1].gallery}
                 alt={galleryImages[1].alt}
-                className="w-full object-cover"
+                className="w-full h-full object-cover"
                 loading="lazy"
               />
               <div className="gallery-overlay">
