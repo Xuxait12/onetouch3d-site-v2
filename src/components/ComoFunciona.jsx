@@ -1,8 +1,48 @@
 import { useState, useEffect } from "react";
 
+const IconModalidade = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="16" cy="12" r="7" stroke="#2563eb" strokeWidth="2" fill="none"/>
+    <path d="M11 18l-3 8h16l-3-8" stroke="#2563eb" strokeWidth="2" strokeLinejoin="round" fill="none"/>
+    <path d="M13 12h6M16 9v6" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+
+const IconTamanho = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="4" y="4" width="24" height="24" rx="2" stroke="#2563eb" strokeWidth="2" fill="none"/>
+    <path d="M4 10h4M4 16h6M4 22h4" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M10 28v-4M16 28v-6M22 28v-4" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+
+const IconEnvio = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="3" y="8" width="26" height="18" rx="2" stroke="#2563eb" strokeWidth="2" fill="none"/>
+    <circle cx="16" cy="17" r="5" stroke="#2563eb" strokeWidth="2" fill="none"/>
+    <circle cx="16" cy="17" r="2" fill="#2563eb"/>
+    <path d="M21 8l2-3h4" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const IconAprovacao = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="4" y="4" width="24" height="24" rx="2" stroke="#2563eb" strokeWidth="2" fill="none"/>
+    <path d="M10 16l4 4 8-8" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const IconEntrega = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4 10h24v16a2 2 0 01-2 2H6a2 2 0 01-2-2V10z" stroke="#2563eb" strokeWidth="2" fill="none"/>
+    <path d="M4 10l4-6h16l4 6" stroke="#2563eb" strokeWidth="2" strokeLinejoin="round" fill="none"/>
+    <path d="M12 10v4a4 4 0 008 0v-4" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+
 const steps = [
   {
-    icon: "🏅",
+    icon: <IconModalidade />,
     label: "Modalidade",
     num: "01",
     badge: "4 opções disponíveis",
@@ -10,7 +50,7 @@ const steps = [
     desc: "Selecione entre Corrida, Ciclismo, Viagem ou Triathlon. Cada modalidade tem layouts e elementos únicos criados especialmente para o seu esporte.",
   },
   {
-    icon: "📐",
+    icon: <IconTamanho />,
     label: "Tamanho",
     num: "02",
     badge: "10 tamanhos disponíveis",
@@ -18,7 +58,7 @@ const steps = [
     desc: "Do 33x33cm ao 83x103cm. Moldura Caixa Alta com acabamento premium em MDF e percurso em alto relevo 3D incluso.",
   },
   {
-    icon: "📸",
+    icon: <IconEnvio />,
     label: "Envio",
     num: "03",
     badge: "Processo 100% guiado",
@@ -26,7 +66,7 @@ const steps = [
     desc: "Compartilhe via WhatsApp ou e-mail: fotos da prova, sua medalha, o percurso GPS e os dados que quer destacar. Quanto mais detalhes, mais especial fica.",
   },
   {
-    icon: "🎨",
+    icon: <IconAprovacao />,
     label: "Aprovação",
     num: "04",
     badge: "Preview digital garantido",
@@ -34,7 +74,7 @@ const steps = [
     desc: "Nossa equipe cria o design e envia para você aprovar antes de produzir. Ajustes à vontade até ficar exatamente como imaginou.",
   },
   {
-    icon: "📦",
+    icon: <IconEntrega />,
     label: "Entrega",
     num: "05",
     badge: "Prazo médio: 10–15 dias",
@@ -85,7 +125,6 @@ export default function ComoFunciona() {
     >
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: mobile ? "0 16px" : "0 48px" }}>
 
-        {/* Título e subtítulo */}
         <div style={{ textAlign: "center", marginBottom: mobile ? 28 : 44 }}>
           <span
             style={{
@@ -126,7 +165,6 @@ export default function ComoFunciona() {
           </p>
         </div>
 
-        {/* Tracker de steps */}
         <div
           style={{
             display: "flex",
@@ -155,40 +193,26 @@ export default function ComoFunciona() {
                   padding: mobile ? "3px 2px" : "3px 6px",
                 }}
               >
-                {/* Círculo */}
                 <div
                   style={{
-                    width: mobile
-                      ? (i === active ? 38 : 30)
-                      : (i === active ? 52 : 40),
-                    height: mobile
-                      ? (i === active ? 38 : 30)
-                      : (i === active ? 52 : 40),
+                    width: mobile ? (i === active ? 38 : 30) : (i === active ? 52 : 40),
+                    height: mobile ? (i === active ? 38 : 30) : (i === active ? 52 : 40),
                     borderRadius: "50%",
                     background: "#fff",
-                    border: i === active
-                      ? "2.5px solid #2563eb"
-                      : i < active
-                      ? "2px solid #2563eb"
-                      : "2px solid #d1d5db",
+                    border: i === active ? "2.5px solid #2563eb" : i < active ? "2px solid #2563eb" : "2px solid #d1d5db",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: mobile
-                      ? (i === active ? 14 : 12)
-                      : (i === active ? 18 : 15),
+                    fontSize: mobile ? (i === active ? 14 : 12) : (i === active ? 18 : 15),
                     fontWeight: i === active ? 800 : 700,
                     color: i <= active ? "#2563eb" : "#9ca3af",
                     transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
-                    boxShadow: i === active
-                      ? "0 0 0 4px rgba(37,99,235,0.10)"
-                      : "none",
+                    boxShadow: i === active ? "0 0 0 4px rgba(37,99,235,0.10)" : "none",
                     flexShrink: 0,
                   }}
                 >
                   {i < active ? "✓" : i + 1}
                 </div>
-                {/* Label */}
                 <span
                   style={{
                     fontSize: mobile ? 10 : 13,
@@ -202,15 +226,12 @@ export default function ComoFunciona() {
                 </span>
               </button>
 
-              {/* Linha conectora */}
               {i < steps.length - 1 && (
                 <div
                   style={{
                     width: mobile ? 20 : 48,
                     height: 2,
-                    background: i < active
-                      ? "linear-gradient(to right, #2563eb, #3b82f6)"
-                      : "#e2e8f0",
+                    background: i < active ? "linear-gradient(to right, #2563eb, #3b82f6)" : "#e2e8f0",
                     borderRadius: 2,
                     marginBottom: mobile ? 12 : 15,
                     transition: "background 0.4s",
@@ -222,13 +243,11 @@ export default function ComoFunciona() {
           ))}
         </div>
 
-        {/* Card principal */}
         <div
           style={{
             background: "#fff",
             borderRadius: mobile ? 12 : 16,
-            boxShadow:
-              "rgba(0,0,0,0.08) 0px 1px 3px, rgba(0,0,0,0.06) 0px 4px 16px",
+            boxShadow: "rgba(0,0,0,0.08) 0px 1px 3px, rgba(0,0,0,0.06) 0px 4px 16px",
             border: "1px solid #e5e7eb",
             overflow: "hidden",
             opacity: visible ? 1 : 0,
@@ -236,7 +255,6 @@ export default function ComoFunciona() {
             transition: "opacity 0.22s ease, transform 0.22s ease",
           }}
         >
-          {/* Barra de progresso */}
           <div style={{ height: 3, background: "#f1f5f9" }}>
             <div
               style={{
@@ -249,7 +267,6 @@ export default function ComoFunciona() {
             />
           </div>
 
-          {/* Conteúdo do card */}
           <div
             style={{
               padding: mobile ? "24px 18px 28px" : "36px 48px 44px",
@@ -259,7 +276,6 @@ export default function ComoFunciona() {
               alignItems: mobile ? "center" : "flex-start",
             }}
           >
-            {/* Ícone + número */}
             <div
               style={{
                 display: "flex",
@@ -273,12 +289,11 @@ export default function ComoFunciona() {
                   width: mobile ? 56 : 72,
                   height: mobile ? 56 : 72,
                   background: "linear-gradient(135deg, #eff6ff, #dbeafe)",
-                  borderRadius: mobile ? 12 : 14,
+                  borderRadius: mobile ? 12 : 16,
                   border: "1px solid rgba(37,99,235,0.12)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: mobile ? 26 : 32,
                 }}
               >
                 {step.icon}
@@ -296,7 +311,6 @@ export default function ComoFunciona() {
               </span>
             </div>
 
-            {/* Texto */}
             <div style={{ flex: 1, textAlign: mobile ? "center" : "left" }}>
               <span
                 style={{
@@ -336,7 +350,6 @@ export default function ComoFunciona() {
                 {step.desc}
               </p>
 
-              {/* Botões de navegação */}
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: mobile ? "center" : "flex-start" }}>
                 {active > 0 && (
                   <button
@@ -373,13 +386,12 @@ export default function ComoFunciona() {
                     boxShadow: "0 2px 8px rgba(37,99,235,0.25)",
                   }}
                 >
-                  {active === steps.length - 1 ? "🎉 Começar agora" : "Próximo →"}
+                  {active === steps.length - 1 ? "Começar agora →" : "Próximo →"}
                 </button>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );
