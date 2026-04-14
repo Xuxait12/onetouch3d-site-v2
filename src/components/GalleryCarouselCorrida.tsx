@@ -1,196 +1,275 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const GalleryCarouselCorrida = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const galleryImages = [
     {
-      gallery: "/images/galeria-foto7-thumb.webp",
-      popup: "/images/galeria-foto7-popup.webp",
-      alt: "Caixa Baixa - Galeria 1",
-      description: "Caixa Baixa - 33x33cm"
-    },
-    {
-      gallery: "/images/galeria-foto4-thumb.webp",
-      popup: "/images/galeria-foto4-popup.webp",
-      alt: "Caixa baixa - Galeria 2",
-      description: "Caixa baixa - 33x43cm"
+      gallery: "/images/galeria-foto5-thumb.webp",
+      popup: "/images/galeria-foto5-popup.webp",
+      alt: "Cruz e Meia Marathon",
+      description: "Caixa Alta - 43x53cm",
+      destaque: true,
     },
     {
       gallery: "/images/galeria-foto9-thumb.webp",
       popup: "/images/galeria-foto9-popup.webp",
-      alt: "Caixa Baixa - Galeria 9",
-      description: "Caixa Baixa - 43x33cm"
-    },
-    {
-      gallery: "/images/galeria-foto8-thumb.webp",
-      popup: "/images/galeria-foto8-popup.webp",
-      alt: "Caixa baixa - Galeria 4",
-      description: "Caixa baixa - 33x43cm"
+      alt: "Cassino Ultra Race",
+      description: "Caixa Baixa - 43x33cm",
     },
     {
       gallery: "/images/galeria-berlim-thumb.webp",
       popup: "/images/galeria-berlim-popup.webp",
-      alt: "Caixa Alta - Galeria 9",
-      description: "Caixa Alta - 33x43cm"
+      alt: "BMW Berlin Marathon",
+      description: "Caixa Alta - 33x43cm",
+    },
+    {
+      gallery: "/images/galeria-foto4-thumb.webp",
+      popup: "/images/galeria-foto4-popup.webp",
+      alt: "Chicago Marathon",
+      description: "Caixa Baixa - 33x43cm",
+    },
+    {
+      gallery: "/images/galeria-foto7-thumb.webp",
+      popup: "/images/galeria-foto7-popup.webp",
+      alt: "Maratona Unimed",
+      description: "Caixa Baixa - 33x33cm",
+    },
+    {
+      gallery: "/images/galeria-foto8-thumb.webp",
+      popup: "/images/galeria-foto8-popup.webp",
+      alt: "Maratona Rio de Janeiro",
+      description: "Caixa Baixa - 33x43cm",
     },
     {
       gallery: "/images/galeria-foto6-thumb.webp",
       popup: "/images/galeria-foto6-popup.webp",
-      alt: "Caixa Alta - Galeria 6",
-      description: "Caixa Alta - 43x43cm"
-    },
-    {
-      gallery: "/images/galeria-foto5-thumb.webp",
-      popup: "/images/galeria-foto5-popup.webp",
-      alt: "Caixa Alta - Galeria 5",
-      description: "Caixa Alta - 43x53cm"
+      alt: "SP City Marathon",
+      description: "Caixa Alta - 43x43cm",
     },
     {
       gallery: "/images/galeria-uphill-thumb.webp",
       popup: "/images/galeria-uphill-popup.webp",
-      alt: "Caixa Alta - Galeria 6",
-      description: "Caixa Alta - 53x73cm"
-    }
+      alt: "RUN Uphill",
+      description: "Caixa Alta - 53x73cm",
+    },
   ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
-          setIsVisible(true);
-        }
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            const delay = parseInt(el.getAttribute("data-delay") || "0");
+            setTimeout(() => {
+              el.classList.add("gallery-visible");
+            }, delay * 150);
+            observer.unobserve(el);
+          }
+        });
       },
       { threshold: 0.1 }
     );
 
-    const galleryElement = document.getElementById('gallery-section-corrida');
-    if (galleryElement) {
-      observer.observe(galleryElement);
-    }
+    cardRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
 
     return () => observer.disconnect();
   }, []);
 
-  const handleImageClick = (index: number) => {
-    setSelectedImageIndex(index);
-  };
-
   const handlePrevImage = () => {
     if (selectedImageIndex !== null) {
-      const prevIndex = selectedImageIndex === 0 ? galleryImages.length - 1 : selectedImageIndex - 1;
-      setSelectedImageIndex(prevIndex);
+      setSelectedImageIndex(
+        selectedImageIndex === 0 ? galleryImages.length - 1 : selectedImageIndex - 1
+      );
     }
   };
 
   const handleNextImage = () => {
     if (selectedImageIndex !== null) {
-      const nextIndex = selectedImageIndex === galleryImages.length - 1 ? 0 : selectedImageIndex + 1;
-      setSelectedImageIndex(nextIndex);
-    }
-  };
-
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (selectedImageIndex !== null) {
-      if (e.key === 'ArrowLeft') handlePrevImage();
-      if (e.key === 'ArrowRight') handleNextImage();
-      if (e.key === 'Escape') setSelectedImageIndex(null);
+      setSelectedImageIndex(
+        selectedImageIndex === galleryImages.length - 1 ? 0 : selectedImageIndex + 1
+      );
     }
   };
 
   useEffect(() => {
-    if (selectedImageIndex !== null) {
-      document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
-    }
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (selectedImageIndex !== null) {
+        if (e.key === "ArrowLeft") handlePrevImage();
+        if (e.key === "ArrowRight") handleNextImage();
+        if (e.key === "Escape") setSelectedImageIndex(null);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
   }, [selectedImageIndex]);
+
+  const cardClass = "gallery-card rounded-2xl overflow-hidden cursor-pointer relative";
+
+  const Overlay = ({ description }: { description: string }) => (
+    <div className="absolute inset-0 bg-black/0 hover:bg-black/40 transition-all duration-300 flex items-end rounded-2xl">
+      <p className="p-4 text-white text-sm font-semibold opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+        {description}
+      </p>
+    </div>
+  );
 
   return (
     <>
-      <div 
-        id="gallery-section-corrida" 
-        className={`w-full max-w-7xl mx-auto px-6 transition-all duration-700 ease-out ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}
-      >
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {galleryImages.map((image, index) => (
+      <style>{`
+        .gallery-card {
+          opacity: 0;
+          transform: scale(0.93);
+          transition: opacity 0.55s ease, transform 0.55s ease;
+        }
+        .gallery-card.gallery-visible {
+          opacity: 1;
+          transform: scale(1);
+        }
+        .gallery-card:hover .gallery-overlay {
+          background: rgba(0,0,0,0.38);
+        }
+        .gallery-card:hover .gallery-overlay-text {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .gallery-overlay {
+          position: absolute;
+          inset: 0;
+          background: rgba(0,0,0,0);
+          transition: background 0.3s;
+          display: flex;
+          align-items: flex-end;
+          border-radius: 16px;
+        }
+        .gallery-overlay-text {
+          padding: 12px 16px;
+          color: #fff;
+          font-size: 13px;
+          font-weight: 600;
+          opacity: 0;
+          transform: translateY(6px);
+          transition: all 0.3s;
+        }
+      `}</style>
+
+      <div className="w-full max-w-7xl mx-auto px-6">
+        <div className="flex flex-col gap-3">
+
+          <div
+            ref={(el) => (cardRefs.current[0] = el)}
+            data-delay="0"
+            className={cardClass}
+            onClick={() => setSelectedImageIndex(0)}
+          >
+            <img
+              src={galleryImages[0].gallery}
+              alt={galleryImages[0].alt}
+              className="w-full object-cover"
+              style={{ maxHeight: "420px" }}
+              loading="lazy"
+            />
+            <div className="gallery-overlay">
+              <span className="gallery-overlay-text">{galleryImages[0].description}</span>
+            </div>
+          </div>
+
+          <div className="grid gap-3" style={{ gridTemplateColumns: "1fr 2fr" }}>
             <div
-              key={index}
-              className="group cursor-pointer overflow-hidden rounded-2xl bg-card shadow-md hover:shadow-xl transition-all duration-300 ease-out"
-              onClick={() => handleImageClick(index)}
+              ref={(el) => (cardRefs.current[1] = el)}
+              data-delay="1"
+              className={cardClass}
+              onClick={() => setSelectedImageIndex(1)}
             >
-              <div className="relative aspect-square overflow-hidden">
-                <img
-                  src={image.gallery}
-                  alt={image.alt}
-                  className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
-                  loading="lazy"
-                />
-                {/* Overlay com escurecimento */}
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"></div>
-                
-                {/* Descrição no rodapé */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out">
-                  <div className="p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out">
-                    <p className="text-sm font-medium">{image.description}</p>
-                  </div>
-                </div>
+              <img
+                src={galleryImages[1].gallery}
+                alt={galleryImages[1].alt}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+              <div className="gallery-overlay">
+                <span className="gallery-overlay-text">{galleryImages[1].description}</span>
               </div>
             </div>
-          ))}
+
+            <div className="grid gap-3" style={{ gridTemplateRows: "1fr 1fr" }}>
+              {[2, 3].map((i) => (
+                <div
+                  key={i}
+                  ref={(el) => (cardRefs.current[i] = el)}
+                  data-delay={i}
+                  className={cardClass}
+                  onClick={() => setSelectedImageIndex(i)}
+                >
+                  <img
+                    src={galleryImages[i].gallery}
+                    alt={galleryImages[i].alt}
+                    className="w-full object-cover"
+                    loading="lazy"
+                  />
+                  <div className="gallery-overlay">
+                    <span className="gallery-overlay-text">{galleryImages[i].description}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {[4, 5, 6, 7].map((i) => (
+              <div
+                key={i}
+                ref={(el) => (cardRefs.current[i] = el)}
+                data-delay={i}
+                className={cardClass}
+                onClick={() => setSelectedImageIndex(i)}
+              >
+                <img
+                  src={galleryImages[i].gallery}
+                  alt={galleryImages[i].alt}
+                  className="w-full object-cover"
+                  loading="lazy"
+                />
+                <div className="gallery-overlay">
+                  <span className="gallery-overlay-text">{galleryImages[i].description}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
         </div>
       </div>
 
-      {/* Enhanced Lightbox Modal */}
       <Dialog open={selectedImageIndex !== null} onOpenChange={() => setSelectedImageIndex(null)}>
-        <DialogContent className="max-w-none w-full h-full p-0 border-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', backdropFilter: 'blur(10px)' }}>
-          {/* Close button */}
-          <button
-            onClick={() => setSelectedImageIndex(null)}
-            className="absolute top-4 right-4 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 text-white backdrop-blur-sm"
-          >
+        <DialogContent className="max-w-none w-full h-full p-0 border-0 flex items-center justify-center" style={{ backgroundColor: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}>
+          <button onClick={() => setSelectedImageIndex(null)} className="absolute top-4 right-4 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white">
             <X size={28} />
           </button>
-          
-          {/* Navigation arrows */}
-          <button
-            onClick={handlePrevImage}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 text-white backdrop-blur-sm"
-          >
+          <button onClick={handlePrevImage} className="absolute left-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white">
             <ChevronLeft size={32} />
           </button>
-          
-          <button
-            onClick={handleNextImage}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 text-white backdrop-blur-sm"
-          >
+          <button onClick={handleNextImage} className="absolute right-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white">
             <ChevronRight size={32} />
           </button>
-          
           {selectedImageIndex !== null && (
             <div className="relative w-full h-full flex flex-col items-center justify-center p-4 md:p-8">
-              {/* Main image container */}
               <div className="relative w-full max-w-[95vw] md:max-w-[80vw] h-full max-h-[85vh] flex items-center justify-center">
                 <img
                   src={galleryImages[selectedImageIndex].popup}
                   alt={galleryImages[selectedImageIndex].alt}
+                  className="max-w-full max-h-full object-contain"
                   loading="lazy"
-                  className="max-w-full max-h-full object-contain animate-zoom-in-smooth"
                 />
               </div>
-              
-              {/* Caption */}
-              <div className="mt-4 md:mt-6 text-center animate-fade-in-up">
-                <p className="text-white/90 text-sm md:text-base font-medium tracking-wide">
-                  {galleryImages[selectedImageIndex].description}
-                </p>
-                <p className="text-white/60 text-xs md:text-sm mt-1">
-                  {selectedImageIndex + 1} de {galleryImages.length}
-                </p>
+              <div className="mt-4 text-center">
+                <p className="text-white/90 text-sm font-medium">{galleryImages[selectedImageIndex].description}</p>
+                <p className="text-white/60 text-xs mt-1">{selectedImageIndex + 1} de {galleryImages.length}</p>
               </div>
             </div>
           )}
