@@ -1,23 +1,52 @@
 
 
-## Plano: Comprimir imagens WebP com Squoosh CLI
+## Plano: Adicionar 8 novas thumbnails à Galeria de Inspiração da página /corrida
 
 ### O que sera feito
-Executar o comando `npx @squoosh/cli` para recomprimir todas as imagens `.webp` do projeto na pasta `public/` com qualidade 75, reduzindo o tamanho dos arquivos sem perda visual significativa.
+Adicionar as 8 imagens enviadas como **thumbnails** ao array `galleryImages` em `GalleryCarouselCorrida.tsx`. Os campos `popup` ficarao temporariamente apontando para o mesmo arquivo da thumb — serao atualizados quando voce enviar as versoes popup em seguida.
 
 ### Etapas
 
-1. **Listar imagens WebP existentes** — identificar todos os arquivos `.webp` em `public/` e subpastas para confirmar o escopo.
+**1. Copiar as 8 imagens para `public/images/` como thumbs**
 
-2. **Executar compressao** — rodar o comando Squoosh com output na mesma pasta (`-d public/`), sobrescrevendo os arquivos originais:
-   ```
-   npx @squoosh/cli --webp '{"quality":75}' -d public/ public/images/*.webp
-   ```
-   Nota: o glob `public/**/*.webp` pode precisar ser expandido manualmente dependendo do shell. Sera feito por subpasta se necessario (`public/images/`, `public/logos/`, `public/logos-maratonas/`, etc.).
+| Arquivo origem | Destino |
+|---|---|
+| `user-uploads://berlin.webp` | `public/images/galeria-corrida-berlin-thumb.webp` |
+| `user-uploads://boston.webp` | `public/images/galeria-corrida-boston-thumb.webp` |
+| `user-uploads://chicago.webp` | `public/images/galeria-corrida-chicago-thumb.webp` |
+| `user-uploads://disney.webp` | `public/images/galeria-corrida-disney-thumb.webp` |
+| `user-uploads://lamision.webp` | `public/images/galeria-corrida-lamision-thumb.webp` |
+| `user-uploads://paris.webp` | `public/images/galeria-corrida-paris-thumb.webp` |
+| `user-uploads://poa.webp` | `public/images/galeria-corrida-poa-thumb.webp` |
+| `user-uploads://poa2.webp` | `public/images/galeria-corrida-poa2-thumb.webp` |
 
-3. **Verificar resultado** — comparar tamanhos antes/depois para confirmar a reducao.
+**2. Atualizar `src/components/GalleryCarouselCorrida.tsx`**
 
-### Observacoes
-- Nenhum codigo fonte sera alterado — apenas os arquivos de imagem serao recomprimidos.
-- As imagens ja sao `.webp`, entao a compressao adicional depende da qualidade original. Se ja estiverem em qualidade <= 75, o ganho pode ser minimo.
+Adicionar 8 novos objetos ao final do array `galleryImages`. Para cada um:
+- `gallery`: caminho da nova thumb (ex: `/images/galeria-corrida-berlin-thumb.webp`)
+- `popup`: **mesmo caminho da thumb por enquanto** (sera trocado quando voce enviar as popups)
+- `alt` e `description` conforme tabela abaixo
+
+| # | Nome | Descricao |
+|---|---|---|
+| 9 | berlin | Maratona de Berlim |
+| 10 | boston | Maratona de Boston |
+| 11 | chicago | Maratona de Chicago |
+| 12 | disney | Disney Marathon |
+| 13 | lamision | La Mision |
+| 14 | paris | Maratona de Paris |
+| 15 | poa | Maratona de Porto Alegre |
+| 16 | poa2 | Maratona de Porto Alegre |
+
+### Resultado visual
+Grid passa de 8 para 16 imagens — no desktop (lg, ≥1024px) forma 4 linhas × 4 colunas. As 2 novas linhas aparecem abaixo das existentes.
+
+### O que NAO sera alterado
+- Layout do grid, lightbox, animacoes, hover effects
+- Componente `GallerySectionCorrida.tsx`
+- Imagens existentes
+- Qualquer outro arquivo
+
+### Proximo passo (apos sua aprovacao e envio das popups)
+Quando voce enviar as 8 versoes popup, faremos um segundo ajuste apenas trocando o campo `popup` de cada uma das 8 novas entradas para apontar para o arquivo `-popup.webp` correspondente.
 
