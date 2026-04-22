@@ -54,6 +54,54 @@ const GalleryCarouselCorrida = () => {
       popup: "/images/galeria-uphill-popup.webp",
       alt: "Caixa Alta - Galeria 6",
       description: "Caixa Alta - 53x73cm"
+    },
+    {
+      gallery: "/images/galeria-corrida-berlin-thumb.webp",
+      popup: "/images/galeria-corrida-berlin-thumb.webp",
+      alt: "Quadro Maratona de Berlim",
+      description: "Maratona de Berlim"
+    },
+    {
+      gallery: "/images/galeria-corrida-boston-thumb.webp",
+      popup: "/images/galeria-corrida-boston-thumb.webp",
+      alt: "Quadro Maratona de Boston",
+      description: "Maratona de Boston"
+    },
+    {
+      gallery: "/images/galeria-corrida-chicago-thumb.webp",
+      popup: "/images/galeria-corrida-chicago-thumb.webp",
+      alt: "Quadro Maratona de Chicago",
+      description: "Maratona de Chicago"
+    },
+    {
+      gallery: "/images/galeria-corrida-disney-thumb.webp",
+      popup: "/images/galeria-corrida-disney-thumb.webp",
+      alt: "Quadro Disney Marathon",
+      description: "Disney Marathon"
+    },
+    {
+      gallery: "/images/galeria-corrida-lamision-thumb.webp",
+      popup: "/images/galeria-corrida-lamision-thumb.webp",
+      alt: "Quadro La Mision",
+      description: "La Mision"
+    },
+    {
+      gallery: "/images/galeria-corrida-paris-thumb.webp",
+      popup: "/images/galeria-corrida-paris-thumb.webp",
+      alt: "Quadro Maratona de Paris",
+      description: "Maratona de Paris"
+    },
+    {
+      gallery: "/images/galeria-corrida-poa-thumb.webp",
+      popup: "/images/galeria-corrida-poa-thumb.webp",
+      alt: "Quadro Maratona de Porto Alegre",
+      description: "Maratona de Porto Alegre"
+    },
+    {
+      gallery: "/images/galeria-corrida-poa2-thumb.webp",
+      popup: "/images/galeria-corrida-poa2-thumb.webp",
+      alt: "Quadro Maratona de Porto Alegre",
+      description: "Maratona de Porto Alegre"
     }
   ];
 
