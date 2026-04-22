@@ -59,49 +59,49 @@ const GalleryCarouselCorrida = () => {
       gallery: "/images/galeria-corrida-berlin-thumb.webp",
       popup: "/images/galeria-corrida-berlin-thumb.webp",
       alt: "Quadro Maratona de Berlim",
-      description: "Maratona de Berlim"
+      description: "Caixa Alta 43x43cm"
     },
     {
       gallery: "/images/galeria-corrida-boston-thumb.webp",
       popup: "/images/galeria-corrida-boston-thumb.webp",
       alt: "Quadro Maratona de Boston",
-      description: "Maratona de Boston"
+      description: "Caixa Alta 33x43cm"
     },
     {
       gallery: "/images/galeria-corrida-chicago-thumb.webp",
       popup: "/images/galeria-corrida-chicago-thumb.webp",
       alt: "Quadro Maratona de Chicago",
-      description: "Maratona de Chicago"
+      description: "Caixa Alta 33x33cm"
     },
     {
       gallery: "/images/galeria-corrida-disney-thumb.webp",
       popup: "/images/galeria-corrida-disney-thumb.webp",
       alt: "Quadro Disney Marathon",
-      description: "Disney Marathon"
+      description: "Caixa Baixa 63x83cm"
     },
     {
       gallery: "/images/galeria-corrida-lamision-thumb.webp",
       popup: "/images/galeria-corrida-lamision-thumb.webp",
       alt: "Quadro La Mision",
-      description: "La Mision"
+      description: "Caixa Alta 33x43cm"
     },
     {
       gallery: "/images/galeria-corrida-rrm-thumb.webp",
       popup: "/images/galeria-corrida-rrm-thumb.webp",
       alt: "Quadro Rio do Rastro Marathon",
-      description: "Rio do Rastro Marathon"
+      description: "Caixa Alta 43x43cm"
     },
     {
       gallery: "/images/galeria-corrida-poa-thumb.webp",
       popup: "/images/galeria-corrida-poa-thumb.webp",
       alt: "Quadro Maratona de Porto Alegre",
-      description: "Maratona de Porto Alegre"
+      description: "Caixa Alta 33x43cm"
     },
     {
       gallery: "/images/galeria-corrida-poa2-thumb.webp",
       popup: "/images/galeria-corrida-poa2-thumb.webp",
       alt: "Quadro Maratona de Porto Alegre",
-      description: "Maratona de Porto Alegre"
+      description: "Caixa Baixa 33x43cm"
     }
   ];
 
