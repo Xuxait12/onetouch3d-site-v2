@@ -1,52 +1,36 @@
 
 
-## Plano: Adicionar 8 novas thumbnails à Galeria de Inspiração da página /corrida
+## Plano: Atualizar descrições das linhas 3 e 4 (imagens recém-adicionadas) na Galeria /corrida
 
-### O que sera feito
-Adicionar as 8 imagens enviadas como **thumbnails** ao array `galleryImages` em `GalleryCarouselCorrida.tsx`. Os campos `popup` ficarao temporariamente apontando para o mesmo arquivo da thumb — serao atualizados quando voce enviar as versoes popup em seguida.
+Atualizar o campo `description` das 8 imagens das linhas 3 e 4 (índices 8–15) no array `galleryImages` em `src/components/GalleryCarouselCorrida.tsx`. As 8 imagens originais (linhas 1 e 2) permanecem inalteradas.
 
-### Etapas
+### Mudanças por posição
 
-**1. Copiar as 8 imagens para `public/images/` como thumbs**
+**Linha 3 (índices 8–11):**
 
-| Arquivo origem | Destino |
-|---|---|
-| `user-uploads://berlin.webp` | `public/images/galeria-corrida-berlin-thumb.webp` |
-| `user-uploads://boston.webp` | `public/images/galeria-corrida-boston-thumb.webp` |
-| `user-uploads://chicago.webp` | `public/images/galeria-corrida-chicago-thumb.webp` |
-| `user-uploads://disney.webp` | `public/images/galeria-corrida-disney-thumb.webp` |
-| `user-uploads://lamision.webp` | `public/images/galeria-corrida-lamision-thumb.webp` |
-| `user-uploads://paris.webp` | `public/images/galeria-corrida-paris-thumb.webp` |
-| `user-uploads://poa.webp` | `public/images/galeria-corrida-poa-thumb.webp` |
-| `user-uploads://poa2.webp` | `public/images/galeria-corrida-poa2-thumb.webp` |
+| # | Imagem | Descrição atual | Nova descrição |
+|---|---|---|---|
+| 1 | berlin | Maratona de Berlim | **Caixa Alta 43x43cm** |
+| 2 | boston | Maratona de Boston | **Caixa Alta 33x43cm** |
+| 3 | chicago | Maratona de Chicago | **Caixa Alta 33x33cm** |
+| 4 | disney | Disney Marathon | **Caixa Baixa 63x83cm** |
 
-**2. Atualizar `src/components/GalleryCarouselCorrida.tsx`**
+**Linha 4 (índices 12–15):**
 
-Adicionar 8 novos objetos ao final do array `galleryImages`. Para cada um:
-- `gallery`: caminho da nova thumb (ex: `/images/galeria-corrida-berlin-thumb.webp`)
-- `popup`: **mesmo caminho da thumb por enquanto** (sera trocado quando voce enviar as popups)
-- `alt` e `description` conforme tabela abaixo
+| # | Imagem | Descrição atual | Nova descrição |
+|---|---|---|---|
+| 1 | lamision | La Mision | **Caixa Alta 33x43cm** |
+| 2 | rrm | Rio do Rastro Marathon | **Caixa Alta 43x43cm** |
+| 3 | poa | Maratona de Porto Alegre | **Caixa Alta 33x43cm** |
+| 4 | poa2 | Maratona de Porto Alegre | **Caixa Baixa 33x43cm** |
 
-| # | Nome | Descricao |
-|---|---|---|
-| 9 | berlin | Maratona de Berlim |
-| 10 | boston | Maratona de Boston |
-| 11 | chicago | Maratona de Chicago |
-| 12 | disney | Disney Marathon |
-| 13 | lamision | La Mision |
-| 14 | paris | Maratona de Paris |
-| 15 | poa | Maratona de Porto Alegre |
-| 16 | poa2 | Maratona de Porto Alegre |
-
-### Resultado visual
-Grid passa de 8 para 16 imagens — no desktop (lg, ≥1024px) forma 4 linhas × 4 colunas. As 2 novas linhas aparecem abaixo das existentes.
-
-### O que NAO sera alterado
-- Layout do grid, lightbox, animacoes, hover effects
-- Componente `GallerySectionCorrida.tsx`
-- Imagens existentes
+### O que NÃO será alterado
+- Caminhos das imagens (`gallery`, `popup`)
+- Campos `alt`
+- Imagens 1–8 (linhas 1 e 2 originais)
+- Layout, grid responsivo, lightbox, animações
 - Qualquer outro arquivo
 
-### Proximo passo (apos sua aprovacao e envio das popups)
-Quando voce enviar as 8 versoes popup, faremos um segundo ajuste apenas trocando o campo `popup` de cada uma das 8 novas entradas para apontar para o arquivo `-popup.webp` correspondente.
+### Responsividade
+Sem alterações de layout. As descrições continuam exibidas no overlay de hover (desktop) e no lightbox (todos dispositivos) — comportamento já responsivo.
 
