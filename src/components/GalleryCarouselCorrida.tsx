@@ -86,10 +86,10 @@ const GalleryCarouselCorrida = () => {
       description: "La Mision"
     },
     {
-      gallery: "/images/galeria-corrida-paris-thumb.webp",
-      popup: "/images/galeria-corrida-paris-thumb.webp",
-      alt: "Quadro Maratona de Paris",
-      description: "Maratona de Paris"
+      gallery: "/images/galeria-corrida-rrm-thumb.webp",
+      popup: "/images/galeria-corrida-rrm-thumb.webp",
+      alt: "Quadro Rio do Rastro Marathon",
+      description: "Rio do Rastro Marathon"
     },
     {
       gallery: "/images/galeria-corrida-poa-thumb.webp",
