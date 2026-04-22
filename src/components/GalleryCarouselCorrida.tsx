@@ -95,7 +95,7 @@ const GalleryCarouselCorrida = () => {
       gallery: "/images/galeria-corrida-poa-thumb.webp",
       popup: "/images/galeria-corrida-poa-thumb.webp",
       alt: "Quadro Maratona de Porto Alegre",
-      description: "Maratona de Porto Alegre"
+      description: "Caixa Alta 33x43cm"
     },
     {
       gallery: "/images/galeria-corrida-poa2-thumb.webp",
