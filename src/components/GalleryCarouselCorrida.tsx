@@ -56,10 +56,10 @@ const GalleryCarouselCorrida = () => {
       description: "Caixa Alta - 53x73cm"
     },
     {
-      gallery: "/images/galeria-corrida-berlin-thumb.webp",
-      popup: "/images/galeria-corrida-berlin-thumb.webp",
-      alt: "Quadro Maratona de Berlim",
-      description: "Caixa Alta - 43x43cm"
+      gallery: "/images/galeria-corrida-poa2-thumb.webp",
+      popup: "/images/galeria-corrida-poa2-thumb.webp",
+      alt: "Quadro Maratona de Porto Alegre",
+      description: "Caixa Baixa - 33x43cm"
     },
     {
       gallery: "/images/galeria-corrida-boston-thumb.webp",
@@ -98,10 +98,10 @@ const GalleryCarouselCorrida = () => {
       description: "Caixa Alta - 33x43cm"
     },
     {
-      gallery: "/images/galeria-corrida-poa2-thumb.webp",
-      popup: "/images/galeria-corrida-poa2-thumb.webp",
-      alt: "Quadro Maratona de Porto Alegre",
-      description: "Caixa Baixa - 33x43cm"
+      gallery: "/images/galeria-corrida-berlin-thumb.webp",
+      popup: "/images/galeria-corrida-berlin-thumb.webp",
+      alt: "Quadro Maratona de Berlim",
+      description: "Caixa Alta - 43x43cm"
     }
   ];
 
