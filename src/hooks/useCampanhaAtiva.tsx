@@ -15,14 +15,15 @@ export interface Campanha {
   ativo: boolean;
 }
 
-export function useCampanhaAtiva() {
+export function useCampanhaAtiva(pagina: string) {
   const { data: campanha, isLoading } = useQuery({
-    queryKey: ["campanha-ativa"],
+    queryKey: ["campanha-ativa", pagina],
     queryFn: async () => {
       const nowIso = new Date().toISOString();
       const { data, error } = await (supabase as any)
         .from("campanhas")
         .select("*")
+        .eq("pagina", pagina)
         .eq("ativo", true)
         .lte("data_inicio", nowIso)
         .gte("data_fim", nowIso)

@@ -19,7 +19,7 @@ import { useCampanhaAtiva } from "@/hooks/useCampanhaAtiva";
 
 const Corrida = () => {
   const location = useLocation();
-  const { campanha, isLoading: isLoadingCampanha } = useCampanhaAtiva();
+  const { campanha, isLoading: isLoadingCampanha } = useCampanhaAtiva('corrida');
   useEffect(() => {
     const stateAny = window.history.state && window.history.state.usr || {};
     const anchor = stateAny.anchor || (window.location.hash ? window.location.hash.replace('#', '') : '');
