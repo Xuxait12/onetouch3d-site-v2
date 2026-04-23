@@ -59,16 +59,27 @@ const HeroSectionCampanha: React.FC<Props> = ({ campanha }) => {
         fetchPriority="high"
       />
 
-      <a
-        href={whatsappUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Falar no WhatsApp"
-        className={`absolute ${buttonPositionClass} inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe57] text-white px-6 py-3 rounded-full shadow-lg font-semibold transition-colors z-10`}
-      >
-        <MessageCircle className="w-5 h-5" />
-        Falar no WhatsApp
-      </a>
+      <div className={`absolute ${buttonPositionClass} z-10 inline-flex flex-col items-stretch`}>
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Falar no WhatsApp"
+          className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe57] text-white px-6 py-3 rounded-full shadow-lg font-semibold transition-colors"
+        >
+          <MessageCircle className="w-5 h-5" />
+          Falar no WhatsApp
+        </a>
+        <button
+          type="button"
+          onClick={() =>
+            document.getElementById("como-funciona")?.scrollIntoView({ behavior: "smooth" })
+          }
+          className="mt-3 text-right text-white text-sm font-medium underline underline-offset-4 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer"
+        >
+          Como funciona?
+        </button>
+      </div>
     </section>
   );
 };
