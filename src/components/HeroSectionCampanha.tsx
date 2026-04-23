@@ -7,7 +7,7 @@ interface Props {
 }
 
 const HeroSectionCampanha: React.FC<Props> = ({ campanha }) => {
-  const baseUrl = "https://wa.me/5551997199201";
+  const baseUrl = "https://wa.me/5554999921515";
   const whatsappUrl = campanha.mensagem_whatsapp
     ? `${baseUrl}?text=${encodeURIComponent(campanha.mensagem_whatsapp)}`
     : baseUrl;
