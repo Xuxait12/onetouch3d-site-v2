@@ -75,7 +75,7 @@ const HeroSectionCampanha: React.FC<Props> = ({ campanha }) => {
           onClick={() =>
             document.getElementById("como-funciona")?.scrollIntoView({ behavior: "smooth" })
           }
-          className="mt-3 text-right text-white text-sm font-medium underline underline-offset-4 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer"
+          className="mt-12 text-right text-white text-lg font-medium underline underline-offset-4 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer"
         >
           Como funciona?
         </button>
