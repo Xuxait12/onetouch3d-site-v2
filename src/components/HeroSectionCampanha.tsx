@@ -27,7 +27,7 @@ const HeroSectionCampanha: React.FC<Props> = ({ campanha }) => {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Falar no WhatsApp"
-        className="absolute top-[52%] left-[28%] inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe57] text-white px-6 py-3 rounded-full shadow-lg font-semibold transition-colors z-10"
+        className="absolute top-[58%] left-[8%] inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe57] text-white px-6 py-3 rounded-full shadow-lg font-semibold transition-colors z-10"
       >
         <MessageCircle className="w-5 h-5" />
         Falar no WhatsApp
