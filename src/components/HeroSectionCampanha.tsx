@@ -44,10 +44,13 @@ const HeroSectionCampanha: React.FC<Props> = ({ campanha }) => {
 
   const buttonPositionClass =
     device === "mobile"
-      ? "top-[60%] left-1/2 -translate-x-1/2"
+      ? "top-[72%] left-1/2 -translate-x-1/2"
       : device === "tablet"
       ? "top-[55%] left-[12%]"
       : "top-[58%] left-[18%]";
+
+  const isMobile = device === "mobile";
+  const waSizeClass = isMobile ? "px-4 py-2 text-sm" : "px-6 py-3";
 
   return (
     <section className="relative w-full min-h-[100svh] overflow-hidden bg-gray-900">
@@ -65,7 +68,7 @@ const HeroSectionCampanha: React.FC<Props> = ({ campanha }) => {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Falar no WhatsApp"
-          className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe57] text-white px-6 py-3 rounded-full shadow-lg font-semibold transition-colors"
+          className={`inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe57] text-white ${waSizeClass} rounded-full shadow-lg font-semibold transition-colors`}
         >
           <MessageCircle className="w-5 h-5" />
           Falar no WhatsApp
