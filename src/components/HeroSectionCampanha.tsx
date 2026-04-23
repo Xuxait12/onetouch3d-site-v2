@@ -44,7 +44,7 @@ const HeroSectionCampanha: React.FC<Props> = ({ campanha }) => {
 
   const buttonPositionClass =
     device === "mobile"
-      ? "top-[68%] left-1/2 -translate-x-1/2"
+      ? "top-[71%] left-1/2 -translate-x-1/2"
       : device === "tablet"
       ? "top-[55%] left-[12%]"
       : "top-[58%] left-[18%]";
