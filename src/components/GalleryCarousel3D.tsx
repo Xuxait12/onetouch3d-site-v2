@@ -17,9 +17,20 @@ interface GalleryCarousel3DProps {
 const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps) => {
   const [current, setCurrent] = useState(initialIndex);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const n = images.length;
 
-  const move = (dir: number) => setCurrent((prev) => ((prev + dir) % n + n) % n);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  const move = (dir: number) => {
+    setCurrent((prev) => ((prev + dir) % n + n) % n);
+  };
+
   const goTo = (i: number) => setCurrent(i);
 
   const getPosition = (i: number) => {
@@ -56,25 +67,24 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
     hidden: { transform: "translate(-50%, -50%) scale(0.4)", zIndex: 1, opacity: 0 },
   };
 
+  const mobileStyles: Record<string, React.CSSProperties> = {
+    active: { transform: "translate(-50%, -50%) scale(1) rotateY(0deg)", zIndex: 5, opacity: 1 },
+    next1: { transform: "translate(28%, -50%) scale(0.65) rotateY(-15deg)", zIndex: 4, opacity: 0.6 },
+    next2: { transform: "translate(80%, -50%) scale(0.45) rotateY(-25deg)", zIndex: 3, opacity: 0.3 },
+    prev1: { transform: "translate(-128%, -50%) scale(0.65) rotateY(15deg)", zIndex: 4, opacity: 0.6 },
+    prev2: { transform: "translate(-180%, -50%) scale(0.45) rotateY(25deg)", zIndex: 3, opacity: 0.3 },
+    hidden: { transform: "translate(-50%, -50%) scale(0.3)", zIndex: 1, opacity: 0 },
+  };
+
+  const styles = isMobile ? mobileStyles : desktopStyles;
+  const carouselHeight = isMobile ? "260px" : "440px";
+  const itemWidth = isMobile ? "78%" : "58%";
+
   return (
     <>
       <style>{`
-        .g3d-wrap {
-          position: relative;
-          width: 100%;
-          height: 440px;
-          perspective: 1000px;
-          overflow: visible;
-        }
-        .g3d-track {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          transform-style: preserve-3d;
-        }
-        .g3d-item {
+        .carousel-item-3d {
           position: absolute;
-          width: 58%;
           top: 50%;
           left: 50%;
           border-radius: 16px;
@@ -84,18 +94,18 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
           box-shadow: 0 12px 48px rgba(0,0,0,0.22);
           border: 1px solid rgba(0,0,0,0.08);
         }
-        .g3d-item.active {
+        .carousel-item-3d.active {
           box-shadow: 0 16px 56px rgba(0,0,0,0.28);
           border: 2px solid rgba(37,99,235,0.35);
           outline: 4px solid rgba(37,99,235,0.10);
         }
-        .g3d-item img {
+        .carousel-item-3d img {
           width: 100%;
           display: block;
           object-fit: cover;
           border-radius: 14px;
         }
-        .g3d-desc {
+        .carousel-desc-3d {
           position: absolute;
           bottom: 0;
           left: 0;
@@ -109,70 +119,65 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
           transition: opacity 0.3s;
           border-radius: 0 0 14px 14px;
         }
-        .g3d-item.active .g3d-desc { opacity: 1; }
-        .g3d-btn {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          z-index: 10;
-          background: rgba(255,255,255,0.95);
-          border: 1px solid rgba(0,0,0,0.15);
-          border-radius: 50%;
-          width: 44px;
-          height: 44px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          opacity: 0.9;
-          box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-        }
-        @media (max-width: 640px) {
-          .g3d-wrap { height: 260px; }
-          .g3d-item { width: 76%; }
-          .g3d-btn { width: 34px; height: 34px; }
-        }
+        .carousel-item-3d.active .carousel-desc-3d { opacity: 1; }
       `}</style>
 
-      <div style={{ width: "100%", padding: "0 8px" }}>
-        <div className="g3d-wrap">
-          <div className="g3d-track">
+      <div className="w-full mx-auto" style={{ padding: isMobile ? "0 8px" : "0 24px" }}>
+        <div style={{ position: "relative", width: "100%", height: carouselHeight, perspective: "1000px", overflow: "visible" }}>
+          <div style={{ position: "relative", width: "100%", height: "100%", transformStyle: "preserve-3d" }}>
             {images.map((img, i) => {
               const pos = getPosition(i);
               return (
                 <div
                   key={i}
-                  className={`g3d-item ${pos}`}
-                  style={desktopStyles[pos]}
+                  className={`carousel-item-3d ${pos}`}
+                  style={{ ...styles[pos], width: itemWidth }}
                   onClick={() => pos === "active" ? setSelectedImageIndex(i) : move(i > current ? 1 : -1)}
                 >
-                  <img src={img.gallery} alt={img.alt} loading="lazy" />
-                  <div className="g3d-desc">{img.description}</div>
+                  <img src={img.gallery} alt={img.alt} loading="lazy" style={{ borderRadius: "14px", display: "block", width: "100%" }} />
+                  <div className="carousel-desc-3d">{img.description}</div>
                 </div>
               );
             })}
           </div>
 
-          <button className="g3d-btn" style={{ left: 8 }} onClick={() => move(-1)}>
-            <ChevronLeft size={20} />
+          <button
+            onClick={() => move(-1)}
+            style={{ position: "absolute", left: isMobile ? 4 : 16, top: "50%", transform: "translateY(-50%)", zIndex: 10, background: "rgba(255,255,255,0.95)", border: "1px solid rgba(0,0,0,0.15)", borderRadius: "50%", width: isMobile ? 36 : 48, height: isMobile ? 36 : 48, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", opacity: 0.9, boxShadow: "0 4px 16px rgba(0,0,0,0.25)" }}
+          >
+            <ChevronLeft size={isMobile ? 16 : 22} />
           </button>
-          <button className="g3d-btn" style={{ right: 8 }} onClick={() => move(1)}>
-            <ChevronRight size={20} />
+
+          <button
+            onClick={() => move(1)}
+            style={{ position: "absolute", right: isMobile ? 4 : 16, top: "50%", transform: "translateY(-50%)", zIndex: 10, background: "rgba(255,255,255,0.95)", border: "1px solid rgba(0,0,0,0.15)", borderRadius: "50%", width: isMobile ? 36 : 48, height: isMobile ? 36 : 48, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", opacity: 0.9, boxShadow: "0 4px 16px rgba(0,0,0,0.25)" }}
+          >
+            <ChevronRight size={isMobile ? 16 : 22} />
           </button>
         </div>
 
         <div style={{ display: "flex", gap: 6, justifyContent: "center", marginTop: 12 }}>
           {images.map((_, i) => (
-            <div key={i} onClick={() => goTo(i)} style={{ width: i === current ? 20 : 6, height: 6, borderRadius: 3, background: i === current ? "var(--color-text-primary)" : "var(--color-border-secondary)", transition: "all 0.3s", cursor: "pointer" }} />
+            <div
+              key={i}
+              onClick={() => goTo(i)}
+              style={{ width: i === current ? 20 : 6, height: 6, borderRadius: 3, background: i === current ? "var(--color-text-primary)" : "var(--color-border-secondary)", transition: "all 0.3s", cursor: "pointer" }}
+            />
           ))}
         </div>
       </div>
 
       <Dialog open={selectedImageIndex !== null} onOpenChange={() => setSelectedImageIndex(null)}>
         <DialogContent className="max-w-none w-full h-full p-0 border-0 flex items-center justify-center" style={{ backgroundColor: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}>
-          <button onClick={() => setSelectedImageIndex(null)} className="absolute top-4 right-4 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white"><X size={28} /></button>
-          <button onClick={() => setSelectedImageIndex((p) => p !== null ? ((p - 1 + n) % n) : null)} className="absolute left-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white"><ChevronLeft size={32} /></button>
-          <button onClick={() => setSelectedImageIndex((p) => p !== null ? ((p + 1) % n) : null)} className="absolute right-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white"><ChevronRight size={32} /></button>
+          <button onClick={() => setSelectedImageIndex(null)} className="absolute top-4 right-4 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white">
+            <X size={28} />
+          </button>
+          <button onClick={() => setSelectedImageIndex((p) => p !== null ? ((p - 1 + n) % n) : null)} className="absolute left-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white">
+            <ChevronLeft size={32} />
+          </button>
+          <button onClick={() => setSelectedImageIndex((p) => p !== null ? ((p + 1) % n) : null)} className="absolute right-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white">
+            <ChevronRight size={32} />
+          </button>
           {selectedImageIndex !== null && (
             <div className="relative w-full h-full flex flex-col items-center justify-center p-4 md:p-8">
               <div className="relative w-full max-w-[95vw] md:max-w-[80vw] h-full max-h-[85vh] flex items-center justify-center">
