@@ -35,12 +35,12 @@ const GallerySectionCorrida = () => {
         </div>
       </div>
       
-      <GalleryCarouselMobile
-        className="block md:hidden"
-        images={corridaImages}
-        initialIndex={9}
-      />
-      <GalleryCarouselCorrida className="hidden md:block" />
+      <div className="block md:hidden">
+        <GalleryCarouselMobile images={corridaImages} initialIndex={9} />
+      </div>
+      <div className="hidden md:block">
+        <GalleryCarouselCorrida />
+      </div>
     </section>
   );
 };
