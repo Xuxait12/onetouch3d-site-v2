@@ -76,7 +76,7 @@ const GalleryCarouselCorrida = () => {
           top: 50%;
           left: 50%;
           border-radius: 20px;
-          overflow: hidden;
+          overflow: visible;
           cursor: pointer;
           transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           box-shadow: 0 12px 48px rgba(0,0,0,0.22); border: 1px solid rgba(0,0,0,0.08);}
