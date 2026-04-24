@@ -3,7 +3,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const GalleryCarouselCorrida = () => {
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState(9);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
   const galleryImages = [
