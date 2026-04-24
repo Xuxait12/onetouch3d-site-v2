@@ -77,7 +77,7 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
   };
 
   const styles = isMobile ? mobileStyles : desktopStyles;
-  const carouselHeight = "440px";
+  const carouselHeight = isMobile ? "260px" : "380px";
   const itemWidth = isMobile ? "78%" : "58%";
 
   return (
@@ -120,14 +120,10 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
           border-radius: 0 0 14px 14px;
         }
         .carousel-item-3d.active .carousel-desc-3d { opacity: 1; }
-        @media (max-width: 640px) {
-          .carousel-item-3d { width: 78% !important; }
-          .carousel-container-3d { height: 260px !important; }
-        }
       `}</style>
 
       <div className="w-full mx-auto" style={{ padding: isMobile ? "0 8px" : "0 24px" }}>
-        <div className="carousel-container-3d" style={{ position: "relative", width: "100%", height: carouselHeight, perspective: "1000px", overflow: "visible" }}>
+        <div style={{ position: "relative", width: "100%", height: carouselHeight, perspective: "1000px", overflow: "visible" }}>
           <div style={{ position: "relative", width: "100%", height: "100%", transformStyle: "preserve-3d" }}>
             {images.map((img, i) => {
               const pos = getPosition(i);
