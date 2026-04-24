@@ -111,8 +111,8 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
           left: 0;
           right: 0;
           padding: 10px 14px;
-          background: linear-gradient(transparent, rgba(0,0,0,0.72));
-          color: #fff;
+          background: linear-gradient(transparent, rgba(255,255,255,0.92));
+          color: #1f2937;
           font-size: 12px;
           font-weight: 500;
           opacity: 0;
