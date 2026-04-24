@@ -1,6 +1,6 @@
 import GalleryCarouselCorrida from "@/components/GalleryCarouselCorrida";
 const GallerySectionCorrida = () => {
-  return <section className="py-8 md:py-12 overflow-hidden">
+  return <section className="py-8 md:py-12 pt-24 md:pt-16">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-up">
           <h2 className="section-text mb-4">Galeria de Inspiração</h2>
