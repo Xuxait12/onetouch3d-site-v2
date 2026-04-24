@@ -101,7 +101,7 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
         }
         .carousel-item-3d.active .carousel-desc-3d { opacity: 1; }
         .carousel-track-3d {
-          height: 440px;
+          height: 320px;
         }
         @media (max-width: 640px) {
           .carousel-item-3d { width: 76% !important; }
