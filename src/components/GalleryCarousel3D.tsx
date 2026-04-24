@@ -16,7 +16,7 @@ interface GalleryCarousel3DProps {
 }
 
 const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps) => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" && window.innerWidth < 640);
   useEffect(() => {
     setIsMobile(window.innerWidth < 640);
     const handler = () => setIsMobile(window.innerWidth < 640);
