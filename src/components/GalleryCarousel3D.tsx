@@ -16,7 +16,15 @@ interface GalleryCarousel3DProps {
 }
 
 const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps) => {
-  if (typeof window !== "undefined" && window.innerWidth < 640) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 640);
+    const handler = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+
+  if (isMobile) {
     return <GalleryCarouselMobile images={images} initialIndex={initialIndex} />;
   }
 
@@ -95,8 +103,8 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
           left: 0;
           right: 0;
           padding: 12px 16px;
-          background: linear-gradient(transparent, rgba(0,0,0,0.72));
-          color: #fff;
+          background: linear-gradient(transparent, rgba(255,255,255,0.92));
+          color: #1a1a1a;
           font-size: 13px;
           font-weight: 500;
           opacity: 0;
