@@ -11,6 +11,6 @@ const images = [
   { gallery: "/images/galeria-ciclismo-foto8-thumb.webp", popup: "/images/galeria-ciclismo-foto8-thumb.webp", alt: "Ciclismo - Galeria 8", description: "Caixa Alta - 53x73cm" },
 ];
 
-const GalleryCarouselCiclismo = () => <GalleryCarousel3D images={images} />;
+const GalleryCarouselCiclismo = () => <GalleryCarousel3D images={images} initialIndex={5} />;
 
 export default GalleryCarouselCiclismo;
