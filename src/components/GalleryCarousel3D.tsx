@@ -1,4 +1,3 @@
-import GalleryCarouselMobile from "@/components/GalleryCarouselMobile";
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
@@ -16,18 +15,6 @@ interface GalleryCarousel3DProps {
 }
 
 const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps) => {
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 640);
-    const handler = () => setIsMobile(window.innerWidth < 640);
-    window.addEventListener("resize", handler);
-    return () => window.removeEventListener("resize", handler);
-  }, []);
-
-  if (isMobile) { // renderiza mobile após hydration
-    return <GalleryCarouselMobile images={images} initialIndex={initialIndex} />;
-  }
-
   const [current, setCurrent] = useState(initialIndex);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const n = images.length;
