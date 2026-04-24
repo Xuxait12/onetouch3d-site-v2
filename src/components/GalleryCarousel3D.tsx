@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import GalleryCarouselMobile from "@/components/GalleryCarouselMobile";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -47,7 +48,11 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
       }
     };
     document.addEventListener("keydown", handleKey);
-    return () => document.removeEventListener("keydown", handleKey);
+    if (typeof window !== "undefined" && window.innerWidth < 640) {
+    return <GalleryCarouselMobile images={images} initialIndex={initialIndex} />;
+  }
+
+  return () => document.removeEventListener("keydown", handleKey);
   }, [selectedImageIndex, current]);
 
   const styles: Record<string, React.CSSProperties> = {
@@ -58,6 +63,10 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
     prev2: { transform: "translate(-155%, -50%) scale(0.58) rotateY(35deg)", zIndex: 3, opacity: 0.45 },
     hidden: { transform: "translate(-50%, -50%) scale(0.4)", zIndex: 1, opacity: 0 },
   };
+
+  if (typeof window !== "undefined" && window.innerWidth < 640) {
+    return <GalleryCarouselMobile images={images} initialIndex={initialIndex} />;
+  }
 
   return (
     <>
@@ -106,7 +115,11 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
           <div style={{ position: "relative", width: "100%", height: "100%", transformStyle: "preserve-3d" }}>
             {images.map((img, i) => {
               const pos = getPosition(i);
-              return (
+              if (typeof window !== "undefined" && window.innerWidth < 640) {
+    return <GalleryCarouselMobile images={images} initialIndex={initialIndex} />;
+  }
+
+  return (
                 <div
                   key={i}
                   className={`carousel-item-3d ${pos}`}
