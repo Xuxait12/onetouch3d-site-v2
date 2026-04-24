@@ -183,4 +183,3 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
 };
 
 export default GalleryCarousel3D;
-
