@@ -12,9 +12,10 @@ interface GalleryImage {
 interface Props {
   images: GalleryImage[];
   initialIndex?: number;
+  className?: string;
 }
 
-const GalleryCarouselMobile = ({ images, initialIndex = 0 }: Props) => {
+const GalleryCarouselMobile = ({ images, initialIndex = 0, className }: Props) => {
   const [current, setCurrent] = useState(initialIndex);
   const [selected, setSelected] = useState<number | null>(null);
   const n = images.length;
@@ -24,7 +25,7 @@ const GalleryCarouselMobile = ({ images, initialIndex = 0 }: Props) => {
 
   return (
     <>
-      <div style={{ width: "100%", padding: "0 16px", boxSizing: "border-box" }}>
+      <div className={className} style={{ width: "100%", padding: "0 16px", boxSizing: "border-box" }}>
         <div style={{ position: "relative", width: "100%" }}>
           <img
             src={images[current].gallery}
