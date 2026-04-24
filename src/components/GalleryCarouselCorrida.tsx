@@ -72,14 +72,14 @@ const GalleryCarouselCorrida = () => {
       <style>{`
         .carousel-item {
           position: absolute;
-          width: 52%;
+          width: 58%;
           top: 50%;
           left: 50%;
-          border-radius: 14px;
+          border-radius: 20px;
           overflow: hidden;
           cursor: pointer;
           transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+          box-shadow: 0 12px 48px rgba(0,0,0,0.22); border: 1px solid rgba(0,0,0,0.08);
         }
         .carousel-item img {
           width: 100%;
@@ -106,7 +106,7 @@ const GalleryCarouselCorrida = () => {
 
       <div className="w-full max-w-7xl mx-auto px-6">
 
-        <div style={{ position: "relative", width: "100%", height: "360px", perspective: "1000px", overflow: "hidden" }}>
+        <div style={{ position: "relative", width: "100%", height: "440px", perspective: "1000px", overflow: "hidden" }}>
           <div style={{ position: "relative", width: "100%", height: "100%", transformStyle: "preserve-3d" }}>
             {galleryImages.map((img, i) => {
               const pos = getPosition(i);
