@@ -110,7 +110,7 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
       `}</style>
 
       <div style={{ width: "100%", padding: "0 8px" }}>
-        <div style={{ position: "relative", width: "100%", perspective: "1000px", overflow: "visible" }} className="carousel-track-3d">
+        <div style={{ position: "relative", width: "100%", height: "440px", perspective: "1000px", overflow: "visible" }} className="carousel-track-3d">
           <div style={{ position: "relative", width: "100%", height: "100%", transformStyle: "preserve-3d" }}>
             {images.map((img, i) => {
               const pos = getPosition(i);
