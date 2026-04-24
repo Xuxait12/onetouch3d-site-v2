@@ -77,7 +77,7 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
   };
 
   const styles = isMobile ? mobileStyles : desktopStyles;
-  const carouselHeight = isMobile ? "260px" : "440px";
+  const carouselHeight = isMobile ? "35vh" : "55vh";
   const itemWidth = isMobile ? "78%" : "58%";
 
   return (
