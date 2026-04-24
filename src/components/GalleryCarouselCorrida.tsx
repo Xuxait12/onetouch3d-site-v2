@@ -3,242 +3,173 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const GalleryCarouselCorrida = () => {
+  const [current, setCurrent] = useState(0);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
 
   const galleryImages = [
-    {
-      gallery: "/images/galeria-foto7-thumb.webp",
-      popup: "/images/galeria-foto7-popup.webp",
-      alt: "Caixa Baixa - Galeria 1",
-      description: "Caixa Baixa - 33x33cm"
-    },
-    {
-      gallery: "/images/galeria-foto4-thumb.webp",
-      popup: "/images/galeria-foto4-popup.webp",
-      alt: "Caixa baixa - Galeria 2",
-      description: "Caixa baixa - 33x43cm"
-    },
-    {
-      gallery: "/images/galeria-foto9-thumb.webp",
-      popup: "/images/galeria-foto9-popup.webp",
-      alt: "Caixa Baixa - Galeria 9",
-      description: "Caixa Baixa - 43x33cm"
-    },
-    {
-      gallery: "/images/galeria-foto8-thumb.webp",
-      popup: "/images/galeria-foto8-popup.webp",
-      alt: "Caixa baixa - Galeria 4",
-      description: "Caixa baixa - 33x43cm"
-    },
-    {
-      gallery: "/images/galeria-berlim-thumb.webp",
-      popup: "/images/galeria-berlim-popup.webp",
-      alt: "Caixa Alta - Galeria 9",
-      description: "Caixa Alta - 33x43cm"
-    },
-    {
-      gallery: "/images/galeria-foto6-thumb.webp",
-      popup: "/images/galeria-foto6-popup.webp",
-      alt: "Caixa Alta - Galeria 6",
-      description: "Caixa Alta - 43x43cm"
-    },
-    {
-      gallery: "/images/galeria-foto5-thumb.webp",
-      popup: "/images/galeria-foto5-popup.webp",
-      alt: "Caixa Alta - Galeria 5",
-      description: "Caixa Alta - 43x53cm"
-    },
-    {
-      gallery: "/images/galeria-uphill-thumb.webp",
-      popup: "/images/galeria-uphill-popup.webp",
-      alt: "Caixa Alta - Galeria 6",
-      description: "Caixa Alta - 53x73cm"
-    },
-    {
-      gallery: "/images/galeria-corrida-poa2-thumb.webp",
-      popup: "/images/galeria-corrida-poa2-thumb.webp",
-      alt: "Quadro Maratona de Porto Alegre",
-      description: "Caixa Baixa - 33x43cm"
-    },
-    {
-      gallery: "/images/galeria-corrida-boston-thumb.webp",
-      popup: "/images/galeria-corrida-boston-thumb.webp",
-      alt: "Quadro Maratona de Boston",
-      description: "Caixa Alta - 33x43cm"
-    },
-    {
-      gallery: "/images/galeria-corrida-chicago-thumb.webp",
-      popup: "/images/galeria-corrida-chicago-thumb.webp",
-      alt: "Quadro Maratona de Chicago",
-      description: "Caixa Alta - 33x33cm"
-    },
-    {
-      gallery: "/images/galeria-corrida-disney-thumb.webp",
-      popup: "/images/galeria-corrida-disney-thumb.webp",
-      alt: "Quadro Disney Marathon",
-      description: "Caixa Baixa - 63x83cm"
-    },
-    {
-      gallery: "/images/galeria-corrida-lamision-thumb.webp",
-      popup: "/images/galeria-corrida-lamision-thumb.webp",
-      alt: "Quadro La Mision",
-      description: "Caixa Alta - 33x43cm"
-    },
-    {
-      gallery: "/images/galeria-corrida-rrm-thumb.webp",
-      popup: "/images/galeria-corrida-rrm-thumb.webp",
-      alt: "Quadro Rio do Rastro Marathon",
-      description: "Caixa Alta - 43x43cm"
-    },
-    {
-      gallery: "/images/galeria-corrida-poa-thumb.webp",
-      popup: "/images/galeria-corrida-poa-thumb.webp",
-      alt: "Quadro Maratona de Porto Alegre",
-      description: "Caixa Alta - 33x43cm"
-    },
-    {
-      gallery: "/images/galeria-corrida-berlin-thumb.webp",
-      popup: "/images/galeria-corrida-berlin-thumb.webp",
-      alt: "Quadro Maratona de Berlim",
-      description: "Caixa Alta - 43x43cm"
-    }
+    { gallery: "/images/galeria-foto7-thumb.webp", popup: "/images/galeria-foto7-popup.webp", alt: "Caixa Baixa - Galeria 1", description: "Caixa Baixa - 33x33cm" },
+    { gallery: "/images/galeria-foto4-thumb.webp", popup: "/images/galeria-foto4-popup.webp", alt: "Caixa baixa - Galeria 2", description: "Caixa Baixa - 33x43cm" },
+    { gallery: "/images/galeria-foto9-thumb.webp", popup: "/images/galeria-foto9-popup.webp", alt: "Caixa Baixa - Galeria 9", description: "Caixa Baixa - 43x33cm" },
+    { gallery: "/images/galeria-foto8-thumb.webp", popup: "/images/galeria-foto8-popup.webp", alt: "Caixa baixa - Galeria 4", description: "Caixa Baixa - 33x43cm" },
+    { gallery: "/images/galeria-berlim-thumb.webp", popup: "/images/galeria-berlim-popup.webp", alt: "Caixa Alta - Berlim", description: "Caixa Alta - 33x43cm" },
+    { gallery: "/images/galeria-foto6-thumb.webp", popup: "/images/galeria-foto6-popup.webp", alt: "Caixa Alta - Galeria 6", description: "Caixa Alta - 43x43cm" },
+    { gallery: "/images/galeria-foto5-thumb.webp", popup: "/images/galeria-foto5-popup.webp", alt: "Caixa Alta - Galeria 5", description: "Caixa Alta - 43x53cm" },
+    { gallery: "/images/galeria-uphill-thumb.webp", popup: "/images/galeria-uphill-popup.webp", alt: "Caixa Alta - Uphill", description: "Caixa Alta - 53x73cm" },
+    { gallery: "/images/galeria-corrida-poa2-thumb.webp", popup: "/images/galeria-corrida-poa2-thumb.webp", alt: "Caixa Baixa - POA2", description: "Caixa Baixa - 33x43cm" },
+    { gallery: "/images/galeria-corrida-boston-thumb.webp", popup: "/images/galeria-corrida-boston-thumb.webp", alt: "Caixa Alta - Boston", description: "Caixa Alta - 33x43cm" },
+    { gallery: "/images/galeria-corrida-chicago-thumb.webp", popup: "/images/galeria-corrida-chicago-thumb.webp", alt: "Caixa Alta - Chicago", description: "Caixa Alta - 33x33cm" },
+    { gallery: "/images/galeria-corrida-disney-thumb.webp", popup: "/images/galeria-corrida-disney-thumb.webp", alt: "Caixa Baixa - Disney", description: "Caixa Baixa - 63x83cm" },
+    { gallery: "/images/galeria-corrida-lamision-thumb.webp", popup: "/images/galeria-corrida-lamision-thumb.webp", alt: "Caixa Alta - La Mision", description: "Caixa Alta - 33x43cm" },
+    { gallery: "/images/galeria-corrida-rrm-thumb.webp", popup: "/images/galeria-corrida-rrm-thumb.webp", alt: "Caixa Alta - RRM", description: "Caixa Alta - 43x43cm" },
+    { gallery: "/images/galeria-corrida-poa-thumb.webp", popup: "/images/galeria-corrida-poa-thumb.webp", alt: "Caixa Alta - POA", description: "Caixa Alta - 33x43cm" },
+    { gallery: "/images/galeria-corrida-berlin-thumb.webp", popup: "/images/galeria-corrida-berlin-thumb.webp", alt: "Caixa Alta - Berlin", description: "Caixa Alta - 43x43cm" },
   ];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
+  const n = galleryImages.length;
 
-    const galleryElement = document.getElementById('gallery-section-corrida');
-    if (galleryElement) {
-      observer.observe(galleryElement);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  const handleImageClick = (index: number) => {
-    setSelectedImageIndex(index);
+  const move = (dir: number) => {
+    setCurrent((prev) => ((prev + dir) % n + n) % n);
   };
 
-  const handlePrevImage = () => {
-    if (selectedImageIndex !== null) {
-      const prevIndex = selectedImageIndex === 0 ? galleryImages.length - 1 : selectedImageIndex - 1;
-      setSelectedImageIndex(prevIndex);
-    }
-  };
+  const goTo = (i: number) => setCurrent(i);
 
-  const handleNextImage = () => {
-    if (selectedImageIndex !== null) {
-      const nextIndex = selectedImageIndex === galleryImages.length - 1 ? 0 : selectedImageIndex + 1;
-      setSelectedImageIndex(nextIndex);
-    }
-  };
-
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (selectedImageIndex !== null) {
-      if (e.key === 'ArrowLeft') handlePrevImage();
-      if (e.key === 'ArrowRight') handleNextImage();
-      if (e.key === 'Escape') setSelectedImageIndex(null);
-    }
+  const getPosition = (i: number) => {
+    const diff = ((i - current) % n + n) % n;
+    if (diff === 0) return "active";
+    if (diff === 1) return "next1";
+    if (diff === 2) return "next2";
+    if (diff === n - 1) return "prev1";
+    if (diff === n - 2) return "prev2";
+    return "hidden";
   };
 
   useEffect(() => {
-    if (selectedImageIndex !== null) {
-      document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
-    }
-  }, [selectedImageIndex]);
+    const handleKey = (e: KeyboardEvent) => {
+      if (selectedImageIndex !== null) {
+        if (e.key === "ArrowLeft") setSelectedImageIndex((p) => p !== null ? ((p - 1 + n) % n) : null);
+        if (e.key === "ArrowRight") setSelectedImageIndex((p) => p !== null ? ((p + 1) % n) : null);
+        if (e.key === "Escape") setSelectedImageIndex(null);
+      } else {
+        if (e.key === "ArrowLeft") move(-1);
+        if (e.key === "ArrowRight") move(1);
+      }
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [selectedImageIndex, current]);
+
+  const styles: Record<string, React.CSSProperties> = {
+    active: { transform: "translate(-50%, -50%) scale(1) rotateY(0deg)", zIndex: 5, opacity: 1 },
+    next1: { transform: "translate(15%, -50%) scale(0.78) rotateY(-22deg)", zIndex: 4, opacity: 0.75 },
+    next2: { transform: "translate(55%, -50%) scale(0.58) rotateY(-35deg)", zIndex: 3, opacity: 0.45 },
+    prev1: { transform: "translate(-115%, -50%) scale(0.78) rotateY(22deg)", zIndex: 4, opacity: 0.75 },
+    prev2: { transform: "translate(-155%, -50%) scale(0.58) rotateY(35deg)", zIndex: 3, opacity: 0.45 },
+    hidden: { transform: "translate(-50%, -50%) scale(0.4)", zIndex: 1, opacity: 0 },
+  };
 
   return (
     <>
-      <div 
-        id="gallery-section-corrida" 
-        className={`w-full max-w-7xl mx-auto px-6 transition-all duration-700 ease-out ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}
-      >
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {galleryImages.map((image, index) => (
-            <div
-              key={index}
-              className="group cursor-pointer overflow-hidden rounded-2xl bg-card shadow-md hover:shadow-xl transition-all duration-300 ease-out"
-              onClick={() => handleImageClick(index)}
-            >
-              <div className="relative aspect-square overflow-hidden">
-                <img
-                  src={image.gallery}
-                  alt={image.alt}
-                  className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
-                  loading="lazy"
-                />
-                {/* Overlay com escurecimento */}
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"></div>
-                
-                {/* Descrição no rodapé */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out">
-                  <div className="p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out">
-                    <p className="text-sm font-medium">{image.description}</p>
-                  </div>
+      <style>{`
+        .carousel-item {
+          position: absolute;
+          width: 52%;
+          top: 50%;
+          left: 50%;
+          border-radius: 14px;
+          overflow: hidden;
+          cursor: pointer;
+          transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        }
+        .carousel-item img {
+          width: 100%;
+          display: block;
+          aspect-ratio: 4/3;
+          object-fit: cover;
+        }
+        .carousel-desc {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          padding: 12px 16px;
+          background: linear-gradient(transparent, rgba(0,0,0,0.72));
+          color: #fff;
+          font-size: 13px;
+          font-weight: 500;
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+        .carousel-item.active .carousel-desc { opacity: 1; }
+        .carousel-item.active:hover .carousel-desc { opacity: 1; }
+      `}</style>
+
+      <div className="w-full max-w-7xl mx-auto px-6">
+
+        <div style={{ position: "relative", width: "100%", height: "360px", perspective: "1000px", overflow: "hidden" }}>
+          <div style={{ position: "relative", width: "100%", height: "100%", transformStyle: "preserve-3d" }}>
+            {galleryImages.map((img, i) => {
+              const pos = getPosition(i);
+              return (
+                <div
+                  key={i}
+                  className={`carousel-item ${pos}`}
+                  style={styles[pos]}
+                  onClick={() => pos === "active" ? setSelectedImageIndex(i) : move(i > current ? 1 : -1)}
+                >
+                  <img src={img.gallery} alt={img.alt} loading="lazy" />
+                  <div className="carousel-desc">{img.description}</div>
                 </div>
-              </div>
-            </div>
+              );
+            })}
+          </div>
+
+          <button
+            onClick={() => move(-1)}
+            style={{ position: "absolute", left: 8, top: "50%", transform: "translateY(-50%)", zIndex: 10, background: "var(--color-background-primary)", border: "0.5px solid var(--color-border-secondary)", borderRadius: "50%", width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+          >
+            <ChevronLeft size={22} />
+          </button>
+
+          <button
+            onClick={() => move(1)}
+            style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", zIndex: 10, background: "var(--color-background-primary)", border: "0.5px solid var(--color-border-secondary)", borderRadius: "50%", width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+          >
+            <ChevronRight size={22} />
+          </button>
+        </div>
+
+        <div style={{ display: "flex", gap: 6, justifyContent: "center", marginTop: 16 }}>
+          {galleryImages.map((_, i) => (
+            <div
+              key={i}
+              onClick={() => goTo(i)}
+              style={{ width: i === current ? 20 : 6, height: 6, borderRadius: 3, background: i === current ? "var(--color-text-primary)" : "var(--color-border-secondary)", transition: "all 0.3s", cursor: "pointer" }}
+            />
           ))}
         </div>
+
       </div>
 
-      {/* Enhanced Lightbox Modal */}
       <Dialog open={selectedImageIndex !== null} onOpenChange={() => setSelectedImageIndex(null)}>
-        <DialogContent className="max-w-none w-full h-full p-0 border-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', backdropFilter: 'blur(10px)' }}>
-          {/* Close button */}
-          <button
-            onClick={() => setSelectedImageIndex(null)}
-            className="absolute top-4 right-4 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 text-white backdrop-blur-sm"
-          >
+        <DialogContent className="max-w-none w-full h-full p-0 border-0 flex items-center justify-center" style={{ backgroundColor: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}>
+          <button onClick={() => setSelectedImageIndex(null)} className="absolute top-4 right-4 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white">
             <X size={28} />
           </button>
-          
-          {/* Navigation arrows */}
-          <button
-            onClick={handlePrevImage}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 text-white backdrop-blur-sm"
-          >
+          <button onClick={() => setSelectedImageIndex((p) => p !== null ? ((p - 1 + n) % n) : null)} className="absolute left-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white">
             <ChevronLeft size={32} />
           </button>
-          
-          <button
-            onClick={handleNextImage}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 text-white backdrop-blur-sm"
-          >
+          <button onClick={() => setSelectedImageIndex((p) => p !== null ? ((p + 1) % n) : null)} className="absolute right-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white">
             <ChevronRight size={32} />
           </button>
-          
           {selectedImageIndex !== null && (
             <div className="relative w-full h-full flex flex-col items-center justify-center p-4 md:p-8">
-              {/* Main image container */}
               <div className="relative w-full max-w-[95vw] md:max-w-[80vw] h-full max-h-[85vh] flex items-center justify-center">
-                <img
-                  src={galleryImages[selectedImageIndex].popup}
-                  alt={galleryImages[selectedImageIndex].alt}
-                  loading="lazy"
-                  className="max-w-full max-h-full object-contain animate-zoom-in-smooth"
-                />
+                <img src={galleryImages[selectedImageIndex].popup} alt={galleryImages[selectedImageIndex].alt} className="max-w-full max-h-full object-contain" loading="lazy" />
               </div>
-              
-              {/* Caption */}
-              <div className="mt-4 md:mt-6 text-center animate-fade-in-up">
-                <p className="text-white/90 text-sm md:text-base font-medium tracking-wide">
-                  {galleryImages[selectedImageIndex].description}
-                </p>
-                <p className="text-white/60 text-xs md:text-sm mt-1">
-                  {selectedImageIndex + 1} de {galleryImages.length}
-                </p>
+              <div className="mt-4 text-center">
+                <p className="text-white/90 text-sm font-medium">{galleryImages[selectedImageIndex].description}</p>
+                <p className="text-white/60 text-xs mt-1">{selectedImageIndex + 1} de {n}</p>
               </div>
             </div>
           )}
