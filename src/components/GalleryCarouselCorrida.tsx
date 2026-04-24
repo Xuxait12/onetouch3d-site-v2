@@ -79,13 +79,14 @@ const GalleryCarouselCorrida = () => {
           overflow: hidden;
           cursor: pointer;
           transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          box-shadow: 0 12px 48px rgba(0,0,0,0.22); border: 1px solid rgba(0,0,0,0.08);
+          box-shadow: 0 12px 48px rgba(0,0,0,0.22); border: 1px solid rgba(0,0,0,0.08);}
+        .carousel-item.active { box-shadow: 0 16px 56px rgba(0,0,0,0.28); border: 2px solid rgba(37,99,235,0.35); outline: 4px solid rgba(37,99,235,0.10);
         }
         .carousel-item img {
           width: 100%;
           display: block;
           
-          object-fit: cover;
+          object-fit: cover; border-radius: 20px;
         }
         .carousel-desc {
           position: absolute;
