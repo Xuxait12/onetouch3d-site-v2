@@ -17,15 +17,7 @@ interface GalleryCarousel3DProps {
 const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps) => {
   const [current, setCurrent] = useState(initialIndex);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
   const n = images.length;
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 640);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
 
   const move = (dir: number) => {
     setCurrent((prev) => ((prev + dir) % n + n) % n);
@@ -58,7 +50,7 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
     return () => document.removeEventListener("keydown", handleKey);
   }, [selectedImageIndex, current]);
 
-  const desktopStyles: Record<string, React.CSSProperties> = {
+  const styles: Record<string, React.CSSProperties> = {
     active: { transform: "translate(-50%, -50%) scale(1) rotateY(0deg)", zIndex: 5, opacity: 1 },
     next1: { transform: "translate(15%, -50%) scale(0.78) rotateY(-22deg)", zIndex: 4, opacity: 0.75 },
     next2: { transform: "translate(55%, -50%) scale(0.58) rotateY(-35deg)", zIndex: 3, opacity: 0.45 },
@@ -67,24 +59,12 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
     hidden: { transform: "translate(-50%, -50%) scale(0.4)", zIndex: 1, opacity: 0 },
   };
 
-  const mobileStyles: Record<string, React.CSSProperties> = {
-    active: { transform: "translate(-50%, -50%) scale(1) rotateY(0deg)", zIndex: 5, opacity: 1 },
-    next1: { transform: "translate(28%, -50%) scale(0.65) rotateY(-15deg)", zIndex: 4, opacity: 0.6 },
-    next2: { transform: "translate(80%, -50%) scale(0.45) rotateY(-25deg)", zIndex: 3, opacity: 0.3 },
-    prev1: { transform: "translate(-128%, -50%) scale(0.65) rotateY(15deg)", zIndex: 4, opacity: 0.6 },
-    prev2: { transform: "translate(-180%, -50%) scale(0.45) rotateY(25deg)", zIndex: 3, opacity: 0.3 },
-    hidden: { transform: "translate(-50%, -50%) scale(0.3)", zIndex: 1, opacity: 0 },
-  };
-
-  const styles = isMobile ? mobileStyles : desktopStyles;
-  const carouselHeight = "440px";
-  const itemWidth = isMobile ? "78%" : "58%";
-
   return (
     <>
       <style>{`
         .carousel-item-3d {
           position: absolute;
+          width: 58%;
           top: 50%;
           left: 50%;
           border-radius: 16px;
@@ -120,14 +100,17 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
           border-radius: 0 0 14px 14px;
         }
         .carousel-item-3d.active .carousel-desc-3d { opacity: 1; }
+        .carousel-track-3d {
+          height: 440px;
+        }
         @media (max-width: 640px) {
-          .carousel-item-3d { width: 78% !important; }
-          .carousel-container-3d { height: 260px !important; }
+          .carousel-item-3d { width: 76% !important; }
+          .carousel-track-3d { height: 260px !important; }
         }
       `}</style>
 
-      <div className="w-full mx-auto" style={{ padding: isMobile ? "0 8px" : "0 24px" }}>
-        <div className="carousel-container-3d" style={{ position: "relative", width: "100%", height: carouselHeight, perspective: "1000px", overflow: "visible" }}>
+      <div style={{ width: "100%", padding: "0 8px" }}>
+        <div style={{ position: "relative", width: "100%", perspective: "1000px", overflow: "visible" }} className="carousel-track-3d">
           <div style={{ position: "relative", width: "100%", height: "100%", transformStyle: "preserve-3d" }}>
             {images.map((img, i) => {
               const pos = getPosition(i);
@@ -135,7 +118,7 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
                 <div
                   key={i}
                   className={`carousel-item-3d ${pos}`}
-                  style={{ ...styles[pos], width: itemWidth }}
+                  style={styles[pos]}
                   onClick={() => pos === "active" ? setSelectedImageIndex(i) : move(i > current ? 1 : -1)}
                 >
                   <img src={img.gallery} alt={img.alt} loading="lazy" style={{ borderRadius: "14px", display: "block", width: "100%" }} />
@@ -147,16 +130,16 @@ const GalleryCarousel3D = ({ images, initialIndex = 0 }: GalleryCarousel3DProps)
 
           <button
             onClick={() => move(-1)}
-            style={{ position: "absolute", left: isMobile ? 4 : 16, top: "50%", transform: "translateY(-50%)", zIndex: 10, background: "rgba(255,255,255,0.95)", border: "1px solid rgba(0,0,0,0.15)", borderRadius: "50%", width: isMobile ? 36 : 48, height: isMobile ? 36 : 48, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", opacity: 0.9, boxShadow: "0 4px 16px rgba(0,0,0,0.25)" }}
+            style={{ position: "absolute", left: 8, top: "50%", transform: "translateY(-50%)", zIndex: 10, background: "rgba(255,255,255,0.95)", border: "1px solid rgba(0,0,0,0.15)", borderRadius: "50%", width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", opacity: 0.9, boxShadow: "0 4px 16px rgba(0,0,0,0.25)" }}
           >
-            <ChevronLeft size={isMobile ? 16 : 22} />
+            <ChevronLeft size={20} />
           </button>
 
           <button
             onClick={() => move(1)}
-            style={{ position: "absolute", right: isMobile ? 4 : 16, top: "50%", transform: "translateY(-50%)", zIndex: 10, background: "rgba(255,255,255,0.95)", border: "1px solid rgba(0,0,0,0.15)", borderRadius: "50%", width: isMobile ? 36 : 48, height: isMobile ? 36 : 48, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", opacity: 0.9, boxShadow: "0 4px 16px rgba(0,0,0,0.25)" }}
+            style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", zIndex: 10, background: "rgba(255,255,255,0.95)", border: "1px solid rgba(0,0,0,0.15)", borderRadius: "50%", width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", opacity: 0.9, boxShadow: "0 4px 16px rgba(0,0,0,0.25)" }}
           >
-            <ChevronRight size={isMobile ? 16 : 22} />
+            <ChevronRight size={20} />
           </button>
         </div>
 
