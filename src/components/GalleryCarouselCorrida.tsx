@@ -118,7 +118,7 @@ const GalleryCarouselCorrida = () => {
                   style={styles[pos]}
                   onClick={() => pos === "active" ? setSelectedImageIndex(i) : move(i > current ? 1 : -1)}
                 >
-                  <img src={img.gallery} alt={img.alt} loading="lazy" />
+                  <img src={img.gallery} alt={img.alt} loading="lazy" style={{ borderRadius: "16px", display: "block", width: "100%" }} />
                   <div className="carousel-desc">{img.description}</div>
                 </div>
               );
