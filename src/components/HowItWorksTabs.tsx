@@ -38,7 +38,7 @@ const steps = [
 
 export default function HowItWorksTabs() {
   return (
-    <section className="w-full flex flex-col items-center gap-10 py-14 md:py-20 px-4">
+    <section id="como-funciona" className="w-full flex flex-col items-center gap-10 py-14 md:py-20 px-4">
       <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground">Como Funciona</h2>
 
       {/* Desktop: horizontal timeline */}

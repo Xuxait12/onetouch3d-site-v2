@@ -14,9 +14,12 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import ShareSectionCorrida from "@/components/ShareSectionCorrida";
 import EmotionalSectionCorrida from "@/components/EmotionalSectionCorrida";
 import MaratonasSection from "@/components/corrida/MaratonasSection";
+import HeroSectionCampanha from "@/components/HeroSectionCampanha";
+import { useCampanhaAtiva } from "@/hooks/useCampanhaAtiva";
 
 const Corrida = () => {
   const location = useLocation();
+  const { campanha, isLoading: isLoadingCampanha } = useCampanhaAtiva('corrida');
   useEffect(() => {
     const stateAny = window.history.state && window.history.state.usr || {};
     const anchor = stateAny.anchor || (window.location.hash ? window.location.hash.replace('#', '') : '');
@@ -33,7 +36,13 @@ const Corrida = () => {
       <GlobalHeader />
       
       <main>
-        <HeroSection />
+        {isLoadingCampanha ? (
+          <div className="w-full min-h-[100svh] bg-gray-900" aria-hidden />
+        ) : campanha ? (
+          <HeroSectionCampanha campanha={campanha} />
+        ) : (
+          <HeroSection />
+        )}
         
         <GallerySectionCorrida />
         
