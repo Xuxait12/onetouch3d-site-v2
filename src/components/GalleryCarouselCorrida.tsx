@@ -84,7 +84,7 @@ const GalleryCarouselCorrida = () => {
         .carousel-item img {
           width: 100%;
           display: block;
-          aspect-ratio: 4/3;
+          
           object-fit: cover;
         }
         .carousel-desc {
