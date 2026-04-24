@@ -114,7 +114,7 @@ const GalleryCarouselCorrida = () => {
               return (
                 <div
                   key={i}
-                  className={`carousel-item ${pos}`}
+                  className={`carousel-item ${pos}`} style={{ borderRadius: "16px" }}
                   style={styles[pos]}
                   onClick={() => pos === "active" ? setSelectedImageIndex(i) : move(i > current ? 1 : -1)}
                 >
