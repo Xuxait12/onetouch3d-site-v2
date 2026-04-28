@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
 import HeroSectionViagem from "@/components/HeroSectionViagem";
+import HeroSectionCampanha from "@/components/HeroSectionCampanha";
+import { useCampanhaAtiva } from "@/hooks/useCampanhaAtiva";
 import FeatureSection from "@/components/FeatureSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import ProductSectionViagemLocal from "@/pages/stores/ProductSectionViagemLocal";
@@ -15,6 +17,7 @@ import ShareSectionViagem from "@/components/ShareSectionViagem";
 import EmotionalSectionViagem from "@/components/EmotionalSectionViagem";
 const Viagem = () => {
   const location = useLocation();
+  const { campanha, isLoading: isLoadingCampanha } = useCampanhaAtiva('viagem');
   useEffect(() => {
     const stateAny = window.history.state && window.history.state.usr || {};
     const anchor = stateAny.anchor || (window.location.hash ? window.location.hash.replace('#', '') : '');
@@ -31,7 +34,13 @@ const Viagem = () => {
       <GlobalHeader />
       
       <main>
-        <HeroSectionViagem />
+        {isLoadingCampanha ? (
+          <div className="w-full min-h-[100svh] bg-gray-900" aria-hidden />
+        ) : campanha ? (
+          <HeroSectionCampanha campanha={campanha} />
+        ) : (
+          <HeroSectionViagem />
+        )}
         
         <GallerySectionViagem />
         
