@@ -54,17 +54,17 @@ const FALLBACK_SHIPPING = {
   currency: "R$",
   delivery_time: 7,
   custom_delivery_time: 7,
-  delivery_range: {
-    min: 5,
-    max: 10
-  },
+  delivery_range: { min: 5, max: 10 },
   company: {
     id: 0,
     name: "Correios",
-    picture: "https://sandbox.melhorenvio.com.br/images/shipping-companies/correios.png"
+    picture: "https://melhorenvio.com.br/images/shipping-companies/correios.png"
   },
   packages: []
 };
+
+// Transportadoras excluídas (busca parcial, case-insensitive)
+const EXCLUDED_CARRIERS = ["j&t", "loggi"];
 
 serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
@@ -86,7 +86,6 @@ serve(async (req: Request) => {
     const cepOrigin = Deno.env.get("MELHOR_ENVIO_CEP_ORIGEM");
     const environment = Deno.env.get("ENVIRONMENT") || "development";
     const isProduction = environment === "production";
-    const allowedServices = Deno.env.get("MELHOR_ENVIO_SERVICES");
 
     let token = isProduction
       ? Deno.env.get("MELHOR_ENVIO_TOKEN_PROD")
@@ -96,16 +95,16 @@ serve(async (req: Request) => {
       token = Deno.env.get("MELHOR_ENVIO_TOKEN_SANDBOX") || Deno.env.get("MELHOR_ENVIO_TOKEN_PROD");
     }
 
-    console.log("[calculate-shipping] v3 - Configuração:", {
+    console.log("[calculate-shipping] v4 - Configuração:", {
       environment,
       hasToken: !!token,
       tokenLength: token?.length || 0,
       hasCepOrigin: !!cepOrigin,
-      allowedServices: allowedServices || "all"
+      excludedCarriers: EXCLUDED_CARRIERS
     });
 
     if (!token) {
-      console.error("Token do Melhor Envio não configurado. Verifique os secrets: MELHOR_ENVIO_TOKEN_SANDBOX ou MELHOR_ENVIO_TOKEN_PROD");
+      console.error("Token do Melhor Envio não configurado.");
       return new Response(
         JSON.stringify({
           success: true,
@@ -113,10 +112,7 @@ serve(async (req: Request) => {
           fallback: true,
           message: "Usando frete padrão. Entre em contato para mais informações."
         }),
-        {
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-          status: 200
-        }
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 }
       );
     }
 
@@ -128,14 +124,6 @@ serve(async (req: Request) => {
     const baseApiUrl = isProduction
       ? "https://melhorenvio.com.br/api/v2"
       : "https://sandbox.melhorenvio.com.br/api/v2";
-
-    const enabledServiceIds: string | null = allowedServices || null;
-
-    if (enabledServiceIds) {
-      console.log("[calculate-shipping] Filtrando por serviços configurados:", enabledServiceIds);
-    } else {
-      console.log("[calculate-shipping] Nenhum filtro de serviços - API retornará todos disponíveis (serviços não contratados virão com erro e serão filtrados)");
-    }
 
     const products = items.map((item, index) => {
       const dimensions = getProductDimensions(item.tamanho);
@@ -162,12 +150,8 @@ serve(async (req: Request) => {
     });
 
     const payload: any = {
-      from: {
-        postal_code: cepOrigin
-      },
-      to: {
-        postal_code: cepLimpo
-      },
+      from: { postal_code: cepOrigin },
+      to: { postal_code: cepLimpo },
       products: products,
       options: {
         receipt: false,
@@ -176,13 +160,7 @@ serve(async (req: Request) => {
       }
     };
 
-    if (enabledServiceIds) {
-      payload.services = enabledServiceIds;
-      console.log("[calculate-shipping] Filtrando por serviços:", enabledServiceIds);
-    }
-
     const apiUrl = `${baseApiUrl}/me/shipment/calculate`;
-
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
 
@@ -199,12 +177,10 @@ serve(async (req: Request) => {
         body: JSON.stringify(payload),
         signal: controller.signal
       });
-
       clearTimeout(timeoutId);
     } catch (fetchError: any) {
       clearTimeout(timeoutId);
       console.error("[calculate-shipping] Erro na requisição:", fetchError.message);
-
       if (fetchError.name === "AbortError") {
         return new Response(
           JSON.stringify({
@@ -213,20 +189,15 @@ serve(async (req: Request) => {
             fallback: true,
             message: "Tempo de resposta excedido. Usando frete padrão."
           }),
-          {
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-            status: 200
-          }
+          { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 }
         );
       }
-
       throw new Error("Não foi possível conectar ao serviço de frete. Tente novamente.");
     }
 
     if (!response.ok) {
       const errorText = await response.text();
       console.error("[calculate-shipping] Erro da API:", response.status, errorText);
-
       if (response.status === 401 || response.status === 403) {
         console.error("Token inválido ou expirado");
         return new Response(
@@ -236,79 +207,59 @@ serve(async (req: Request) => {
             fallback: true,
             message: "Serviço de frete temporariamente indisponível."
           }),
-          {
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-            status: 200
-          }
+          { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 }
         );
       }
-
       throw new Error(`Erro ao calcular frete: ${errorText}`);
     }
 
     const shippingOptions = await response.json();
 
-    const optionsWithError = shippingOptions.filter((opt: any) => opt.error);
-    const availableOptions = shippingOptions.filter((opt: any) => !opt.error);
+    // Log de todos os nomes retornados para diagnóstico
+    console.log("[calculate-shipping] Todas as transportadoras retornadas:", 
+      shippingOptions.map((o: any) => ({ name: o.company?.name || o.name, hasError: !!o.error }))
+    );
 
-    if (optionsWithError.length > 0) {
-      console.log("[calculate-shipping] Serviços não disponíveis (com erro):",
-        optionsWithError.map((o: any) => ({
-          id: o.id,
-          name: o.name,
-          error: o.error
-        }))
-      );
-    }
+    // Filtra erros e transportadoras excluídas (busca parcial, case-insensitive)
+    const availableOptions = shippingOptions.filter((opt: any) => {
+      if (opt.error) return false;
+      const companyName = (opt.company?.name || opt.name || "").toLowerCase();
+      const excluded = EXCLUDED_CARRIERS.some(carrier => companyName.includes(carrier));
+      if (excluded) {
+        console.log(`[calculate-shipping] Transportadora excluída: ${opt.company?.name || opt.name}`);
+      }
+      return !excluded;
+    });
 
     if (availableOptions.length === 0) {
-      console.warn("[calculate-shipping] Nenhuma opção disponível após filtrar erros");
+      console.warn("[calculate-shipping] Nenhuma opção disponível após filtrar");
       return new Response(
         JSON.stringify({
           success: false,
           error: "Nenhuma opção de frete disponível para este CEP. Entre em contato para verificar disponibilidade."
         }),
-        {
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-          status: 400
-        }
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
       );
     }
 
     availableOptions.sort((a: any, b: any) => Number(a.custom_price) - Number(b.custom_price));
 
-    console.log("[calculate-shipping] Opções disponíveis:", {
-      total_retornado: shippingOptions.length,
-      com_erro: optionsWithError.length,
+    console.log("[calculate-shipping] Opções finais:", {
       disponiveis: availableOptions.length,
-      servicos: availableOptions.map((o: any) => o.name),
-      mais_barato: `R$ ${Number(availableOptions[0].custom_price).toFixed(2)}`,
-      mais_rapido: `${Math.min(...availableOptions.map((o: any) => o.custom_delivery_time))} dias`
+      servicos: availableOptions.map((o: any) => o.company?.name || o.name),
+      mais_barato: `R$ ${Number(availableOptions[0].custom_price).toFixed(2)}`
     });
 
     return new Response(
-      JSON.stringify({
-        success: true,
-        options: availableOptions
-      }),
-      {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 200
-      }
+      JSON.stringify({ success: true, options: availableOptions }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 }
     );
 
   } catch (error: any) {
     console.error("[calculate-shipping] Erro:", error.message);
-
     return new Response(
-      JSON.stringify({
-        success: false,
-        error: error.message || "Erro ao calcular frete. Tente novamente."
-      }),
-      {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 400
-      }
+      JSON.stringify({ success: false, error: error.message || "Erro ao calcular frete. Tente novamente." }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
     );
   }
 });
