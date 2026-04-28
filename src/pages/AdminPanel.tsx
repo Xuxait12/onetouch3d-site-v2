@@ -228,8 +228,8 @@ const AdminPanel = () => {
     let filtered = orders.filter(order =>
       order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (order.numero_pedido?.toString() || '').includes(searchTerm) ||
-      order.profiles.nome_completo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.profiles.email.toLowerCase().includes(searchTerm.toLowerCase())
+      (order.profiles.nome_completo || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (order.profiles.email || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     if (statusFilter !== 'todos') {
@@ -272,8 +272,8 @@ const AdminPanel = () => {
   const filteredOrders = getFilteredOrders();
 
   const filteredProfiles = profiles.filter(profile =>
-    profile.nome_completo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    profile.email.toLowerCase().includes(searchTerm.toLowerCase())
+    (profile.nome_completo || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (profile.email || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const monthlyStats = {
