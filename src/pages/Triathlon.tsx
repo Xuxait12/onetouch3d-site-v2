@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
 import HeroSectionTriathlon from "@/components/HeroSectionTriathlon";
+import HeroSectionCampanha from "@/components/HeroSectionCampanha";
+import { useCampanhaAtiva } from "@/hooks/useCampanhaAtiva";
 import FeatureSection from "@/components/FeatureSection";
 import EmotionalSectionTriathlon from "@/components/EmotionalSectionTriathlon";
 import TestimonialsSectionTriathlon from "@/components/TestimonialsSectionTriathlon";
@@ -17,6 +19,7 @@ import EmotionalImageSectionTriathlon from "@/components/EmotionalImageSectionTr
 
 const Triathlon = () => {
   const location = useLocation();
+  const { campanha, isLoading: isLoadingCampanha } = useCampanhaAtiva('triathlon');
   useEffect(() => {
     const stateAny = window.history.state && window.history.state.usr || {};
     const anchor = stateAny.anchor || (window.location.hash ? window.location.hash.replace('#', '') : '');
@@ -33,7 +36,13 @@ const Triathlon = () => {
       <GlobalHeader />
       
       <main>
-        <HeroSectionTriathlon />
+        {isLoadingCampanha ? (
+          <div className="w-full min-h-[100svh] bg-gray-900" aria-hidden />
+        ) : campanha ? (
+          <HeroSectionCampanha campanha={campanha} />
+        ) : (
+          <HeroSectionTriathlon />
+        )}
         
         <GallerySectionTriathlon />
         
