@@ -5,14 +5,13 @@ export interface Campanha {
   id: string;
   nome_prova: string;
   foto_background: string;
-  imagem_quadro_1: string;
-  imagem_quadro_2: string | null;
-  frase_personalizada: string;
-  frase_secundaria: string;
+  foto_background_tablet: string | null;
+  foto_background_mobile: string | null;
   mensagem_whatsapp: string | null;
   data_inicio: string;
   data_fim: string;
   ativo: boolean;
+  pagina: string;
 }
 
 export function useCampanhaAtiva(pagina: string) {
