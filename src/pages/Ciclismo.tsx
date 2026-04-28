@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
 import HeroSectionCiclismo from "@/components/HeroSectionCiclismo";
+import HeroSectionCampanha from "@/components/HeroSectionCampanha";
+import { useCampanhaAtiva } from "@/hooks/useCampanhaAtiva";
 import FeatureSection from "@/components/FeatureSection";
 import FeatureSectionCiclismo from "@/components/FeatureSectionCiclismo";
 import TestimonialsSectionCiclismo from "@/components/TestimonialsSectionCiclismo";
@@ -16,6 +18,7 @@ import ShareSectionCiclismo from "@/components/ShareSectionCiclismo";
 import EmotionalSectionCiclismo from "@/components/EmotionalSectionCiclismo";
 const Ciclismo = () => {
   const location = useLocation();
+  const { campanha, isLoading: isLoadingCampanha } = useCampanhaAtiva('ciclismo');
   useEffect(() => {
     const stateAny = window.history.state && window.history.state.usr || {};
     const anchor = stateAny.anchor || (window.location.hash ? window.location.hash.replace('#', '') : '');
@@ -32,7 +35,13 @@ const Ciclismo = () => {
       <GlobalHeader />
       
       <main>
-        <HeroSectionCiclismo />
+        {isLoadingCampanha ? (
+          <div className="w-full min-h-[100svh] bg-gray-900" aria-hidden />
+        ) : campanha ? (
+          <HeroSectionCampanha campanha={campanha} />
+        ) : (
+          <HeroSectionCiclismo />
+        )}
         
         <GallerySectionCiclismo />
         
