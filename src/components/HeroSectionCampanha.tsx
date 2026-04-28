@@ -2,13 +2,8 @@ import React, { useEffect, useState } from "react";
 import { MessageCircle } from "lucide-react";
 import type { Campanha } from "@/hooks/useCampanhaAtiva";
 
-interface CampanhaResponsiva extends Campanha {
-  foto_background_tablet?: string | null;
-  foto_background_mobile?: string | null;
-}
-
 interface Props {
-  campanha: CampanhaResponsiva;
+  campanha: Campanha;
 }
 
 type Device = "mobile" | "tablet" | "desktop";
