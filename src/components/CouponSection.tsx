@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "@/hooks/use-toast";
 import { Tag, X, CheckCircle2, AlertCircle } from "lucide-react";
+import { isAfter, parseISO } from "date-fns";
 
 interface CouponSectionProps {
   currentPage: string;
@@ -47,7 +48,13 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
         return;
       }
 
-      // Calculate discount
+      // Verificar data de validade
+      if (data.data_validade && !isAfter(parseISO(data.data_validade), new Date())) {
+        setFeedback({ type: 'error', message: 'Este cupom está expirado.' });
+        return;
+      }
+
+      // Calcular desconto
       let discount = 0;
       if (data.tipo === 'percentual') {
         discount = subtotal * ((data.valor || 0) / 100);
@@ -55,19 +62,16 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
         discount = data.valor || 0;
       }
 
-      // Ensure discount doesn't exceed subtotal
       discount = Math.min(discount, subtotal);
 
-      // Apply coupon
       applyCoupon(data.codigo, discount, data.codigo, 'all');
 
-      // Show success message
-      const discountText = data.tipo === 'percentual' 
+      const discountText = data.tipo === 'percentual'
         ? `${data.valor}% OFF`
         : `R$ ${(data.valor || 0).toFixed(2).replace('.', ',')} OFF`;
-      
-      setFeedback({ 
-        type: 'success', 
+
+      setFeedback({
+        type: 'success',
         message: `Cupom ${data.codigo} aplicado com sucesso: ${discountText}.`
       });
 
@@ -88,7 +92,6 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
     removeCoupon();
     setCouponCode("");
     setFeedback({ type: null, message: '' });
-    
     toast({
       title: "Cupom removido",
       description: "O desconto foi removido do seu pedido.",
@@ -115,8 +118,8 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
                   </p>
                 </div>
               </div>
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 size="sm"
                 onClick={handleRemoveCoupon}
                 className="text-muted-foreground hover:text-foreground"
@@ -135,7 +138,7 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
                 className="flex-1"
                 disabled={isLoading}
               />
-              <Button 
+              <Button
                 onClick={handleApplyCoupon}
                 disabled={isLoading || !couponCode.trim()}
                 className="bg-black hover:bg-black/90 text-white"
@@ -146,8 +149,8 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
 
             {feedback.type && (
               <div className={`flex items-center gap-2 p-3 rounded-lg ${
-                feedback.type === 'success' 
-                  ? 'bg-green-50 border border-green-200 text-green-800' 
+                feedback.type === 'success'
+                  ? 'bg-green-50 border border-green-200 text-green-800'
                   : 'bg-red-50 border border-red-200 text-red-800'
               }`}>
                 {feedback.type === 'success' ? (
