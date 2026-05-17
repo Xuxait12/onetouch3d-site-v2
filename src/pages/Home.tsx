@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import GlobalHeader from "@/components/GlobalHeader";
 import GlobalFooter from "@/components/GlobalFooter";
 import ComoFunciona from "@/components/ComoFunciona";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -113,6 +114,7 @@ const Home = () => {
 
       <ComoFunciona className="mx-0" />
       <GlobalFooter />
+      <WhatsAppButton />
     </div>);
 
 };
