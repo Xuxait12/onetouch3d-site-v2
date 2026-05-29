@@ -279,7 +279,7 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
               onClick={handleCheckout}
               className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3 max-[640px]:py-2 text-base max-[640px]:text-sm"
             >
-              Finalizar compra
+              Continuar para pagamento
             </Button>
           </div>
         )}
