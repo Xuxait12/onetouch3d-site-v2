@@ -60,21 +60,16 @@ const INITIAL_CART_STATE: CartState = {
   shippingError: null
 };
 
-/**
- * Synchronous lazy initializer for useReducer.
- * Reads localStorage on first render to avoid the race condition
- * where an async useEffect hydration allows the save effect to
- * overwrite localStorage with an empty cart.
- */
+// Acréscimo fixo de R$5 para cobrir diferença entre API e plataforma
+const SHIPPING_SURCHARGE = 5;
+
 function getInitialCartState(_initial: CartState): CartState {
   try {
     let raw = localStorage.getItem('cart');
 
-    // Fallback: if 'cart' is missing/invalid, try 'cart_backup' (saved before OAuth redirect)
     if (!raw) {
       raw = localStorage.getItem('cart_backup');
       if (raw) {
-        // Promote backup to primary
         localStorage.setItem('cart', raw);
         localStorage.removeItem('cart_backup');
       }
@@ -86,7 +81,6 @@ function getInitialCartState(_initial: CartState): CartState {
         return {
           ...INITIAL_CART_STATE,
           ...parsed,
-          // Reset transient state that shouldn't persist across reloads
           isCalculatingShipping: false,
           shippingError: null,
         };
@@ -158,7 +152,8 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
       return {
         ...state,
         selectedShippingOption: action.payload,
-        frete: Number(action.payload.custom_price),
+        // Acréscimo de R$5 aplicado aqui — valor real cobrado do cliente
+        frete: Number(action.payload.custom_price) + (action.payload.id === -1 ? 0 : SHIPPING_SURCHARGE),
         cep: state.cep || ''
       };
 
@@ -199,13 +194,10 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Synchronous hydration: cart is loaded from localStorage during first render
   const [state, dispatch] = useReducer(cartReducer, INITIAL_CART_STATE, getInitialCartState);
 
-  // Skip saving on the very first render (state already matches localStorage)
   const isFirstRender = useRef(true);
 
-  // Save cart to localStorage whenever it changes (skip first render to avoid overwrite)
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
@@ -275,7 +267,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   return (
     <CartContext.Provider value={{
       state,
-      cartLoaded: true, // Always true — hydration is synchronous
+      cartLoaded: true,
       addItem,
       updateQuantity,
       removeItem,

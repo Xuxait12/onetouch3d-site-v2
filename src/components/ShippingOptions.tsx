@@ -31,6 +31,9 @@ const PICKUP_OPTION: ShippingOption = {
 
 export { PICKUP_OPTION };
 
+// Acréscimo fixo de R$5 para cobrir diferença entre API e plataforma
+const SHIPPING_SURCHARGE = 5;
+
 export function ShippingOptions({
   options,
   selectedOption,
@@ -75,6 +78,7 @@ export function ShippingOptions({
           {allOptions.map((option) => {
             const isPickup = option.id === -1;
             const isSelected = selectedOption?.id === option.id;
+            const displayPrice = isPickup ? 0 : Number(option.custom_price) + SHIPPING_SURCHARGE;
 
             return (
               <Card
@@ -131,7 +135,7 @@ export function ShippingOptions({
                     <div className="text-right shrink-0 ml-2">
                       <div className="font-bold text-foreground">
                         {!isPickup && (
-                          `R$ ${Number(option.custom_price).toFixed(2).replace('.', ',')}`
+                          `R$ ${displayPrice.toFixed(2).replace('.', ',')}`
                         )}
                       </div>
                     </div>
