@@ -15,6 +15,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { usePrices } from "@/hooks/usePrices";
 import { MODALIDADES, TIPOS_MOLDURA } from "@/lib/catalog";
 
+// Acréscimo fixo de R$5 para cobrir diferença entre API e plataforma
+const SHIPPING_SURCHARGE = 5;
+
 const ProductSectionCorridaLocal = () => {
   const navigate = useNavigate();
   const { addItem } = useCart();
@@ -524,7 +527,7 @@ const ProductSectionCorridaLocal = () => {
                             </div>
                             <div className="text-right">
                               <span className="font-bold text-green-600">
-                                R$ {Number(option.custom_price).toFixed(2).replace('.', ',')}
+                                R$ {(Number(option.custom_price) + SHIPPING_SURCHARGE).toFixed(2).replace('.', ',')}
                               </span>
                             </div>
                           </div>
