@@ -44,16 +44,13 @@ const ConfirmacaoWhatsapp = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [authChecking, setAuthChecking] = useState(true);
-
   const [showFormModal, setShowFormModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-
   const [modalidades, setModalidades] = useState<Modalidade[]>([]);
   const [tamanhos, setTamanhos] = useState<Tamanho[]>([]);
   const [loadingModalidades, setLoadingModalidades] = useState(false);
   const [loadingTamanhos, setLoadingTamanhos] = useState(false);
   const [pixConfig, setPixConfig] = useState<PixConfig | null>(null);
-
   const [modalidadeId, setModalidadeId] = useState('');
   const [tamanhoId, setTamanhoId] = useState('');
   const [nomeCompleto, setNomeCompleto] = useState('');
@@ -71,14 +68,11 @@ const ConfirmacaoWhatsapp = () => {
   const [numeroPedido, setNumeroPedido] = useState<number | null>(null);
   const [showPedidoConfirmado, setShowPedidoConfirmado] = useState(false);
   const navigate = useNavigate();
-
   const { toast } = useToast();
 
   const formatCpf = (value: string) => {
     const digits = value.replace(/\D/g, '');
-    if (digits.length <= 11) {
-      return digits.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1');
-    }
+    if (digits.length <= 11) return digits.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1');
     return digits.replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1');
   };
 
@@ -101,15 +95,8 @@ const ConfirmacaoWhatsapp = () => {
       try {
         const response = await fetch(`https://viacep.com.br/ws/${digits}/json/`);
         const data = await response.json();
-        if (!data.erro) {
-          setRua(data.logradouro || '');
-          setBairro(data.bairro || '');
-          setCidade(data.localidade || '');
-          setEstado(data.uf || '');
-        }
-      } catch (error) {
-        console.error('Erro ao buscar CEP:', error);
-      }
+        if (!data.erro) { setRua(data.logradouro || ''); setBairro(data.bairro || ''); setCidade(data.localidade || ''); setEstado(data.uf || ''); }
+      } catch (error) { console.error('Erro ao buscar CEP:', error); }
     }
   };
 
@@ -192,12 +179,8 @@ const ConfirmacaoWhatsapp = () => {
     setLoading(true);
     try {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) {
-        toast({ title: "Erro no login", description: error.message.includes('Invalid login credentials') ? "Email ou senha incorretos." : error.message, variant: "destructive" });
-      } else if (data.user) {
-        toast({ title: "Login realizado!", description: "Bem-vindo de volta!" });
-        await handleAuthSuccess(data.user);
-      }
+      if (error) { toast({ title: "Erro no login", description: error.message.includes('Invalid login credentials') ? "Email ou senha incorretos." : error.message, variant: "destructive" }); }
+      else if (data.user) { toast({ title: "Login realizado!", description: "Bem-vindo de volta!" }); await handleAuthSuccess(data.user); }
     } catch { toast({ title: "Erro", description: "Erro inesperado. Tente novamente.", variant: "destructive" }); }
     finally { setLoading(false); }
   };
@@ -209,20 +192,13 @@ const ConfirmacaoWhatsapp = () => {
     setLoading(true);
     try {
       const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${config.siteUrl}/confirmacao-whatsapp` } });
-      if (error) {
-        toast({ title: "Erro no cadastro", description: error.message, variant: "destructive" });
-      } else if (data.user) {
-        if (data.session) {
-          toast({ title: "Cadastro realizado!", description: "Bem-vindo!" });
-          await handleAuthSuccess(data.user);
-        } else {
+      if (error) { toast({ title: "Erro no cadastro", description: error.message, variant: "destructive" }); }
+      else if (data.user) {
+        if (data.session) { toast({ title: "Cadastro realizado!", description: "Bem-vindo!" }); await handleAuthSuccess(data.user); }
+        else {
           const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-          if (!signInError && signInData.user) {
-            toast({ title: "Cadastro realizado!", description: "Bem-vindo!" });
-            await handleAuthSuccess(signInData.user);
-          } else {
-            toast({ title: "Cadastro realizado!", description: "Verifique seu email para confirmar a conta." });
-          }
+          if (!signInError && signInData.user) { toast({ title: "Cadastro realizado!", description: "Bem-vindo!" }); await handleAuthSuccess(signInData.user); }
+          else { toast({ title: "Cadastro realizado!", description: "Verifique seu email para confirmar a conta." }); }
         }
       }
     } catch { toast({ title: "Erro", description: "Erro inesperado. Tente novamente.", variant: "destructive" }); }
@@ -235,9 +211,7 @@ const ConfirmacaoWhatsapp = () => {
       const { data, error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${config.siteUrl}/auth/callback`, skipBrowserRedirect: true } });
       if (error) throw error;
       if (data?.url) window.location.href = data.url;
-    } catch (error: any) {
-      toast({ title: "Erro ao entrar com Google", description: error.message, variant: "destructive" });
-    }
+    } catch (error: any) { toast({ title: "Erro ao entrar com Google", description: error.message, variant: "destructive" }); }
   };
 
   const isFormValid = () => {
@@ -249,7 +223,6 @@ const ConfirmacaoWhatsapp = () => {
   const handleConfirm = async () => {
     if (!userId || savingOrder) return;
     setSavingOrder(true);
-
     try {
       const cpfClean = cpf.replace(/\D/g, '');
       const telefoneClean = telefone.replace(/\D/g, '');
@@ -262,32 +235,13 @@ const ConfirmacaoWhatsapp = () => {
       // 1. Upsert profile
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
-        .upsert({
-          id: userId,
-          user_id: userId,
-          nome_completo: nomeCompleto,
-          email,
-          telefone,
-          cpf_cnpj: cpf,
-          cep,
-          endereco: rua,
-          numero,
-          complemento,
-          bairro,
-          cidade,
-          estado,
-          data_nascimento: '1990-01-01',
-        }, { onConflict: 'id' })
+        .upsert({ id: userId, user_id: userId, nome_completo: nomeCompleto, email, telefone, cpf_cnpj: cpf, cep, endereco: rua, numero, complemento, bairro, cidade, estado, data_nascimento: '1990-01-01' }, { onConflict: 'id' })
         .select('id')
         .single();
 
       if (profileError) {
         const isDuplicate = profileError.code === '23505' && profileError.message?.includes('cpf_cnpj');
-        toast({
-          title: isDuplicate ? "CPF/CNPJ duplicado" : "Erro ao salvar perfil",
-          description: isDuplicate ? "Este CPF/CNPJ já está cadastrado. Se você já tem uma conta, faça login." : profileError.message,
-          variant: "destructive",
-        });
+        toast({ title: isDuplicate ? "CPF/CNPJ duplicado" : "Erro ao salvar perfil", description: isDuplicate ? "Este CPF/CNPJ já está cadastrado. Se você já tem uma conta, faça login." : profileError.message, variant: "destructive" });
         setSavingOrder(false);
         return;
       }
@@ -309,31 +263,25 @@ const ConfirmacaoWhatsapp = () => {
         return;
       }
 
-      // 3. Insert vendas_manuais — metodo_pagamento obrigatório
-      const { data: vendaData, error: vendaError } = await supabase
-        .from('vendas_manuais')
-        .insert({
+      // 3. Chamar Edge Function para criar venda (bypassa RLS via service_role)
+      const { data: vendaData, error: vendaError } = await supabase.functions.invoke('create-venda-manual', {
+        body: {
           profile_id: profileData.id,
           modalidade_id: modalidadeId,
           tamanho_id: tamanhoId,
           tipo_moldura_id: tipoMolduraId,
-          quantidade: 1,
-          valor: 0,
-          metodo_pagamento: 'pix',
-          observacao: 'Venda via WhatsApp — aguardando pagamento PIX',
-        })
-        .select('numero')
-        .single();
+        },
+      });
 
-      if (vendaError) {
-        toast({ title: "Erro ao criar venda", description: vendaError.message, variant: "destructive" });
+      if (vendaError || !vendaData?.success) {
+        toast({ title: "Erro ao criar venda", description: vendaData?.error || vendaError?.message || 'Tente novamente.', variant: "destructive" });
         setSavingOrder(false);
         return;
       }
 
       if (vendaData?.numero) setNumeroPedido(vendaData.numero);
 
-      // 4. Fetch PIX config and show success
+      // 4. Mostrar sucesso
       await fetchPixConfig();
       setShowFormModal(false);
       setShowSuccessModal(true);
@@ -347,21 +295,15 @@ const ConfirmacaoWhatsapp = () => {
 
   const copyPixKey = async () => {
     const key = pixConfig?.pix_chave || '';
-    try {
-      await navigator.clipboard.writeText(key);
-      toast({ title: "Chave PIX copiada!", description: key });
-    } catch {
-      toast({ title: "Erro ao copiar", description: `Copie manualmente: ${key}`, variant: "destructive" });
-    }
+    try { await navigator.clipboard.writeText(key); toast({ title: "Chave PIX copiada!", description: key }); }
+    catch { toast({ title: "Erro ao copiar", description: `Copie manualmente: ${key}`, variant: "destructive" }); }
   };
 
-  if (authChecking) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-primary/10">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-      </div>
-    );
-  }
+  if (authChecking) return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-primary/10">
+      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+    </div>
+  );
 
   const renderAuthScreen = () => (
     <Card className="w-full max-w-md">
@@ -376,28 +318,22 @@ const ConfirmacaoWhatsapp = () => {
             <img src={googleLogo} alt="Google" className="w-4 h-4 mr-2" loading="eager" fetchPriority="high" />
             Continuar com Google
           </Button>
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
-            <div className="relative flex justify-center text-xs uppercase"><span className="bg-card px-2 text-muted-foreground">Ou continue com email</span></div>
-          </div>
+          <div className="relative"><div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div><div className="relative flex justify-center text-xs uppercase"><span className="bg-card px-2 text-muted-foreground">Ou continue com email</span></div></div>
           <Tabs defaultValue="signup" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="signin">Entrar</TabsTrigger>
-              <TabsTrigger value="signup">Cadastrar</TabsTrigger>
-            </TabsList>
+            <TabsList className="grid w-full grid-cols-2"><TabsTrigger value="signin">Entrar</TabsTrigger><TabsTrigger value="signup">Cadastrar</TabsTrigger></TabsList>
             <TabsContent value="signin">
               <form onSubmit={handleSignIn} className="space-y-4">
                 <div className="space-y-2"><Label htmlFor="email">Email</Label><Input id="email" type="email" placeholder="seu@email.com" value={email} onChange={e => setEmail(e.target.value)} required /></div>
-                <div className="space-y-2"><Label htmlFor="password">Senha</Label><div className="relative"><Input id="password" type={showPassword ? "text" : "password"} placeholder="Sua senha" value={password} onChange={e => setPassword(e.target.value)} required className="pr-10" /><button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button></div></div>
+                <div className="space-y-2"><Label htmlFor="password">Senha</Label><div className="relative"><Input id="password" type={showPassword ? "text" : "password"} placeholder="Sua senha" value={password} onChange={e => setPassword(e.target.value)} required className="pr-10" /><button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button></div></div>
                 <Button type="submit" className="w-full" disabled={loading}>{loading ? "Entrando..." : "Entrar"}</Button>
-                <div className="text-center"><Link to="/recuperar-senha" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Esqueci minha senha?</Link></div>
+                <div className="text-center"><Link to="/recuperar-senha" className="text-sm text-muted-foreground hover:text-foreground">Esqueci minha senha?</Link></div>
               </form>
             </TabsContent>
             <TabsContent value="signup">
               <form onSubmit={handleSignUp} className="space-y-4">
                 <div className="space-y-2"><Label htmlFor="signup-email">Email</Label><Input id="signup-email" type="email" placeholder="seu@email.com" value={email} onChange={e => setEmail(e.target.value)} required /></div>
-                <div className="space-y-2"><Label htmlFor="signup-password">Senha</Label><div className="relative"><Input id="signup-password" type={showPassword ? "text" : "password"} placeholder="Sua senha" value={password} onChange={e => setPassword(e.target.value)} required className="pr-10" /><button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button></div></div>
-                <div className="space-y-2"><Label htmlFor="confirm-password">Confirmar Senha</Label><div className="relative"><Input id="confirm-password" type={showConfirmPassword ? "text" : "password"} placeholder="Confirme sua senha" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required className="pr-10" /><button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">{showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button></div></div>
+                <div className="space-y-2"><Label htmlFor="signup-password">Senha</Label><div className="relative"><Input id="signup-password" type={showPassword ? "text" : "password"} placeholder="Sua senha" value={password} onChange={e => setPassword(e.target.value)} required className="pr-10" /><button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button></div></div>
+                <div className="space-y-2"><Label htmlFor="confirm-password">Confirmar Senha</Label><div className="relative"><Input id="confirm-password" type={showConfirmPassword ? "text" : "password"} placeholder="Confirme sua senha" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required className="pr-10" /><button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">{showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button></div></div>
                 <Button type="submit" className="w-full" disabled={loading}>{loading ? "Cadastrando..." : "Cadastrar"}</Button>
               </form>
             </TabsContent>
@@ -418,20 +354,8 @@ const ConfirmacaoWhatsapp = () => {
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Dados do Quadro</h3>
             <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1.5">
-                <Label>Modalidade</Label>
-                <Select value={modalidadeId} onValueChange={setModalidadeId} disabled={loadingModalidades}>
-                  <SelectTrigger><SelectValue placeholder={loadingModalidades ? "Carregando..." : "Selecione"} /></SelectTrigger>
-                  <SelectContent>{modalidades.map(m => (<SelectItem key={m.id} value={m.id}>{m.nome}</SelectItem>))}</SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-1.5">
-                <Label>Tamanho</Label>
-                <Select value={tamanhoId} onValueChange={setTamanhoId} disabled={!modalidadeId || loadingTamanhos}>
-                  <SelectTrigger><SelectValue placeholder={loadingTamanhos ? "Carregando..." : !modalidadeId ? "Escolha modalidade" : "Selecione"} /></SelectTrigger>
-                  <SelectContent>{tamanhos.map(t => (<SelectItem key={t.id} value={t.id}>{t.nome}</SelectItem>))}</SelectContent>
-                </Select>
-              </div>
+              <div className="space-y-1.5"><Label>Modalidade</Label><Select value={modalidadeId} onValueChange={setModalidadeId} disabled={loadingModalidades}><SelectTrigger><SelectValue placeholder={loadingModalidades ? "Carregando..." : "Selecione"} /></SelectTrigger><SelectContent>{modalidades.map(m => (<SelectItem key={m.id} value={m.id}>{m.nome}</SelectItem>))}</SelectContent></Select></div>
+              <div className="space-y-1.5"><Label>Tamanho</Label><Select value={tamanhoId} onValueChange={setTamanhoId} disabled={!modalidadeId || loadingTamanhos}><SelectTrigger><SelectValue placeholder={loadingTamanhos ? "Carregando..." : !modalidadeId ? "Escolha modalidade" : "Selecione"} /></SelectTrigger><SelectContent>{tamanhos.map(t => (<SelectItem key={t.id} value={t.id}>{t.nome}</SelectItem>))}</SelectContent></Select></div>
             </div>
           </div>
           <div className="space-y-3">
@@ -504,9 +428,7 @@ const ConfirmacaoWhatsapp = () => {
         <DialogHeader>
           <DialogTitle className="flex items-center justify-center gap-2 text-xl"><CheckCircle className="h-6 w-6 text-accent" />Pedido Confirmado!</DialogTitle>
           <DialogDescription>
-            {numeroPedido
-              ? `Seu pedido #${numeroPedido} foi registrado com sucesso. Assim que o pagamento PIX for identificado, você receberá a confirmação.`
-              : 'Seu pedido foi registrado com sucesso. Assim que o pagamento PIX for identificado, você receberá a confirmação.'}
+            {numeroPedido ? `Seu pedido #${numeroPedido} foi registrado com sucesso. Assim que o pagamento PIX for identificado, você receberá a confirmação.` : 'Seu pedido foi registrado com sucesso. Assim que o pagamento PIX for identificado, você receberá a confirmação.'}
           </DialogDescription>
         </DialogHeader>
         <Button onClick={() => { setShowPedidoConfirmado(false); navigate('/'); }} className="w-full mt-4">Voltar para o início</Button>
