@@ -136,7 +136,7 @@ const ProductSectionViagemLocal = () => {
                 </div>
               )}
               {isQuote ? (
-                <Button onClick={() => window.open('https://wa.me/5511999999999?text=Olá! Gostaria de solicitar um orçamento para o quadro de viagem no tamanho ' + selectedSize, '_blank')} className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-medium">Solicitar orçamento via WhatsApp</Button>
+                <Button onClick={() => window.open('https://wa.me/5554999921515?text=Olá! Gostaria de solicitar um orçamento para o quadro de viagem no tamanho ' + selectedSize, '_blank')} className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-medium">Solicitar orçamento via WhatsApp</Button>
               ) : (
                 <Button onClick={handleAddToCart} className="w-full bg-[#2563EB] hover:bg-[#2563EB]/90 text-white py-3 text-lg font-medium" disabled={pricesLoading || !priceInfo}>Adicionar ao carrinho</Button>
               )}
