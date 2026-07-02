@@ -232,12 +232,32 @@ const ConfirmacaoWhatsapp = () => {
       if (telefoneClean.length < 10) { toast({ title: "Erro de validação", description: "Telefone inválido.", variant: "destructive" }); setSavingOrder(false); return; }
       if (cepClean.length !== 8) { toast({ title: "Erro de validação", description: "CEP inválido.", variant: "destructive" }); setSavingOrder(false); return; }
 
-      // 1. Upsert profile
-      const { data: profileData, error: profileError } = await supabase
+      const profileData = { user_id: userId, nome_completo: nomeCompleto, email, telefone, cpf_cnpj: cpf, cep, endereco: rua, numero, complemento, bairro, cidade, estado, data_nascimento: '1990-01-01' };
+
+      // Mesmo padrão seguro do Checkout.tsx: busca por user_id (nunca por id).
+      // Isso evita conflito quando o perfil já existe com um id diferente do user_id
+      // (ex: criado via /perfil ou via checkout do site antes de comprar pelo WhatsApp).
+      const { data: existingProfile } = await supabase
         .from('profiles')
-        .upsert({ id: userId, user_id: userId, nome_completo: nomeCompleto, email, telefone, cpf_cnpj: cpf, cep, endereco: rua, numero, complemento, bairro, cidade, estado, data_nascimento: '1990-01-01' }, { onConflict: 'id' })
         .select('id')
-        .single();
+        .eq('user_id', userId)
+        .maybeSingle();
+
+      let profileError = null;
+      let profileId: string | null = existingProfile?.id ?? null;
+
+      if (existingProfile) {
+        const { error } = await supabase.from('profiles').update(profileData).eq('user_id', userId);
+        profileError = error;
+      } else {
+        const { data: inserted, error } = await supabase
+          .from('profiles')
+          .upsert(profileData, { onConflict: 'user_id' })
+          .select('id')
+          .single();
+        profileError = error;
+        profileId = inserted?.id ?? null;
+      }
 
       if (profileError) {
         const isDuplicate = profileError.code === '23505' && profileError.message?.includes('cpf_cnpj');
@@ -257,7 +277,7 @@ const ConfirmacaoWhatsapp = () => {
         .single();
 
       const tipoMolduraId = molduraData?.tipo_moldura_id;
-      if (!tipoMolduraId || !profileData?.id) {
+      if (!tipoMolduraId || !profileId) {
         toast({ title: "Erro", description: "Dados incompletos. Tente novamente.", variant: "destructive" });
         setSavingOrder(false);
         return;
@@ -266,7 +286,7 @@ const ConfirmacaoWhatsapp = () => {
       // 3. Chamar Edge Function para criar venda (bypassa RLS via service_role)
       const { data: vendaData, error: vendaError } = await supabase.functions.invoke('create-venda-manual', {
         body: {
-          profile_id: profileData.id,
+          profile_id: profileId,
           modalidade_id: modalidadeId,
           tamanho_id: tamanhoId,
           tipo_moldura_id: tipoMolduraId,
