@@ -191,7 +191,7 @@ const PoliticaPrivacidade = () => {
             </p>
             <ul className="list-disc pl-6 space-y-2">
               <li>E-mail: contato@onetouch3d.com.br</li>
-              <li>Telefone: 54-99992-1515</li>
+              <li>Telefone: 54-99992-4547</li>
               <li>Endereço postal: Rua Antônio Beltrame,132</li>
               <li>Bairro Jardim Glória – CEP: 95701-224</li>
               <li>Bento Gonçalves – RS</li>
