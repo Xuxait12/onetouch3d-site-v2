@@ -29,11 +29,11 @@ const GlobalFooter = () => {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-primary" />
-                <span className="text-sm">(54) 9992-1515</span>
+                <span className="text-sm">(54) 9 9992-4547</span>
               </div>
               <div className="flex items-center gap-2">
                 <MessageCircle className="h-4 w-4 text-green-500" />
-                <span className="text-sm">(54) 9992-1515</span>
+                <span className="text-sm">(54) 9 9992-4547</span>
               </div>
             </div>
           </div>
