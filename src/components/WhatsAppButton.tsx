@@ -24,7 +24,7 @@ const WhatsAppButton = () => {
   }, [location.pathname]);
 
   const handleWhatsAppClick = () => {
-    window.open("https://wa.me/5554999921515", "_blank", "noopener,noreferrer");
+    window.open("https://wa.me/5554999924547", "_blank", "noopener,noreferrer");
   };
 
   const handleInstagramClick = () => {
