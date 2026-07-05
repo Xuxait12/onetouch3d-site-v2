@@ -17,7 +17,7 @@ const getDevice = (): Device => {
 };
 
 const HeroSectionCampanha: React.FC<Props> = ({ campanha }) => {
-  const baseUrl = "https://wa.me/5554999921515";
+  const baseUrl = "https://wa.me/5554999924547";
   const whatsappUrl = campanha.mensagem_whatsapp
     ? `${baseUrl}?text=${encodeURIComponent(campanha.mensagem_whatsapp)}`
     : baseUrl;
