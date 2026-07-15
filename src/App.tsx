@@ -29,6 +29,7 @@ import AuthRedirect from "./components/AuthRedirect";
 import AdminPanel from "./pages/AdminPanel";
 import ConfirmacaoWhatsapp from "./pages/ConfirmacaoWhatsapp";
 import AuthCallback from "./pages/AuthCallback";
+import CatalogoCorrida from "./pages/CatalogoCorrida";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -76,6 +77,7 @@ const App = () => {
                   <Route path="/painel" element={<AdminPanel />} />
                   <Route path="/order-details/:id" element={<OrderDetails />} />
                   <Route path="/confirmacao-whatsapp" element={<ConfirmacaoWhatsapp />} />
+                  <Route path="/catalogo/corrida" element={<CatalogoCorrida />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

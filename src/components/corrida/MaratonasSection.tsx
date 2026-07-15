@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const maratonas = [
   { image: "/logos-maratonas/berlin-marathon.png", name: "Berlin Marathon" },
   { image: "/logos-maratonas/boston-marathon.png", name: "Boston Marathon" },
@@ -58,26 +60,14 @@ const MaratonasSection = () => {
         </div>
       </div>
 
-      {/* Grid 2×5 / 5×2 */}
-      <div className="container mx-auto px-4 mb-12">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-          {maratonas.map((m, i) => (
-            <div
-              key={i}
-              className="flex flex-col items-center justify-center p-4 md:p-6 rounded-xl border border-border/50 bg-card hover:shadow-md hover:border-border transition-all duration-300"
-            >
-              <img
-                src={m.image}
-                alt={m.name}
-                className="h-12 md:h-14 w-auto object-contain mb-3"
-                loading="lazy"
-              />
-              <span className="text-xs md:text-sm text-muted-foreground text-center leading-tight">
-                {m.name}
-              </span>
-            </div>
-          ))}
-        </div>
+      {/* Botão de destaque para o catálogo completo */}
+      <div className="container mx-auto px-4 mb-12 text-center">
+        <Link
+          to="/catalogo/corrida"
+          className="inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground px-8 py-4 text-base md:text-lg font-semibold shadow-sm hover:shadow-md hover:opacity-90 transition-all duration-300"
+        >
+          Ver catálogo completo
+        </Link>
       </div>
 
       {/* Nota final */}
