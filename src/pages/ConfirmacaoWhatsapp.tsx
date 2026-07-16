@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, CheckCircle, Loader2, Copy } from 'lucide-react';
+import { Eye, EyeOff, CheckCircle, Loader2, Copy, Plus, X } from 'lucide-react';
 import pixQrCode from '@/assets/pix-qrcode.png';
 import googleLogo from '@/assets/google-logo.png';
 import onetouchLogo from '@/assets/onetouch-logo.png';
@@ -34,6 +34,96 @@ interface PixConfig {
   pix_banco: string;
 }
 
+interface ItemQuadroState {
+  id: string;
+  modalidadeId: string;
+  tamanhoId: string;
+  tamanhos: Tamanho[];
+  loadingTamanhos: boolean;
+}
+
+function generateId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function novoItemQuadro(): ItemQuadroState {
+  return { id: generateId(), modalidadeId: '', tamanhoId: '', tamanhos: [], loadingTamanhos: false };
+}
+
+// ============================================
+// Bloco de seleção de um item (Modalidade + Tamanho)
+// ============================================
+function ItemQuadroBloco({
+  item,
+  index,
+  modalidades,
+  loadingModalidades,
+  podeRemover,
+  onChange,
+  onRemove,
+}: {
+  item: ItemQuadroState;
+  index: number;
+  modalidades: Modalidade[];
+  loadingModalidades: boolean;
+  podeRemover: boolean;
+  onChange: (item: ItemQuadroState) => void;
+  onRemove: () => void;
+}) {
+  useEffect(() => {
+    if (!item.modalidadeId) {
+      onChange({ ...item, tamanhos: [], tamanhoId: '' });
+      return;
+    }
+    onChange({ ...item, loadingTamanhos: true, tamanhoId: '' });
+    (async () => {
+      const { data: precos, error } = await supabase
+        .from('precos')
+        .select('tamanho_id')
+        .eq('modalidade_id', item.modalidadeId)
+        .eq('ativo', true);
+      if (error || !precos) { onChange({ ...item, tamanhos: [], loadingTamanhos: false, tamanhoId: '' }); return; }
+      const tamanhoIds = [...new Set(precos.map(p => p.tamanho_id))];
+      if (tamanhoIds.length === 0) { onChange({ ...item, tamanhos: [], loadingTamanhos: false, tamanhoId: '' }); return; }
+      const { data: tamData } = await supabase.from('tamanhos').select('id, nome, ordem').in('id', tamanhoIds).eq('ativo', true).order('ordem');
+      onChange({ ...item, tamanhos: tamData || [], loadingTamanhos: false, tamanhoId: '' });
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item.modalidadeId]);
+
+  return (
+    <div className="space-y-3 pb-3 border-b last:border-b-0 last:pb-0">
+      <div className="flex items-center justify-between">
+        <p className="text-xs font-medium text-muted-foreground">Quadro {index + 1}</p>
+        {podeRemover && (
+          <button type="button" onClick={onRemove} className="p-1 rounded text-muted-foreground hover:text-destructive hover:bg-destructive/10" aria-label="Remover quadro">
+            <X className="h-3.5 w-3.5" />
+          </button>
+        )}
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <div className="space-y-1.5">
+          <Label>Modalidade</Label>
+          <Select value={item.modalidadeId} onValueChange={v => onChange({ ...item, modalidadeId: v })} disabled={loadingModalidades}>
+            <SelectTrigger><SelectValue placeholder={loadingModalidades ? "Carregando..." : "Selecione"} /></SelectTrigger>
+            <SelectContent>{modalidades.map(m => (<SelectItem key={m.id} value={m.id}>{m.nome}</SelectItem>))}</SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-1.5">
+          <Label>Tamanho</Label>
+          <Select value={item.tamanhoId} onValueChange={v => onChange({ ...item, tamanhoId: v })} disabled={!item.modalidadeId || item.loadingTamanhos}>
+            <SelectTrigger><SelectValue placeholder={item.loadingTamanhos ? "Carregando..." : !item.modalidadeId ? "Escolha modalidade" : "Selecione"} /></SelectTrigger>
+            <SelectContent>{item.tamanhos.map(t => (<SelectItem key={t.id} value={t.id}>{t.nome}</SelectItem>))}</SelectContent>
+          </Select>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const ConfirmacaoWhatsapp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -47,12 +137,12 @@ const ConfirmacaoWhatsapp = () => {
   const [showFormModal, setShowFormModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [modalidades, setModalidades] = useState<Modalidade[]>([]);
-  const [tamanhos, setTamanhos] = useState<Tamanho[]>([]);
   const [loadingModalidades, setLoadingModalidades] = useState(false);
-  const [loadingTamanhos, setLoadingTamanhos] = useState(false);
   const [pixConfig, setPixConfig] = useState<PixConfig | null>(null);
-  const [modalidadeId, setModalidadeId] = useState('');
-  const [tamanhoId, setTamanhoId] = useState('');
+
+  // Lista de quadros (itens) do pedido — visual, cada um vira uma venda separada
+  const [itensQuadro, setItensQuadro] = useState<ItemQuadroState[]>([novoItemQuadro()]);
+
   const [nomeCompleto, setNomeCompleto] = useState('');
   const [telefone, setTelefone] = useState('');
   const [cpf, setCpf] = useState('');
@@ -65,7 +155,8 @@ const ConfirmacaoWhatsapp = () => {
   const [complemento, setComplemento] = useState('');
   const [confirmado, setConfirmado] = useState(false);
   const [savingOrder, setSavingOrder] = useState(false);
-  const [numeroPedido, setNumeroPedido] = useState<number | null>(null);
+  const [numerosPedidos, setNumerosPedidos] = useState<number[]>([]);
+  const [itensComErro, setItensComErro] = useState<number>(0);
   const [showPedidoConfirmado, setShowPedidoConfirmado] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -122,18 +213,6 @@ const ConfirmacaoWhatsapp = () => {
     setLoadingModalidades(false);
   };
 
-  const fetchTamanhos = async (modId: string) => {
-    setLoadingTamanhos(true);
-    setTamanhoId('');
-    const { data: precos, error } = await supabase.from('precos').select('tamanho_id').eq('modalidade_id', modId).eq('ativo', true);
-    if (error || !precos) { setTamanhos([]); setLoadingTamanhos(false); return; }
-    const tamanhoIds = [...new Set(precos.map(p => p.tamanho_id))];
-    if (tamanhoIds.length === 0) { setTamanhos([]); setLoadingTamanhos(false); return; }
-    const { data: tamData } = await supabase.from('tamanhos').select('id, nome, ordem').in('id', tamanhoIds).eq('ativo', true).order('ordem');
-    setTamanhos(tamData || []);
-    setLoadingTamanhos(false);
-  };
-
   const fetchPixConfig = async () => {
     const { data, error } = await supabase.from('configuracoes' as any).select('chave, valor').in('chave', ['pix_chave', 'pix_nome', 'pix_banco']);
     if (!error && data) {
@@ -159,10 +238,6 @@ const ConfirmacaoWhatsapp = () => {
     checkAuth();
     fetchModalidades();
   }, []);
-
-  useEffect(() => {
-    if (modalidadeId) { fetchTamanhos(modalidadeId); } else { setTamanhos([]); }
-  }, [modalidadeId]);
 
   const handleAuthSuccess = async (user: { id: string; email?: string }) => {
     setIsAuthenticated(true);
@@ -214,8 +289,16 @@ const ConfirmacaoWhatsapp = () => {
     } catch (error: any) { toast({ title: "Erro ao entrar com Google", description: error.message, variant: "destructive" }); }
   };
 
+  // --- Itens (quadros) ---
+  const atualizarItemQuadro = (id: string, novo: ItemQuadroState) => {
+    setItensQuadro(prev => prev.map(i => (i.id === id ? novo : i)));
+  };
+  const adicionarItemQuadro = () => setItensQuadro(prev => [...prev, novoItemQuadro()]);
+  const removerItemQuadro = (id: string) => setItensQuadro(prev => prev.filter(i => i.id !== id));
+
   const isFormValid = () => {
-    return modalidadeId && tamanhoId && nomeCompleto.trim() && email.trim() &&
+    const itensValidos = itensQuadro.length > 0 && itensQuadro.every(i => i.modalidadeId && i.tamanhoId);
+    return itensValidos && nomeCompleto.trim() && email.trim() &&
       telefone.trim() && cpf.trim() && cep.trim() && rua.trim() &&
       numero.trim() && bairro.trim() && cidade.trim() && estado.trim() && confirmado;
   };
@@ -235,8 +318,6 @@ const ConfirmacaoWhatsapp = () => {
       const profileData = { user_id: userId, nome_completo: nomeCompleto, email, telefone, cpf_cnpj: cpf, cep, endereco: rua, numero, complemento, bairro, cidade, estado, data_nascimento: '1990-01-01' };
 
       // Mesmo padrão seguro do Checkout.tsx: busca por user_id (nunca por id).
-      // Isso evita conflito quando o perfil já existe com um id diferente do user_id
-      // (ex: criado via /perfil ou via checkout do site antes de comprar pelo WhatsApp).
       const { data: existingProfile } = await supabase
         .from('profiles')
         .select('id')
@@ -266,46 +347,62 @@ const ConfirmacaoWhatsapp = () => {
         return;
       }
 
-      // 2. Get tipo_moldura_id
-      const { data: molduraData } = await supabase
-        .from('precos')
-        .select('tipo_moldura_id')
-        .eq('modalidade_id', modalidadeId)
-        .eq('tamanho_id', tamanhoId)
-        .eq('ativo', true)
-        .limit(1)
-        .single();
-
-      const tipoMolduraId = molduraData?.tipo_moldura_id;
-      if (!tipoMolduraId || !profileId) {
+      if (!profileId) {
         toast({ title: "Erro", description: "Dados incompletos. Tente novamente.", variant: "destructive" });
         setSavingOrder(false);
         return;
       }
 
-      // 3. Chamar Edge Function para criar venda (bypassa RLS via service_role)
-      const { data: vendaData, error: vendaError } = await supabase.functions.invoke('create-venda-manual', {
-        body: {
-          profile_id: profileId,
-          modalidade_id: modalidadeId,
-          tamanho_id: tamanhoId,
-          tipo_moldura_id: tipoMolduraId,
-        },
-      });
+      // Cria uma venda por item da lista, sequencialmente, reaproveitando o mesmo profileId.
+      // Se algum item falhar, os que já deram certo permanecem registrados; o restante é avisado no final.
+      const numerosCriados: number[] = [];
+      let falhas = 0;
 
-      if (vendaError || !vendaData?.success) {
-        toast({ title: "Erro ao criar venda", description: vendaData?.error || vendaError?.message || 'Tente novamente.', variant: "destructive" });
+      for (const item of itensQuadro) {
+        const { data: molduraData } = await supabase
+          .from('precos')
+          .select('tipo_moldura_id')
+          .eq('modalidade_id', item.modalidadeId)
+          .eq('tamanho_id', item.tamanhoId)
+          .eq('ativo', true)
+          .limit(1)
+          .single();
+
+        const tipoMolduraId = molduraData?.tipo_moldura_id;
+        if (!tipoMolduraId) { falhas++; continue; }
+
+        const { data: vendaData, error: vendaError } = await supabase.functions.invoke('create-venda-manual', {
+          body: {
+            profile_id: profileId,
+            modalidade_id: item.modalidadeId,
+            tamanho_id: item.tamanhoId,
+            tipo_moldura_id: tipoMolduraId,
+          },
+        });
+
+        if (vendaError || !vendaData?.success) { falhas++; continue; }
+        if (vendaData?.numero) numerosCriados.push(vendaData.numero);
+      }
+
+      setItensComErro(falhas);
+
+      if (numerosCriados.length === 0) {
+        toast({ title: "Erro ao criar pedido", description: "Nenhum item pôde ser registrado. Tente novamente.", variant: "destructive" });
         setSavingOrder(false);
         return;
       }
 
-      if (vendaData?.numero) setNumeroPedido(vendaData.numero);
+      setNumerosPedidos(numerosCriados);
+
+      if (falhas > 0) {
+        toast({ title: "Pedido parcialmente registrado", description: `${numerosCriados.length} item(ns) registrado(s), ${falhas} com erro. Fale com o suporte.`, variant: "destructive" });
+      }
 
       // 4. Mostrar sucesso
       await fetchPixConfig();
       setShowFormModal(false);
       setShowSuccessModal(true);
-      toast({ title: "Sucesso!", description: "Pedido registrado. Efetue o pagamento via PIX." });
+      if (falhas === 0) toast({ title: "Sucesso!", description: "Pedido registrado. Efetue o pagamento via PIX." });
     } catch (error) {
       toast({ title: "Erro inesperado", description: error instanceof Error ? error.message : "Tente novamente.", variant: "destructive" });
     } finally {
@@ -373,10 +470,23 @@ const ConfirmacaoWhatsapp = () => {
         <div className="space-y-6 mt-2">
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Dados do Quadro</h3>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1.5"><Label>Modalidade</Label><Select value={modalidadeId} onValueChange={setModalidadeId} disabled={loadingModalidades}><SelectTrigger><SelectValue placeholder={loadingModalidades ? "Carregando..." : "Selecione"} /></SelectTrigger><SelectContent>{modalidades.map(m => (<SelectItem key={m.id} value={m.id}>{m.nome}</SelectItem>))}</SelectContent></Select></div>
-              <div className="space-y-1.5"><Label>Tamanho</Label><Select value={tamanhoId} onValueChange={setTamanhoId} disabled={!modalidadeId || loadingTamanhos}><SelectTrigger><SelectValue placeholder={loadingTamanhos ? "Carregando..." : !modalidadeId ? "Escolha modalidade" : "Selecione"} /></SelectTrigger><SelectContent>{tamanhos.map(t => (<SelectItem key={t.id} value={t.id}>{t.nome}</SelectItem>))}</SelectContent></Select></div>
+            <div className="space-y-4">
+              {itensQuadro.map((item, idx) => (
+                <ItemQuadroBloco
+                  key={item.id}
+                  item={item}
+                  index={idx}
+                  modalidades={modalidades}
+                  loadingModalidades={loadingModalidades}
+                  podeRemover={itensQuadro.length > 1}
+                  onChange={(novo) => atualizarItemQuadro(item.id, novo)}
+                  onRemove={() => removerItemQuadro(item.id)}
+                />
+              ))}
             </div>
+            <Button type="button" variant="outline" size="sm" onClick={adicionarItemQuadro} className="w-full gap-2">
+              <Plus className="h-3.5 w-3.5" /> Adicionar outro quadro
+            </Button>
           </div>
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Dados Pessoais</h3>
@@ -424,7 +534,7 @@ const ConfirmacaoWhatsapp = () => {
       <DialogContent className="max-w-md text-center">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-center gap-2 text-xl"><CheckCircle className="h-6 w-6 text-accent" />Pedido Confirmado!</DialogTitle>
-          <DialogDescription>Escaneie o QR Code abaixo no app do seu banco e digite o valor do quadro.</DialogDescription>
+          <DialogDescription>Escaneie o QR Code abaixo no app do seu banco e digite o valor do{numerosPedidos.length > 1 ? 's' : ''} quadro{numerosPedidos.length > 1 ? 's' : ''}.</DialogDescription>
         </DialogHeader>
         <div className="space-y-4 mt-4">
           <img src={pixQrCode} alt="QR Code PIX" className="mx-auto w-48 h-48 rounded-lg border" loading="lazy" />
@@ -442,19 +552,28 @@ const ConfirmacaoWhatsapp = () => {
     </Dialog>
   );
 
-  const renderPedidoConfirmadoModal = () => (
-    <Dialog open={showPedidoConfirmado} onOpenChange={(open) => { if (!open) setShowPedidoConfirmado(false); }}>
-      <DialogContent className="max-w-md text-center">
-        <DialogHeader>
-          <DialogTitle className="flex items-center justify-center gap-2 text-xl"><CheckCircle className="h-6 w-6 text-accent" />Pedido Confirmado!</DialogTitle>
-          <DialogDescription>
-            {numeroPedido ? `Seu pedido #${numeroPedido} foi registrado com sucesso. Assim que o pagamento PIX for identificado, você receberá a confirmação.` : 'Seu pedido foi registrado com sucesso. Assim que o pagamento PIX for identificado, você receberá a confirmação.'}
-          </DialogDescription>
-        </DialogHeader>
-        <Button onClick={() => { setShowPedidoConfirmado(false); navigate('/'); }} className="w-full mt-4">Voltar para o início</Button>
-      </DialogContent>
-    </Dialog>
-  );
+  const renderPedidoConfirmadoModal = () => {
+    const descricaoPedidos = numerosPedidos.length > 1
+      ? `Seus pedidos #${numerosPedidos.join(', #')} foram registrados com sucesso. Assim que o pagamento PIX for identificado, você receberá a confirmação.`
+      : numerosPedidos.length === 1
+        ? `Seu pedido #${numerosPedidos[0]} foi registrado com sucesso. Assim que o pagamento PIX for identificado, você receberá a confirmação.`
+        : 'Seu pedido foi registrado com sucesso. Assim que o pagamento PIX for identificado, você receberá a confirmação.';
+
+    return (
+      <Dialog open={showPedidoConfirmado} onOpenChange={(open) => { if (!open) setShowPedidoConfirmado(false); }}>
+        <DialogContent className="max-w-md text-center">
+          <DialogHeader>
+            <DialogTitle className="flex items-center justify-center gap-2 text-xl"><CheckCircle className="h-6 w-6 text-accent" />Pedido Confirmado!</DialogTitle>
+            <DialogDescription>{descricaoPedidos}</DialogDescription>
+          </DialogHeader>
+          {itensComErro > 0 && (
+            <p className="text-xs text-destructive">{itensComErro} item(ns) não foram registrados por erro técnico. Entre em contato com o suporte informando os números acima.</p>
+          )}
+          <Button onClick={() => { setShowPedidoConfirmado(false); navigate('/'); }} className="w-full mt-4">Voltar para o início</Button>
+        </DialogContent>
+      </Dialog>
+    );
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-primary/10 px-4 py-8">
