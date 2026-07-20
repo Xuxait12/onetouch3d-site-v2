@@ -16,11 +16,15 @@ export interface CartItem {
   tipo_moldura_id?: string;
 }
 
+type CupomTipo = 'percentual' | 'fixo';
+
 interface CartState {
   items: CartItem[];
   total: number;
   cupom: string;
   cupomDesconto: number;
+  cupomTipo: CupomTipo | null;
+  cupomValor: number;
   cupomCode: string;
   cupomPage: string;
   cep: string;
@@ -36,7 +40,7 @@ type CartAction =
   | { type: 'UPDATE_QUANTITY'; payload: { id: string; quantidade: number } }
   | { type: 'REMOVE_ITEM'; payload: { id: string } }
   | { type: 'CLEAR_CART' }
-  | { type: 'APPLY_COUPON'; payload: { cupom: string; desconto: number; cupomCode: string; cupomPage: string } }
+  | { type: 'APPLY_COUPON'; payload: { cupom: string; tipo: CupomTipo; valor: number; cupomCode: string; cupomPage: string } }
   | { type: 'REMOVE_COUPON' }
   | { type: 'CALCULATE_SHIPPING'; payload: { cep: string; frete: number } }
   | { type: 'SET_SHIPPING_OPTIONS'; payload: ShippingOption[] }
@@ -50,6 +54,8 @@ const INITIAL_CART_STATE: CartState = {
   total: 0,
   cupom: '',
   cupomDesconto: 0,
+  cupomTipo: null,
+  cupomValor: 0,
   cupomCode: '',
   cupomPage: '',
   cep: '',
@@ -62,6 +68,16 @@ const INITIAL_CART_STATE: CartState = {
 
 // Acréscimo fixo de R$5 para cobrir diferença entre API e plataforma
 const SHIPPING_SURCHARGE = 5;
+
+// Recalcula o desconto do cupom com base no subtotal ATUAL do carrinho.
+// Garante que o desconto nunca seja negativo nem maior que o subtotal —
+// evita o bug de total negativo quando itens são removidos/alterados
+// depois que um cupom já foi aplicado.
+function calcularDesconto(subtotal: number, tipo: CupomTipo | null, valor: number): number {
+  if (!tipo || subtotal <= 0) return 0;
+  const descontoBruto = tipo === 'percentual' ? subtotal * (valor / 100) : valor;
+  return Math.min(Math.max(descontoBruto, 0), subtotal);
+}
 
 function getInitialCartState(_initial: CartState): CartState {
   try {
@@ -78,12 +94,16 @@ function getInitialCartState(_initial: CartState): CartState {
     if (raw) {
       const parsed = JSON.parse(raw);
       if (parsed && Array.isArray(parsed.items)) {
-        return {
+        const merged: CartState = {
           ...INITIAL_CART_STATE,
           ...parsed,
           isCalculatingShipping: false,
           shippingError: null,
         };
+        // Recalcula o desconto ao carregar do localStorage — protege contra
+        // estado antigo salvo antes desta correção ou desatualizado.
+        merged.cupomDesconto = calcularDesconto(merged.total, merged.cupomTipo, merged.cupomValor);
+        return merged;
       }
     }
   } catch (error) {
@@ -104,7 +124,8 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
       };
       const updatedItems = [...state.items, newItem];
       const total = updatedItems.reduce((sum, item) => sum + item.subtotal, 0);
-      return { ...state, items: updatedItems, total };
+      const cupomDesconto = calcularDesconto(total, state.cupomTipo, state.cupomValor);
+      return { ...state, items: updatedItems, total, cupomDesconto };
     }
 
     case 'UPDATE_QUANTITY': {
@@ -118,29 +139,35 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
           : item
       );
       const total = updatedItems.reduce((sum, item) => sum + item.subtotal, 0);
-      return { ...state, items: updatedItems, total };
+      const cupomDesconto = calcularDesconto(total, state.cupomTipo, state.cupomValor);
+      return { ...state, items: updatedItems, total, cupomDesconto };
     }
 
     case 'REMOVE_ITEM': {
       const updatedItems = state.items.filter(item => item.id !== action.payload.id);
       const total = updatedItems.reduce((sum, item) => sum + item.subtotal, 0);
-      return { ...state, items: updatedItems, total };
+      const cupomDesconto = calcularDesconto(total, state.cupomTipo, state.cupomValor);
+      return { ...state, items: updatedItems, total, cupomDesconto };
     }
 
     case 'CLEAR_CART':
       return { ...INITIAL_CART_STATE };
 
-    case 'APPLY_COUPON':
+    case 'APPLY_COUPON': {
+      const cupomDesconto = calcularDesconto(state.total, action.payload.tipo, action.payload.valor);
       return {
         ...state,
         cupom: action.payload.cupom,
-        cupomDesconto: action.payload.desconto,
+        cupomTipo: action.payload.tipo,
+        cupomValor: action.payload.valor,
+        cupomDesconto,
         cupomCode: action.payload.cupomCode,
         cupomPage: action.payload.cupomPage
       };
+    }
 
     case 'REMOVE_COUPON':
-      return { ...state, cupom: '', cupomDesconto: 0, cupomCode: '', cupomPage: '' };
+      return { ...state, cupom: '', cupomDesconto: 0, cupomTipo: null, cupomValor: 0, cupomCode: '', cupomPage: '' };
 
     case 'CALCULATE_SHIPPING':
       return { ...state, cep: action.payload.cep, frete: action.payload.frete };
@@ -184,7 +211,7 @@ interface CartContextType {
   updateQuantity: (id: string, quantidade: number) => void;
   removeItem: (id: string) => void;
   clearCart: () => void;
-  applyCoupon: (cupom: string, desconto: number, cupomCode: string, cupomPage: string) => void;
+  applyCoupon: (cupom: string, tipo: CupomTipo, valor: number, cupomCode: string, cupomPage: string) => void;
   removeCoupon: () => void;
   calculateShipping: (cep: string) => Promise<void>;
   selectShippingOption: (option: ShippingOption) => void;
@@ -222,8 +249,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     dispatch({ type: 'CLEAR_CART' });
   };
 
-  const applyCoupon = (cupom: string, desconto: number, cupomCode: string, cupomPage: string) => {
-    dispatch({ type: 'APPLY_COUPON', payload: { cupom, desconto, cupomCode, cupomPage } });
+  const applyCoupon = (cupom: string, tipo: CupomTipo, valor: number, cupomCode: string, cupomPage: string) => {
+    dispatch({ type: 'APPLY_COUPON', payload: { cupom, tipo, valor, cupomCode, cupomPage } });
   };
 
   const removeCoupon = () => {
