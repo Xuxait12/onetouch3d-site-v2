@@ -31,7 +31,7 @@ type ProvaEstilo = {
 };
 
 const ESTILO_LABELS: Record<EstiloValue, string> = {
-  clean: 'Clean',
+  clean: 'Full',
   dinamico: 'Panorama',
   editorial: 'Mapa',
   numero_atleta: 'BID - Número',
