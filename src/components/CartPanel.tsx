@@ -73,7 +73,9 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
     navigate('/checkout');
   };
 
-  const cartTotal = cart.total + cart.frete - cart.cupomDesconto;
+  // Trava de segurança: o total exibido nunca deve ficar negativo,
+  // mesmo que algum estado inesperado chegue até aqui.
+  const cartTotal = Math.max(0, cart.total + cart.frete - cart.cupomDesconto);
   const cartItemsCount = cart.items.reduce((total, item) => total + item.quantidade, 0);
 
   const formatPrice = (price: number) => {
