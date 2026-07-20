@@ -192,14 +192,14 @@ export default function CatalogoCorrida() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-4">
                       {lista.map((e) => (
                         <div key={e.id} className="rounded-xl border border-border/50 overflow-hidden bg-background">
-                          <div className="relative aspect-[4/3] bg-muted/30">
+                          <div className="relative aspect-[4/3] bg-muted/30 rounded-t-xl overflow-hidden">
                             {e.imagem_url ? (
                               <button
                                 onClick={() => setLightboxUrl(e.imagem_url)}
                                 className="block w-full h-full"
                                 aria-label="Ampliar imagem"
                               >
-                                <img src={e.imagem_url} alt={ESTILO_LABELS[e.estilo]} className="w-full h-full object-cover" loading="lazy" />
+                                <img src={e.imagem_url} alt={ESTILO_LABELS[e.estilo]} className="w-full h-full object-cover rounded-t-xl" loading="lazy" />
                                 <span className="absolute top-2 right-2 h-7 w-7 rounded-full bg-black/50 flex items-center justify-center">
                                   <ZoomIn className="h-4 w-4 text-white" />
                                 </span>
@@ -221,9 +221,9 @@ export default function CatalogoCorrida() {
                                 </li>
                               ))}
                             </ul>
-                            <p className="text-xs font-bold mb-3">
-                              {formatTamanho(e.tamanho) && <>{formatTamanho(e.tamanho)}<br /></>}
-                              {formatValor(e.preco_a_partir)}
+                            <p className="text-xs mb-3">
+                              {formatTamanho(e.tamanho) && <span className="font-bold">{formatTamanho(e.tamanho)}<br /></span>}
+                              <span className="font-bold text-green-600">{formatValor(e.preco_a_partir)}</span>
                             </p>
                             <a
                               href={whatsappLink(`Olá! Quero saber mais sobre o quadro ${ESTILO_LABELS[e.estilo]} da prova ${prova.nome}!`)}
