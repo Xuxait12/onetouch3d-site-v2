@@ -54,21 +54,26 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
         return;
       }
 
-      // Calcular desconto
-      let discount = 0;
-      if (data.tipo === 'percentual') {
-        discount = subtotal * ((data.valor || 0) / 100);
-      } else if (data.tipo === 'fixo') {
-        discount = data.valor || 0;
+      // Apenas os tipos "percentual" e "fixo" concedem desconto em R$ aqui.
+      // O CartContext recalcula e trava o valor real com base no subtotal
+      // atual sempre que o carrinho mudar — aqui calculamos só uma prévia
+      // para a mensagem de feedback ao usuário.
+      const tipoSuportado = data.tipo === 'percentual' || data.tipo === 'fixo' ? data.tipo : 'fixo';
+      const valorCupom = tipoSuportado === data.tipo ? (data.valor || 0) : 0;
+
+      let discountPreview = 0;
+      if (tipoSuportado === 'percentual') {
+        discountPreview = subtotal * (valorCupom / 100);
+      } else if (tipoSuportado === 'fixo') {
+        discountPreview = valorCupom;
       }
+      discountPreview = Math.min(Math.max(discountPreview, 0), subtotal);
 
-      discount = Math.min(discount, subtotal);
+      applyCoupon(data.codigo, tipoSuportado, valorCupom, data.codigo, 'all');
 
-      applyCoupon(data.codigo, discount, data.codigo, 'all');
-
-      const discountText = data.tipo === 'percentual'
-        ? `${data.valor}% OFF`
-        : `R$ ${(data.valor || 0).toFixed(2).replace('.', ',')} OFF`;
+      const discountText = tipoSuportado === 'percentual'
+        ? `${valorCupom}% OFF`
+        : `R$ ${valorCupom.toFixed(2).replace('.', ',')} OFF`;
 
       setFeedback({
         type: 'success',
@@ -77,7 +82,7 @@ const CouponSection = ({ currentPage, subtotal }: CouponSectionProps) => {
 
       toast({
         title: "Cupom aplicado!",
-        description: `Desconto de R$ ${discount.toFixed(2).replace('.', ',')} aplicado.`,
+        description: `Desconto de R$ ${discountPreview.toFixed(2).replace('.', ',')} aplicado.`,
       });
 
     } catch (err) {
