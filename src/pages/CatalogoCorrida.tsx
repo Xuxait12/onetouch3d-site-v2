@@ -18,7 +18,7 @@ type Prova = {
   ordem: number;
 };
 
-type EstiloValue = 'clean' | 'dinamico' | 'editorial' | 'numero_atleta';
+type EstiloValue = 'clean' | 'dinamico' | 'editorial' | 'numero_atleta' | 'slim';
 
 type ProvaEstilo = {
   id: string;
@@ -32,9 +32,10 @@ type ProvaEstilo = {
 
 const ESTILO_LABELS: Record<EstiloValue, string> = {
   clean: 'Clean',
-  dinamico: 'Dinâmico',
+  dinamico: 'Panorama',
   editorial: 'Mapa',
   numero_atleta: 'Número',
+  slim: 'Slim',
 };
 
 const ESTILO_DESCRICOES: Record<EstiloValue, string> = {
@@ -42,6 +43,7 @@ const ESTILO_DESCRICOES: Record<EstiloValue, string> = {
   dinamico: 'Fotos - Dados prova - Percurso prova 3D - Medalha',
   editorial: 'Fotos - Dados prova - Percurso prova 3D - Medalha',
   numero_atleta: 'Fotos - Número peito original - Dados prova - Medalha',
+  slim: 'Foto - Dados prova - BID – Número peito redesenhado - Medalha',
 };
 
 function formatTamanho(tamanho: string | null) {
