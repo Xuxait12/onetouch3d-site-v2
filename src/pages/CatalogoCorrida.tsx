@@ -34,16 +34,16 @@ const ESTILO_LABELS: Record<EstiloValue, string> = {
   clean: 'Clean',
   dinamico: 'Panorama',
   editorial: 'Mapa',
-  numero_atleta: 'Número',
+  numero_atleta: 'BID - Número',
   slim: 'Slim',
 };
 
 const ESTILO_DESCRICOES: Record<EstiloValue, string> = {
-  clean: 'Foto - Dados prova - Percurso prova 3D - Medalha',
-  dinamico: 'Fotos - Dados prova - Percurso prova 3D - Medalha',
-  editorial: 'Fotos - Dados prova - Percurso prova 3D - Medalha',
-  numero_atleta: 'Fotos - Número peito original - Dados prova - Medalha',
-  slim: 'Foto - Dados prova - BID – Número peito redesenhado - Medalha',
+  clean: 'Foto - Dados prova - Percurso prova 3D - Medalha - Moldura – caixa alta',
+  dinamico: 'Fotos - Dados prova - Percurso prova 3D - Medalha - Moldura – caixa alta',
+  editorial: 'Fotos - Dados prova - Percurso prova 3D - Medalha - Moldura – caixa alta',
+  numero_atleta: 'Fotos - Número peito original - Dados prova - Medalha - Moldura – caixa alta',
+  slim: 'Foto - Dados prova - Número peito redesenhado - Medalha - Moldura – caixa baixa',
 };
 
 function formatTamanho(tamanho: string | null) {
@@ -189,7 +189,7 @@ export default function CatalogoCorrida() {
                       Ainda estamos preparando os estilos para essa prova. Fale com a gente no WhatsApp!
                     </p>
                   ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-4">
                       {lista.map((e) => (
                         <div key={e.id} className="rounded-xl border border-border/50 overflow-hidden bg-background">
                           <div className="relative aspect-[4/3] bg-muted/30">
