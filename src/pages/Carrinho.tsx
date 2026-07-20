@@ -42,8 +42,9 @@ const Carrinho = () => {
 
   const handleAplicarCupom = () => {
     if (cupom.toLowerCase() === "desconto10") {
-      const desconto = cart.total * 0.1;
-      applyCoupon(cupom, desconto, cupom, 'all');
+      // O CartContext calcula o valor real do desconto (10% do subtotal
+      // atual) e o mantém sempre recalculado enquanto o carrinho mudar.
+      applyCoupon(cupom, 'percentual', 10, cupom, 'all');
     }
   };
 
@@ -76,7 +77,9 @@ const Carrinho = () => {
   const subtotal = cart.total;
   const desconto = cart.cupomDesconto;
   const frete = cart.frete;
-  const total = subtotal - desconto + frete;
+  // Trava de segurança: o total exibido nunca deve ficar negativo,
+  // mesmo que algum estado inesperado chegue até aqui.
+  const total = Math.max(0, subtotal - desconto + frete);
 
   const getProductImage = (item: any) => {
     if (item.nome?.includes("Caixa Alta")) {
