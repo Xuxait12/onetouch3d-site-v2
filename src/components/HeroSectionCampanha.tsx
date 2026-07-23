@@ -1,1 +1,101 @@
-aW1wb3J0IFJlYWN0LCB7IHVzZUVmZmVjdCwgdXNlU3RhdGUgfSBmcm9tICJyZWFjdCI7CmltcG9ydCB7IExpbmsgfSBmcm9tICJyZWFjdC1yb3V0ZXItZG9tIjsKaW1wb3J0IHsgTWVzc2FnZUNpcmNsZSwgTGF5b3V0R3JpZCB9IGZyb20gImx1Y2lkZS1yZWFjdCI7CmltcG9ydCB0eXBlIHsgQ2FtcGFuaGEgfSBmcm9tICJAL2hvb2tzL3VzZUNhbXBhbmhhQXRpdmEiOwoKaW50ZXJmYWNlIFByb3BzIHsKICBjYW1wYW5oYTogQ2FtcGFuaGE7Cn0KCnR5cGUgRGV2aWNlID0gIm1vYmlsZSIgfCAidGFibGV0IiB8ICJkZXNrdG9wIjsKCmNvbnN0IGdldERldmljZSA9ICgpOiBEZXZpY2UgPT4gewogIGlmICh0eXBlb2Ygd2luZG93ID09PSAidW5kZWZpbmVkIikgcmV0dXJuICJkZXNrdG9wIjsKICBjb25zdCB3ID0gd2luZG93LmlubmVyV2lkdGg7CiAgaWYgKHcgPCA3NjgpIHJldHVybiAibW9iaWxlIjsKICBpZiAodyA8IDEwMjQpIHJldHVybiAidGFibGV0IjsKICByZXR1cm4gImRlc2t0b3AiOwp9OwoKY29uc3QgSGVyb1NlY3Rpb25DYW1wYW5oYTogUmVhY3QuRkM8UHJvcHM+ID0gKHsgY2FtcGFuaGEgfSkgPT4gewogIGNvbnN0IGJhc2VVcmwgPSAiaHR0cHM6Ly93YS5tZS81NTU0OTk5OTI0NTQ3IjsKICBjb25zdCB3aGF0c2FwcFVybCA9IGNhbXBhbmhhLm1lbnNhZ2VtX3doYXRzYXBwCiAgICA/IGAke2Jhc2VVcmx9P3RleHQ9JHtlbmNvZGVVUklDb21wb25lbnQoY2FtcGFuaGEubWVuc2FnZW1fd2hhdHNhcHApfWAKICAgIDogYmFzZVVybDsKCiAgY29uc3QgW2RldmljZSwgc2V0RGV2aWNlXSA9IHVzZVN0YXRlPERldmljZT4oZ2V0RGV2aWNlKTsKCiAgdXNlRWZmZWN0KCgpID0+IHsKICAgIGNvbnN0IG9uUmVzaXplID0gKCkgPT4gc2V0RGV2aWNlKGdldERldmljZSgpKTsKICAgIHdpbmRvdy5hZGRFdmVudExpc3RlbmVyKCJyZXNpemUiLCBvblJlc2l6ZSk7CiAgICByZXR1cm4gKCkgPT4gd2luZG93LnJlbW92ZUV2ZW50TGlzdGVuZXIoInJlc2l6ZSIsIG9uUmVzaXplKTsKICB9LCBbXSk7CgogIGNvbnN0IGJnU3JjID0KICAgIGRldmljZSA9PT0gIm1vYmlsZSIKICAgICAgPyBjYW1wYW5oYS5mb3RvX2JhY2tncm91bmRfbW9iaWxlIHx8IGNhbXBhbmhhLmZvdG9fYmFja2dyb3VuZAogICAgICA6IGRldmljZSA9PT0gInRhYmxldCIKICAgICAgPyBjYW1wYW5oYS5mb3RvX2JhY2tncm91bmRfdGFibGV0IHx8IGNhbXBhbmhhLmZvdG9fYmFja2dyb3VuZAogICAgICA6IGNhbXBhbmhhLmZvdG9fYmFja2dyb3VuZDsKCiAgY29uc3QgYnV0dG9uUG9zaXRpb25DbGFzcyA9CiAgICBkZXZpY2UgPT09ICJtb2JpbGUiCiAgICAgID8gInRvcC1bNzElXSBsZWZ0LTEvMiAtdHJhbnNsYXRlLXgtMS8yIgogICAgICA6IGRldmljZSA9PT0gInRhYmxldCIKICAgICAgPyAidG9wLVs2OCVdIGxlZnQtMS8yIC10cmFuc2xhdGUteC0xLzIiCiAgICAgIDogInRvcC1bNTglXSBsZWZ0LVsxOCVdIjsKCiAgY29uc3QgaXNNb2JpbGUgPSBkZXZpY2UgPT09ICJtb2JpbGUiOwogIGNvbnN0IHdhU2l6ZUNsYXNzID0gaXNNb2JpbGUgPyAicHgtNCBweS0yIHRleHQtc20iIDogInB4LTYgcHktMyI7CgogIC8vIEJvdMOjbyAiVmVyIENhdMOhbG9nbyI6IHPDsyBleGlzdGUgbmEgY2FtcGFuaGEgZGEgcMOhZ2luYSBDb3JyaWRhLCBlIHPDsyBuYSB2ZXJzw6NvIGRlc2t0b3AKICAvLyBwb3IgZW5xdWFudG8gKHBvc2nDp8O1ZXMgZGUgdGFibGV0L21vYmlsZSBmaWNhbSBwZW5kZW50ZXMgYXTDqSB0ZXJtb3MgYXMgaW1hZ2VucyBkZXNzZXMgYnJlYWtwb2ludHMpCiAgY29uc3Qgc2hvd0NhdGFsb2dCdXR0b24gPSBkZXZpY2UgPT09ICJkZXNrdG9wIiAmJiBjYW1wYW5oYS5wYWdpbmEgPT09ICJjb3JyaWRhIjsKCiAgcmV0dXJuICgKICAgIDxzZWN0aW9uIGNsYXNzTmFtZT0icmVsYXRpdmUgdy1mdWxsIG1pbi1oLVsxMDBzdmhdIG92ZXJmbG93LWhpZGRlbiBiZy1ncmF5LTkwMCI+CiAgICAgIDxpbWcKICAgICAgICBzcmM9e2JnU3JjfQogICAgICAgIGFsdD17YEZ1bmRvICR7Y2FtcGFuaGEubm9tZV9wcm92YX1gfQogICAgICAgIGNsYXNzTmFtZT0iYWJzb2x1dGUgaW5zZXQtMCB3LWZ1bGwgaC1mdWxsIG9iamVjdC1jb3ZlciIKICAgICAgICBsb2FkaW5nPSJlYWdlciIKICAgICAgICBmZXRjaFByaW9yaXR5PSJoaWdoIgogICAgICAvPgoKICAgICAgPGRpdiBjbGFzc05hbWU9e2BhYnNvbHV0ZSAke2J1dHRvblBvc2l0aW9uQ2xhc3N9IHotMTAgaW5saW5lLWZsZXggZmxleC1jb2wgaXRlbXMtc3RyZXRjaGB9PgogICAgICAgIDxhCiAgICAgICAgICBocmVmPXt3aGF0c2FwcFVybH0KICAgICAgICAgIHRhcmdldD0iX2JsYW5rIgogICAgICAgICAgcmVsPSJub29wZW5lciBub3JlZmVycmVyIgogICAgICAgICAgYXJpYS1sYWJlbD0iRmFsYXIgbm8gV2hhdHNBcHAiCiAgICAgICAgICBjbGFzc05hbWU9e2BpbmxpbmUtZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgZ2FwLTIgYmctWyMyNUQzNjZdIGhvdmVyOmJnLVsjMWViZTU3XSB0ZXh0LXdoaXRlICR7d2FTaXplQ2xhc3N9IHJvdW5kZWQtZnVsbCBzaGFkb3ctbGcgZm9udC1zZW1pYm9sZCB0cmFuc2l0aW9uLWNvbG9yc2B9CiAgICAgICAgPgogICAgICAgICAgPE1lc3NhZ2VDaXJjbGUgY2xhc3NOYW1lPSJ3LTUgaC01IiAvPgogICAgICAgICAgRmFsYXIgbm8gV2hhdHNBcHAKICAgICAgICA8L2E+CiAgICAgICAgPGJ1dHRvbgogICAgICAgICAgdHlwZT0iYnV0dG9uIgogICAgICAgICAgb25DbGljaz17KCkgPT4KICAgICAgICAgICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoImNvbW8tZnVuY2lvbmEiKT8uc2Nyb2xsSW50b1ZpZXcoeyBiZWhhdmlvcjogInNtb290aCIgfSkKICAgICAgICAgIH0KICAgICAgICAgIGNsYXNzTmFtZT0ibXQtMTIgdGV4dC1jZW50ZXIgdGV4dC13aGl0ZSB0ZXh0LXhsIGZvbnQtbWVkaXVtIHVuZGVybGluZSB1bmRlcmxpbmUtb2Zmc2V0LTQgaG92ZXI6dGV4dC13aGl0ZS84MCB0cmFuc2l0aW9uLWNvbG9ycyBiZy10cmFuc3BhcmVudCBib3JkZXItMCBjdXJzb3ItcG9pbnRlciIKICAgICAgICA+CiAgICAgICAgICBDb21vIGZ1bmNpb25hPwogICAgICAgIDwvYnV0dG9uPgogICAgICA8L2Rpdj4KCiAgICAgIHtzaG93Q2F0YWxvZ0J1dHRvbiAmJiAoCiAgICAgICAgPExpbmsKICAgICAgICAgIHRvPSIvY2F0YWxvZ28vY29ycmlkYSIKICAgICAgICAgIGFyaWEtbGFiZWw9IlZlciBDYXTDoWxvZ28iCiAgICAgICAgICBjbGFzc05hbWU9ImFic29sdXRlIHRvcC1bODklXSBsZWZ0LVs1OSVdIHotMTAgaW5saW5lLWZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIGdhcC0yIGJnLXdoaXRlIGhvdmVyOmJnLWdyYXktMTAwIHRleHQtWyMzNzQxNTFdIHB4LTYgcHktMyByb3VuZGVkLWZ1bGwgc2hhZG93LWxnIGZvbnQtc2VtaWJvbGQgdHJhbnNpdGlvbi1jb2xvcnMiCiAgICAgICAgPgogICAgICAgICAgPExheW91dEdyaWQgY2xhc3NOYW1lPSJ3LTUgaC01IiAvPgogICAgICAgICAgVmVyIENhdMOhbG9nbwogICAgICAgIDwvTGluaz4KICAgICAgKX0KICAgIDwvc2VjdGlvbj4KICApOwp9OwoKZXhwb3J0IGRlZmF1bHQgSGVyb1NlY3Rpb25DYW1wYW5oYTsK
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { MessageCircle, LayoutGrid } from "lucide-react";
+import type { Campanha } from "@/hooks/useCampanhaAtiva";
+
+interface Props {
+  campanha: Campanha;
+}
+
+type Device = "mobile" | "tablet" | "desktop";
+
+const getDevice = (): Device => {
+  if (typeof window === "undefined") return "desktop";
+  const w = window.innerWidth;
+  if (w < 768) return "mobile";
+  if (w < 1024) return "tablet";
+  return "desktop";
+};
+
+const HeroSectionCampanha: React.FC<Props> = ({ campanha }) => {
+  const baseUrl = "https://wa.me/5554999924547";
+  const whatsappUrl = campanha.mensagem_whatsapp
+    ? `${baseUrl}?text=${encodeURIComponent(campanha.mensagem_whatsapp)}`
+    : baseUrl;
+
+  const [device, setDevice] = useState<Device>(getDevice);
+
+  useEffect(() => {
+    const onResize = () => setDevice(getDevice());
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  const bgSrc =
+    device === "mobile"
+      ? campanha.foto_background_mobile || campanha.foto_background
+      : device === "tablet"
+      ? campanha.foto_background_tablet || campanha.foto_background
+      : campanha.foto_background;
+
+  const buttonPositionClass =
+    device === "mobile"
+      ? "top-[71%] left-1/2 -translate-x-1/2"
+      : device === "tablet"
+      ? "top-[68%] left-1/2 -translate-x-1/2"
+      : "top-[58%] left-[18%]";
+
+  const isMobile = device === "mobile";
+  const waSizeClass = isMobile ? "px-4 py-2 text-sm" : "px-6 py-3";
+
+  // Botão "Ver Catálogo": só existe na campanha da página Corrida, e só na versão desktop
+  // por enquanto (posições de tablet/mobile ficam pendentes até termos as imagens desses breakpoints)
+  const showCatalogButton = device === "desktop" && campanha.pagina === "corrida";
+
+  return (
+    <section className="relative w-full min-h-[100svh] overflow-hidden bg-gray-900">
+      <img
+        src={bgSrc}
+        alt={`Fundo ${campanha.nome_prova}`}
+        className="absolute inset-0 w-full h-full object-cover"
+        loading="eager"
+        fetchPriority="high"
+      />
+
+      <div className={`absolute ${buttonPositionClass} z-10 inline-flex flex-col items-stretch`}>
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Falar no WhatsApp"
+          className={`inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe57] text-white ${waSizeClass} rounded-full shadow-lg font-semibold transition-colors`}
+        >
+          <MessageCircle className="w-5 h-5" />
+          Falar no WhatsApp
+        </a>
+        <button
+          type="button"
+          onClick={() =>
+            document.getElementById("como-funciona")?.scrollIntoView({ behavior: "smooth" })
+          }
+          className="mt-12 text-center text-white text-xl font-medium underline underline-offset-4 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer"
+        >
+          Como funciona?
+        </button>
+      </div>
+
+      {showCatalogButton && (
+        <Link
+          to="/catalogo/corrida"
+          aria-label="Ver Catálogo"
+          className="absolute top-[89%] left-[59%] z-10 inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-100 text-[#374151] px-6 py-3 rounded-full shadow-lg font-semibold transition-colors"
+        >
+          <LayoutGrid className="w-5 h-5" />
+          Ver Catálogo
+        </Link>
+      )}
+    </section>
+  );
+};
+
+export default HeroSectionCampanha;
