@@ -42,13 +42,19 @@ const HeroSectionCampanha: React.FC<Props> = ({ campanha }) => {
     device === "mobile"
       ? "top-[71%] left-1/2 -translate-x-1/2"
       : device === "tablet"
-      ? "top-[68%] left-1/2 -translate-x-1/2"
+      ? "top-[68%] left-[13%]"
       : "top-[58%] left-[18%]";
 
-  // Botão "Ver Catálogo": só existe na campanha da página Corrida, no desktop e no mobile
-  // por enquanto (posição de tablet fica pendente até termos a imagem de referência desse breakpoint)
-  const showCatalogButton =
-    (device === "desktop" || device === "mobile") && campanha.pagina === "corrida";
+  // Botão "Ver Catálogo": aparece nos 3 breakpoints agora, só na campanha da página Corrida
+  const showCatalogButton = campanha.pagina === "corrida";
+
+  // Posição do botão de catálogo em tablet/desktop (mobile tem seu próprio bloco, empilhado)
+  const catalogPositionClass =
+    device === "tablet" ? "top-[86%] left-[57%]" : "top-[89%] left-[59%]";
+
+  // Espaço entre o botão do WhatsApp e "Como funciona?": no tablet fica mais próximo (pedido do founder),
+  // no desktop mantém o espaçamento original (já validado e aprovado)
+  const comoFuncionaSpacingClass = device === "tablet" ? "mt-8" : "mt-12";
 
   return (
     <section className="relative w-full min-h-[100svh] overflow-hidden bg-gray-900">
@@ -111,17 +117,17 @@ const HeroSectionCampanha: React.FC<Props> = ({ campanha }) => {
               onClick={() =>
                 document.getElementById("como-funciona")?.scrollIntoView({ behavior: "smooth" })
               }
-              className="mt-12 text-center text-white text-xl font-medium underline underline-offset-4 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer"
+              className={`${comoFuncionaSpacingClass} text-center text-white text-xl font-medium underline underline-offset-4 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer`}
             >
               Como funciona?
             </button>
           </div>
 
-          {showCatalogButton && device === "desktop" && (
+          {showCatalogButton && (
             <Link
               to="/catalogo/corrida"
               aria-label="Ver Catálogo"
-              className="absolute top-[89%] left-[59%] z-10 inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-100 text-[#374151] px-6 py-3 rounded-full shadow-lg font-semibold transition-colors"
+              className={`absolute ${catalogPositionClass} z-10 inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-100 text-[#374151] px-6 py-3 rounded-full shadow-lg font-semibold transition-colors`}
             >
               <LayoutGrid className="w-5 h-5" />
               Ver Catálogo
