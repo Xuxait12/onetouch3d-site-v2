@@ -82,7 +82,8 @@ export default function CatalogoCorrida() {
       const { data, error } = await (supabase as any)
         .from('provas_estilos')
         .select('*')
-        .eq('ativo', true);
+        .eq('ativo', true)
+        .order('ordem', { ascending: true });
       if (error) throw error;
       return (data || []) as ProvaEstilo[];
     },
