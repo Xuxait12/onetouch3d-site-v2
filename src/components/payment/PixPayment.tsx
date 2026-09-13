@@ -57,7 +57,6 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
       setLoading(true);
 
       const { data: { session } } = await supabase.auth.getSession();
-      console.log('Session antes do pagamento:', session);
 
       if (!session) {
         throw new Error('Usuário não autenticado. Faça login novamente.');
@@ -86,20 +85,15 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
         }
       );
 
-      console.log('create-payment response status:', response.status);
-
       if (!response.ok) {
         const errorBody = await response.json().catch(() => ({}));
-        console.error('Erro da Edge Function (status ' + response.status + '):', JSON.stringify(errorBody, null, 2));
         throw new Error(errorBody?.error || errorBody?.message || `Erro HTTP ${response.status}`);
       }
 
       const data = await response.json();
-      console.log('create-payment data:', data);
 
       if (!data || !data.success) {
         const errorMsg = data?.message || data?.error || 'Erro ao criar pagamento PIX';
-        console.error('create-payment unsuccessful:', data);
         throw new Error(errorMsg);
       }
 
@@ -117,8 +111,6 @@ export const PixPayment: React.FC<PixPaymentProps> = ({
         description: 'Escaneie o QR Code ou copie o código para pagar.',
       });
     } catch (err: any) {
-      console.error('PIX payment error:', err, err?.stack);
-
       // Fallback: a Edge Function pode ter demorado mais de 30s (cold start + API do MP)
       // e o browser fecha a conexão antes de receber a resposta.
       // Verifica se o PIX já foi gerado no banco antes de exibir erro.
