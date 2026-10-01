@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/wa/route",
+      "destination": "https://wa.me/5554999924547?text=Ol%C3%A1%21%20Vi%20o%20Instagram%20da%20ROUTE%20e%20quero%20um%20quadro%20da%20minha%20viagem.",
+      "permanent": false
+    }
+  ],
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
   "headers": [
     {
